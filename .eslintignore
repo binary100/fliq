@@ -1,0 +1,7 @@
+.eslint*
+**/node_modules
+**/assets
+README.md
+package.json
+**/public/dist/**
+LICENSE
