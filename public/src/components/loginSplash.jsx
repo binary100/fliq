@@ -1,15 +1,15 @@
 import React from 'react';
 
-class App extends React.Component {
+class LoginSplash extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <h3>Hello World</h3>
+      <h3>LoginSplash</h3>
     );
   }
 }
 
-export default App;
+export default LoginSplash;
