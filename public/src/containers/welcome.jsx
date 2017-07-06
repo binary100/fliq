@@ -9,7 +9,7 @@ const intro =
   what kinds of movies you like and ensure that you will always have
   something interesting to watch.`;
 
-let Welcome extends React.Component {
+class Welcome extends React.Component {
   constructor(props) {
     super(props);
   }

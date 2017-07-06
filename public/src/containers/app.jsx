@@ -14,6 +14,4 @@ class App extends React.Component {
   }
 }
 
-// App.contextTypes = {};
-
 export default App;
