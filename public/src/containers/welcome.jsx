@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
-import LoginSplash from '../components/loginSlash.jsx';
+import LoginSplash from '../components/loginSplash.jsx';
 
 const welcomeHeader = `Welcome to FlickPick`;
 const subHeader = `A learning recommendation system`;

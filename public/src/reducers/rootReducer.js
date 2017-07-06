@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import login from './login.js';
+import login from './loginReducer.js';
 
 const reducer = combineReducers({
   login
