@@ -2,7 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import LoginSplash from '../components/loginSlash.jsx';
 
-class Welcome extends React.Component {
+const welcomeHeader = `Welcome to FlickPick`;
+const subHeader = `A learning recommendation system`;
+const intro =
+  `Our machine learning algorithm will get to know
+  what kinds of movies you like and ensure that you will always have
+  something interesting to watch.`;
+
+let Welcome extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -10,27 +17,28 @@ class Welcome extends React.Component {
   render() {
     return (
       <div>
-        <h3>Welcome Component</h3>
-        <button onClick={}>
-          Log In With Google
-        </button>
-        <button onClick={}>
-          Log In With Facebook
-        </button>
+        <h3>{welcomeHeader}</h3>
+        <h4>{subHeader}</h4>
+        <p>{intro}</p>
+        <LoginSplash />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
+  return {
 
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
+  return {
 
+  };
 };
 
-const Welcome = connect(
+Welcome = connect(
   mapStateToProps,
   mapDispatchToProps
 )(LoginSplash);
