@@ -1,7 +1,15 @@
-export const loginWithFacebook = () => ({
-  type: 'LOGIN_FACEBOOK'
-});
+export const loginWithFacebook = () => {
+  console.log('Entering loginWithFacebook action');
+  return {
+    type: 'LOGIN_FACEBOOK',
+    payload: true
+  };
+};
 
-export const loginWithGoogle = () => ({
-  type: 'LOGIN_GOOGLE'
-});
+export const loginWithGoogle = () => {
+  console.log('Entering loginWithGoogle action');
+  return {
+    type: 'LOGIN_GOOGLE',
+    payload: true
+  };
+};
