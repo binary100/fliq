@@ -14,6 +14,10 @@ class Welcome extends React.Component {
     super(props);
   }
 
+  handleFacebookLogin() {
+
+  }
+
   render() {
     return (
       <div>
