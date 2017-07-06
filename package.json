@@ -28,6 +28,7 @@
     "webpack": "^2.6.1"
   },
   "devDependencies": {
+    "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.6.0",
@@ -51,5 +52,10 @@
   "bugs": {
     "url": "https://github.com/binary100/flick-pick/issues"
   },
-  "homepage": "https://github.com/binary100/flick-pick#readme"
+  "homepage": "https://github.com/binary100/flick-pick#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
