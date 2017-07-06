@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+// import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
 
 let LoginSplash = ({ dispatch }) => (
   <h3>LoginSplash</h3>
-  <button onClick={}>
+  <button onClick={dispatch(loginWithGoogle)}>
     Log In With Google
   </button>
-  <button onClick={}>
+  <button onClick={dispatch(loginWithFacebook)}>
     Log In With Facebook
   </button>
 );

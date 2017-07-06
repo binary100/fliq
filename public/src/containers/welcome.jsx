@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
 import LoginSplash from '../components/loginSlash.jsx';
 
 const welcomeHeader = `Welcome to FlickPick`;
@@ -14,17 +15,16 @@ class Welcome extends React.Component {
     super(props);
   }
 
-  handleFacebookLogin() {
-
-  }
-
   render() {
+    const state = this.props.getStore();
+    console.log('Logging state in Welcome render: ', state);
+    const Login = state.isLoggedIn ? <LoginSplash /> : <h3>Logged In</h3>;
     return (
       <div>
         <h3>{welcomeHeader}</h3>
         <h4>{subHeader}</h4>
         <p>{intro}</p>
-        <LoginSplash />
+        {Login}
       </div>
     );
   }
@@ -32,13 +32,14 @@ class Welcome extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-
+    isLoggedIn: state.isLoggedIn
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    loginWithFacebook,
+    loginWithGoogle
   };
 };
 
