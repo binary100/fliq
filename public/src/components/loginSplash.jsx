@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 let LoginSplash = ({ dispatch, onGoogleLoginClick, onFacebookLoginClick }) => {
   return (
-    <div> 
+    <div>
       <div>
         <div>
-          <a href="#" >
+          <a href="/auth/facebook" >
             <img className="oauth-button" src="../public/assets/facebookLogin.png" />
           </a>
-          <a href="#" >
+          <a href="/auth/google" >
             <img className="oauth-button" src="../public/assets/googleLogin.png" />
           </a>
         </div>

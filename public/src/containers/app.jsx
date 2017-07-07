@@ -3,8 +3,7 @@ import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+import { browserHistory, BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 
 
 class App extends React.Component {

@@ -4,7 +4,6 @@ import axios from 'axios';
 import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
 import { Link } from 'react-router-dom';
 import LoginSplash from '../components/loginSplash.jsx';
-import Results from './results.jsx';
 
 const welcomeHeader = `Welcome to FlickPick`;
 const subHeader = `A learning recommendation system`;
@@ -78,12 +77,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     onFacebookLoginClick: (something) => { dispatch(loginWithFacebook(something)) },
-//     onGoogleLoginClick: (something) => { dispatch(loginWithGoogle(something)) }
-//   };
-// };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
