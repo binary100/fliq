@@ -1,10 +1,12 @@
 import React from 'react';
 import Welcome from '../containers/Welcome.jsx';
+import { connect } from 'react-redux';
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    console.log('In App, props is: ', props);
   }
 
   render() {
@@ -14,8 +16,10 @@ class App extends React.Component {
   }
 }
 
-App.contextTypes = {
-  store: React.PropTypes.object
-};
+// This function means "point these state values at the props
+// that this component will receive"
+const mapStateToProps = state => ({
+  isLoggedIn: state.login.isLoggedIn
+});
 
-export default App;
+export default connect(mapStateToProps, null)(App);

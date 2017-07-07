@@ -1,9 +1,11 @@
-const login = (state = {}, action) => {
+const login = (state = {isLoggedIn: false}, action) => {
+  console.log('Entering loginReducer with state: ', state);
   switch (action.type) {
     case 'LOGIN_FACEBOOK':
-      return Object.assign(state, { isLoggedIn: action.payload });
+      console.log('State is: ', state);
+      return Object.assign({}, state, { isLoggedIn: action.payload });
     case 'LOGIN_GOOGLE':
-      return Object.assign(state, { isLoggedIn: action.payload });
+      return Object.assign({}, state, { isLoggedIn: action.payload });
     default:
       return state;
   }
