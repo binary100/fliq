@@ -2,3 +2,4 @@ config/movieSeeder.js
 .env
 node_modules/
 public/dist
+**/.DS_Store
