@@ -1,26 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import facebookImage from './assets/facebookLogin.png';
-// import googleImage from './assets/googleLogin.png';
-
 
 let LoginSplash = ({ dispatch, onGoogleLoginClick, onFacebookLoginClick }) => {
   return (
-    <div> 
+    <div>
       <div>
         <div>
-          <a href="#" >
+          <a href="/auth/facebook" >
             <img className="oauth-button" src="../public/assets/facebookLogin.png" />
           </a>
-          <a href="#" >
+          <a href="/auth/google" >
             <img className="oauth-button" src="../public/assets/googleLogin.png" />
           </a>
         </div>
         <div>
-          <button onClick={() => dispatch(onGoogleLoginClick())}>
+          <button onClick={onGoogleLoginClick}>
             Log In With Google
           </button>
-          <button onClick={() => dispatch(onFacebookLoginClick())}>
+          <button onClick={onFacebookLoginClick}>
             Log In With Facebook
           </button>
         </div>

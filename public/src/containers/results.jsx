@@ -1,6 +1,6 @@
 import React from 'react';
 
-class UserOptions extends React.Component {
+class Results extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -12,4 +12,4 @@ class UserOptions extends React.Component {
   }
 };
 
-export default UserOptions;
+export default Results;

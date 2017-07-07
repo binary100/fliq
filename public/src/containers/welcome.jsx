@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
+import { Link } from 'react-router-dom';
 import LoginSplash from '../components/loginSplash.jsx';
 
 const welcomeHeader = `Welcome to FlickPick`;
@@ -48,9 +49,11 @@ class Welcome extends React.Component {
         <h3>{subHeader}</h3>
         <p>{intro}</p>
         <span>
-          <h3>
-            Start picking movies
-          </h3>
+          <Link to="/results">
+            <h3>
+              Start picking movies
+            </h3>
+          </Link>
         </span>
         {Login}
       </div>
@@ -69,8 +72,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFacebookLoginClick: loginWithFacebook,
-    onGoogleLoginClick: loginWithGoogle
+    onFacebookLoginClick: () => { dispatch(loginWithFacebook()); },
+    onGoogleLoginClick: () => { dispatch(loginWithGoogle()); }
   };
 };
 
