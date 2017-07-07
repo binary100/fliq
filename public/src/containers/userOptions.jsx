@@ -11,3 +11,5 @@ class UserOptions extends React.Component {
     );
   }
 };
+
+export default UserOptions;
