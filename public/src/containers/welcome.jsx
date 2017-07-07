@@ -73,11 +73,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFacebookLoginClick: loginWithFacebook,
-    onGoogleLoginClick: loginWithGoogle
+    onFacebookLoginClick: () => { dispatch(loginWithFacebook()); },
+    onGoogleLoginClick: () => { dispatch(loginWithGoogle()); }
   };
 };
 
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     onFacebookLoginClick: (something) => { dispatch(loginWithFacebook(something)) },
+//     onGoogleLoginClick: (something) => { dispatch(loginWithGoogle(something)) }
+//   };
+// };
 export default connect(
   mapStateToProps,
   mapDispatchToProps

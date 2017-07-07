@@ -14,10 +14,10 @@ let LoginSplash = ({ dispatch, onGoogleLoginClick, onFacebookLoginClick }) => {
           </a>
         </div>
         <div>
-          <button onClick={() => dispatch(onGoogleLoginClick())}>
+          <button onClick={onGoogleLoginClick}>
             Log In With Google
           </button>
-          <button onClick={() => dispatch(onFacebookLoginClick())}>
+          <button onClick={onFacebookLoginClick}>
             Log In With Facebook
           </button>
         </div>
