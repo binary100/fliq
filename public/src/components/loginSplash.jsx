@@ -1,8 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import facebookImage from './assets/facebookLogin.png';
-// import googleImage from './assets/googleLogin.png';
-
 
 let LoginSplash = ({ dispatch, onGoogleLoginClick, onFacebookLoginClick }) => {
   return (
