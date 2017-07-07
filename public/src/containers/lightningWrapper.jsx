@@ -16,11 +16,15 @@ class LightningWrapper extends React.Component {
     };
     this.getMovieData = this.getMovieData.bind(this);
     this.startTimer = this.startTimer.bind(this);
+    this.startNextRound = this.startNextRound.bind(this);
+    this.endRound = this.endRound.bind(this);
   }
 
   componentWillMount() {
-    this.getMovieData();
-    this.startTimer();
+    this.getMovieData()
+      .then(() => {
+        this.startTimer();
+      });
   }
 
   // Get an array with two movies objects
@@ -28,7 +32,11 @@ class LightningWrapper extends React.Component {
   getMovieData() {
     console.log('Entering getMovieData');
     /* ENDPOINT DOES NOT EXIST YET
-    axios.get(/api/lightning)
+
+    // Return this promise in order to
+    // control flow at the start of each
+    // round (see startNextRound)
+    return axios.get(/api/lightning)
       .then((results) => {
         this.setState({
           movies: results.data
@@ -41,7 +49,7 @@ class LightningWrapper extends React.Component {
   }
 
   startTimer() {
-    const timerId = setTimeout(function() {
+    const timerId = setTimeout(function () {
       if (this.state.timer > 0) {
         this.setState({
           timer: this.state.timer - 1
@@ -50,13 +58,29 @@ class LightningWrapper extends React.Component {
         this.endRound();
       }
     }.bind(this), 1000);
+
     this.setState({
       timerId
     });
   }
 
+  startNextRound() {
+    this.getMovieData()
+      .then(() => {
+        this.setState({
+          timer: 10
+        });
+        this.startTimer();
+      });
+  }
+
   endRound() {
-    
+    if (this.state.roundsRemaining === 0) {
+      clearTimeout(this.state.timerId);
+      // proceed to Results component
+    } else {
+      this.startNextRound();
+    }
   }
 
   render() {
