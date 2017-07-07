@@ -1,6 +1,7 @@
 import React from 'react';
 import Welcome from '../containers/Welcome.jsx';
 import { connect } from 'react-redux';
+import { Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 
 
 class App extends React.Component {
