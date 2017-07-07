@@ -1,4 +1,3 @@
-// connection
 require('dotenv').config();
 const Sequelize = require('sequelize');
 
@@ -13,16 +12,13 @@ const db = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.e
   }
 });
     
-// // Or you can simply use a connection uri
-// const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname');
-
 db
   .authenticate()
   .then(() => {
-    console.log('DB Connection has been established successfully.');
+    console.log('db connection has been established successfully.');
   })
   .catch(err => {
-    console.error('Unable to cosnnect to the database:', err);
+    console.error('Unable to connect to the database:', err);
   });
 
 module.exports = db; 
