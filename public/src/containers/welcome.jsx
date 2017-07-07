@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
 import LoginSplash from '../components/loginSplash.jsx';
 
@@ -14,6 +15,19 @@ class Welcome extends React.Component {
   constructor(props) {
     super(props);
     console.log('In Welcome, props is: ', props);
+    this.handleGoogleLogin = () => {
+      // axios.get('/auth/google')
+      //   .then((results) => {
+      //      this.props.dispatch()
+      //   })
+    };
+
+    this.handleFacebookLogin = () => {
+      // axios.get('/auth/facebook')
+      //   .then((results) => {
+      //      this.props.dispatch()
+      //   })
+    };
   }
 
   render() {
@@ -22,7 +36,7 @@ class Welcome extends React.Component {
     // Can the props passed to LoginSplash be accessed by connect
     // in that component instead? Which is better?
     const Login = this.props.isLoggedIn
-      ? <h3>Logged In</h3>
+      ? <h3>Debug: Logged In</h3>
       : <LoginSplash
           onFacebookLoginClick={this.props.onFacebookLoginClick}
           onGoogleLoginClick={this.props.onGoogleLoginClick}
@@ -30,9 +44,14 @@ class Welcome extends React.Component {
 
     return (
       <div>
-        <h3>{welcomeHeader}</h3>
-        <h4>{subHeader}</h4>
+        <h2>{welcomeHeader}</h2>
+        <h3>{subHeader}</h3>
         <p>{intro}</p>
+        <span>
+          <h3>
+            Start picking movies
+          </h3>
+        </span>
         {Login}
       </div>
     );
