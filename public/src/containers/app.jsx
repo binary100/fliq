@@ -22,7 +22,7 @@ class App extends React.Component {
             <div>
               <Switch>
                 <Route exact path="/" component={Welcome} />
-                <Route path="/options" component={Results} />
+                <Route path="/results" component={Results} />
               </Switch>
             </div>
           </div>

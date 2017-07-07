@@ -5,7 +5,7 @@ const Header = props => (
   <div className="header">
     This is the header
     <Link to="/" >Home</Link>
-    <Link to="/options" >User Options</Link>
+    <Link to="/results" >User Options</Link>
   </div>
 );
 
