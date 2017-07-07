@@ -10,8 +10,12 @@ class Lightning extends React.Component {
     return (
       <div>
         <h3>Lightning Round</h3>
-        <LightningTile movie={this.props.movies[0]} />
-        <LightningTile movie={this.props.movies[1]} />
+        {this.props.movies.map(movie =>
+          (<LightningTile
+            handleLightningTileClick={this.props.handleLightningTileClick}
+            movie={movie}
+          />)
+        )};
       </div>
     );
   }

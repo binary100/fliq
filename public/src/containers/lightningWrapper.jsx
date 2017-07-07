@@ -1,5 +1,6 @@
 import React from 'react';
-import Lightning from '../containers/lightning.jsx';
+import Lightning from './lightning.jsx';
+import LightningHeader from '../components/lightningHeader.jsx';
 import axios from 'axios';
 
 const movieOne = {"Title":"Star Wars: Episode IV - A New Hope","Year":"1977","Rated":"PG","Released":"25 May 1977","Runtime":"121 min","Genre":"Action, Adventure, Fantasy","Director":"George Lucas","Writer":"George Lucas","Actors":"Mark Hamill, Harrison Ford, Carrie Fisher, Peter Cushing","Plot":"Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a wookiee and two droids to save the galaxy from the Empire's world-destroying battle-station, while also attempting to rescue Princess Leia from the evil Darth Vader.","Language":"English","Country":"USA","Awards":"Won 6 Oscars. Another 50 wins & 28 nominations.","Poster":"https://images-na.ssl-images-amazon.com/images/M/MV5BYzQ2OTk4N2QtOGQwNy00MmI3LWEwNmEtOTk0OTY3NDk2MGJkL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SX300.jpg","Ratings":[{"Source":"Internet Movie Database","Value":"8.7/10"},{"Source":"Rotten Tomatoes","Value":"93%"},{"Source":"Metacritic","Value":"92/100"}],"Metascore":"92","imdbRating":"8.7","imdbVotes":"982,688","imdbID":"tt0076759","Type":"movie","DVD":"21 Sep 2004","BoxOffice":"N/A","Production":"20th Century Fox","Website":"http://www.starwars.com/episode-iv/","Response":"True"};
@@ -11,13 +12,14 @@ class LightningWrapper extends React.Component {
     this.state = {
       movies: [],
       timer: 10,
-      roundsRemaining: 5,
+      roundsRemaining: 4,
       timeoutId: ''
     };
     this.getMovieData = this.getMovieData.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.startNextRound = this.startNextRound.bind(this);
     this.endRound = this.endRound.bind(this);
+    this.handleLightningTileClick = this.handleLightningTileClick.bind(this);
   }
 
   componentWillMount() {
@@ -83,11 +85,27 @@ class LightningWrapper extends React.Component {
     }
   }
 
+  handleLightningTileClick(e) {
+    console.log('Clicked tile: ', e);
+    this.endRound();
+    e.preventDefault();
+    /*
+      axios.post(/api/lightning, {
+        //movie data goes here
+      })
+        .then(() => this.startNextRound());
+    */
+  }
+
   render() {
     return (
       <div>
+        <LightningHeader timer={this.state.timer}/>
         <h3>LightningWrapper</h3>
-        <Lightning movies={this.state.movies} />
+        <Lightning
+          handleLightningTileClick={this.handleLightningTileClick}
+          movies={this.state.movies}
+        />
       </div>
     );
   }
