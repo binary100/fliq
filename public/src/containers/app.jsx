@@ -1,6 +1,6 @@
 import React from 'react';
-import Welcome from './Welcome.jsx';
-import UserOptions from './UserOptions.jsx';
+import Welcome from './welcome.jsx';
+import Results from './results.jsx';
 import Header from '../components/header.jsx';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
@@ -22,7 +22,7 @@ class App extends React.Component {
             <div>
               <Switch>
                 <Route exact path="/" component={Welcome} />
-                <Route path="/options" component={UserOptions} />
+                <Route path="/options" component={Results} />
               </Switch>
             </div>
           </div>
