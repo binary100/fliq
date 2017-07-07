@@ -2,9 +2,8 @@ import React from 'react';
 
 const LightningTile = props => (
   <span className="lightning-tile">
-    <h3>Lightning Tile</h3>
     <span className="lightning-poster">
-      <img src={props.movie.Poster} alt={`Poster for ${props.movie.poster.Title}`} />
+      <img src={props.movie.Poster} alt={`Poster for ${props.movie.poster}`} />
     </span>
     <span className="lightning-details">
       <div className="film-details">

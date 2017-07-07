@@ -1,6 +1,8 @@
 import React from 'react';
 import LightningTile from '../components/lightningTile.jsx';
 
+let tileIndex = 0;
+
 class Lightning extends React.Component {
   constructor(props) {
     super(props);
@@ -9,12 +11,14 @@ class Lightning extends React.Component {
   render() {
     return (
       <div>
-        <h3>Lightning Round</h3>
-        {this.props.movies.map(movie =>
-          (<LightningTile
+        {this.props.movies.map(movie => {
+          console.log('Movie is: ', movie);
+          return (<LightningTile
+            key={tileIndex += 1}
             handleLightningTileClick={this.props.handleLightningTileClick}
             movie={movie}
           />)
+          }
         )};
       </div>
     );

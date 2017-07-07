@@ -23,10 +23,18 @@ class LightningWrapper extends React.Component {
   }
 
   componentWillMount() {
-    this.getMovieData()
-      .then(() => {
-        this.startTimer();
-      });
+
+    // Use this when server endpoint exists
+    // this.getMovieData()
+    //   .then(() => {
+    //     this.startTimer();
+    //   });
+
+    this.getMovieData();
+  }
+
+  componentDidMount() {
+    this.startTimer();
   }
 
   // Get an array with two movies objects
@@ -51,7 +59,7 @@ class LightningWrapper extends React.Component {
   }
 
   startTimer() {
-    const timerId = setTimeout(function () {
+    const timerId = setInterval(function () {
       if (this.state.timer > 0) {
         this.setState({
           timer: this.state.timer - 1
@@ -78,7 +86,7 @@ class LightningWrapper extends React.Component {
 
   endRound() {
     if (this.state.roundsRemaining === 0) {
-      clearTimeout(this.state.timerId);
+      clearInterval(this.state.timerId);
       // proceed to Results component
     } else {
       this.startNextRound();
@@ -101,7 +109,6 @@ class LightningWrapper extends React.Component {
     return (
       <div>
         <LightningHeader timer={this.state.timer}/>
-        <h3>LightningWrapper</h3>
         <Lightning
           handleLightningTileClick={this.handleLightningTileClick}
           movies={this.state.movies}
