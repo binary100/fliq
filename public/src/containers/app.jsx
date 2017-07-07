@@ -2,6 +2,7 @@ import React from 'react';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
+import LightningWrapper from './lightningWrapper.jsx';
 import { connect } from 'react-redux';
 import { browserHistory, BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ class App extends React.Component {
               <Switch>
                 <Route exact path="/" component={Welcome} />
                 <Route path="/results" component={Results} />
+                <Route path="/lightning" component={LightningWrapper} />
               </Switch>
             </div>
           </div>
