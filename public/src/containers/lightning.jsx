@@ -1,4 +1,5 @@
 import React from 'react';
+import LightningTile from '../components/lightningTile.jsx';
 
 class Lightning extends React.Component {
   constructor(props) {
@@ -7,7 +8,11 @@ class Lightning extends React.Component {
 
   render() {
     return (
-      <h3>Lightning Round</h3>
+      <div>
+        <h3>Lightning Round</h3>
+        <LightningTile movie={this.props.movies[0]} />
+        <LightningTile movie={this.props.movies[1]} />
+      </div>
     );
   }
 }
