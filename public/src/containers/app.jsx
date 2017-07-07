@@ -1,6 +1,7 @@
 import React from 'react';
 import Welcome from './Welcome.jsx';
 import UserOptions from './UserOptions.jsx';
+import Header from '../components/header.jsx';
 import { connect } from 'react-redux';
 import { Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 
@@ -14,8 +15,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Welcome />
-        <UserOptions />
+        <Header />
+        <div>
+          <Welcome />
+          <UserOptions />
+        </div>
       </div>
     );
   }
