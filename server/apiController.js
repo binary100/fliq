@@ -1,5 +1,5 @@
 const axios = require('axios');
-// const Movie = require('../db/........');
+const Movie = require('../database/models/movies.js');
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
 
