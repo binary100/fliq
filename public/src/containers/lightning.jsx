@@ -11,14 +11,12 @@ class Lightning extends React.Component {
   render() {
     return (
       <div>
-        {this.props.movies.map(movie => {
-          console.log('Movie is: ', movie);
-          return (<LightningTile
+        {this.props.movies.map(movie =>
+          (<LightningTile
             key={tileIndex += 1}
             handleLightningTileClick={this.props.handleLightningTileClick}
             movie={movie}
           />)
-          }
         )};
       </div>
     );
