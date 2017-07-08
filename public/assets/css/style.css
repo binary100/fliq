@@ -1,0 +1,43 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  background-color: #333333;
+}
+
+a:link {
+  color: inherit;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: inherit;
+}
+
+.welcome {
+  padding: 2em;
+}
+
+.header {
+  padding: 0.5em 0;
+  width: 100%;
+  height: 2em;
+  color: white;
+  background: linear-gradient(to bottom, #606060 , #444444);
+}
+
+.header .link {
+  margin: 0 1em;
+}
+
+.oauth-button {
+  width: 200px;
+  height: auto;
+}
+
+.small-movie-tile {
+  border-radius: 5px;
+  border: 1px solid black;
+}

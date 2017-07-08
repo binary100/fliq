@@ -44,9 +44,9 @@ class Welcome extends React.Component {
       />;
 
     return (
-      <div>
-        <h2>{welcomeHeader}</h2>
-        <h3>{subHeader}</h3>
+      <div className="welcome">
+        <h1>{welcomeHeader}</h1>
+        <h4>{subHeader}</h4>
         <p>{intro}</p>
         <span>
           <Link to="/lightning">
