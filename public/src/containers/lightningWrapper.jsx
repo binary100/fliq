@@ -2,6 +2,7 @@ import React from 'react';
 import Lightning from './lightning.jsx';
 import LightningHeader from '../components/lightningHeader.jsx';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class LightningWrapper extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class LightningWrapper extends React.Component {
       movies: [],
       timer: 10,
       roundsRemaining: 4,
-      timeoutId: ''
+      intervalId: ''
     };
     this.getMovieData = this.getMovieData.bind(this);
     this.startTimer = this.startTimer.bind(this);
@@ -23,19 +24,20 @@ class LightningWrapper extends React.Component {
     this.getMovieData()
       .then(() => {
         console.log('Got movie data');
-        this.startTimer();
       });
   }
 
   componentDidMount() {
+    this.startTimer();
   }
 
-  componentWillUnMount() {
-    clearInterval(this.state.timer);
+  componentWillUnmount() {
+    console.log('Unmounting lightningWrapper. Clear interval: ', this.state.intervalId);
+    clearInterval(this.state.intervalId);
   }
 
   // Get an array with two movies objects
-  // from server, which calls OMDB API
+  // from DB
   getMovieData() {
     console.log('Entering getMovieData');
 
@@ -44,7 +46,6 @@ class LightningWrapper extends React.Component {
     // round (see startNextRound)
     return axios.get('/api/lightning')
       .then((results) => {
-        console.log(results.data);
         this.setState({
           movies: results.data
         });
@@ -52,7 +53,7 @@ class LightningWrapper extends React.Component {
   }
 
   startTimer() {
-    const timerId = setInterval(function () {
+    const intervalId = setInterval(function () {
       if (this.state.timer > 0) {
         this.setState({
           timer: this.state.timer - 1
@@ -61,9 +62,9 @@ class LightningWrapper extends React.Component {
         this.endRound();
       }
     }.bind(this), 1000);
-
+    console.log('intervalId is: ', intervalId);
     this.setState({
-      timerId
+      intervalId
     });
   }
 
@@ -78,15 +79,15 @@ class LightningWrapper extends React.Component {
 
   endRound() {
     if (this.state.roundsRemaining === 0) {
-      clearInterval(this.state.timerId);
+      clearInterval(this.state.intervalId);
       // proceed to Results component
     } else {
       this.startNextRound();
     }
   }
 
-  handleLightningTileClick(e) {
-    console.log('Clicked tile: ', e.target);
+  handleLightningTileClick(e, evt, movie) {
+    console.log('Clicked tile: ', movie);
     this.endRound();
     clearInterval(this.state.timer);
     e.preventDefault();

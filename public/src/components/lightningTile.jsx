@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LightningTile = props => (
-  <span className="lightning-tile" onClick={(e) => props.handleLightningTileClick(e)}>
+  <span className="lightning-tile" onClick={(e, evt) => props.handleLightningTileClick(e, evt, props.movie)}>
     <span className="lightning-poster">
       <img src={props.movie.poster} alt={`Poster for ${props.movie.poster}`} />
     </span>
