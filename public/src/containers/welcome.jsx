@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
 import { Link } from 'react-router-dom';
+import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
 import LoginSplash from '../components/loginSplash.jsx';
 
-const welcomeHeader = `Welcome to FlickPick`;
-const subHeader = `A learning recommendation system`;
+const welcomeHeader = 'Welcome to FlickPick';
+const subHeader = 'A learning recommendation system';
 const intro =
   `Our machine learning algorithm will get to know
   what kinds of movies you like and ensure that you will always have
@@ -39,9 +39,9 @@ class Welcome extends React.Component {
     const Login = this.props.isLoggedIn
       ? <h3>Debug: Logged In</h3>
       : <LoginSplash
-          onFacebookLoginClick={this.props.onFacebookLoginClick}
-          onGoogleLoginClick={this.props.onGoogleLoginClick}
-        />;
+        onFacebookLoginClick={this.props.onFacebookLoginClick}
+        onGoogleLoginClick={this.props.onGoogleLoginClick}
+      />;
 
     return (
       <div>

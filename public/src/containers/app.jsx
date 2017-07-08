@@ -1,10 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { browserHistory, BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
-import { connect } from 'react-redux';
-import { browserHistory, BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 
 
 class App extends React.Component {

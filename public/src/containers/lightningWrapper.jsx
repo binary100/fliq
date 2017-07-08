@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Lightning from './lightning.jsx';
 import LightningHeader from '../components/lightningHeader.jsx';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+
 
 class LightningWrapper extends React.Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class LightningWrapper extends React.Component {
   }
 
   startTimer() {
-    const intervalId = setInterval(function () {
+    const intervalId = setInterval(() => {
       if (this.state.timer > 0) {
         this.setState({
           timer: this.state.timer - 1
@@ -61,7 +62,7 @@ class LightningWrapper extends React.Component {
       } else {
         this.endRound();
       }
-    }.bind(this), 1000);
+    }, 1000);
     console.log('intervalId is: ', intervalId);
     this.setState({
       intervalId
@@ -102,7 +103,7 @@ class LightningWrapper extends React.Component {
   render() {
     return (
       <div>
-        <LightningHeader timer={this.state.timer}/>
+        <LightningHeader timer={this.state.timer} />
         <Lightning
           handleLightningTileClick={this.handleLightningTileClick}
           movies={this.state.movies}

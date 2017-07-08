@@ -1,4 +1,4 @@
-const login = (state = {isLoggedIn: false}, action) => {
+const login = (state = { isLoggedIn: false }, action) => {
   console.log('Entering loginReducer with state: ', state);
   switch (action.type) {
     case 'LOGIN_FACEBOOK':

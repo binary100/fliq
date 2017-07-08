@@ -11,14 +11,14 @@ const db = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.e
     idle: 10000
   }
 });
-    
+
 db
   .authenticate()
   .then(() => {
     console.log('db connection has been established successfully.');
   })
-  .catch(err => {
+  .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
 
-module.exports = db; 
+module.exports = db;

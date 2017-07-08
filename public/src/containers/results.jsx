@@ -10,6 +10,6 @@ class Results extends React.Component {
       <h3>User Options Page</h3>
     );
   }
-};
+}
 
 export default Results;
