@@ -6,28 +6,14 @@ let LoginSplash = ({ dispatch, onGoogleLoginClick, onFacebookLoginClick }) => {
     <div>
       <div>
         <div>
-
-
-          <a className="btn btn-block btn-social btn-google">
+          <a href="/auth/google" className="btn btn-block btn-social btn-google">
             <span className="fa fa-google"></span>
-            Sign in with Twitter
+            Sign in with Google
           </a>
-
-
-          <a href="/auth/facebook" >
-            <img className="oauth-button" src="assets/facebookLogin.png" />
+          <a href="/auth/facebook" className="btn btn-block btn-social btn-facebook">
+            <span className="fa fa-facebook"></span>
+            Sign in with Facebook
           </a>
-          <a href="/auth/google" >
-            <img className="oauth-button" src="assets/googleLogin.png" />
-          </a>
-        </div>
-        <div>
-          <button onClick={onGoogleLoginClick}>
-            Log In With Google
-          </button>
-          <button onClick={onFacebookLoginClick}>
-            Log In With Facebook
-          </button>
         </div>
       </div>
     </div>
