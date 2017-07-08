@@ -47,26 +47,26 @@ passport.use(new FacebookStrategy({
 },
 (accessToken, refreshToken, profile, done) => {
   console.log('this is the facebook returned profile', profile);
-  User.findOne({ authId: profile.id }, (err, user) => {
-    if (err) {
-      console.error(err);
-      return done(err);
-    }
+  User.findOne({ where: { authId: profile.id } })
+  .then((user) => {
     if (!user) {
-      console.log('new user created');
-      const newUser = new User({
-        user: profile.displayName,
+      console.log('Creating new user!!!!!');
+      User.create({
+        name: profile.displayName,
         picture: profile.photos[0].value,
-        email: profile.emails[0].value
-      });
-      newUser.save((error) => {
-        if (error) console.error(error);
-        return done(null, newUser);
-      });
+        email: profile.emails[0].value,
+        authId: profile.id
+      })
+      .then(newUser => done(null, newUser))
+      .catch(err => console.error('Failed to create user:', err));
     } else {
-      console.log('user found');
+      console.log('User found and already exists');
       return done(null, user);
     }
+  })
+  .catch((err) => {
+    console.error('Error finding user:', err);
+    return done(err);
   });
 }));
 
@@ -74,30 +74,31 @@ passport.use(new FacebookStrategy({
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:3000/auth/google/callback'
+  callbackURL: 'http://localhost:3000/auth/google/callback',
+  profileFields: ['id', 'displayName', 'photos', 'emails']
 },
 (accessToken, refreshToken, profile, done) => {
   console.log('this is the google returned profile', profile);
-  User.findOne({ authId: profile.id }, (err, user) => {
-    if (err) {
-      console.error(err);
-      return done(err);
-    }
+  User.findOne({ where: { authId: profile.id } })
+  .then((user) => {
     if (!user) {
-      console.log('new user created');
-      const newUser = new User({
-        user: profile.displayName,
+      console.log('Creating new user!!!!!');
+      User.create({
+        name: profile.displayName,
         picture: profile.photos[0].value,
-        email: profile.emails[0].value
-      });
-      newUser.save((error) => {
-        if (error) console.error(error);
-        return done(null, newUser);
-      });
+        email: profile.emails[0].value,
+        authId: profile.id
+      })
+      .then(newUser => done(null, newUser))
+      .catch(err => console.error('Failed to create user:', err));
     } else {
-      console.log('user found');
+      console.log('User found and already exists');
       return done(null, user);
     }
+  })
+  .catch((err) => {
+    console.error('Error finding user:', err);
+    return done(err);
   });
 }));
 
