@@ -44,7 +44,7 @@ class Welcome extends React.Component {
       />;
 
     return (
-      <div>
+      <div className="welcome">
         <h2>{welcomeHeader}</h2>
         <h3>{subHeader}</h3>
         <p>{intro}</p>
