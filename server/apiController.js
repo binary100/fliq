@@ -9,18 +9,15 @@ module.exports.getTwoMovies = (req, res) => {
   let firstMovieId = null;
   let secondMovieId = null;
 
-  // This should be returned by the DB instead of hardcoded
-  // Should be the length of the movies table, basically
-  // This means the movie IDs MUST remain sequential
-
-  Movie.findAndCountAll({})
+  // Movie IDs from table MUST remain sequential
+  // in the form this is currently coded
+  Movie.count()
     .then((maxMovieCount) => {
       firstMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
       do {
         secondMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
       } while (firstMovieId === secondMovieId);
       console.log(`Chose movie IDs ${firstMovieId} and ${secondMovieId}`);
-
       return [firstMovieId, secondMovieId];
     })
     .then(idArray =>

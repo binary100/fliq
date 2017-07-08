@@ -53,7 +53,7 @@ const Movie = db.define('Movie', {
 //   if (err) {
 //     console.error('Error creating Movie table', err);
 //   } else {
-//     console.log('Movie table created successfully')
+//     console.log('Movie table created successfully');
 //   }
 // });
 
