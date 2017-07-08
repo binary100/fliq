@@ -59,10 +59,4 @@ const Movie = db.define('Movie', {
 //   }
 // });
 
-const Movie_Tag = db.define('Movie_Tag', {});
-Movie_Tag.belongsToMany(Movie, {
-  through: 
-}
-
-
 module.exports = Movie;
