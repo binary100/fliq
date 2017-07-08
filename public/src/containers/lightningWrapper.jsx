@@ -4,12 +4,14 @@ import Lightning from './lightning.jsx';
 import LightningHeader from '../components/lightningHeader.jsx';
 import { Redirect } from 'react-router-dom';
 
+const timerMax = 10;
+
 class LightningWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       movies: [],
-      timer: 10,
+      timer: timerMax,
       roundsRemaining: 4,
       intervalId: ''
     };
@@ -21,34 +23,28 @@ class LightningWrapper extends React.Component {
   }
 
   componentWillMount() {
-    this.getMovieData()
-      .then(() => {
-        console.log('Got movie data');
+    this.startNextRound()
+      .then((results) => {
+        console.log('Mounting lightningWrapper with data', results.data);
       });
   }
 
-  componentDidMount() {
-    this.startTimer();
-  }
-
   componentWillUnmount() {
-    console.log('Unmounting lightningWrapper. Clear interval: ', this.state.intervalId);
+    console.log('Unmounting lightningWrapper.');
     clearInterval(this.state.intervalId);
   }
 
   // Get an array with two movies objects
   // from DB
   getMovieData() {
-    console.log('Entering getMovieData');
-
     // Return this promise in order to
-    // control flow at the start of each
-    // round (see startNextRound)
+    // allow for then-able logic
     return axios.get('/api/lightning')
       .then((results) => {
         this.setState({
           movies: results.data
         });
+        return results;
       });
   }
 
@@ -61,29 +57,33 @@ class LightningWrapper extends React.Component {
       } else {
         this.endRound();
       }
-    }, 1000);
-    console.log('intervalId is: ', intervalId);
+    }.bind(this), 1000);
+
     this.setState({
       intervalId
     });
   }
 
   startNextRound() {
-    this.getMovieData()
-      .then(() => {
-        this.setState({
-          timer: 10
-        });
+    if (this.state.roundsRemaining <= 0) {
+      return;
+    }
+
+    return this.getMovieData()
+      .then((results) => {
+        this.startTimer();
+        return results;
       });
   }
 
   endRound() {
-    console.log('Ending round.');
-    if (this.state.roundsRemaining === 0) {
+    if (this.state.roundsRemaining <= 0) {
       clearInterval(this.state.intervalId);
-      console.log('NO ROUNDS LEFT!');
     } else {
+      console.log('Clearing interval#', this.state.intervalId);
+      clearInterval(this.state.intervalId);
       this.setState({
+        timer: timerMax,
         roundsRemaining: this.state.roundsRemaining - 1
       });
       this.startNextRound();
@@ -93,7 +93,6 @@ class LightningWrapper extends React.Component {
   handleLightningTileClick(e, evt, movie) {
     e.preventDefault();
     this.endRound();
-    clearInterval(this.state.timer);
     console.log('Clicked tile: ', movie);
     /*
       axios.post(/api/lightning, {
@@ -105,7 +104,6 @@ class LightningWrapper extends React.Component {
   }
 
   render() {
-    console.log('Rounds remaining: ', this.state.roundsRemaining);
     const Page = this.state.roundsRemaining <= 0
       ? <Redirect push to="/results" />
       : (

@@ -2,12 +2,11 @@ import React from 'react';
 
 let criticIndex = 0;
 const MovieDetails = props => {
-  console.log('In MovieDetails, ratings is: ', props.movie.ratings);
   const criticScores = props.movie.ratings === ''
     ? ''
     : JSON.parse(props.movie.ratings).map(critic => (
         <div key={criticIndex += 1}>
-          <p>{critic.Source}: {critic.Value} </p>
+          <p>{critic.Source}: {critic.Value}</p>
         </div>
       ));
 

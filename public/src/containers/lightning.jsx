@@ -9,7 +9,6 @@ class Lightning extends React.Component {
   }
 
   render() {
-    console.log('Rendering movies: ', this.props.movies);
     return (
       <div>
         {this.props.movies.map(movie =>

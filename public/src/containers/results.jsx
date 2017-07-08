@@ -18,7 +18,6 @@ const movieObj = {
 class Results extends React.Component {
   constructor(props) {
     super(props);
-    console.log('Entered Results constructor.');
     this.state = {
       selectedMovie: movieObj,
       tileMovies: [movieObj]
@@ -30,7 +29,6 @@ class Results extends React.Component {
   getUserMovies() {
     axios.get('/api/results')
       .then((results) => {
-        console.log('Received Results data: ', results.data);
         this.setState({
           selectedMovie: results.data[0],
           tileMovies: results.data.slice(1)
@@ -42,7 +40,6 @@ class Results extends React.Component {
   render() {
     return (
       <div>
-        <h3>Results Page</h3>
         <ResultsBody movie={this.state.selectedMovie} />
       </div>
     );
