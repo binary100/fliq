@@ -1,4 +1,6 @@
 import React from 'react';
+import ResultsBody from '../components/resultsBody.jsx';
+import ResultsTileBar from '../components/resultsTileBar.jsx';
 
 class Results extends React.Component {
   constructor(props) {
@@ -7,7 +9,9 @@ class Results extends React.Component {
 
   render() {
     return (
-      <h3>User Options Page</h3>
+      <h3>Results Page</h3>
+      <ResultsBody movie={this.props.selectedMovie} />
+      <ResultsTileBar movies={this.props.movies} />
     );
   }
 }

@@ -1,15 +1,12 @@
 import React from 'react';
 
-const LightningTile = props => (
-  <span
-    className="lightning-tile"
-    onClick={(e, evt) => props.handleLightningTileClick(e, evt, props.movie)}
-  >
-    <span className="lightning-poster">
+const MovieDetails = props => (
+  <span>
+    <span className="details-poster">
       <img src={props.movie.poster} alt={`Poster for ${props.movie.poster}`} />
     </span>
-    <span className="lightning-details">
-      <div className="film-details">
+    <span className="details-content">
+      <div className="details-film-attributes">
         <div>
           <h2>Title: {props.movie.title} <span>({props.movie.year})</span></h2>
         </div>
@@ -33,7 +30,7 @@ const LightningTile = props => (
           </h3>
         </div>
       </div>
-      <div className="cast-details">
+      <div className="details-film-cast">
         <div>
           <h3>Director: {props.movie.director} </h3>
         </div>
@@ -48,4 +45,4 @@ const LightningTile = props => (
   </span>
 );
 
-export default LightningTile;
+export default MovieDetails;
