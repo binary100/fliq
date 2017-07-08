@@ -82,7 +82,6 @@ class LightningWrapper extends React.Component {
     if (this.state.roundsRemaining === 0) {
       clearInterval(this.state.intervalId);
       console.log('NO ROUNDS LEFT!');
-      // proceed to Results component
     } else {
       this.setState({
         roundsRemaining: this.state.roundsRemaining - 1
@@ -92,15 +91,16 @@ class LightningWrapper extends React.Component {
   }
 
   handleLightningTileClick(e, evt, movie) {
-    console.log('Clicked tile: ', movie);
+    e.preventDefault();
     this.endRound();
     clearInterval(this.state.timer);
-    e.preventDefault();
+    console.log('Clicked tile: ', movie);
     /*
       axios.post(/api/lightning, {
-        //movie data goes here
+        movie
       })
-        .then(() => this.startNextRound());
+        .then(() => this.startNextRound())
+        .catch((err) => console.error('Error selecting movie: ', err);
     */
   }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-
+let criticIndex = 0;
 const MovieDetails = props => (
   <span>
     <span className="details-poster">
@@ -23,7 +23,7 @@ const MovieDetails = props => (
           <h3>
             Critics:
             {JSON.parse(props.movie.ratings).map(critic => (
-              <div>
+              <div key={criticIndex += 1}>
                 <p>{critic.Source}: {critic.Value} </p>
               </div>
             ))}
