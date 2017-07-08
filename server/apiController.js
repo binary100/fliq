@@ -13,9 +13,9 @@ module.exports.getTwoMovies = (req, res) => {
   // in the form this is currently coded
   Movie.count()
     .then((maxMovieCount) => {
-      firstMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
+      firstMovieId = Math.ceil(Math.random() * maxMovieCount);
       do {
-        secondMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
+        secondMovieId = Math.ceil(Math.random() * maxMovieCount);
       } while (firstMovieId === secondMovieId);
       console.log(`Chose movie IDs ${firstMovieId} and ${secondMovieId}`);
       return [firstMovieId, secondMovieId];
