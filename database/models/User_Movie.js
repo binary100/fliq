@@ -2,12 +2,17 @@ const Sequelize = require('sequelize');
 const db = require('../dbsetup.js');
 const User = require('./users.js');
 const Movie = require('./movies.js');
-// const Tag = require('./tags.js');
 
-const User_Movie = db.define('User_Movie', {});
+const User_Movie = db.define('User_Movie', {
+  // userId: {
+  //   type: Sequelize.INTEGER
+  // },
+  // movieId: {
+  //   type: Sequelize.INTEGER
+  // }
 
-User.belongsToMany(Movie, {through: User_Movie, as: 'user_id', foreignKey: 'id'});
-Movie.belongsToMany(User, {through: User_Movie, as: 'movie_id', foreignKey: 'id'});
+});
+
 
 User_Movie.sync().then((err) => {
   if (err) {
@@ -16,6 +21,9 @@ User_Movie.sync().then((err) => {
     console.log('User_Tag table created successfully');
   }
 });
+
+User.belongsToMany(Movie, {through: User_Movie, as: 'userId', foreignKey: 'id'});
+Movie.belongsToMany(User, {through: User_Movie, as: 'movieId', foreignKey: 'id'});
 
 
 module.exports = User_Movie;

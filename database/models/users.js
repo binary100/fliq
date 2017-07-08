@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbsetup.js');
 const Movie = require('./movies.js');
-const Tag = require('./tags.js');
+// const Tag = require('./tags.js');
 
 const User = db.define('User', {
   name: {

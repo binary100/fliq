@@ -2,14 +2,13 @@ const Sequelize = require('sequelize');
 const db = require('../dbsetup.js');
 const Tag = require('./tags.js');
 const User = require('./users.js');
-// const Movie = require('./movies.js');
 
 const User_Tag = db.define('User_Tag', {
   tagCount: Sequelize.INTEGER
 });
 
-User.belongsToMany(Tag, {through: User_Tag, as: 'user_id', foreignKey: id});
-Tag.belongsToMany(User, {through: User_Tag, as: 'tag_id', foreignKey: id});
+User.belongsToMany(Tag, {through: User_Tag, as: 'user_id', foreignKey: 'id'});
+Tag.belongsToMany(User, {through: User_Tag, as: 'tag_id', foreignKey: 'id'});
 
 User_Tag.sync().then((err) => {
   if (err) {
