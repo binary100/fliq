@@ -41,10 +41,11 @@ class Results extends React.Component {
     return (
       <div>
         <ResultsBody movie={this.state.selectedMovie} />
+        <ResultsTileBar movies={this.state.tileMovies} />
       </div>
     );
   }
 }
 
-// <ResultsTileBar movies={this.state.movies.slice(1)} />
+
 export default Results;

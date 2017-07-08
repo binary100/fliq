@@ -1,11 +1,12 @@
 import React from 'react';
 import SmallMovieTile from './smallMovieTile.jsx';
 
-// props.movies
+let count = 0;
+
 const ResultsTileBar = props => (
   <div>
     {props.movies.map(movie => (
-      <SmallMovieTile movie={movie} />
+      <SmallMovieTile key={count += 1} movie={movie} />
     ))}
   </div>
 );
