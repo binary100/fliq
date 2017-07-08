@@ -1,11 +1,11 @@
 import React from 'react';
-import ResultsSmallTile from './resultsSmallTile.jsx';
+import SmallMovieTile from './smallMovieTile.jsx';
 
 // props.movies
 const ResultsTileBar = props => (
   <div>
     {props.movies.map(movie => (
-      <ResultsSmallTile movie={movie} />
+      <SmallMovieTile movie={movie} />
     ))}
   </div>
 );

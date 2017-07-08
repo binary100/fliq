@@ -9,9 +9,11 @@ class Results extends React.Component {
 
   render() {
     return (
-      <h3>Results Page</h3>
-      <ResultsBody movie={this.props.selectedMovie} />
-      <ResultsTileBar movies={this.props.movies} />
+      <div>
+        <h3>Results Page</h3>
+        <ResultsBody movie={this.props.selectedMovie} />
+        <ResultsTileBar movies={this.props.movies} />
+      </div>
     );
   }
 }

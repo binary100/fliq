@@ -1,12 +1,10 @@
 import React from 'react';
-import ResultsLargeTile from './resultsLargeTile.jsx';
-import MovieDetails from './movieDetails.jsx';
+import LargeMovieTile from './largeMovieTile.jsx';
 
 const ResultsBody = props => (
   <div>
     <h3>Results Body!</h3>
-    <ResultsLargeTile className="results-large-tile" movie={props.movie} />
-    <MovieDetails movie={props.movie} />
+    <LargeMovieTile className="results-large-tile" movie={props.movie} />
   </div>
 );
 
