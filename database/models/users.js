@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../dbsetup.js');
+const Movie = require('./movies.js');
+const Tag = require('./tags.js');
 
 const User = db.define('User', {
   name: {
@@ -13,12 +15,14 @@ const User = db.define('User', {
   }
 });
 
-User.sync().then((err) => {
-  if (err) {
-    console.error('Error creating User table', err);
-  } else {
-    console.log('User table created successfully')
-  }
-});
+// User.sync().then((err) => {
+//   if (err) {
+//     console.error('Error creating User table', err);
+//   } else {
+//     console.log('User table created successfully')
+//   }
+// });
+
+
 
 module.exports = User;

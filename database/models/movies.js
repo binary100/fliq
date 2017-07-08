@@ -12,6 +12,8 @@
 
 const Sequelize = require('sequelize');
 const db = require('../dbsetup.js');
+const Tag = require('./tags.js');
+const User = require('./users.js');
 
 const Movie = db.define('Movie', {
   title: {
@@ -56,5 +58,11 @@ const Movie = db.define('Movie', {
 //     console.log('Movie table created successfully');
 //   }
 // });
+
+const Movie_Tag = db.define('Movie_Tag', {});
+Movie_Tag.belongsToMany(Movie, {
+  through: 
+}
+
 
 module.exports = Movie;
