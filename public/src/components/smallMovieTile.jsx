@@ -1,7 +1,9 @@
 import React from 'react';
 
 const ResultsSmallTile = props => (
-  <h3>ResultsSmallTile</h3>
+  <span>
+    <h3>{props.movie.title}</h3>
+  </span>
 );
 
 export default ResultsSmallTile;

@@ -1,7 +1,7 @@
 import React from 'react';
 import MovieDetails from './movieDetails.jsx';
 
-const LightningTile = props => (
+const LargeMovieTile = props => (
   <span
     className="large-movie-tile"
     onClick={(e, evt) => props.handleLightningTileClick(e, evt, props.movie)}
@@ -10,4 +10,4 @@ const LightningTile = props => (
   </span>
 );
 
-export default LightningTile;
+export default LargeMovieTile;
