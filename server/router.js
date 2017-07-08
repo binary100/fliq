@@ -4,6 +4,7 @@ const apiController = require('./apiController.js');
 
 router.get('/api/lightning', apiController.getTwoMovies);
 router.post('/api/lightning', apiController.chooseMovie);
+router.get('/api/results', apiController.getUserResults);
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 

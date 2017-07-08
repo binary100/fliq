@@ -38,3 +38,37 @@ module.exports.chooseMovie = (req, res) => {
   console.log('Entering chooseMovie in apiController.js');
   res.sendStatus(200);
 };
+
+// Placeholder logic
+module.exports.getUserResults = (req, res) => {
+  // We don't yet need the user info in the next line
+  // const { user } = req.session.passport;
+
+  // Placeholder logic, selects five random movies.
+  Movie.count()
+    .then((maxMovieCount) => {
+      const moviesToGrab = [];
+
+      // Create objects for the Movie.findAll $or operator,
+      // which takes objects like this { dbColumn: columnValue }
+      for (let i = 0; i < 5; i += 1) {
+
+        let randomMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
+
+        // Need to handle if 0 bc no id 0 in table.
+        // Also the linter didn't like the simple way I wrote this at first
+        randomMovieId = randomMovieId === 0 ? 1 : randomMovieId;
+        moviesToGrab.push({
+          id: randomMovieId
+        });
+      }
+
+      Movie.findAll({
+        where: {
+          $or: [...moviesToGrab]
+        }
+      })
+        .then(movies => res.send(movies))
+        .catch(err => res.status(500).send('Error finding movies: ', err));
+    });
+};
