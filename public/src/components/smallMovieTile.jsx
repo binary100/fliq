@@ -1,10 +1,10 @@
 import React from 'react';
 
 const ResultsSmallTile = props => (
-  <span>
+  <div className="small-movie-tile">
     <h3>Small Movie Tile</h3>
     <h2>{props.movie.title}</h2>
-  </span>
+  </div>
 );
 
 export default ResultsSmallTile;

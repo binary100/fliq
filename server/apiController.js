@@ -34,8 +34,8 @@ module.exports.getTwoMovies = (req, res) => {
     .catch(error => res.status(500).send(error));
 };
 
-module.exports.chooseMovie = (req, res) => {
-  console.log('Entering chooseMovie in apiController.js');
+module.exports.handleLightningSelection = (req, res) => {
+  console.log('Lightning selection: ', req.body.movie);
   res.sendStatus(200);
 };
 
