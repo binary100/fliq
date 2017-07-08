@@ -4,7 +4,7 @@ import Lightning from './lightning.jsx';
 import LightningHeader from '../components/lightningHeader.jsx';
 import { Redirect } from 'react-router-dom';
 
-const timerMax = 10;
+const timerMax = 2;
 
 class LightningWrapper extends React.Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class LightningWrapper extends React.Component {
     this.state = {
       movies: [],
       timer: timerMax,
-      roundsRemaining: 4,
+      roundsRemaining: 2,
       intervalId: ''
     };
     this.getMovieData = this.getMovieData.bind(this);
@@ -55,6 +55,7 @@ class LightningWrapper extends React.Component {
           timer: this.state.timer - 1
         });
       } else {
+        console.log('Interval is ending round!');
         this.endRound();
       }
     }.bind(this), 1000);
@@ -65,6 +66,7 @@ class LightningWrapper extends React.Component {
   }
 
   startNextRound() {
+    console.log('Starting round. Remaining: ', this.state.roundsRemaining);
     if (this.state.roundsRemaining <= 0) {
       return;
     }
@@ -77,14 +79,17 @@ class LightningWrapper extends React.Component {
   }
 
   endRound() {
+    this.setState({ roundsRemaining: this.state.roundsRemaining - 1 });
+    clearInterval(this.state.intervalId);
+
     if (this.state.roundsRemaining <= 0) {
-      clearInterval(this.state.intervalId);
-    } else {
-      console.log('Clearing interval#', this.state.intervalId);
-      clearInterval(this.state.intervalId);
+      // This forces rounds below 0, which triggers redirect to results
       this.setState({
-        timer: timerMax,
         roundsRemaining: this.state.roundsRemaining - 1
+      });
+    } else {
+      this.setState({
+        timer: timerMax
       });
       this.startNextRound();
     }
@@ -92,8 +97,8 @@ class LightningWrapper extends React.Component {
 
   handleLightningTileClick(e, evt, movie) {
     e.preventDefault();
+    console.log('Click handler is ending round!');
     this.endRound();
-    console.log('Clicked tile: ', movie);
     /*
       axios.post(/api/lightning, {
         movie
@@ -104,7 +109,7 @@ class LightningWrapper extends React.Component {
   }
 
   render() {
-    const Page = this.state.roundsRemaining <= 0
+    const Page = this.state.roundsRemaining < 0
       ? <Redirect push to="/results" />
       : (
         <div>
