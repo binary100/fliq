@@ -38,10 +38,8 @@ app.use('/', router);
 // PASSPORT MIDDLEWARE
 // Facebook
 passport.use(new FacebookStrategy({
-  // clientID: process.env.FACEBOOK_APP_ID,
-  // clientSecret: process.env.FACEBOOK_APP_SECRET,
-  clientID: 'hhlk',
-  clientSecret: 'hgjkhg',
+  clientID: process.env.FACEBOOK_APP_ID,
+  clientSecret: process.env.FACEBOOK_APP_SECRET,
   callbackURL: 'http://localhost:3000/auth/facebook/callback',
   profileFields: ['id', 'displayName', 'photos', 'emails']
 },
@@ -108,9 +106,9 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
-    done(err, user);
-  });
+  User.findById(id)
+  .then(user => done(null, user))
+  .catch(err => console.error(err));
 });
 
 // INITIALIZE
