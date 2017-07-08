@@ -1,17 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Lightning from './lightning.jsx';
 import LightningHeader from '../components/lightningHeader.jsx';
+import { Redirect } from 'react-router-dom';
 
+const timerMax = 2;
 
 class LightningWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       movies: [],
-      timer: 10,
-      roundsRemaining: 4,
+      timer: timerMax,
+      roundsRemaining: 2,
       intervalId: ''
     };
     this.getMovieData = this.getMovieData.bind(this);
@@ -22,93 +23,103 @@ class LightningWrapper extends React.Component {
   }
 
   componentWillMount() {
-    this.getMovieData()
-      .then(() => {
-        console.log('Got movie data');
+    this.startNextRound()
+      .then((results) => {
+        console.log('Mounting lightningWrapper with data', results.data);
       });
   }
 
-  componentDidMount() {
-    this.startTimer();
-  }
-
   componentWillUnmount() {
-    console.log('Unmounting lightningWrapper. Clear interval: ', this.state.intervalId);
+    console.log('Unmounting lightningWrapper.');
     clearInterval(this.state.intervalId);
   }
 
   // Get an array with two movies objects
   // from DB
   getMovieData() {
-    console.log('Entering getMovieData');
-
     // Return this promise in order to
-    // control flow at the start of each
-    // round (see startNextRound)
+    // allow for then-able logic
     return axios.get('/api/lightning')
       .then((results) => {
         this.setState({
           movies: results.data
         });
+        return results;
       });
   }
 
   startTimer() {
-    const intervalId = setInterval(() => {
+    const intervalId = setInterval(function () {
       if (this.state.timer > 0) {
         this.setState({
           timer: this.state.timer - 1
         });
       } else {
+        console.log('Interval is ending round!');
         this.endRound();
       }
-    }, 1000);
-    console.log('intervalId is: ', intervalId);
+    }.bind(this), 1000);
+    console.log('Created interval #', intervalId);
+
     this.setState({
       intervalId
     });
   }
 
   startNextRound() {
-    this.getMovieData()
-      .then(() => {
-        this.setState({
-          timer: 10
-        });
+    console.log('Starting round. Remaining: ', this.state.roundsRemaining);
+    if (this.state.roundsRemaining <= 0) {
+      return;
+    }
+
+    return this.getMovieData()
+      .then((results) => {
+        this.startTimer();
+        return results;
       });
   }
 
   endRound() {
-    if (this.state.roundsRemaining === 0) {
-      clearInterval(this.state.intervalId);
-      // proceed to Results component
+    this.setState({ roundsRemaining: this.state.roundsRemaining - 1 });
+    clearInterval(this.state.intervalId);
+
+    if (this.state.roundsRemaining <= 0) {
+      // This forces rounds below 0, which triggers redirect to results
+      this.setState({
+        roundsRemaining: this.state.roundsRemaining - 1
+      });
     } else {
+      this.setState({
+        timer: timerMax
+      });
       this.startNextRound();
     }
   }
 
   handleLightningTileClick(e, evt, movie) {
-    console.log('Clicked tile: ', movie);
-    this.endRound();
-    clearInterval(this.state.timer);
     e.preventDefault();
-    /*
-      axios.post(/api/lightning, {
-        //movie data goes here
-      })
-        .then(() => this.startNextRound());
-    */
+    console.log('Click handler is ending round!');
+    this.endRound();
+    axios.post('/api/lightning', {
+      movie
+    })
+      .catch((err) => console.error('Error selecting movie: ', err));
   }
 
   render() {
+    const Page = this.state.roundsRemaining < 0
+      ? <Redirect push to="/results" />
+      : (
+        <div>
+          <LightningHeader timer={this.state.timer} />
+          <Lightning
+            handleLightningTileClick={this.handleLightningTileClick}
+            movies={this.state.movies}
+          />
+        </div>
+        );
     return (
-      <div>
-        <LightningHeader timer={this.state.timer} />
-        <Lightning
-          handleLightningTileClick={this.handleLightningTileClick}
-          movies={this.state.movies}
-        />
-      </div>
+      Page
     );
   }
 }

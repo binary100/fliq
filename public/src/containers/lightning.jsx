@@ -1,5 +1,5 @@
 import React from 'react';
-import LightningTile from '../components/lightningTile.jsx';
+import LargeMovieTile from '../components/largeMovieTile.jsx';
 
 let tileIndex = 0;
 
@@ -12,7 +12,7 @@ class Lightning extends React.Component {
     return (
       <div>
         {this.props.movies.map(movie =>
-          (<LightningTile
+          (<LargeMovieTile
             key={tileIndex += 1}
             handleLightningTileClick={this.props.handleLightningTileClick}
             movie={movie}
