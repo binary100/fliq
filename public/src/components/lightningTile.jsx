@@ -8,16 +8,26 @@ const LightningTile = props => (
     <span className="lightning-details">
       <div className="film-details">
         <div>
-          <h2>Title: {props.movie.title} </h2>
+          <h2>Title: {props.movie.title} <span>({props.movie.year})</span></h2>
         </div>
         <div>
-          <h4>Rating: {props.movie.rating} </h4>
+          <h3>Synopsis: {props.movie.plot} </h3>
         </div>
         <div>
-          <h4>Genres: {props.movie.genres} </h4>
+          <h3>Rated: {props.movie.rated} </h3>
         </div>
         <div>
-          <h4>Runtime: {props.movie.runtime} </h4>
+          <h3>Genres: {props.movie.genre} </h3>
+        </div>
+        <div>
+          <h3>
+            Critics:
+            {JSON.parse(props.movie.ratings).map(critic => (
+              <div>
+                <p>{critic.Source}: {critic.Value} </p>
+              </div>
+            ))}
+          </h3>
         </div>
       </div>
       <div className="cast-details">
