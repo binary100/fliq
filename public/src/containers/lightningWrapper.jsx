@@ -49,7 +49,7 @@ class LightningWrapper extends React.Component {
   }
 
   startTimer() {
-    const intervalId = setInterval(() => {
+    const intervalId = setInterval(function () {
       if (this.state.timer > 0) {
         this.setState({
           timer: this.state.timer - 1
@@ -59,6 +59,7 @@ class LightningWrapper extends React.Component {
         this.endRound();
       }
     }.bind(this), 1000);
+    console.log('Created interval #', intervalId);
 
     this.setState({
       intervalId
