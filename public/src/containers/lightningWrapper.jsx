@@ -103,9 +103,7 @@ class LightningWrapper extends React.Component {
     axios.post('/api/lightning', {
       movie
     })
-      .then(() => this.startNextRound())
       .catch((err) => console.error('Error selecting movie: ', err));
-  
   }
 
   render() {
