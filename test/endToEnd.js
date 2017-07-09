@@ -32,14 +32,14 @@ describe('FlickPick e2e Tests', function() { // Can't use arrow function
         .catch(done);
     });
 
-    it('should return home from lightning', (done) => {
+    it('should return home from lightning rounds', (done) => {
       nightmare.goto(serverUrl)
         .wait(200)
         .click('.start-lightning')
         .wait(200)
-        .click('.link.home')
-        .wait(200)
-        .visible('.start-lightning')
+        .click('a.link.home')
+        .wait(500)
+        .visible('.welcome')
         .then((isVisible) => {
           expect(isVisible).to.be.true;
           done();
