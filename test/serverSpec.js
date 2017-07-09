@@ -1,10 +1,10 @@
 const request = require('supertest');
-const asset = require('chai').assert;
+const assert = require('chai').assert;
 const expect = require('chai').expect;
 
 const serverUrl = `http://localhost:3000`;
 
-describe('FlickPick tests', function() {
+describe('FlickPick Server Tests', function() {
 
   describe('Server stability', function() {
     it('should respond to requests', function(done) {
