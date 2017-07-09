@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
 import LoginSplash from '../components/loginSplash.jsx';
+import Quote from './quote.jsx';
 
 const welcomeHeader = 'Welcome to FlickPick';
 const subHeader = 'A learning recommendation system';
@@ -36,8 +37,9 @@ class Welcome extends React.Component {
 
     // Can the props passed to LoginSplash be accessed by connect
     // in that component instead? Which is better?
-    const Login = this.props.isLoggedIn
-      ? <h3>Debug: Logged In</h3>
+
+    const footer = this.props.isLoggedIn
+      ? <Quote />
       : <LoginSplash
         onFacebookLoginClick={this.props.onFacebookLoginClick}
         onGoogleLoginClick={this.props.onGoogleLoginClick}
@@ -55,7 +57,7 @@ class Welcome extends React.Component {
             </h3>
           </Link>
         </span>
-        {Login}
+        {footer}
       </div>
     );
   }

@@ -10,7 +10,6 @@ import LightningWrapper from './lightningWrapper.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    console.log('In App, props is: ', props);
   }
 
   render() {
