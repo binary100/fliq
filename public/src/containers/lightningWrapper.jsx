@@ -4,7 +4,7 @@ import Lightning from './lightning.jsx';
 import LightningHeader from '../components/lightningHeader.jsx';
 import { Redirect } from 'react-router-dom';
 
-const timerMax = 2;
+const timerMax = 5;
 
 class LightningWrapper extends React.Component {
   constructor(props) {
