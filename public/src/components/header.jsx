@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Header = props => (
   <div className="header">
-    <Link className="link" to="/" >Home</Link>
-    <Link className="link" to="/results">Results</Link>
+    <Link className="link home" to="/" >Home</Link>
+    <Link className="link results" to="/results">Results</Link>
   </div>
 );
 

@@ -49,7 +49,7 @@ class Welcome extends React.Component {
         <h4>{subHeader}</h4>
         <p>{intro}</p>
         <span>
-          <Link to="/lightning">
+          <Link className="link start-lightning" to="/lightning">
             <h3>
               Start picking movies
             </h3>
