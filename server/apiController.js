@@ -36,13 +36,14 @@ module.exports.getTwoMovies = (req, res) => {
 
 module.exports.handleLightningSelection = (req, res) => {
   console.log('Lightning selection: ', req.body.movie);
-  res.sendStatus(200);
+  res.sendStatus(201);
 };
 
 // Placeholder logic
 module.exports.getUserResults = (req, res) => {
   // We don't yet need the user info in the next line
   // const { user } = req.session.passport;
+  // console.log('USER IS: ', user);
 
   // Placeholder logic, selects five random movies.
   Movie.count()
@@ -62,7 +63,7 @@ module.exports.getUserResults = (req, res) => {
           id: randomMovieId
         });
       }
-
+      console.log('Calling Movie.findAll with: ', ...moviesToGrab);
       Movie.findAll({
         where: {
           $or: [...moviesToGrab]
