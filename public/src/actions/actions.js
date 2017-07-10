@@ -1,15 +1,7 @@
-export const loginWithFacebook = () => {
-  console.log('Entering loginWithFacebook action');
+export const loginUser = (user) => {
+  console.log('Setting logged in state with: ', user);
   return {
-    type: 'LOGIN_FACEBOOK',
-    payload: true
-  };
-};
-
-export const loginWithGoogle = () => {
-  console.log('Entering loginWithGoogle action');
-  return {
-    type: 'LOGIN_GOOGLE',
-    payload: true
+    type: 'USER_LOGIN',
+    payload: { isLoggedIn: true, user }
   };
 };

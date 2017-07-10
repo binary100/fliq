@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { loginWithFacebook, loginWithGoogle } from '../actions/actions.js';
 import LoginSplash from '../components/loginSplash.jsx';
 import Quote from './quote.jsx';
 
@@ -17,19 +16,6 @@ class Welcome extends React.Component {
   constructor(props) {
     super(props);
     console.log('In Welcome, props is: ', props);
-    this.handleGoogleLogin = () => {
-      // axios.get('/auth/google')
-      //   .then((results) => {
-      //      this.props.dispatch()
-      //   })
-    };
-
-    this.handleFacebookLogin = () => {
-      // axios.get('/auth/facebook')
-      //   .then((results) => {
-      //      this.props.dispatch()
-      //   })
-    };
   }
 
   render() {
@@ -40,10 +26,7 @@ class Welcome extends React.Component {
 
     const footer = this.props.isLoggedIn
       ? <Quote />
-      : <LoginSplash
-        onFacebookLoginClick={this.props.onFacebookLoginClick}
-        onGoogleLoginClick={this.props.onGoogleLoginClick}
-      />;
+      : <LoginSplash />;
 
     return (
       <div className="welcome">
@@ -68,18 +51,11 @@ class Welcome extends React.Component {
 // as defined by the state elements you point at it
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.login.isLoggedIn
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onFacebookLoginClick: () => { dispatch(loginWithFacebook()); },
-    onGoogleLoginClick: () => { dispatch(loginWithGoogle()); }
+    auth: state.auth
   };
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Welcome);

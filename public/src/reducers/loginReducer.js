@@ -1,14 +1,20 @@
-const login = (state = { isLoggedIn: false }, action) => {
+const defaultAuthState = {
+  isLoggedIn: false,
+  user: null
+};
+
+const auth = (state = defaultAuthState, action) => {
   console.log('Entering loginReducer with state: ', state);
   switch (action.type) {
-    case 'LOGIN_FACEBOOK':
-      console.log('State is: ', state);
-      return Object.assign({}, state, { isLoggedIn: action.payload });
-    case 'LOGIN_GOOGLE':
-      return Object.assign({}, state, { isLoggedIn: action.payload });
+    case 'USER_LOGIN':
+      console.log('Case: USER_LOGIN, Payload: ', action.payload);
+      return Object.assign({}, state, {
+        isLoggedIn: action.payload.isLoggedIn,
+        user: action.payload.user
+      });
     default:
       return state;
   }
 };
 
-export default login;
+export default auth;
