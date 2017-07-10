@@ -44,7 +44,7 @@ class Welcome extends React.Component {
           <div className="welcome-footer">
             {footer}
           </div>
-        </div>  
+        </div>
       </div>
     );
   }
