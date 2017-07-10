@@ -1,20 +1,24 @@
-const Sequelize = require('sequelize');
-const db = require('../dbsetup.js');
-const Movie = require('./movies.js');
+module.exports = (sequelize, DataTypes) => {
+  const Tag = sequelize.define('Tags', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false
+    },
+    tagName: {
+      type: DataTypes.STRING
+    }
+  });
 
+  // Tag.sync().then((err) => {
+  //   if (err) {
+  //     console.error('Error creating Tag table', err);
+  //   } else {
+  //     console.log('Tag table created successfully');
+  //   }
+  // });
 
-const Tag = db.define('Tag', {
-  tagName: {
-    type: Sequelize.STRING
-  }
-});
-
-// Tag.sync().then((err) => {
-//   if (err) {
-//     console.error('Error creating Tag table', err);
-//   } else {
-//     console.log('Tag table created successfully');
-//   }
-// });
-
-module.exports = Tag;
+  return Tag;
+};
+// module.exports = Tag;
