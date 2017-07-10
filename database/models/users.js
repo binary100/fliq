@@ -1,28 +1,20 @@
-const Sequelize = require('sequelize');
-const db = require('../dbsetup.js');
-
-const User = db.define('User', {
-  authId: {
-    type: Sequelize.STRING
-  },
-  name: {
-    type: Sequelize.STRING
-  },
-  picture: {
-    type: Sequelize.STRING
-  },
-  email: {
-    type: Sequelize.STRING
-  }
-});
-
-
-// User.sync({ force: true }).then((err) => {
-//   if (err) {
-//     console.error('Error creating User table', err);
-//   } else {
-//     console.log('User table created successfully');
-//   }
-// });
-
-module.exports = User;
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('Users', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false
+    },
+    name: {
+      type: DataTypes.STRING
+    },
+    picture: {
+      type: DataTypes.STRING
+    },
+    email: {
+      type: DataTypes.STRING
+    }
+  });
+  return User;
+};

@@ -1,19 +1,18 @@
 const express = require('express');
-const env = require('dotenv').config();
+
+require('dotenv').config();
 const db = require('./database/dbsetup.js');
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const router = require('./server/router.js');
+
+const session = require('express-session');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const session = require('express-session');
-
-const Movie = require('./database/models/movies.js');
-const User = require('./database/models/users.js');
-
 const port = process.env.PORT || 3000;
 
 // EXPRESS
