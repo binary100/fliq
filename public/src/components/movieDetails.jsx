@@ -1,10 +1,10 @@
 import React from 'react';
 
 let criticIndex = 0;
-const MovieDetails = props => {
-  const criticScores = props.movie.ratings === ''
+const MovieDetails = ({ movie }) => {
+  const criticScores = movie.ratings === ''
     ? ''
-    : JSON.parse(props.movie.ratings).map(critic => (
+    : JSON.parse(movie.ratings).map(critic => (
         <div key={criticIndex += 1}>
           <p>{critic.Source}: {critic.Value}</p>
         </div>
@@ -13,21 +13,21 @@ const MovieDetails = props => {
   return (
     <span className="row">
       <span className="col-sm-6">
-        <img className="poster" src={props.movie.poster} alt={`Poster for ${props.movie.poster}`} />
+        <img className="poster" src={movie.poster} alt={`Poster for ${movie.poster}`} />
       </span>
       <span className="col-sm-6">
         <div >
           <div>
-            <p>Title: {props.movie.title} <span>({props.movie.year})</span></p>
+            <p>Title: {movie.title} <span>({movie.year})</span></p>
           </div>
           <div>
-            <p>Synopsis: {props.movie.plot} </p>
+            <p>Synopsis: {movie.plot} </p>
           </div>
           <div>
-            <p>Rated: {props.movie.rated} </p>
+            <p>Rated: {movie.rated} </p>
           </div>
           <div>
-            <p>Genres: {props.movie.genre} </p>
+            <p>Genres: {movie.genre} </p>
           </div>
           <div>
               Critics: {criticScores}
@@ -35,13 +35,13 @@ const MovieDetails = props => {
         </div>
         <div>
           <div>
-            <p>Director: {props.movie.director} </p>
+            <p>Director: {movie.director} </p>
           </div>
           <div>
-            <p>Writer: {props.movie.writer} </p>
+            <p>Writer: {movie.writer} </p>
           </div>
           <div>
-            <p>Actors: {props.movie.actors} </p>
+            <p>Actors: {movie.actors} </p>
           </div>
         </div>
       </span>

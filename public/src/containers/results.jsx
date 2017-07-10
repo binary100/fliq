@@ -40,8 +40,12 @@ class Results extends React.Component {
   render() {
     return (
       <div>
-        <ResultsBody movie={this.state.selectedMovie} />
-        <ResultsTileBar movies={this.state.tileMovies} />
+        <div className="row">
+          <ResultsBody movie={this.state.selectedMovie} />
+        </div>
+        <div className="row">
+          <ResultsTileBar movies={this.state.tileMovies} />
+        </div>
       </div>
     );
   }

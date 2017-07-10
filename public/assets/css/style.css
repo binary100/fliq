@@ -52,8 +52,15 @@ a:visited {
 }
 
 .small-movie-tile {
+  max-height: 200px;
+  overflow: auto;
+  /*height: 150px;*/
   border-radius: 5px;
   border: 1px solid black;
+}
+
+.results-tile-bar {
+
 }
 
 .user-photo {
