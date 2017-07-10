@@ -20,7 +20,7 @@ const Header = props => (
         src="https://lh4.googleusercontent.com/-QpbHKV1gzhM/AAAAAAAAAAI/AAAAAAAAIn4/ow5QMLq7VFI/photo.jpg?sz=50"
       />
       <span className="pull-right">
-        {props.user ? prop.user.name : 'No Name'}
+        {props.user ? props.user.name : 'No Name'}
       </span>
     </span>
   </div>
