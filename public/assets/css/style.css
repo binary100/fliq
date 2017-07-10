@@ -22,8 +22,6 @@ a:visited {
 
 .header {
   padding: 0.5em 0;
-  width: 100%;
-  height: 2em;
   color: white;
   background: linear-gradient(to bottom, #606060 , #444444);
 }
@@ -40,4 +38,9 @@ a:visited {
 .small-movie-tile {
   border-radius: 5px;
   border: 1px solid black;
+}
+
+.user-photo {
+  max-height: 3em; 
+  max-width: 3em;
 }
