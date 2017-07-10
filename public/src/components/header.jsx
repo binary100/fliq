@@ -9,11 +9,17 @@ const Header = props => (
       <span>
         <img
           className="img-circle user-photo"
-          src="https://lh4.googleusercontent.com/-QpbHKV1gzhM/AAAAAAAAAAI/AAAAAAAAIn4/ow5QMLq7VFI/photo.jpg?sz=50"
+          src={props.user ? props.user.picture : ''}
+          alt={props.user ? props.user.name : '' }
         />
       </span>
     </span>
   </div>
 );
-//<img src={props.user ? props.user.picture : ''} />
+
+
+// <img
+//   className="img-circle user-photo"
+//   src="https://lh4.googleusercontent.com/-QpbHKV1gzhM/AAAAAAAAAAI/AAAAAAAAIn4/ow5QMLq7VFI/photo.jpg?sz=50"
+///>
 export default Header;
