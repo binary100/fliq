@@ -41,6 +41,11 @@ a:visited {
   /* size the hamburger */
 }
 
+.poster {
+  max-height: 100%;
+  max-width: 100%;
+}
+
 .oauth-button {
   width: 200px;
   height: auto;

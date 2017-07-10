@@ -11,39 +11,37 @@ const MovieDetails = props => {
       ));
 
   return (
-    <span>
-      <span className="details-poster">
-        <img src={props.movie.poster} alt={`Poster for ${props.movie.poster}`} />
+    <span className="row">
+      <span className="col-sm-6">
+        <img className="poster" src={props.movie.poster} alt={`Poster for ${props.movie.poster}`} />
       </span>
-      <span className="details-content">
-        <div className="details-film-attributes">
+      <span className="col-sm-6">
+        <div >
           <div>
-            <h2>Title: {props.movie.title} <span>({props.movie.year})</span></h2>
+            <p>Title: {props.movie.title} <span>({props.movie.year})</span></p>
           </div>
           <div>
-            <h3>Synopsis: {props.movie.plot} </h3>
+            <p>Synopsis: {props.movie.plot} </p>
           </div>
           <div>
-            <h3>Rated: {props.movie.rated} </h3>
+            <p>Rated: {props.movie.rated} </p>
           </div>
           <div>
-            <h3>Genres: {props.movie.genre} </h3>
+            <p>Genres: {props.movie.genre} </p>
           </div>
           <div>
-            <h3>
               Critics: {criticScores}
-            </h3>
           </div>
         </div>
-        <div className="details-film-cast">
+        <div>
           <div>
-            <h3>Director: {props.movie.director} </h3>
+            <p>Director: {props.movie.director} </p>
           </div>
           <div>
-            <h3>Writer: {props.movie.writer} </h3>
+            <p>Writer: {props.movie.writer} </p>
           </div>
           <div>
-            <h3>Actors: {props.movie.actors} </h3>
+            <p>Actors: {props.movie.actors} </p>
           </div>
         </div>
       </span>
