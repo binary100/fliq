@@ -14,8 +14,6 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-const port = process.env.PORT || 3000;
-
 // EXPRESS
 const app = express();
 
