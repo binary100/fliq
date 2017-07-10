@@ -39,7 +39,7 @@ class Results extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="results">
         <div className="row">
           <ResultsBody movie={this.state.selectedMovie} />
         </div>
