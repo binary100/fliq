@@ -1,5 +1,5 @@
+require('dotenv').config();
 const express = require('express');
-const env = require('dotenv').config();
 const db = require('./database/dbsetup.js');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
