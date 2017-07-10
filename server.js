@@ -1,7 +1,7 @@
 const express = require('express');
 
 require('dotenv').config();
-const db = require('./database/dbsetup.js');
+const User = require('./database/dbsetup.js').users;
 
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
