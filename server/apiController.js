@@ -9,6 +9,7 @@ const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
+  console.log('Url is: ', titleForUrl);
   return `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${titleForUrl}+movie+trailer&key=${process.env.YOUTUBE_API_KEY}`;
 };
 // HARD CODED REQUESTS

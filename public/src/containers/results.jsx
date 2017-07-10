@@ -33,15 +33,28 @@ class Results extends React.Component {
           selectedMovie: results.data[0],
           tileMovies: results.data
         });
+        this.loadTrailer(results.data[0]);
       })
       .catch(err => console.error('Error retrieving movies: ', err));
+  }
+
+  loadTrailer(movie) {
+    axios.post('/api/trailer', { movie })
+      .then((results) => {
+        this.setState({
+          trailer: results.data
+        });
+      });
   }
 
   render() {
     return (
       <div className="results">
         <div className="row">
-          <ResultsBody movie={this.state.selectedMovie} />
+          <ResultsBody
+            trailer={this.state.trailer}
+            movie={this.state.selectedMovie}
+          />
         </div>
         <div className="row">
           <ResultsTileBar movies={this.state.tileMovies} />
