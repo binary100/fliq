@@ -1,5 +1,5 @@
 const axios = require('axios');
-const Movie = require('../database/models/movies.js');
+const Movie = require('../database/dbsetup.js').movies;
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
 const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
