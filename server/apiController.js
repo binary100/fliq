@@ -2,6 +2,8 @@ const axios = require('axios');
 const Movie = require('../database/models/movies.js');
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
+const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
+const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 
 // HARD CODED REQUESTS
 module.exports.getTwoMovies = (req, res) => {
@@ -72,4 +74,13 @@ module.exports.getUserResults = (req, res) => {
         .then(movies => res.send(movies))
         .catch(err => res.status(500).send('Error finding movies: ', err));
     });
+};
+
+module.exports.getQuote = (req, res) => {
+  axios(quoteUrl, {
+    method: 'GET',
+    headers: { 'X-Mashape-Key': QUOTE_API_KEY }
+  })
+    .then(results => res.send(results.data))
+    .catch(err => res.status(500).send(err));
 };

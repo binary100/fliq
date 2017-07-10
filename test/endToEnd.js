@@ -80,6 +80,7 @@ describe('FlickPick e2e Tests', function() { // Can't use arrow function
         })
         .then((length) => {
           expect(length).to.equal(5);
+          done();
         })
         .catch(done);
     });
