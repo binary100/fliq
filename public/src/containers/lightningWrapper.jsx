@@ -74,7 +74,7 @@ class LightningWrapper extends React.Component {
 
     return this.getMovieData()
       .then((results) => {
-        this.startTimer();
+        //this.startTimer();
         return results;
       });
   }

@@ -18,6 +18,12 @@ a:visited {
 
 .welcome {
   padding: 2em;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.welcome-footer {
+  margin-top: 2em;
 }
 
 .header {
