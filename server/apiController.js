@@ -2,7 +2,7 @@ const axios = require('axios');
 const Movie = require('../database/models/movies.js');
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
-const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
+const quoteUrl = 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"';
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 
 // HARD CODED REQUESTS
@@ -55,7 +55,6 @@ module.exports.getUserResults = (req, res) => {
       // Create objects for the Movie.findAll $or operator,
       // which takes objects like this { dbColumn: columnValue }
       for (let i = 0; i < 5; i += 1) {
-
         let randomMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
 
         // Need to handle if 0 bc no id 0 in table.
