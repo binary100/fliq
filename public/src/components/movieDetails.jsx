@@ -29,9 +29,6 @@ const MovieDetails = ({ movie }) => {
           <div>
             <p>Genres: {movie.genre} </p>
           </div>
-          <div>
-              Critics: {criticScores}
-          </div>
         </div>
         <div>
           <div>
@@ -42,6 +39,9 @@ const MovieDetails = ({ movie }) => {
           </div>
           <div>
             <p>Actors: {movie.actors} </p>
+          </div>
+          <div>
+            {criticScores}
           </div>
         </div>
       </span>
