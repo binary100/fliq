@@ -13,6 +13,7 @@ const auth = (state = defaultAuthState, action) => {
         user: action.payload.user
       });
     default:
+      console.log('Returning default state: ', state);
       return state;
   }
 };

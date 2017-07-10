@@ -24,7 +24,7 @@ class Welcome extends React.Component {
     // Can the props passed to LoginSplash be accessed by connect
     // in that component instead? Which is better?
 
-    const footer = this.props.isLoggedIn
+    const footer = this.props.auth.isLoggedIn
       ? <Quote />
       : <LoginSplash />;
 

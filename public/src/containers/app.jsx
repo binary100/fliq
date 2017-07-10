@@ -15,25 +15,21 @@ class App extends React.Component {
     console.log('In App ctor, props: ', props);
     axios.get('/account')
       .then((results) => {
-        console.log('Received user: ', results.data.user);
-        this.props.loginUser(results.data.user);
+        console.log('Received user data: ', results.data.user);
+        if (results.data.user) {
+          this.props.loginUser(results.data.user);
+        }
       })
       .catch(err => console.error('Login failed: ', err));
   }
 
-  componentWillMount() {
-    // axios.get('/account')
-    //   .then((results) => {
-    //     this.props.loginUser(results.data);
-    //   });
-  }
-
   render() {
+    console.log('In App render, props is: ', this.props);
     return (
       <div>
         <Router history={browserHistory}>
           <div>
-            <Header />
+            <Header user={this.props.auth.user}/>
             <div>
               <Switch>
                 <Route exact path="/" component={Welcome} />
@@ -79,7 +75,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: () => { dispatch(loginUser()); }
+  loginUser: (user) => { dispatch(loginUser(user)); }
 });
 
 export default connect(

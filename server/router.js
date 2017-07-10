@@ -22,7 +22,7 @@ router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
     res.send({ user: req.user });
   } else {
-    res.sendStatus(404);
+    res.send({ user: null });
   }
 });
 
