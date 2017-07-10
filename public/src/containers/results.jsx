@@ -31,7 +31,7 @@ class Results extends React.Component {
       .then((results) => {
         this.setState({
           selectedMovie: results.data[0],
-          tileMovies: results.data.slice(1)
+          tileMovies: results.data
         });
       })
       .catch(err => console.error('Error retrieving movies: ', err));
