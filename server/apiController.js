@@ -3,8 +3,14 @@ const Movie = require('../database/dbsetup.js').movies;
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
 const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
+const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 
+
+const getYouTubeUrl = (title) => {
+  const titleForUrl = title.replace(regex, '+');
+  return `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${titleForUrl}+movie+trailer&key=${process.env.YOUTUBE_API_KEY}`;
+};
 // HARD CODED REQUESTS
 module.exports.getTwoMovies = (req, res) => {
   // At first, randomly select two movies from DB
@@ -83,4 +89,11 @@ module.exports.getQuote = (req, res) => {
   })
     .then(results => res.send(results.data))
     .catch(err => res.status(500).send(err));
+};
+
+module.exports.getTrailer = (req, res) => {
+  const url = getYouTubeUrl(req.body.movie.title);
+  axios.get(url)
+    .then(results => res.send(results.data.items[0]))
+    .catch(err => res.sendStatus(404));
 };

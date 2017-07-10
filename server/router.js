@@ -6,6 +6,7 @@ router.get('/api/lightning', apiController.getTwoMovies);
 router.post('/api/lightning', apiController.handleLightningSelection);
 router.get('/api/results', apiController.getUserResults);
 router.get('/api/quote', apiController.getQuote);
+router.post('/api/trailer', apiController.getTrailer);
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 router.get('/auth/facebook/callback',
