@@ -24,6 +24,7 @@ class Results extends React.Component {
     };
 
     this.getUserMovies();
+    this.handleTileClick = this.handleTileClick.bind(this);
   }
 
   getUserMovies() {
@@ -36,6 +37,13 @@ class Results extends React.Component {
         this.loadTrailer(results.data[0]);
       })
       .catch(err => console.error('Error retrieving movies: ', err));
+  }
+
+  handleTileClick(e, evt, movie) {
+    this.loadTrailer(movie);
+    this.setState({
+      selectedMovie: movie
+    });
   }
 
   loadTrailer(movie) {
@@ -57,12 +65,14 @@ class Results extends React.Component {
           />
         </div>
         <div className="row">
-          <ResultsTileBar movies={this.state.tileMovies} />
+          <ResultsTileBar
+            movies={this.state.tileMovies}
+            handleTileClick={this.handleTileClick}
+          />
         </div>
       </div>
     );
   }
 }
-
 
 export default Results;
