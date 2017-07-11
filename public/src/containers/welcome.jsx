@@ -6,11 +6,13 @@ import LoginSplash from '../components/loginSplash.jsx';
 import Quote from './quote.jsx';
 
 const welcomeHeader = 'Welcome to FlickPick';
-const subHeader = 'A learning recommendation system';
+const subHeader = 'A learning movie recommendation system';
 const intro =
   `Our machine learning algorithm will get to know
   what kinds of movies you like and ensure that you will always have
-  something interesting to watch.`;
+  something interesting to watch. Log in, then click below to start 
+  the lightning round phase, which will teach FlickPick's neural network
+  about you.`;
 
 class Welcome extends React.Component {
   constructor(props) {
