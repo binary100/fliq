@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 let LoginSplash = ({ dispatch, onGoogleLoginClick, onFacebookLoginClick }) => {
   return (
-    <div>
-      <div>
+    <div className="row">
+      <div className="col-lg-3">
         <div>
           <a href="/auth/google" className="btn btn-block btn-social btn-google">
             <span className="fa fa-google"></span>

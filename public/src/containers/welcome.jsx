@@ -29,18 +29,22 @@ class Welcome extends React.Component {
       : <LoginSplash />;
 
     return (
-      <div className="welcome">
-        <h1>{welcomeHeader}</h1>
-        <h4>{subHeader}</h4>
-        <p>{intro}</p>
-        <span>
-          <Link className="link start-lightning" to="/lightning">
-            <h3>
-              Start picking movies
-            </h3>
-          </Link>
-        </span>
-        {footer}
+      <div>
+        <div className="jumbotron welcome">
+          <h1>{welcomeHeader}</h1>
+          <h4>{subHeader}</h4>
+          <p>{intro}</p>
+          <span>
+            <Link className="link start-lightning" to="/lightning">
+              <h3>
+                Start picking movies
+              </h3>
+            </Link>
+          </span>
+          <div className="welcome-footer">
+            {footer}
+          </div>
+        </div>
       </div>
     );
   }

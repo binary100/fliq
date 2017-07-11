@@ -17,17 +17,52 @@ a:visited {
 }
 
 .welcome {
+  min-height: 450px;
   padding: 2em;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.welcome-footer {
+  margin-top: 2em;
+}
+
+.timer-counter {
+
+}
+
+.timer-counter h2 {
+
+}
+
+.trailer {
+  margin-top: 15px;
 }
 
 .header {
-  padding: 0.5em 0;
+  overflow: auto;
+  padding: 0.5em 1em;
   color: white;
   background: linear-gradient(to bottom, #606060 , #444444);
+  border: 1px solid black;
 }
 
 .header .link {
-  margin: 0 1em;
+  margin-left: 1em;
+}
+
+.header-icon {
+  /* size the hamburger */
+}
+
+.poster {
+  max-height: 475px;
+  max-width: auto;
+}
+
+.poster-small {
+  max-height: 180px;
+  max-width: auto;
 }
 
 .oauth-button {
@@ -35,10 +70,61 @@ a:visited {
   height: auto;
 }
 
-.small-movie-tile {
-  border-radius: 5px;
-  border: 1px solid black;
+.results-tile-bar { 
+  background-color: #111314;
+  bottom: 0;
+  position: absolute;
+  min-height: 220px;
+  padding: 0 25px;
 }
+
+.small-movie-tile {
+  /*margin-left: 15px;*/
+  padding: 10px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.small-movie-tile:hover {
+  background: #3f3f3f;
+}
+
+.results {
+  max-height: 100%;
+}
+/************* QUOTE BOX **************/
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes slideleft {
+  0% {
+    left: -2000px;
+  }
+
+  100% {
+    left: 0px;
+  }
+}
+
+.quote-box-invisible {
+  opacity: 0;
+}
+
+.quote-box-visible {
+  opacity: 1;
+  /*position: relative;
+  animation: slideleft 1s;*/
+  transition: 1s;
+}
+
+.author {
+  margin-left: 50px;
+}
+
+/* USER INFO */
 
 .user-photo {
   max-height: 3em; 

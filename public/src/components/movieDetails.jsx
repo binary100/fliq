@@ -1,49 +1,47 @@
 import React from 'react';
 
 let criticIndex = 0;
-const MovieDetails = props => {
-  const criticScores = props.movie.ratings === ''
+const MovieDetails = ({ movie }) => {
+  const criticScores = movie.ratings === ''
     ? ''
-    : JSON.parse(props.movie.ratings).map(critic => (
+    : JSON.parse(movie.ratings).map(critic => (
         <div key={criticIndex += 1}>
           <p>{critic.Source}: {critic.Value}</p>
         </div>
       ));
 
   return (
-    <span>
-      <span className="details-poster">
-        <img src={props.movie.poster} alt={`Poster for ${props.movie.poster}`} />
+    <span className="row">
+      <span className="col-sm-6">
+        <img className="poster" src={movie.poster} alt={`Poster for ${movie.poster}`} />
       </span>
-      <span className="details-content">
-        <div className="details-film-attributes">
+      <span className="col-sm-6">
+        <div >
           <div>
-            <h2>Title: {props.movie.title} <span>({props.movie.year})</span></h2>
+            <p>Title: {movie.title} <span>({movie.year})</span></p>
           </div>
           <div>
-            <h3>Synopsis: {props.movie.plot} </h3>
+            <p>Synopsis: {movie.plot} </p>
           </div>
           <div>
-            <h3>Rated: {props.movie.rated} </h3>
+            <p>Rated: {movie.rated} </p>
           </div>
           <div>
-            <h3>Genres: {props.movie.genre} </h3>
-          </div>
-          <div>
-            <h3>
-              Critics: {criticScores}
-            </h3>
+            <p>Genres: {movie.genre} </p>
           </div>
         </div>
-        <div className="details-film-cast">
+        <div>
           <div>
-            <h3>Director: {props.movie.director} </h3>
+            <p>Director: {movie.director} </p>
           </div>
           <div>
-            <h3>Writer: {props.movie.writer} </h3>
+            <p>Writer: {movie.writer} </p>
           </div>
           <div>
-            <h3>Actors: {props.movie.actors} </h3>
+            <p>Actors: {movie.actors} </p>
+          </div>
+          <div>
+            {criticScores}
           </div>
         </div>
       </span>

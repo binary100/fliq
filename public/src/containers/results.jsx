@@ -24,6 +24,7 @@ class Results extends React.Component {
     };
 
     this.getUserMovies();
+    this.handleTileClick = this.handleTileClick.bind(this);
   }
 
   getUserMovies() {
@@ -33,19 +34,45 @@ class Results extends React.Component {
           selectedMovie: results.data[0],
           tileMovies: results.data
         });
+        this.loadTrailer(results.data[0]);
       })
       .catch(err => console.error('Error retrieving movies: ', err));
   }
 
+  handleTileClick(e, evt, movie) {
+    this.loadTrailer(movie);
+    this.setState({
+      selectedMovie: movie
+    });
+  }
+
+  loadTrailer(movie) {
+    axios.post('/api/trailer', { movie })
+      .then((results) => {
+        this.setState({
+          trailer: results.data
+        });
+      });
+  }
+
   render() {
     return (
-      <div>
-        <ResultsBody movie={this.state.selectedMovie} />
-        <ResultsTileBar movies={this.state.tileMovies} />
+      <div className="results">
+        <div className="row">
+          <ResultsBody
+            trailer={this.state.trailer}
+            movie={this.state.selectedMovie}
+          />
+        </div>
+        <div className="row">
+          <ResultsTileBar
+            movies={this.state.tileMovies}
+            handleTileClick={this.handleTileClick}
+          />
+        </div>
       </div>
     );
   }
 }
-
 
 export default Results;
