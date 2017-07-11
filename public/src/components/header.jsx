@@ -7,16 +7,22 @@ const Header = props => (
     <div className="container-fluid">
       <div className="navbar-header">
         <ul className="nav navbar-nav">
+        <li><span className="glyphicon glyphicon-menu-hamburger header-icon" /></li>
+        <li>
+          <span className="btn-group" role="group" >
+            <Link className="link header-link home" to="/" >
+              <button type="button" className="btn btn-default">Home</button>
+            </Link>
+            <Link className="link header-link results" to="/results">
+              <button type="button" className="btn btn-default">Results</button>
+            </Link>
+          </span>
+        </li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
         </ul>
-        <span className="glyphicon glyphicon-menu-hamburger header-icon" />
-        <span className="btn-group" role="group" >
-          <Link className="link header-link home" to="/" >
-            <button type="button" className="btn btn-default">Home</button>
-          </Link>
-          <Link className="link header-link results" to="/results">
-            <button type="button" className="btn btn-default">Results</button>
-          </Link>
-        </span>
         <span className="user-info">
           <img
             className="img-circle user-photo pull-right"
