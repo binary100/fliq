@@ -1,39 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = props => (
-  <nav className="navbar navbar-default header">
+const Header = ({ handleLogout, user }) => (
+  <nav className="navbar navbar-inverse ">
     <div className="container-fluid">
       <div className="navbar-header">
         <ul className="nav navbar-nav">
-          <li><span className="glyphicon glyphicon-menu-hamburger header-icon" /></li>
           <li>
-            <span className="btn-group" role="group" >
-              <Link className="link header-link home" to="/" >
-                <button type="button" className="btn btn-default">Home</button>
-              </Link>
-              <Link className="link header-link results" to="/results">
-                <button type="button" className="btn btn-default">Results</button>
-              </Link>
-              <Link className="link header-link results" to="/">
-                <button
-                  type="button"
-                  className="btn btn-default"
-                  onClick={props.handleLogout}>Logout
-                </button>
-              </Link>
-            </span>
+            <span className="glyphicon glyphicon-menu-hamburger header-icon" />
+          </li>
+          <li>
+            <Link to="/" >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/results">
+              Results
+            </Link>
+          </li>
+          <li>
+            <Link to="/" onClick={handleLogout}>
+              Logout
+            </Link>
           </li>
         </ul>
       </div>
       <span className="user-info pull-right">
         <img
           className="img-circle user-photo"
-          src={props.user ? props.user.picture : ''}
-         alt={props.user ? props.user.name : '' }
+          src={user ? user.picture : ''}
+         alt={user ? user.name : '' }
         />
         <span className="pull-right">
-          {props.user ? props.user.name : ''}
+          {user ? user.name : ''}
         </span>
       </span>
     </div>

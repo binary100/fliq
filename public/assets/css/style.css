@@ -9,12 +9,19 @@ body, html {
 
 a:link {
   color: inherit;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 a:visited {
   color: inherit;
 }
+
+a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+/************* WELCOME PAGE **************/
 
 .welcome {
   min-height: 450px;
@@ -27,6 +34,8 @@ a:visited {
   margin-top: 2em;
 }
 
+/************* LIGHTNING PAGE **************/
+
 .timer-counter {
 
 }
@@ -35,39 +44,10 @@ a:visited {
 
 }
 
+/************* RESULTS PAGE **************/
+
 .trailer {
   margin-top: 15px;
-}
-
-.header {
-  overflow: auto;
-  padding: 0.5em 1em;
-  color: white;
-  background: linear-gradient(to bottom, #606060 , #444444);
-  border: 1px solid black;
-}
-
-.header .link {
-  margin-left: 1em;
-}
-
-.header-icon {
-  /* size the hamburger */
-}
-
-.poster {
-  max-height: 475px;
-  max-width: auto;
-}
-
-.poster-small {
-  max-height: 180px;
-  max-width: auto;
-}
-
-.oauth-button {
-  width: 200px;
-  height: auto;
 }
 
 .results-tile-bar { 
@@ -92,6 +72,45 @@ a:visited {
 .results {
   max-height: 100%;
 }
+
+
+
+/************* NAVBAR **************/
+
+.header {
+  overflow: auto;
+  padding: 0.5em 1em;
+  color: white;
+  background: linear-gradient(to bottom, #606060 , #444444);
+  border: 1px solid black;
+}
+
+.header-icon {
+  /* size the hamburger */
+  min-height:  50px;
+  line-height: 50px;
+}
+
+.navbar a:focus {
+  background-color: black;
+}
+
+.poster {
+  max-height: 475px;
+  max-width: auto;
+}
+
+.poster-small {
+  max-height: 180px;
+  max-width: auto;
+}
+
+/*.oauth-button {
+  width: 200px;
+  height: auto;
+}*/
+
+
 /************* QUOTE BOX **************/
 
 @keyframes spin {
