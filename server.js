@@ -1,6 +1,5 @@
-const express = require('express');
-
 require('dotenv').config();
+const express = require('express');
 const db = require('./database/dbsetup.js');
 
 const bodyParser = require('body-parser');
@@ -42,11 +41,11 @@ passport.use(new FacebookStrategy({
 },
 (accessToken, refreshToken, profile, done) => {
   console.log('this is the facebook returned profile', profile);
-  User.findOne({ where: { authId: profile.id } })
+  db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
     if (!user) {
       console.log('Creating new user!!!!!');
-      User.create({
+      db.users.create({
         name: profile.displayName,
         picture: profile.photos[0].value,
         email: profile.emails[0].value,
@@ -74,11 +73,11 @@ passport.use(new GoogleStrategy({
 },
 (accessToken, refreshToken, profile, done) => {
   console.log('this is the google returned profile', profile);
-  User.findOne({ where: { authId: profile.id } })
+  db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
     if (!user) {
       console.log('Creating new user!!!!!');
-      User.create({
+      db.users.create({
         name: profile.displayName,
         picture: profile.photos[0].value,
         email: profile.emails[0].value,
@@ -103,7 +102,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id)
+  db.users.findById(id)
   .then(user => done(null, user))
   .catch(err => console.error(err));
 });
