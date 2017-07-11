@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING
+    },
+    authId: {
+      type: DataTypes.STRING
     }
   });
   return User;
