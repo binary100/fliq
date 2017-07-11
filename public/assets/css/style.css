@@ -44,6 +44,7 @@ a:visited {
   padding: 0.5em 1em;
   color: white;
   background: linear-gradient(to bottom, #606060 , #444444);
+  border: 1px solid black;
 }
 
 .header .link {
@@ -93,12 +94,29 @@ a:visited {
 }
 /************* QUOTE BOX **************/
 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes slideleft {
+  0% {
+    left: -2000px;
+  }
+
+  100% {
+    left: 0px;
+  }
+}
+
 .quote-box-invisible {
   opacity: 0;
 }
 
 .quote-box-visible {
   opacity: 1;
+  /*position: relative;
+  animation: slideleft 1s;*/
   transition: 1s;
 }
 
