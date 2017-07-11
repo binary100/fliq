@@ -15,9 +15,9 @@ const session = require('express-session');
 const Movie = require('./database/models/movies.js');
 const User = require('./database/models/users.js');
 const Tag = require('./database/models/tags.js');
-const User_Movie = require('./database/models/User_Movie.js');
-const Movie_Tag = require('./database/models/Movie_Tag.js');
-const User_Tag = require('./database/models/User_Tag.js');
+const UserMovie = require('./database/models/User_Movie.js');
+const MovieTag = require('./database/models/Movie_Tag.js');
+const UserTag = require('./database/models/User_Tag.js');
 
 // EXPRESS
 const app = express();

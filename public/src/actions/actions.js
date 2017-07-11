@@ -5,3 +5,11 @@ export const loginUser = (user) => {
     payload: { isLoggedIn: true, user }
   };
 };
+
+export const logoutUser = () => {
+  console.log('Removing logged in state.');
+  return {
+    type: 'USER_LOGOUT',
+    payload: { isLoggedIn: false }
+  };
+};
