@@ -13,6 +13,27 @@ const getYouTubeUrl = (title) => {
   return `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${titleForUrl}+movie+trailer&key=${process.env.YOUTUBE_API_KEY}`;
 };
 // HARD CODED REQUESTS
+module.exports.checkSession = (req, res, next) => {
+  if (req.sessionID) {
+    db.session.findOne({
+      where: { sid: req.sessionID },
+      include: [{ model: db.users, as: 'User' }]
+    })
+    .then((sessionSave) => {
+      if (sessionSave) {
+        if (sessionSave.userId) {
+          return res.send({ success: true, message: 'authentication succeeded', profile: sessionSave.User });
+        }
+        return res.send({ success: false, message: 'session exists but userId is not assigned', profile: null });
+      }
+      return res.send({ success: false, message: 'no session found', profile: null });
+    });
+  } else {
+    next();
+  }
+};
+
+
 module.exports.getTwoMovies = (req, res) => {
   // At first, randomly select two movies from DB
   let firstMovieId = null;

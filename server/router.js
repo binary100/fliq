@@ -19,6 +19,10 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
     res.redirect('/');
   });
 
+router.get('/checkSession', apiController.checkSession, (req, res) => {
+  res.status(200).json({ status: 'Login successful!' });
+});
+
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
     res.send({ user: req.user });
