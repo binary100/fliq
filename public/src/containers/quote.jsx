@@ -5,8 +5,8 @@ class Quote extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quote: '',
-      author: ''
+      quote: null,
+      author: null
     };
   }
 
@@ -25,8 +25,12 @@ class Quote extends React.Component {
   render() {
     return (
       <div>
-        <div>{this.state.quote}</div>
-        <div>{this.state.author}</div>
+        <div>
+          <div className="quote">
+            <h3>{this.state.quote ? `"${this.state.quote}"` : ''}</h3>
+          </div>
+          <div className="author">{this.state.author ? `-${this.state.author}` : ''}</div>
+        </div>
       </div>
     );
   }

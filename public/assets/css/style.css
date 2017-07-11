@@ -91,6 +91,10 @@ a:visited {
   max-height: 100%;
 }
 
+.author {
+  margin-left: 50px;
+}
+
 .user-photo {
   max-height: 3em; 
   max-width: 3em;
