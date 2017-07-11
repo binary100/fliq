@@ -54,8 +54,8 @@ a:visited {
 }
 
 .poster {
-  max-height: 100%;
-  max-width: 100%;
+  max-height: 475px;
+  max-width: auto;
 }
 
 .oauth-button {
@@ -63,20 +63,22 @@ a:visited {
   height: auto;
 }
 
+.results-tile-bar { 
+  background-color: #111314;
+  bottom: 0;
+  position: absolute;
+  min-height: 220px;
+  padding: 10px;
+}
+
 .small-movie-tile {
   margin-left: 15px;
   max-height: 200px;
   overflow: auto;
-  border-radius: 5px;
-  border: 1px solid black;
 }
 
 .results {
   max-height: 100%;
-}
-
-.results-body {
-  max-height: 60%;
 }
 
 .user-photo {

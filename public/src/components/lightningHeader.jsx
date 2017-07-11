@@ -7,6 +7,3 @@ const LightningHeader = props => (
 );
 
 export default LightningHeader;
-
-//  <div className="lightning-header">  
-//  </div>
