@@ -25,7 +25,7 @@ class Quote extends React.Component {
   render() {
     return (
       <div>
-        <div>
+        <div className={this.state.quote ? 'quote-box quote-box-visible' : 'quote-box' }>
           <div className="quote">
             <h3>{this.state.quote ? `"${this.state.quote}"` : ''}</h3>
           </div>

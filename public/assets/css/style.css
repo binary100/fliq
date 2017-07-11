@@ -17,6 +17,7 @@ a:visited {
 }
 
 .welcome {
+  min-height: 450px;
   padding: 2em;
   text-align: left;
   margin-bottom: 0;
@@ -90,10 +91,22 @@ a:visited {
 .results {
   max-height: 100%;
 }
+/* QUOTE BOX */
+
+.quote-box {
+  opacity: 0;
+}
+
+.quote-box-visible {
+  opacity: 1;
+  transition: 1s;
+}
 
 .author {
   margin-left: 50px;
 }
+
+/* USER INFO */
 
 .user-photo {
   max-height: 3em; 
