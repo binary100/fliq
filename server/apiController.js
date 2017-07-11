@@ -1,5 +1,5 @@
 const axios = require('axios');
-const Movie = require('../database/models/movies.js');
+const db = require('../database/dbSetup.js');
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
 const quoteUrl = 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"';
@@ -13,7 +13,7 @@ module.exports.getTwoMovies = (req, res) => {
 
   // Movie IDs from table MUST remain sequential
   // in the form this is currently coded
-  Movie.count()
+  db.movies.count()
     .then((maxMovieCount) => {
       firstMovieId = Math.ceil(Math.random() * maxMovieCount);
       do {
@@ -25,7 +25,7 @@ module.exports.getTwoMovies = (req, res) => {
     .then(idArray =>
       idArray.map(id =>
         new Promise((resolve, reject) =>
-          Movie.find({ where: { id } })
+          db.movies.find({ where: { id } })
             .then(foundMovie => resolve(foundMovie))
             .catch(error => reject(error))
         )
@@ -48,7 +48,7 @@ module.exports.getUserResults = (req, res) => {
   // console.log('USER IS: ', user);
 
   // Placeholder logic, selects five random movies.
-  Movie.count()
+  db.movies.count()
     .then((maxMovieCount) => {
       const moviesToGrab = [];
 
@@ -65,7 +65,7 @@ module.exports.getUserResults = (req, res) => {
         });
       }
       console.log('Calling Movie.findAll with: ', ...moviesToGrab);
-      Movie.findAll({
+      db.movies.findAll({
         where: {
           $or: [...moviesToGrab]
         }
