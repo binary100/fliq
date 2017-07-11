@@ -15,27 +15,27 @@ const Header = props => (
               <Link className="link header-link results" to="/results">
                 <button type="button" className="btn btn-default">Results</button>
               </Link>
-              <Link className="link header-link results" to="/" onClick={props.handleLogout} >
-                Logout
+              <Link className="link header-link results" to="/">
+                <button
+                  type="button"
+                  className="btn btn-default"
+                  onClick={props.handleLogout}>Logout
+                </button>
               </Link>
             </span>
           </li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
         </ul>
-        <span className="user-info">
-          <img
-            className="img-circle user-photo pull-right"
-            src={props.user ? props.user.picture : ''}
-           alt={props.user ? props.user.name : '' }
-          />
-          <span className="pull-right">
-            {props.user ? props.user.name : ''}
-          </span>
-        </span>
       </div>
+      <span className="user-info pull-right">
+        <img
+          className="img-circle user-photo"
+          src={props.user ? props.user.picture : ''}
+         alt={props.user ? props.user.name : '' }
+        />
+        <span className="pull-right">
+          {props.user ? props.user.name : ''}
+        </span>
+      </span>
     </div>
   </nav>
 );
