@@ -6,7 +6,7 @@ import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
-import { loginUser } from '../actions/actions.js';
+import { loginUser, logoutUser } from '../actions/actions.js';
 
 
 class App extends React.Component {
@@ -21,6 +21,11 @@ class App extends React.Component {
         }
       })
       .catch(err => console.error('Login failed: ', err));
+      this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    axios.get('/logout').then(() => this.props.logoutUser());
   }
 
   render() {
@@ -29,7 +34,7 @@ class App extends React.Component {
       <div>
         <Router history={browserHistory}>
           <div>
-            <Header user={this.props.auth.user}/>
+            <Header user={this.props.auth.user} handleLogout={this.handleLogout} />
             <div>
               <Switch>
                 <Route exact path="/" component={Welcome} />
@@ -75,7 +80,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: (user) => { dispatch(loginUser(user)); }
+  loginUser: (user) => { dispatch(loginUser(user)); },
+  logoutUser: () => { dispatch(logoutUser()); }
 });
 
 export default connect(

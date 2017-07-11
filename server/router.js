@@ -29,7 +29,7 @@ router.get('/account', (req, res) => {
 router.get('/logout', (req, res) => {
   // Session.destroy({ where: { sid: req.sessionID } });
   req.logout();
-  res.redirect('/');
+  res.end();
 });
 
 module.exports = router;

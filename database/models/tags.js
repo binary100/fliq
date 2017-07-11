@@ -21,4 +21,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return Tag;
 };
-// module.exports = Tag;
