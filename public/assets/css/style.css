@@ -58,6 +58,11 @@ a:visited {
   max-width: auto;
 }
 
+.poster-small {
+  max-height: 180px;
+  max-width: auto;
+}
+
 .oauth-button {
   width: 200px;
   height: auto;
@@ -68,13 +73,18 @@ a:visited {
   bottom: 0;
   position: absolute;
   min-height: 220px;
-  padding: 10px;
+  padding: 0 25px;
 }
 
 .small-movie-tile {
-  margin-left: 15px;
+  /*margin-left: 15px;*/
+  padding: 10px;
   max-height: 200px;
   overflow: auto;
+}
+
+.small-movie-tile:hover {
+  background: #3f3f3f;
 }
 
 .results {

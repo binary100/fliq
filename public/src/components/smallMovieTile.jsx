@@ -5,8 +5,8 @@ const ResultsSmallTile = ({ movie, handleTileClick }) => (
     className="col-sm-2 small-movie-tile"
     onClick={(e, evt) => handleTileClick(e, evt, movie)}
   >
-    <p>{movie.title}</p>
-    <img className="poster" src={movie.poster} alt="Poster" />
+    <p>{movie.title} ({movie.year})</p>
+    <img className="poster-small" src={movie.poster} alt="Poster" />
   </div>
 );
 
