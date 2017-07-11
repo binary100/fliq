@@ -31,14 +31,16 @@ class Welcome extends React.Component {
     return (
       <div>
         <div className="jumbotron welcome">
-          <h1>{welcomeHeader}</h1>
-          <h4>{subHeader}</h4>
-          <p>{intro}</p>
+          <div >
+            <h1>{welcomeHeader}</h1>
+            <h4>{subHeader}</h4>
+            <p>{intro}</p>
+          </div>
           <span>
-            <Link className="link start-lightning" to="/lightning">
-              <h3>
-                Start picking movies
-              </h3>
+            <Link to="/lightning">
+              <button className="btn btn-lg btn-primary">
+                Start Picking Movies
+              </button>
             </Link>
           </span>
           <div className="welcome-footer">
