@@ -6,14 +6,23 @@ class Quote extends React.Component {
     super(props);
     this.state = {
       quote: null,
-      author: null
+      author: null,
+      intervalId: null
     };
   }
 
   componentWillMount() {
+    this.getQuote();
+    this.createQuoteInterval();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
+  }
+
+  getQuote() {
     axios.get('/api/quote')
       .then((results) => {
-        console.log
         this.setState({
           quote: results.data.quote,
           author: results.data.author
@@ -22,10 +31,21 @@ class Quote extends React.Component {
       .catch(err => console.err('Error getting quote: ', err));
   }
 
+  createQuoteInterval() {
+    const intervalId = setInterval(() => {
+      this.setState({
+        quote: null,
+        author: null
+      });
+      this.getQuote();
+    }, 5000);
+    this.setState({ intervalId });
+  }
+
   render() {
     return (
       <div>
-        <div className={this.state.quote ? 'quote-box quote-box-visible' : 'quote-box' }>
+        <div className={this.state.quote ? 'quote-box-visible' : 'quote-box-invisible' }>
           <div className="quote">
             <h3>{this.state.quote ? `"${this.state.quote}"` : ''}</h3>
           </div>

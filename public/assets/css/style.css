@@ -91,9 +91,9 @@ a:visited {
 .results {
   max-height: 100%;
 }
-/* QUOTE BOX */
+/************* QUOTE BOX **************/
 
-.quote-box {
+.quote-box-invisible {
   opacity: 0;
 }
 
