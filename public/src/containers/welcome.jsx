@@ -13,9 +13,11 @@ const intro =
   something interesting to watch. Log in, then click below to start 
   the lightning round phase, which will teach FlickPick's neural network
   about what you like.`;
-const nameArray = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
+const nameArray = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
   'F', 'L', 'I', 'Q'
 ];
+const intervals = [];
+const targetTitle = 'FLIQ';
 
 class Welcome extends React.Component {
   constructor(props) {
@@ -28,8 +30,46 @@ class Welcome extends React.Component {
   }
 
   componentDidMount() {
+
     // this.animateTitle();
-    this.animateTitleTwo();
+    // this.animateTitleTwo();
+    this.animateTitleThree();
+  }
+
+  animateTitleThree() {
+    let title = this.state.title;
+    title.split('').forEach((letter, index) => {
+      let remaining = 20;
+      const delay = Math.random() * 200;
+      const intervalId = setInterval(() => {
+        let digit = '' + Math.round(Math.random());
+        title = title.split('');
+        title[index] = digit;
+        title = title.join('');
+        this.setState({ title });
+        remaining -= 1;
+        if (remaining === 0) {
+          intervals.forEach((id) => clearInterval(id));
+          this.concludeAnimation();
+        }
+      }, 75);
+      intervals.push(intervalId);
+    });
+  }
+
+  concludeAnimation() {
+    let title = this.state.title.split('');
+    let remaining = title.length;
+    let i = 0;
+    const intervalId = setInterval(() => {
+      title[i] = targetTitle[i];
+      this.setState({ title });
+      i += 1;
+      if (i === title.length) {
+        clearInterval(intervalId);
+        this.setState({ titleClass: 'flick-iq' });
+      }
+    }, 100);
   }
 
   animateTitleTwo() {
@@ -38,9 +78,7 @@ class Welcome extends React.Component {
       let remaining = 20;
       const delay = Math.random() * 200;
       const intervalId = setInterval(() => {
-
         let digit = '' + Math.round(Math.random());
-        console.log('Digit is: ', digit);
         title = title.split('');
         title[index] = digit;
         title = title.join('');
@@ -48,9 +86,7 @@ class Welcome extends React.Component {
         remaining -= 1;
         if (remaining === 0) {
           let finalTitle = this.state.title;
-          console.log(finalTitle);
           finalTitle = finalTitle.split('');
-          console.log('Letter is', letter);
           finalTitle[index] = letter;
           finalTitle.join('');
           this.setState({
@@ -64,12 +100,11 @@ class Welcome extends React.Component {
   }
 
   animateTitle() {
-    const delay = 60;
+    const delay = 90;
     let i = 0;
     let next = '';
     const intervalId = setInterval(() => {
       next = nameArray[i + 4];
-      console.log('Next is: ', next);
       this.setState({
         title: nameArray.slice(i, i + 4).join('')
       });
