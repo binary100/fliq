@@ -20,7 +20,19 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+<<<<<<< HEAD
 
+||||||| merged common ancestors
+=======
+// // VAR for Server.js Calls
+// const User = db.users;
+// const Movie = db.movies;
+// const Tag = db.tags;
+// const MovieTag = db.movieTags;
+// const UserTag = db.userTags;
+// const UserMovie = db.userMovies;
+
+>>>>>>> rebasing after merge, dbsetup
 // MODELS
 db.users = require('./models/users.js')(sequelize, Sequelize);
 db.movies = require('./models/movies.js')(sequelize, Sequelize);

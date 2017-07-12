@@ -4,9 +4,11 @@ const db = require('../database/dbSetup.js');
 <<<<<<< HEAD
 <<<<<<< HEAD
 
+
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
 const theMovieDbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=`;
 const theMovieDbPosterUrl = `http://image.tmdb.org/t/p/w185`;
+<<<<<<< HEAD
 ||||||| merged common ancestors
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
@@ -36,6 +38,10 @@ const db = require('../database/dbsetup.js');
 =======
 >>>>>>> feat($launchpad): created launchpad demo
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
+>>>>>>> rebasing after merge, dbsetup
+||||||| merged common ancestors
+=======
+
 >>>>>>> rebasing after merge, dbsetup
 const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
 const regex = /[^a-zA-Z0-9]+/g;
@@ -226,6 +232,7 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
     "release_date": "1980-05-17"
 }
 */
+<<<<<<< HEAD
 ||||||| merged common ancestors
 =======
 
@@ -450,3 +457,11 @@ const clickUserTags = (tag, movieData) => {
 =======
 // information page component that inserts a count
 >>>>>>> feat($launchpad): created launchpad demo
+||||||| merged common ancestors
+=======
+||||||| merged common ancestors
+=======
+
+// information page component that inserts a count 
+
+>>>>>>> rebasing after merge, dbsetup
