@@ -6,7 +6,7 @@ import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
-import Teach from './teach.jsx'
+import Search from './search.jsx'
 import { loginUser, logoutUser } from '../actions/actions.js';
 
 
@@ -42,7 +42,7 @@ class App extends React.Component {
                 <Route exact path="/" component={Welcome} />
                 <Route path="/results" component={Results} />
                 <Route path="/lightning" component={LightningWrapper} />
-                <Route path="/teach" component={Teach} />
+                <Route path="/search" component={Search} />
               </Switch>
             </div>
           </div>
