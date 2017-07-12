@@ -48,6 +48,7 @@ class LightningWrapper extends React.Component {
       });
   }
 
+<<<<<<< HEAD
   // postMovieData() {
   //   // Posts tags
   //   return axios.post('/api/tags')
@@ -56,6 +57,17 @@ class LightningWrapper extends React.Component {
   //     });
   // }
 
+||||||| merged common ancestors
+=======
+  postMovieData() {
+    // Posts tags
+    return axios.post('/api/tags')
+      .then((tag) => {
+        console.log(tag)
+      });
+  }
+
+>>>>>>> unstaged unused/dummy data  work for dbsetup, lighteningwrapper, apicontroller
   startTimer() {
     const intervalId = setInterval(function () {
       if (this.state.timer > 0) {
