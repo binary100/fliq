@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputGroup, DropdownButton, MenuItem, FormControl, FormGroup } from 'react-bootstrap';
+import { InputGroup, DropdownButton, Button, MenuItem, FormControl, FormGroup } from 'react-bootstrap';
 
 class Teach extends React.Component {
   constructor(props) {
@@ -37,6 +37,9 @@ class Teach extends React.Component {
                           </DropdownButton>
                         </InputGroup.Button>
                         <FormControl type="text" />
+                        <InputGroup.Button>
+                          <Button>Go</Button>
+                        </InputGroup.Button>
                       </InputGroup>
                     </FormGroup>
 
