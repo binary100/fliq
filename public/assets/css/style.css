@@ -32,6 +32,10 @@ a:hover {
   margin-top: 2em;
 }
 
+.welcome-title {
+  font-family: 'Open Sans';
+}
+
 .flick-iq {
   animation: anim 1s 1 ease-out;
   color: blue;

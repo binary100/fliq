@@ -34,12 +34,9 @@ class Welcome extends React.Component {
 
   animateTitleTwo() {
     let title = this.state.title;
-    console.log(typeof title);
-    // title.split('').forEach((letter, index) => {
-      const letter = 'L';
-      const index = 1;
-      let remaining = 10;
-      const delay = Math.random() * 100;
+    title.split('').forEach((letter, index) => {
+      let remaining = 20;
+      const delay = Math.random() * 200;
       const intervalId = setInterval(() => {
 
         let digit = '' + Math.round(Math.random());
@@ -57,12 +54,13 @@ class Welcome extends React.Component {
           finalTitle[index] = letter;
           finalTitle.join('');
           this.setState({
-            title: finalTitle
+            title: 'FLIQ',
+            titleClass: 'flick-iq'
           });
           clearInterval(intervalId);
         }
-      }, 500);
-    // });
+      }, 75);
+    });
   }
 
   animateTitle() {
@@ -97,7 +95,7 @@ class Welcome extends React.Component {
           <div className="col-sm-12">
             <div className="jumbotron welcome">
               <div >
-                <h1>
+                <h1 className="welcome-title">
                   <span>{welcomeHeader}</span>
                   <span>{this.state.title.slice(0,2)}</span>
                   <span className={this.state.titleClass}>{this.state.title.slice(2)}</span>
