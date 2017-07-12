@@ -32,6 +32,16 @@ a:hover {
   margin-top: 2em;
 }
 
+.flick-iq {
+  animation: anim 1s 1 ease-out;
+  color: blue;
+}
+
+@keyframes anim {
+    from {color: white;}
+    to {color: blue;}
+}
+
 /************* LIGHTNING PAGE **************/
 
 .timer-counter {

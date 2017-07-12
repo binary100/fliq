@@ -5,18 +5,48 @@ import { Link } from 'react-router-dom';
 import LoginSplash from '../components/loginSplash.jsx';
 import Quote from './quote.jsx';
 
-const welcomeHeader = 'Welcome to FlickPick';
+const welcomeHeader = 'Welcome to ';
 const subHeader = 'A learning movie recommendation system';
 const intro =
   `Our machine learning algorithm will get to know
   what kinds of movies you like and ensure that you will always have
   something interesting to watch. Log in, then click below to start 
   the lightning round phase, which will teach FlickPick's neural network
-  about you.`;
+  about what you like.`;
+const nameArray = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
+  'F', 'L', 'I', 'Q'
+];
 
 class Welcome extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      intervals: [],
+      title: '',
+      titleClass: ''
+    };
+  }
+
+  componentDidMount() {
+    this.animateTitle();
+  }
+
+  animateTitle() {
+    const delay = 60;
+    let i = 0;
+    let next = '';
+    const intervalId = setInterval(() => {
+      next = nameArray[i + 4];
+      console.log('Next is: ', next);
+      this.setState({
+        title: nameArray.slice(i, i + 4).join('')
+      });
+      i += 1;
+      if (next === undefined) {
+        this.setState({ titleClass: 'flick-iq' });
+        return clearInterval(intervalId);
+      }
+    }, delay);
   }
 
   render() {
@@ -33,7 +63,11 @@ class Welcome extends React.Component {
           <div className="col-sm-12">
             <div className="jumbotron welcome">
               <div >
-                <h1>{welcomeHeader}</h1>
+                <h1>
+                  <span>{welcomeHeader}</span>
+                  <span>{this.state.title.slice(0,2)}</span>
+                  <span className={this.state.titleClass}>{this.state.title.slice(2)}</span>
+                </h1>
                 <h4>{subHeader}</h4>
                 <p>{intro}</p>
               </div>
