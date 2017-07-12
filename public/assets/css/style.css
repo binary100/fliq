@@ -127,8 +127,13 @@ a:hover {
   color: white;
 }
 
-.small-tile-button:hover {
+.small-tile-button:hover,
+.small-tile-button:focus,
+.small-tile-button:active {
   background: #2275ad;
+  color: white;
+  border: 0px;
+  outline: transparent;
 }
 
 /************* QUOTE BOX **************/

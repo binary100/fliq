@@ -1,14 +1,13 @@
 import React from 'react';
-import ResultsTileBar from './ResultsTileBar.jsx';
 import SmallMovieTile from './smallMovieTile.jsx';
 
 const SearchResultsTable = ({ movies }) => {
+  let count = 0;
   const mapped = (
     <div>
-      {movies.map((movie) => <SmallMovieTile movie={movie} />)}
+      {movies.map(movie => <SmallMovieTile key={count += 1} movie={movie} />)}
     </div>
   );
-
 
   return (
     <div>

@@ -1,5 +1,8 @@
 import React from 'react';
+import LikeButton from './likeButton.jsx';
+import SeenButton from './seenButton.jsx';
 import { Button } from 'react-bootstrap';
+
 
 const SmallMovieTile = ({ movie, selectSmallTile }) => (
   <div
@@ -12,10 +15,10 @@ const SmallMovieTile = ({ movie, selectSmallTile }) => (
       <img className="poster-small col-sm-6" src={movie.poster} alt="Poster" />
       <span className="col-sm-6">
       <div className="row">
-        <Button className="col-sm-10 small-tile-button">Like It</Button>
+        <LikeButton />
       </div>
       <div className="row">
-        <Button className="col-sm-10 small-tile-button">Seen It</Button>
+        <SeenButton />
       </div>
       </span>
     </div>

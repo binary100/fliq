@@ -14,26 +14,7 @@ class Search extends React.Component {
       options: [],
       searchResults: []
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleDropDownSelect = this.handleDropDownSelect.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-  }
-
-  handleInputChange(e) {
-    console.log('Entering input change');
-    console.log(e.target.value);
-    this.setState({
-      inputText: e.target.value
-    });
-    axios.get('/api/autocomplete')
-      .then((results) => {
-        console.log('Autocomplete: ', results);
-      })
-      .catch(err => console.error('Error in autocomplete', err));
-  }
-
-  handleDropDownSelect(searchType) {
-    this.setState({ searchType });
   }
 
   handleSearch(query) {
@@ -80,7 +61,7 @@ class Search extends React.Component {
                         <AsyncTypeahead
                           options={this.state.options}
                           onSearch={this.handleSearch}
-                          placeHolder="Type in a movie you love"
+                          placeholder="Type in a movie you love"
                           renderMenuItemChildren={this.renderMenuItemChildren}
                         />
                         <InputGroup.Button>
