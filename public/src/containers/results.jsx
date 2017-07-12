@@ -24,7 +24,7 @@ class Results extends React.Component {
     };
 
     this.getUserMovies();
-    this.handleTileClick = this.handleTileClick.bind(this);
+    this.selectSmallTile = this.selectSmallTile.bind(this);
   }
 
   getUserMovies() {
@@ -39,7 +39,7 @@ class Results extends React.Component {
       .catch(err => console.error('Error retrieving movies: ', err));
   }
 
-  handleTileClick(e, evt, movie) {
+  selectSmallTile(e, evt, movie) {
     this.loadTrailer(movie);
     this.setState({
       selectedMovie: movie
@@ -67,7 +67,7 @@ class Results extends React.Component {
         <div className="row">
           <ResultsTileBar
             movies={this.state.tileMovies}
-            handleTileClick={this.handleTileClick}
+            selectSmallTile={this.selectSmallTile}
           />
         </div>
       </div>

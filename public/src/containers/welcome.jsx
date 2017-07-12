@@ -35,6 +35,10 @@ class Welcome extends React.Component {
     this.animateTitleThree();
   }
 
+  componentWillUnmount() {
+    intervals.forEach((id) => clearInterval(id));
+  }
+
   animateTitleThree() {
     let title = this.state.title;
     title.split('').forEach((letter, index) => {

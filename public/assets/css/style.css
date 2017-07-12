@@ -5,6 +5,7 @@ body, html {
   font-family: 'Montserrat', sans-serif;
   color: white;
   background-color: #333333;
+  height: 100vh;
 }
 
 a:link {
@@ -26,6 +27,7 @@ a:hover {
 .welcome {
   min-height: 450px;
   text-align: left;
+  background: #444444;
 }
 
 .welcome-footer {
@@ -38,12 +40,12 @@ a:hover {
 
 .flick-iq {
   animation: anim 1s 1 ease-out;
-  color: blue;
+  color: #2ecc71;
 }
 
 @keyframes anim {
     from {color: white;}
-    to {color: blue;}
+    to {color: #2ecc71;}
 }
 
 /************* LIGHTNING PAGE **************/
@@ -88,11 +90,7 @@ a:hover {
 /************* NAVBAR **************/
 
 .header {
-  overflow: auto;
-  padding: 0.5em 1em;
-  color: white;
-  background: linear-gradient(to bottom, #606060 , #444444);
-  border: 1px solid black;
+  /*background: linear-gradient(to bottom, #606060 , #444444);*/
 }
 
 .header-icon {
@@ -120,6 +118,23 @@ a:hover {
   height: auto;
 }*/
 
+/************* SEARCH PAGE **************/
+
+.small-tile-button {
+  margin: 1em 0;
+  background: #2980B9;
+  border: 0px;
+  color: white;
+}
+
+.small-tile-button:hover,
+.small-tile-button:focus,
+.small-tile-button:active {
+  background: #2275ad;
+  color: white;
+  border: 0px;
+  outline: transparent;
+}
 
 /************* QUOTE BOX **************/
 
