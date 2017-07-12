@@ -13,7 +13,7 @@ class Quote extends React.Component {
 
   componentWillMount() {
     this.getQuote();
-    this.createQuoteInterval();
+    // this.createQuoteInterval();
   }
 
   componentWillUnmount() {
