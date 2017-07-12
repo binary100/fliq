@@ -1,13 +1,19 @@
 const axios = require('axios');
 const db = require('../database/dbSetup.js');
+<<<<<<< HEAD
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
 const theMovieDbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=`;
 const theMovieDbPosterUrl = `http://image.tmdb.org/t/p/w185`;
+||||||| merged common ancestors
+
+const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
+=======
+const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
+>>>>>>> rebasing after merge, dbsetup
 const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
 const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
-
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -118,8 +124,9 @@ module.exports.getTrailer = (req, res) => {
   const url = getYouTubeUrl(req.body.movie.title);
   axios.get(url)
     .then(results => res.send(results.data.items[0]))
-    .catch(err => res.sendStatus(404));
+    .catch(err => res.sendStatus(404).send(err));
 };
+<<<<<<< HEAD
 
 module.exports.getSearchAutoComplete = (req, res) => {
   const { query } = req.body;
@@ -193,3 +200,24 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
     "release_date": "1980-05-17"
 }
 */
+||||||| merged common ancestors
+=======
+
+module.exports.getMovies = (req, res) => {
+  db.movies.findAll().then((movie) => {
+    console.log('THIS IS MY CALL', movie);
+    res.send(movie);
+  })
+    .catch(err => res.status(500).send(err));
+};
+
+// module.exports.postTags = (req, res) => {
+//   db.movies
+//     .findAll()
+//     .then(movies => res.status(200).send(movies))
+//     .catch(err => res.status(500).send(err));
+// };
+
+
+// information page component that inserts a count 
+>>>>>>> rebasing after merge, dbsetup
