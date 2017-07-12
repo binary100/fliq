@@ -20,8 +20,8 @@ const Header = ({ handleLogout, user }) => (
             </Link>
           </li>
           <li>
-            <Link to="/teach">
-              Teach
+            <Link to="/search">
+              Search
             </Link>
           </li>
           <li>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import SearchResultsTable from '../components/searchResultsTable.jsx';
 
-class Teach extends React.Component {
+class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -100,7 +100,7 @@ class Teach extends React.Component {
   }
 }
 
-export default Teach;
+export default Search;
 
 
 /*
