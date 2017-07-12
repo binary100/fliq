@@ -118,6 +118,18 @@ a:hover {
   height: auto;
 }*/
 
+/************* SEARCH PAGE **************/
+
+.small-tile-button {
+  margin: 1em 0;
+  background: #2980B9;
+  border: 0px;
+  color: white;
+}
+
+.small-tile-button:hover {
+  background: #2275ad;
+}
 
 /************* QUOTE BOX **************/
 
