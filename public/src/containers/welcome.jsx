@@ -30,7 +30,6 @@ class Welcome extends React.Component {
   }
 
   componentDidMount() {
-
     // this.animateTitle();
     // this.animateTitleTwo();
     this.animateTitleThree();
@@ -39,7 +38,7 @@ class Welcome extends React.Component {
   animateTitleThree() {
     let title = this.state.title;
     title.split('').forEach((letter, index) => {
-      let remaining = 20;
+      let remaining = 15;
       const delay = Math.random() * 200;
       const intervalId = setInterval(() => {
         let digit = '' + Math.round(Math.random());
@@ -52,7 +51,7 @@ class Welcome extends React.Component {
           intervals.forEach((id) => clearInterval(id));
           this.concludeAnimation();
         }
-      }, 75);
+      }, 100);
       intervals.push(intervalId);
     });
   }
