@@ -162,7 +162,7 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
   const searchUrl = theMovieDbUrl + movieName;
   console.log(searchUrl);
   axios.post(searchUrl)
-    .then(results => res.send(results.data))
+    .then(results => res.send(results.data.results))
     .catch(err => res.status(500).send(err));
 };
 

@@ -8,7 +8,7 @@ router.get('/api/results', apiController.getUserResults);
 router.get('/api/quote', apiController.getQuote);
 router.post('/api/trailer', apiController.getTrailer);
 router.post('/api/search', apiController.handleMovieSearchOMDB);
-router.poster('/api/autocomplete', apiController.getSearchAutoComplete);
+router.post('/api/autocomplete', apiController.getSearchAutoComplete);
 
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { InputGroup, DropdownButton, Button, MenuItem, FormControl, FormGroup } from 'react-bootstrap';
+import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
 class Teach extends React.Component {
@@ -7,6 +8,9 @@ class Teach extends React.Component {
     super(props);
     this.state = {
       inputText: '',
+      allowNew: false,
+      multiple: false,
+      options: [],
       searchResults: []
     };
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -15,23 +19,45 @@ class Teach extends React.Component {
   }
 
   handleInputChange(e) {
+    console.log('Entering input change');
     console.log(e.target.value);
     this.setState({
       inputText: e.target.value
     });
-    //axios.get
+    axios.get('/api/autocomplete')
+      .then((results) => {
+        console.log('Autocomplete: ', results);
+      })
+      .catch(err => console.error('Error in autocomplete', err));
   }
 
   handleDropDownSelect(searchType) {
     this.setState({ searchType });
   }
 
-  handleSearch() {
-    axios.post('/api/superlike', {
-      movieName: this.state.inputText
+  handleSearch(query) {
+    axios.post('/api/search', {
+      movieName: query
     })
-      .then(results => this.setState({ searchResults: results.data }))
+      .then(results => {
+        console.log('Received: ', results.data);
+        const autoCompleteStrings =
+          results.data.map(movie =>
+            `${movie.title} (${movie.release_date.slice(0, 4)})`
+          );
+        this.setState({
+          searchResults: results.data,
+          options: autoCompleteStrings
+        });
+      })
       .catch(err => console.error('Error with superlike:', err));
+  }
+
+  renderMenuItemChildren(option, props, index) {
+    console.log('Rendering child: ', option);
+    return (
+      <span>{option}</span>
+    );
   }
 
   render() {
@@ -50,8 +76,10 @@ class Teach extends React.Component {
                           Movie name
                         </InputGroup.Addon>
                         <AsyncTypeahead
-                          onChange={this.handleInputChange}
+                          options={this.state.options}
+                          onSearch={this.handleSearch}
                           placeHolder="Type in a movie you love"
+                          renderMenuItemChildren={this.renderMenuItemChildren}
                          />
                         <InputGroup.Button>
                           <Button onClick={this.handleSearch}>Go</Button>
