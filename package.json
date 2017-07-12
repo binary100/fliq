@@ -28,6 +28,7 @@
     "passport-google-oauth20": "^1.0.0",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.0",
+    "react-bootstrap-typeahead": "^1.4.1",
     "react-dom": "^15.6.0",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",

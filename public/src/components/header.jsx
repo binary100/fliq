@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = ({ handleLogout, user }) => (
-  <nav className="navbar navbar-inverse ">
+  <nav className="navbar navbar-inverse header">
     <div className="container-fluid">
       <div className="navbar-header">
         <ul className="nav navbar-nav">
