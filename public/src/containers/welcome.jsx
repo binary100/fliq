@@ -22,13 +22,47 @@ class Welcome extends React.Component {
     super(props);
     this.state = {
       intervals: [],
-      title: '',
+      title: 'FLIQ',
       titleClass: ''
     };
   }
 
   componentDidMount() {
-    this.animateTitle();
+    // this.animateTitle();
+    this.animateTitleTwo();
+  }
+
+  animateTitleTwo() {
+    let title = this.state.title;
+    console.log(typeof title);
+    // title.split('').forEach((letter, index) => {
+      const letter = 'L';
+      const index = 1;
+      let remaining = 10;
+      const delay = Math.random() * 100;
+      const intervalId = setInterval(() => {
+
+        let digit = '' + Math.round(Math.random());
+        console.log('Digit is: ', digit);
+        title = title.split('');
+        title[index] = digit;
+        title = title.join('');
+        this.setState({ title });
+        remaining -= 1;
+        if (remaining === 0) {
+          let finalTitle = this.state.title;
+          console.log(finalTitle);
+          finalTitle = finalTitle.split('');
+          console.log('Letter is', letter);
+          finalTitle[index] = letter;
+          finalTitle.join('');
+          this.setState({
+            title: finalTitle
+          });
+          clearInterval(intervalId);
+        }
+      }, 500);
+    // });
   }
 
   animateTitle() {
