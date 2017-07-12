@@ -5,6 +5,7 @@ body, html {
   font-family: 'Montserrat', sans-serif;
   color: white;
   background-color: #333333;
+  height: 100vh;
 }
 
 a:link {

@@ -3,13 +3,13 @@ import SmallMovieTile from './smallMovieTile.jsx';
 
 let count = 0;
 
-const ResultsTileBar = ({ movies, handleTileClick }) => (
+const ResultsTileBar = ({ movies, selectSmallTile }) => (
   <div className="col-sm-12 results-tile-bar">
     {movies.map(movie => (
       <SmallMovieTile
         key={count += 1}
         movie={movie}
-        handleTileClick={handleTileClick}
+        selectSmallTile={selectSmallTile}
       />
     ))}
   </div>

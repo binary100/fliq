@@ -3,7 +3,12 @@ import ResultsTileBar from './ResultsTileBar.jsx';
 import SmallMovieTile from './smallMovieTile.jsx';
 
 const SearchResultsTable = ({ movies }) => {
-  const mapped = movies.map((movie) => <SmallMovieTile movie={movie} />);
+  const mapped = (
+    <div>
+      {movies.map((movie) => <SmallMovieTile movie={movie} />)}
+    </div>
+  );
+
 
   return (
     <div>

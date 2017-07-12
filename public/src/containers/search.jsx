@@ -69,7 +69,7 @@ class Search extends React.Component {
           </h3>
         </div>
           <div className="row">
-            <div className="col-sm-10">
+            <div className="col-sm-12">
               <div className="row">
                 <div>
                     <FormGroup>
@@ -93,7 +93,9 @@ class Search extends React.Component {
             </div>
           </div>
         <div className="row">
-          <SearchResultsTable movies={this.state.searchResults} />
+          <div>
+            <SearchResultsTable movies={this.state.searchResults} />
+          </div>
         </div>
       </div>
     );
