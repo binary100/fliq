@@ -13,14 +13,12 @@ import { loginUser, logoutUser } from '../actions/actions.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    console.log('In App ctor, props: ', props);
     this.handleLogout = this.handleLogout.bind(this);
   }
 
   componentWillMount() {
     axios.get('/account')
       .then((results) => {
-        console.log('Received user data: ', results.data.user);
         if (results.data.user) {
           this.props.loginUser(results.data.user);
         }

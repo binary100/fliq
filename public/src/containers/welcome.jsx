@@ -17,12 +17,9 @@ const intro =
 class Welcome extends React.Component {
   constructor(props) {
     super(props);
-    console.log('In Welcome, props is: ', props);
   }
 
   render() {
-    console.log('In Welcome renderer, props is:, ', this.props);
-
     // Can the props passed to LoginSplash be accessed by connect
     // in that component instead? Which is better?
 
@@ -31,22 +28,26 @@ class Welcome extends React.Component {
       : <LoginSplash />;
 
     return (
-      <div>
-        <div className="jumbotron welcome">
-          <div >
-            <h1>{welcomeHeader}</h1>
-            <h4>{subHeader}</h4>
-            <p>{intro}</p>
-          </div>
-          <span>
-            <Link to="/lightning">
-              <button className="btn btn-lg btn-primary">
-                Start Picking Movies
-              </button>
-            </Link>
-          </span>
-          <div className="welcome-footer">
-            {footer}
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="jumbotron welcome">
+              <div >
+                <h1>{welcomeHeader}</h1>
+                <h4>{subHeader}</h4>
+                <p>{intro}</p>
+              </div>
+              <span>
+                <Link to="/lightning">
+                  <button className="btn btn-lg btn-primary">
+                    Start Picking Movies
+                  </button>
+                </Link>
+              </span>
+              <div className="welcome-footer">
+                {footer}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -7,8 +7,16 @@ class Teach extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>Teach Page</h3>
+      <div className="container">
+        <div className="row">
+          Tell FlickPick what kinds of movies interest you
+        </div>
+        <div className="row">
+
+        </div>
+        <div className="row">
+
+        </div>
       </div>
     );
   }
