@@ -1,7 +1,8 @@
 import React from 'react';
-import { InputGroup, DropdownButton, Button, MenuItem, FormControl, FormGroup } from 'react-bootstrap';
+import { InputGroup, Button, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import SearchResultsTable from '../components/searchResultsTable.jsx';
 
 class Teach extends React.Component {
   constructor(props) {
@@ -43,18 +44,17 @@ class Teach extends React.Component {
         console.log('Received: ', results.data);
         const autoCompleteStrings =
           results.data.map(movie =>
-            `${movie.title} (${movie.release_date.slice(0, 4)})`
+            `${movie.title} (${movie.year})`
           );
         this.setState({
           searchResults: results.data,
           options: autoCompleteStrings
         });
       })
-      .catch(err => console.error('Error with superlike:', err));
+      .catch(err => console.error('Error with search:', err));
   }
 
-  renderMenuItemChildren(option, props, index) {
-    console.log('Rendering child: ', option);
+  renderMenuItemChildren(option) {
     return (
       <span>{option}</span>
     );
@@ -64,7 +64,9 @@ class Teach extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          Tell FlickPick what kinds of movies interest you
+          <h3>
+            Search
+          </h3>
         </div>
           <div className="row">
             <div className="col-sm-10">
@@ -80,7 +82,7 @@ class Teach extends React.Component {
                           onSearch={this.handleSearch}
                           placeHolder="Type in a movie you love"
                           renderMenuItemChildren={this.renderMenuItemChildren}
-                         />
+                        />
                         <InputGroup.Button>
                           <Button onClick={this.handleSearch}>Go</Button>
                         </InputGroup.Button>
@@ -90,7 +92,8 @@ class Teach extends React.Component {
               </div>
             </div>
           </div>
-          <div className="row">
+        <div className="row">
+          <SearchResultsTable movies={this.state.searchResults} />
         </div>
       </div>
     );

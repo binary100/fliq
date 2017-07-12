@@ -132,7 +132,7 @@ module.exports.getSearchAutoComplete = (req, res) => {
     });
 };
 
-// Testing. Not currently used.
+
 module.exports.handleMovieSearchTMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
@@ -142,13 +142,16 @@ module.exports.handleMovieSearchTMDB = (req, res) => {
     .then(results => {
 
       // Shape the data from The Movie Database into
-      // what OMDB API used
+      // what OMDB API uses
       const movies = results.data.results.map((movie) => {
+        const posterUrl =
+          movie.poster_path ? theMovieDbPosterUrl + movie.poster_path : '';
+
         return {
           title: movie.title,
           plot: movie.overview,
           year: movie.release_date.slice(0, 4),
-          poster: theMovieDbPosterUrl + movie.poster_path
+          poster: posterUrl
         };
       });
       res.send(movies);
@@ -156,13 +159,14 @@ module.exports.handleMovieSearchTMDB = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+// Testing. Not currently used.
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
-  const searchUrl = theMovieDbUrl + movieName;
+  const searchUrl = omdbUrl + movieName;
   console.log(searchUrl);
   axios.post(searchUrl)
-    .then(results => res.send(results.data.results))
+    .then(results => res.send(results.data))
     .catch(err => res.status(500).send(err));
 };
 

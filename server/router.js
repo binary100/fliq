@@ -7,7 +7,7 @@ router.post('/api/lightning', apiController.handleLightningSelection);
 router.get('/api/results', apiController.getUserResults);
 router.get('/api/quote', apiController.getQuote);
 router.post('/api/trailer', apiController.getTrailer);
-router.post('/api/search', apiController.handleMovieSearchOMDB);
+router.post('/api/search', apiController.handleMovieSearchTMDB);
 router.post('/api/autocomplete', apiController.getSearchAutoComplete);
 
 
