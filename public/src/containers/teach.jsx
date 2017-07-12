@@ -6,9 +6,8 @@ class Teach extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: 'Movies',
       inputText: '',
-      searchType: 'Movie'
+      searchResults: []
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleDropDownSelect = this.handleDropDownSelect.bind(this);
@@ -23,16 +22,16 @@ class Teach extends React.Component {
     //axios.get
   }
 
-  handleInputClick(e) {
-    //axios.post
-  }
-
   handleDropDownSelect(searchType) {
     this.setState({ searchType });
   }
 
   handleSearch() {
-
+    axios.post('/api/superlike', {
+      movieName: this.state.inputText
+    })
+      .then(results => this.setState({ searchResults: results.data }))
+      .catch(err => console.error('Error with superlike:', err));
   }
 
   render() {
@@ -47,21 +46,15 @@ class Teach extends React.Component {
                 <div>
                     <FormGroup>
                       <InputGroup>
+                        <InputGroup.Addon>
+                          Movie name
+                        </InputGroup.Addon>
+                        <AsyncTypeahead
+                          onChange={this.handleInputChange}
+                          placeHolder="Type in a movie you love"
+                         />
                         <InputGroup.Button>
-                          <DropdownButton
-                            title="Dropdown"
-                            id="bg-vertical-dropdown-1"
-                            onSelect={this.handleDropDownSelect}
-                          >
-                            <MenuItem eventKey="Movie">Movie</MenuItem>
-                            <MenuItem eventKey="Genre">Genre</MenuItem>
-                            <MenuItem eventKey="Director">Director</MenuItem>
-                            <MenuItem eventKey="Actor">Actor</MenuItem>
-                          </DropdownButton>
-                        </InputGroup.Button>
-                        <FormControl type="text" onChange={this.handleInputChange} />
-                        <InputGroup.Button>
-                          <Button>Go</Button>
+                          <Button onClick={this.handleSearch}>Go</Button>
                         </InputGroup.Button>
                       </InputGroup>
                     </FormGroup>
@@ -77,3 +70,21 @@ class Teach extends React.Component {
 }
 
 export default Teach;
+
+
+/*
+
+<InputGroup.Button>
+  <DropdownButton
+    title="Dropdown"
+    id="bg-vertical-dropdown-1"
+    onSelect={this.handleDropDownSelect}
+  >
+    <MenuItem eventKey="Movie">Movie</MenuItem>
+    <MenuItem eventKey="Genre">Genre</MenuItem>
+    <MenuItem eventKey="Director">Director</MenuItem>
+    <MenuItem eventKey="Actor">Actor</MenuItem>
+  </DropdownButton>
+</InputGroup.Button>
+
+*/
