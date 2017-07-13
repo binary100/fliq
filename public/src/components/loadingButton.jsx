@@ -5,7 +5,7 @@ const LoadingButton = ({ handleClick, buttonText}) => {
   return (
     <Button
       className="col-sm-10 small-tile-button"
-      onClick={handleClick}
+      onClick={() => handleClick()}
     >
       { buttonText }
     </Button>
