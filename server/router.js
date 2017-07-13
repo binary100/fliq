@@ -11,7 +11,7 @@ router.post('/api/trailer', apiController.getTrailer);
 router.post('/api/search', apiController.handleMovieSearchOMDB);
 router.post('/api/autocomplete', apiController.getSearchAutoComplete);
 router.post('/api/movie/like', apiController.likeMovie);
-router.post('/api/movie/saw', apiController.sawMovie);
+router.post('/api/movie/dislike', apiController.dislikeMovie);
 
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
