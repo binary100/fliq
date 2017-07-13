@@ -48,26 +48,6 @@ class LightningWrapper extends React.Component {
       });
   }
 
-<<<<<<< HEAD
-  // postMovieData() {
-  //   // Posts tags
-  //   return axios.post('/api/tags')
-  //     .then((tag) => {
-  //       console.log(tag)
-  //     });
-  // }
-
-||||||| merged common ancestors
-=======
-  postMovieData() {
-    // Posts tags
-    return axios.post('/api/tags')
-      .then((tag) => {
-        console.log(tag)
-      });
-  }
-
->>>>>>> unstaged unused/dummy data  work for dbsetup, lighteningwrapper, apicontroller
   startTimer() {
     const intervalId = setInterval(function () {
       if (this.state.timer > 0) {
@@ -120,18 +100,9 @@ class LightningWrapper extends React.Component {
     e.preventDefault();
     console.log('Click handler is ending round!');
     this.endRound();
-    axios
-      .post('/api/lightning', {
-        movie
-      })
-      .catch((err) => console.error('Error selecting movie: ', err));
-
-    axios
-      .get('/api/tags', {tag})
-      .post('/api/userTags', {
-        movie
-      })
-      // .then(console.log('clicked movie: ', movie))
+    axios.post('/api/lightning', {
+      movie
+    })
       .catch((err) => console.error('Error selecting movie: ', err));
   }
 

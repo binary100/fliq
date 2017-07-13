@@ -25,20 +25,16 @@ const Header = ({ handleLogout, user }) => (
             </Link>
           </li>
           <li>
-<<<<<<< HEAD
             <Link to="/search">
               Search
             </Link>
           </li>
           <li>
-||||||| merged common ancestors
-=======
             <Link to="/launchpad">
               LaunchPad
             </Link>
           </li>
           <li>
->>>>>>> feat($launchpad): created launchpad demo
             <Link to="/" onClick={handleLogout}>
               Logout
             </Link>

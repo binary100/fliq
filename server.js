@@ -16,8 +16,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 // EXPRESS
 const app = express();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 // MODELS
 // const User = db.users;
@@ -27,35 +25,6 @@ const app = express();
 // const UserTag = db.userTags;
 // const UserMovie = db.userMovies;
 
-||||||| merged common ancestors
-=======
-// MODELS
-const User = db.users;
-const Movie = db.movies;
-const Tag = db.tags;
-const MovieTag = db.movieTags;
-const UserTag = db.userTags;
-const UserMovie = db.userMovies;
-||||||| merged common ancestors
-// MODELS
-const User = db.users;
-const Movie = db.movies;
-const Tag = db.tags;
-const MovieTag = db.movieTags;
-const UserTag = db.userTags;
-const UserMovie = db.userMovies;
-=======
->>>>>>> unstaged unused/dummy data  work for dbsetup, lighteningwrapper, apicontroller
-
-// MODELS
-// const User = db.users;
-// const Movie = db.movies;
-// const Tag = db.tags;
-// const MovieTag = db.movieTags;
-// const UserTag = db.userTags;
-// const UserMovie = db.userMovies;
-
->>>>>>> rebasing after merge, dbsetup
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
