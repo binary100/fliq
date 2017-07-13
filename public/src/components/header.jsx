@@ -20,6 +20,11 @@ const Header = ({ handleLogout, user }) => (
             </Link>
           </li>
           <li>
+            <Link to="/dashboard">
+              Dashboard
+            </Link>
+          </li>
+          <li>
             <Link to="/" onClick={handleLogout}>
               Logout
             </Link>
@@ -96,6 +101,3 @@ export default Header;
 </button>
 
 */
-
-
-
