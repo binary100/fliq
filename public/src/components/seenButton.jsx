@@ -14,11 +14,16 @@ class SeenButton extends React.Component {
 
   handleClick(e) {
     // Handle the state with the promise returned by upper level method
-    this.setState({ text: 'Processing...'});
+    this.setState({ text: 'Processing...' });
     setTimeout(() => {
       this.setState({ text: 'Saved!' });
     }, 1500);
   }
+
+
+  // handle click and transmit
+  // receive method from higher up?
+  // use a binding to establish input?
 
   render() {
     return (
