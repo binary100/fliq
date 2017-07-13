@@ -3,25 +3,13 @@ import ResultsBody from '../components/resultsBody.jsx';
 import ResultsTileBar from '../components/resultsTileBar.jsx';
 import axios from 'axios';
 
-const movieObj = {
-  title: '',
-  plot: '',
-  poster: '',
-  year: '',
-  rated: '',
-  ratings: '',
-  genre: '',
-  director: '',
-  writer: '',
-  actors: ''
-};
 
 class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedMovie: movieObj,
-      tileMovies: [movieObj]
+      selectedMovie: null,
+      tileMovies: []
     };
 
     this.getUserMovies();
