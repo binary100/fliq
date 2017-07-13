@@ -15,13 +15,16 @@ const Header = ({ handleLogout, user }) => (
             </Link>
           </li>
           <li>
+            <Link to="/dashboard">
+              Dashboard
+            </Link>
+          </li>
+          <li>
             <Link to="/results">
               Results
             </Link>
           </li>
           <li>
-            <Link to="/dashboard">
-              Dashboard
             <Link to="/search">
               Search
             </Link>
