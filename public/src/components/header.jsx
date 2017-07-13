@@ -20,6 +20,8 @@ const Header = ({ handleLogout, user }) => (
             </Link>
           </li>
           <li>
+            <Link to="/dashboard">
+              Dashboard
             <Link to="/search">
               Search
             </Link>
@@ -101,6 +103,3 @@ export default Header;
 </button>
 
 */
-
-
-
