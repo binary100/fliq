@@ -25,10 +25,10 @@ db.users = require('./models/users.js')(sequelize, Sequelize);
 db.movies = require('./models/movies.js')(sequelize, Sequelize);
 db.tags = require('./models/tags.js')(sequelize, Sequelize);
 db.session = require('./models/session.js')(sequelize, Sequelize);
+db.userMovies = require('./models/userMovies.js')(sequelize, Sequelize);
+db.userTags = require('./models/userTags.js')(sequelize, Sequelize);
 
 db.movieTags = sequelize.define('MovieTags', {});
-db.userTags = sequelize.define('UserTags', {});
-db.userMovies = sequelize.define('UserMovies', {});
 
 // JOIN TABLES
 // movie-tag model
