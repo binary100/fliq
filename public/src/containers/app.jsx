@@ -43,6 +43,7 @@ class App extends React.Component {
                 <Route path="/results" component={Results} />
                 <Route path="/lightning" component={LightningWrapper} />
                 <Route path="/search" component={Search} />
+                <Route path="*" component={Welcome} />
               </Switch>
             </div>
           </div>
