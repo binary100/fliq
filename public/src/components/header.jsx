@@ -15,6 +15,11 @@ const Header = ({ handleLogout, user }) => (
             </Link>
           </li>
           <li>
+            <Link to="/dashboard">
+              Dashboard
+            </Link>
+          </li>
+          <li>
             <Link to="/results">
               Results
             </Link>
@@ -101,6 +106,3 @@ export default Header;
 </button>
 
 */
-
-
-
