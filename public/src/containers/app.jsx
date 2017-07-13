@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory, BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
+import { browserHistory, HashRouter as Router, Route, Switch, } from 'react-router-dom';
 import axios from 'axios';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
@@ -43,6 +43,7 @@ class App extends React.Component {
                 <Route path="/results" component={Results} />
                 <Route path="/lightning" component={LightningWrapper} />
                 <Route path="/search" component={Search} />
+                <Route path="*" component={Welcome} />
               </Switch>
             </div>
           </div>
