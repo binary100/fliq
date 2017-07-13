@@ -8,7 +8,7 @@ import Header from '../components/header.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
 import Search from './search.jsx'
 import { loginUser, logoutUser } from '../actions/actions.js';
-
+import Dashboard from './dashboard.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -42,8 +42,10 @@ class App extends React.Component {
                 <Route exact path="/" component={Welcome} />
                 <Route path="/results" component={Results} />
                 <Route path="/lightning" component={LightningWrapper} />
+                <Route path="/dashboard" component={Dashboard} />
                 <Route path="/search" component={Search} />
                 <Route path="*" component={Welcome} />
+
               </Switch>
             </div>
           </div>
