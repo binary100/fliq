@@ -118,7 +118,7 @@ a:hover {
   height: auto;
 }*/
 
-/************* SEARCH PAGE **************/
+/************* SMALL MOVIE TILES **************/
 
 .small-tile-button {
   margin: 1em 0;
@@ -134,6 +134,11 @@ a:hover {
   color: white;
   border: 0px;
   outline: transparent;
+}
+
+.small-movie-tile-title {
+  /*width: 100vw*/;
+  min-height: 2em;
 }
 
 /************* QUOTE BOX **************/
