@@ -57,6 +57,7 @@ class SmallMovieTile extends React.Component {
         console.error('Error marking as disliked: ', err);
         this.setState({ dislikeButtonClass: failed });
       });
+
   }
 
   render() {
