@@ -57,7 +57,6 @@ class SmallMovieTile extends React.Component {
         console.error('Error marking as disliked: ', err);
         this.setState({ dislikeButtonClass: failed });
       });
-
   }
 
   render() {
@@ -80,22 +79,20 @@ class SmallMovieTile extends React.Component {
             alt="Poster"
           />
         </div>
-        {this.props.showButtons &&
-          <div className="like-buttons">
-            <div className="col-sm-6">
-              <LoadingButton
-                buttonClass={this.state.likeButtonClass}
-                handleClick={this.likeMovie}
-              />
-            </div>
-            <div className="col-sm-6">
-              <LoadingButton
-                buttonClass={this.state.dislikeButtonClass}
-                handleClick={this.dislikeMovie}
-              />
-            </div>
+        <div className="like-buttons">
+          <div className="col-sm-6">
+            <LoadingButton
+              buttonClass={this.state.likeButtonClass}
+              handleClick={this.likeMovie}
+            />
           </div>
-        }
+          <div className="col-sm-6">
+            <LoadingButton
+              buttonClass={this.state.dislikeButtonClass}
+              handleClick={this.dislikeMovie}
+            />
+          </div>
+        </div>
       </div>
     );
   }
