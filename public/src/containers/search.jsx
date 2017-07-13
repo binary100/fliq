@@ -78,28 +78,28 @@ class Search extends React.Component {
           </h3>
         </div>
         <div>
+          <div>
             <div>
               <div>
-                <div>
-                    <FormGroup>
-                      <InputGroup>
-                        <InputGroup.Addon>
-                          Movie name
-                        </InputGroup.Addon>
-                        <AsyncTypeahead
-                          options={this.state.options}
-                          onSearch={this.handleSearch}
-                          placeholder="A movie you love, e.g. 'star wars'"
-                          renderMenuItemChildren={this.renderMenuItemChildren}
-                        />
-                        <InputGroup.Button>
-                          <Button onClick={this.handleSearch}>Go</Button>
-                        </InputGroup.Button>
-                      </InputGroup>
-                    </FormGroup>
-                </div>
+                  <FormGroup>
+                    <InputGroup>
+                      <InputGroup.Addon>
+                        Movie name
+                      </InputGroup.Addon>
+                      <AsyncTypeahead
+                        options={this.state.options}
+                        onSearch={this.handleSearch}
+                        placeholder="A movie you love, e.g. 'star wars'"
+                        renderMenuItemChildren={this.renderMenuItemChildren}
+                      />
+                      <InputGroup.Button>
+                        <Button onClick={this.handleSearch}>Go</Button>
+                      </InputGroup.Button>
+                    </InputGroup>
+                  </FormGroup>
               </div>
             </div>
+          </div>
         </div>
         <div>
           <SearchResultsTable
@@ -111,7 +111,6 @@ class Search extends React.Component {
       </div>
     );
   }
-  
 }
 
 export default Search;

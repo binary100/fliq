@@ -227,8 +227,6 @@ module.exports.getLargeTileData = (req, res) => {
     .catch(err => console.log('Error getting movie: ', err));
 };
 
-
-
 /*
 
 {
