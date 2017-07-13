@@ -2,6 +2,7 @@ const axios = require('axios');
 const db = require('../database/dbSetup.js');
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
+const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
 const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
 const theMovieDbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=`;
 const theMovieDbPosterUrl = `http://image.tmdb.org/t/p/w185`;
@@ -133,7 +134,23 @@ module.exports.getSearchAutoComplete = (req, res) => {
     });
 };
 
+module.exports.likeMovie = (req, res) => {
+  console.log('likeMovie received: ', req.body.movie);
+  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  axios.post(movieUrl)
+    .then((results) => {
+      console.log('likeMovie received: ', results.data);
+      res.sendStatus(200);
+    })
+    .catch(err => console.log('Error getting movie: ', err));
+}
 
+module.exports.dislikeMovie = (req, res) => {
+  console.log('dislikeMovie received: ', req.body.movie);
+  res.sendStatus(200);
+}
+
+// Testing. Not currently used.
 module.exports.handleMovieSearchTMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
@@ -160,15 +177,6 @@ module.exports.handleMovieSearchTMDB = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
-module.exports.likeMovie = (req, res) => {
-  res.sendStatus(200);
-}
-
-module.exports.sawMovie = (req, res) => {
-  res.sendStatus(200);
-}
-
-// Testing. Not currently used.
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');

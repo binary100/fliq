@@ -2,54 +2,60 @@ import React from 'react';
 import LoadingButton from './loadingButton.jsx';
 import axios from 'axios';
 
+const thumbsUp = 'glyphicon glyphicon-thumbs-up';
+const thumbsDown = 'glyphicon glyphicon-thumbs-down';
+const complete = 'glyphicon glyphicon-ok';
+const inProcess = 'glyphicon glyphicon-refresh';
+const failed ='glyphicon glyphicon-remove';
+
 class SmallMovieTile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      likeButtonText: 'Like',
-      sawButtonText: 'Viewed',
+      likeButtonClass: thumbsUp,
+      dislikeButtonClass: thumbsDown,
       canClickLike: true,
-      canClickSaw: true
+      canClickDislike: true
     };
     this.likeMovie = this.likeMovie.bind(this);
-    this.sawMovie = this.sawMovie.bind(this);
+    this.dislikeMovie = this.dislikeMovie.bind(this);
   }
 
   likeMovie() {
     if (!this.state.canClickLike) return;
     this.setState({
-      likeButtonText: 'Processing...',
+      likeButtonClass: inProcess,
       canClickLike: false
     });
     axios.post('/api/movie/like', {
       movie: this.props.movie
     })
       .then(() => {
-        this.setState({ likeButtonText: 'Liked!' });
-        console.log('Liked');
+        this.setState({ likeButtonClass: complete });
+        console.log('Liked: ', this.props.movie);
       })
       .catch((err) => {
         console.error('Error marking as liked: ', err);
-        this.setState({ likeButtonText: 'Error :(' });
+        this.setState({ likeButtonClass: failed });
       });
   }
 
-  sawMovie() {
-    if (!this.state.canClickSaw) return;
+  dislikeMovie() {
+    if (!this.state.canClickDislike) return;
     this.setState({
-      sawButtonText: 'Processing...',
-      canClickSaw: false
+      dislikeButtonClass: inProcess,
+      canClickDislike: false
     });
-    axios.post('/api/movie/saw', {
+    axios.post('/api/movie/dislike', {
       movie: this.props.movie
     })
       .then(() => {
-        this.setState({ sawButtonText: 'Saved!' });
-        console.log('Saw!');
+        this.setState({ dislikeButtonClass: complete });
+        console.log('Disliked: ', this.props.movie);
       })
       .catch((err) => {
-        console.error('Error marking as seen: ', err);
-        this.setState({ sawButtonText: 'Error :(' });
+        console.error('Error marking as disliked: ', err);
+        this.setState({ dislikeButtonClass: failed });
       });
   }
 
@@ -73,14 +79,14 @@ class SmallMovieTile extends React.Component {
           <span className="col-sm-6">
             <div className="row">
               <LoadingButton
-                buttonText={this.state.likeButtonText}
+                buttonClass={this.state.likeButtonClass}
                 handleClick={this.likeMovie}
               />
             </div>
             <div className="row">
               <LoadingButton
-                buttonText={this.state.sawButtonText}
-                handleClick={this.sawMovie}
+                buttonClass={this.state.dislikeButtonClass}
+                handleClick={this.dislikeMovie}
               />
             </div>
           </span>
