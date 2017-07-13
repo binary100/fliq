@@ -6,8 +6,8 @@ class SmallMovieTile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      likeButtonText: 'I like it!',
-      sawButtonText: 'I saw it!',
+      likeButtonText: 'Like',
+      sawButtonText: 'Viewed',
       canClickLike: true,
       canClickSaw: true
     };
@@ -15,32 +15,38 @@ class SmallMovieTile extends React.Component {
     this.sawMovie = this.sawMovie.bind(this);
   }
 
-  likeMovie(movie) {
+  likeMovie() {
     if (!this.state.canClickLike) return;
     this.setState({
       likeButtonText: 'Processing...',
       canClickLike: false
     });
     axios.post('/api/movie/like', {
-      movie
+      movie: this.props.movie
     })
-      .then(() => this.setState({ likeButtonText: 'Saved!' }))
+      .then(() => {
+        this.setState({ likeButtonText: 'Liked!' });
+        console.log('Liked');
+      })
       .catch((err) => {
         console.error('Error marking as liked: ', err);
         this.setState({ likeButtonText: 'Error :(' });
       });
   }
 
-  sawMovie(movie) {
+  sawMovie() {
     if (!this.state.canClickSaw) return;
     this.setState({
       sawButtonText: 'Processing...',
       canClickSaw: false
     });
     axios.post('/api/movie/saw', {
-      movie
+      movie: this.props.movie
     })
-      .then(() => this.setState({ sawButtonText: 'Saved!' }))
+      .then(() => {
+        this.setState({ sawButtonText: 'Saved!' });
+        console.log('Saw!');
+      })
       .catch((err) => {
         console.error('Error marking as seen: ', err);
         this.setState({ sawButtonText: 'Error :(' });
@@ -51,18 +57,19 @@ class SmallMovieTile extends React.Component {
     return (
       <div
         className="col-sm-3 small-movie-tile"
-        onClick={(e, evt) => this.props.selectSmallTile(e, evt, this.props.movie)}
       >
         <p
           className="small-movie-tile-title">
             {this.props.movie.title} ({this.props.movie.year})
         </p>
-        <div>
+        <div onClick={(e, evt) => this.props.selectSmallTile(e, evt, this.props.movie)}>
           <img
             className="poster-small col-sm-6"
             src={this.props.movie.poster}
             alt="Poster"
           />
+        </div>
+        <div>
           <span className="col-sm-6">
             <div className="row">
               <LoadingButton

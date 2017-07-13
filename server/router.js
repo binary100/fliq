@@ -9,6 +9,8 @@ router.get('/api/quote', apiController.getQuote);
 router.post('/api/trailer', apiController.getTrailer);
 router.post('/api/search', apiController.handleMovieSearchTMDB);
 router.post('/api/autocomplete', apiController.getSearchAutoComplete);
+router.post('/api/movie/like', apiController.likeMovie);
+router.post('/api/movie/saw', apiController.sawMovie);
 
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_likes'] }));
