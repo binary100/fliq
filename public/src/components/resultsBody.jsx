@@ -4,7 +4,10 @@ import Trailer from './trailer.jsx';
 
 const ResultsBody = ({ movie, trailer }) => {
   let Tile = movie
-    ? <LargeMovieTile movie={movie} />
+    ? <LargeMovieTile
+        className="results-large-tile"
+        movie={movie}
+      />
     : null;
   return (
     <div className="container results-body">
