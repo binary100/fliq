@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     tagName: {
       type: DataTypes.STRING
+    },
+    tagType: {
+      type: DataTypes.STRING
     }
   });
 

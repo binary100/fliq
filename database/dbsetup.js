@@ -53,13 +53,13 @@ db.movies.hasMany(db.userMovies, { foreignKey: 'movie_Id', constraints: false })
 db.users.hasMany(db.userMovies, { foreignKey: 'user_Id', constraints: false });
 
 // SYNC
-  // sequelize.sync().then((err) => {
-  //   if (err) {
-  //     console.error('Error creating Tag table', err);
-  //   } else {
-  //     console.log('Tag table created successfully');
-  //   }
-  // });
+sequelize.sync().then((err) => {
+  if (err) {
+    console.error('Error creating Tag table', err);
+  } else {
+    console.log('Tag table created successfully');
+  }
+});
 
 sequelize.authenticate()
   .then(() => {
