@@ -6,11 +6,11 @@ router.get('/api/lightning', apiController.getTwoMovies);
 router.post('/api/lightning', apiController.handleLightningSelection);
 
 router.get('/api/results', apiController.getUserResults);
-router.get('/api/results/get', apiController.getMovies);
+// router.get('/api/results/get', apiController.getMovies);
 // router.post('/api/results', apiController.postTags);
 
-router.post('/api/tags', apiController.postTags);
-router.post('/api/userTags', apiController.postUserTags);
+// router.post('/api/tags', apiController.postTags);
+// router.post('/api/userTags', apiController.postUserTags);
 
 router.get('/api/quote', apiController.getQuote);
 router.post('/api/trailer', apiController.getTrailer);

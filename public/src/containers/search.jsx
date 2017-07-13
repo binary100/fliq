@@ -5,6 +5,7 @@ import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import SearchResultsTable from '../components/searchResultsTable.jsx';
 
 class Search extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -81,6 +82,7 @@ class Search extends React.Component {
       </div>
     );
   }
+  
 }
 
 export default Search;
