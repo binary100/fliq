@@ -159,6 +159,14 @@ module.exports.handleMovieSearchTMDB = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+module.exports.likeMovie = (req, res) => {
+  res.sendStatus(200);
+}
+
+module.exports.sawMovie = (req, res) => {
+  res.sendStatus(200);
+}
+
 // Testing. Not currently used.
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;

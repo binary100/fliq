@@ -15,6 +15,7 @@ class Search extends React.Component {
       searchResults: []
     };
     this.handleSearch = this.handleSearch.bind(this);
+    this.selectSmallTile = this.selectSmallTile.bind(this);
   }
 
   handleSearch(query) {
@@ -33,6 +34,10 @@ class Search extends React.Component {
         });
       })
       .catch(err => console.error('Error with search:', err));
+  }
+
+  selectSmallTile(e, evt, movie) {
+    console.log('Selecting: ', movie);
   }
 
   renderMenuItemChildren(option) {
@@ -75,7 +80,10 @@ class Search extends React.Component {
           </div>
         <div className="row">
           <div>
-            <SearchResultsTable movies={this.state.searchResults} />
+            <SearchResultsTable
+              selectSmallTile={this.selectSmallTile}
+              movies={this.state.searchResults}
+            />
           </div>
         </div>
       </div>
