@@ -3,9 +3,15 @@ import LargeMovieTile from './largeMovieTile.jsx';
 import Trailer from './trailer.jsx';
 
 const ResultsBody = ({ movie, trailer }) => {
+  let Tile = movie.poster.length > 0
+    ? <LargeMovieTile
+        className="results-large-tile"
+        movie={movie}
+      />
+    : null;
   return (
     <div className="results-body">
-      <LargeMovieTile className="results-large-tile" movie={movie} />
+      {Tile}
       <Trailer trailer={trailer} />
     </div>
   );
