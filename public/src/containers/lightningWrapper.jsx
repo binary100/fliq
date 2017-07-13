@@ -48,13 +48,13 @@ class LightningWrapper extends React.Component {
       });
   }
 
-  postMovieData() {
-    // Posts tags
-    return axios.post('/api/tags')
-      .then((tag) => {
-        console.log(tag)
-      });
-  }
+  // postMovieData() {
+  //   // Posts tags
+  //   return axios.post('/api/tags')
+  //     .then((tag) => {
+  //       console.log(tag)
+  //     });
+  // }
 
   startTimer() {
     const intervalId = setInterval(function () {

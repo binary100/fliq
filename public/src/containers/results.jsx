@@ -15,6 +15,7 @@ const movieObj = {
   writer: '',
   actors: ''
 };
+
 class Results extends React.Component {
   constructor(props) {
     super(props);

@@ -1,6 +1,6 @@
 const axios = require('axios');
-<<<<<<< HEAD
 const db = require('../database/dbSetup.js');
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -23,6 +23,18 @@ const db = require('../database/dbsetup.js');
 
 >>>>>>> attempted more seed data
 >>>>>>> unstaged unused/dummy data  work for dbsetup, lighteningwrapper, apicontroller
+||||||| merged common ancestors
+||||||| merged common ancestors
+const db = require('../database/dbSetup.js');
+// >>>>>>> revert: configure API route and controller  for tags
+=======
+
+const async = require('async');
+const db = require('../database/dbsetup.js');
+
+>>>>>>> attempted more seed data
+=======
+>>>>>>> feat($launchpad): created launchpad demo
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
 >>>>>>> rebasing after merge, dbsetup
 const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
@@ -233,6 +245,7 @@ module.exports.getMovies = (req, res) => {
 // };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 // information page component that inserts a count 
 ||||||| merged common ancestors
@@ -336,3 +349,104 @@ const clickUserTags = (tag, movieData) => {
 };
 >>>>>>> attempted more seed data
 >>>>>>> unstaged unused/dummy data  work for dbsetup, lighteningwrapper, apicontroller
+||||||| merged common ancestors
+<<<<<<< HEAD
+
+// information page component that inserts a count 
+||||||| merged common ancestors
+
+
+
+
+
+
+
+// information page component that inserts a count 
+=======
+// information page component that inserts a count 
+module.exports.postTags = (req, res) => {
+  const movie = req.body.movies;
+  db.tags.migrateTags().then(tag => res.json(tag))
+  .catch(err => res.status(500).send(err));
+}
+
+const migrateTags = () => {
+  db.movies.findAll({limit: 100}).then((movies) => {
+    async.each(movies, (movie, callback) => {
+      tag1 = movie.title;
+      tag2 = movie.genre;
+      tag3 = movie.plot;
+      async.each([tag1, tag2, tag3], (tag, callback) => {
+        db.tags.create({tagName: tag})
+        .then((tag)=>{})
+        .catch(err=> {
+          console.log(err)
+        })
+      }, (err) => {
+        console.log("errr in second")
+      })
+    }, (err) => {
+      console.log("errr in first")
+    });
+  });
+};
+// migrateTags(); 
+
+module.exports.postUserTags = (req, res) => {
+  let clickedTag = {movie: req.body.movie};
+  let user = 2;
+  let tag_Id = 'The Godfather';
+
+  // clickedTag.findAll().then((tags) => {
+    async.each(clickedTag, (tag, callback) => {
+      // console.log('WHATS TAG', tag.title);
+      title = tag.title;
+      genre = tag.genre;
+      rated = tag.rated;
+      year = tag.year;
+      director = tag.director;
+      actors = tag.actors;
+      // allows to make multiple db rows 
+      async.each([title, genre, rated, year, director, actors], (tag, callback) => {
+        tag
+        db.tags.find({where: { tagName } })
+               .then(        
+               db.userTags.create({user_Id: user, tag_Id: tag})
+                .then((tag)=>{})
+                .catch(err=> {
+                  console.log(err)
+                }))
+        // console.log('WHATS TAG', tagName);
+        console.log('WHATS TAG', tagID);
+        // db.userTags.create({user_Id: user, tag_Id: tagId})
+        //   .then((tag)=>{})
+        //   .catch(err=> {
+        //     console.log(err)
+        //   })
+      }, (err) => {
+        console.log("errr in second")
+      })
+    }, (err) => {
+      console.log("errr in first")
+    });
+    console.log('clickedMovie', clickedTag);
+  // })
+}
+
+const clickUserTags = (tag, movieData) => {
+  db.tags.findAll({
+    where: {
+      tagName: {
+        $contains: movieData[tag]
+      }
+    }
+  })
+  .then(movies =>{
+    console.log('USERTAGS', movies)
+  })
+  .catch(err => res.status(500).send(err));
+};
+>>>>>>> attempted more seed data
+=======
+// information page component that inserts a count
+>>>>>>> feat($launchpad): created launchpad demo
