@@ -2,6 +2,7 @@ const axios = require('axios');
 const db = require('../database/dbSetup.js');
 
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
+const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
 const theMovieDbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=`;
 const theMovieDbPosterUrl = `http://image.tmdb.org/t/p/w185`;
 const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
@@ -171,11 +172,24 @@ module.exports.sawMovie = (req, res) => {
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
-  const searchUrl = omdbUrl + movieName;
-  console.log(searchUrl);
+  const searchUrl = omdbSearchUrl + movieName;
+  console.log('Searching for movies: ', searchUrl);
   axios.post(searchUrl)
-    .then(results => res.send(results.data))
-    .catch(err => res.status(500).send(err));
+    .then(results => {
+      console.log('Received: ', results.data.Search);
+      const movies = results.data.Search.map((movie) => {
+        console.log('Creating movie: ', movie);
+        return {
+          title: movie.Title,
+          year: movie.Year,
+          poster: movie.Poster,
+          imdbID: movie.imdbID
+        };
+      });
+
+      res.send(movies);
+    })
+    .catch(err => res.status(404).send([]));
 };
 
 /*
