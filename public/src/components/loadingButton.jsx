@@ -9,7 +9,18 @@ const LoadingButton = ({ handleClick, buttonClass}) => {
     >
       <span className={buttonClass} />
     </Button>
+
   );
 };
 
 export default LoadingButton;
+
+/*
+<Button
+      className="col-sm-10 small-tile-button"
+      onClick={() => handleClick()}
+    >
+      { buttonText }
+    </Button>
+
+*/
