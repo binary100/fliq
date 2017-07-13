@@ -16,6 +16,15 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 // EXPRESS
 const app = express();
 
+
+// MODELS
+// const User = db.users;
+// const Movie = db.movies;
+// const Tag = db.tags;
+// const MovieTag = db.movieTags;
+// const UserTag = db.userTags;
+// const UserMovie = db.userMovies;
+
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

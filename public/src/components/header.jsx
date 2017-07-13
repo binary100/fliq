@@ -30,6 +30,11 @@ const Header = ({ handleLogout, user }) => (
             </Link>
           </li>
           <li>
+            <Link to="/launchpad">
+              LaunchPad
+            </Link>
+          </li>
+          <li>
             <Link to="/" onClick={handleLogout}>
               Logout
             </Link>

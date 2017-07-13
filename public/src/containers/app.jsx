@@ -5,10 +5,12 @@ import axios from 'axios';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
+import LaunchPadWrapper from './launchPadWrapper.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
-import Search from './search.jsx'
-import { loginUser, logoutUser } from '../actions/actions.js';
+import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
+import { loginUser, logoutUser } from '../actions/actions.js';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -17,6 +19,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
+    // console.log('In App ctor, props: ', props);
     axios.get('/account')
       .then((results) => {
         if (results.data.user) {
@@ -31,7 +34,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('In App render, props is: ', this.props);
+    // console.log('In App render, props is: ', this.props);
     return (
       <div>
         <Router history={browserHistory}>
@@ -44,8 +47,8 @@ class App extends React.Component {
                 <Route path="/lightning" component={LightningWrapper} />
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/search" component={Search} />
+                <Route path="/launchpad" component={LaunchPadWrapper} />
                 <Route path="*" component={Welcome} />
-
               </Switch>
             </div>
           </div>

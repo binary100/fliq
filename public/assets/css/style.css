@@ -174,3 +174,16 @@ a:hover {
   max-height: 3em; 
   max-width: 3em;
 }
+
+/************* LAUNCHPAD **************/
+
+/* TAGS */
+.tag {
+  color: black;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  padding: 10px;
+  float: left;
+  background: white;
+}
