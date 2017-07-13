@@ -1,5 +1,4 @@
 const axios = require('axios');
-const async = require('async');
 const db = require('../database/dbSetup.js');
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -20,6 +19,7 @@ const db = require('../database/dbSetup.js');
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
 const theMovieDbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=`;
 const theMovieDbPosterUrl = `http://image.tmdb.org/t/p/w185`;
+<<<<<<< HEAD
 <<<<<<< HEAD
 ||||||| merged common ancestors
 
@@ -91,9 +91,14 @@ const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.omdbApiKey}&t=;`;
 >>>>>>> unstaged unused/dummy data  work for dbsetup, lighteningwrapper, apicontroller
 =======
 >>>>>>> fix($controller): fixed merged conflicts in server folder
+||||||| merged common ancestors
+
+=======
+>>>>>>> fix merge conflicts - apicontroller and routes in server folder - plz no more merge conflicts
 const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
 const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
+
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -120,6 +125,7 @@ module.exports.checkSession = (req, res, next) => {
     next();
   }
 };
+
 
 module.exports.getTwoMovies = (req, res) => {
   // At first, randomly select two movies from DB
@@ -203,7 +209,7 @@ module.exports.getTrailer = (req, res) => {
   const url = getYouTubeUrl(req.body.movie.title);
   axios.get(url)
     .then(results => res.send(results.data.items[0]))
-    .catch(err => res.sendStatus(404).send(err));
+    .catch(err => res.sendStatus(404));
 };
 <<<<<<< HEAD
 
@@ -217,6 +223,7 @@ module.exports.getSearchAutoComplete = (req, res) => {
       res.status(500).send(err);
     });
 };
+
 
 module.exports.handleMovieSearchTMDB = (req, res) => {
   let { movieName } = req.body;
@@ -277,6 +284,7 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
     "overview": "The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.",
     "release_date": "1980-05-17"
 }
+<<<<<<< HEAD
 */
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -819,3 +827,91 @@ const clickUserTags = (tag, movieData) => {
 //   .catch(err => res.status(500).send(err));
 // };
 >>>>>>> fix($controller): fixed merged conflicts in server folder
+||||||| merged common ancestors
+*/
+
+// module.exports.postTags = (req, res) => {
+//   const movie = req.body.movies;
+//   db.tags.migrateTags().then(tag => res.json(tag))
+//   .catch(err => res.status(500).send(err));
+// }
+
+// const migrateTags = () => {
+//   db.movies.findAll({limit: 100}).then((movies) => {
+//     async.each(movies, (movie, callback) => {
+//       tag1 = movie.title;
+//       tag2 = movie.genre;
+//       tag3 = movie.plot;
+//       async.each([tag1, tag2, tag3], (tag, callback) => {
+//         db.tags.create({tagName: tag})
+//         .then((tag)=>{})
+//         .catch(err=> {
+//           console.log(err)
+//         })
+//       }, (err) => {
+//         console.log("errr in second")
+//       })
+//     }, (err) => {
+//       console.log("errr in first")
+//     });
+//   });
+// };
+// migrateTags();
+
+// module.exports.postUserTags = (req, res) => {
+//   let clickedTag = {movie: req.body.movie};
+//   let user = 2;
+//   let tag_Id = 'The Godfather';
+
+//   // clickedTag.findAll().then((tags) => {
+//     async.each(clickedTag, (tag, callback) => {
+//       // console.log('WHATS TAG', tag.title);
+//       title = tag.title;
+//       genre = tag.genre;
+//       rated = tag.rated;
+//       year = tag.year;
+//       director = tag.director;
+//       actors = tag.actors;
+//       // allows to make multiple db rows 
+//       async.each([title, genre, rated, year, director, actors], (tag, callback) => {
+//         tag
+//         db.tags.find({where: { tagName } })
+//                .then(        
+//                db.userTags.create({user_Id: user, tag_Id: tag})
+//                 .then((tag)=>{})
+//                 .catch(err=> {
+//                   console.log(err)
+//                 }))
+//         // console.log('WHATS TAG', tagName);
+//         console.log('WHATS TAG', tagID);
+//         // db.userTags.create({user_Id: user, tag_Id: tagId})
+//         //   .then((tag)=>{})
+//         //   .catch(err=> {
+//         //     console.log(err)
+//         //   })
+//       }, (err) => {
+//         console.log("errr in second")
+//       })
+//     }, (err) => {
+//       console.log("errr in first")
+//     });
+//     console.log('clickedMovie', clickedTag);
+//   // })
+// }
+
+// const clickUserTags = (tag, movieData) => {
+//   db.tags.findAll({
+//     where: {
+//       tagName: {
+//         $contains: movieData[tag]
+//       }
+//     }
+//   })
+//   .then(movies =>{
+//     console.log('USERTAGS', movies)
+//   })
+//   .catch(err => res.status(500).send(err));
+// };
+=======
+*/
+>>>>>>> fix merge conflicts - apicontroller and routes in server folder - plz no more merge conflicts
