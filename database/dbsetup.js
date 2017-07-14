@@ -25,10 +25,10 @@ db.users = require('./models/users.js')(sequelize, Sequelize);
 db.movies = require('./models/movies.js')(sequelize, Sequelize);
 db.tags = require('./models/tags.js')(sequelize, Sequelize);
 db.session = require('./models/session.js')(sequelize, Sequelize);
+db.userMovies = require('./models/userMovies.js')(sequelize, Sequelize);
+db.userTags = require('./models/userTags.js')(sequelize, Sequelize);
 
 db.movieTags = sequelize.define('MovieTags', {});
-db.userTags = sequelize.define('UserTags', {});
-db.userMovies = sequelize.define('UserMovies', {});
 
 // JOIN TABLES
 // movie-tag model
@@ -53,13 +53,13 @@ db.movies.hasMany(db.userMovies, { foreignKey: 'movie_Id', constraints: false })
 db.users.hasMany(db.userMovies, { foreignKey: 'user_Id', constraints: false });
 
 // SYNC
-  // sequelize.sync().then((err) => {
-  //   if (err) {
-  //     console.error('Error creating Tag table', err);
-  //   } else {
-  //     console.log('Tag table created successfully');
-  //   }
-  // });
+// sequelize.sync().then((err) => {
+//   if (err) {
+//     console.error('Error creating Tag table', err);
+//   } else {
+//     console.log('Tag table created successfully');
+//   }
+// });
 
 sequelize.authenticate()
   .then(() => {

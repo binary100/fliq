@@ -17,6 +17,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     authId: {
       type: DataTypes.STRING
+    },
+    likesNumber: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    loginNumber: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    reView: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   });
   return User;
