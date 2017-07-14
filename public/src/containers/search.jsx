@@ -3,6 +3,7 @@ import { InputGroup, Button, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import SearchResultsTable from '../components/searchResultsTable.jsx';
+import LargeMovieTile from '../components/largeMovieTile.jsx';
 
 class Search extends React.Component {
 
@@ -13,7 +14,8 @@ class Search extends React.Component {
       allowNew: false,
       multiple: false,
       options: [],
-      searchResults: []
+      searchResults: [],
+      selectedMovie: null
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.selectSmallTile = this.selectSmallTile.bind(this);
@@ -33,12 +35,21 @@ class Search extends React.Component {
           searchResults: results.data,
           options: autoCompleteStrings
         });
+        this.selectSmallTile(null, null, results.data[0]);
       })
       .catch(err => console.error('Error with search:', err));
   }
 
   selectSmallTile(e, evt, movie) {
     console.log('Selecting: ', movie);
+    axios.post('/api/movie/select', {
+      movie
+    })
+    .then((results) => {
+      console.log('selectSmallTile receied: ', results.data);
+      this.setState({ selectedMovie: results.data });
+    })
+    .catch(err => console.error(err));
   }
 
   renderMenuItemChildren(option) {
@@ -48,11 +59,15 @@ class Search extends React.Component {
   }
 
   render() {
+    const largeTile = this.state.selectedMovie
+      ? <LargeMovieTile movie={this.state.selectedMovie} />
+      : null;
+
     return (
       <div className="container">
         <div className="row">
           <h3>
-            Search
+            Search star wars
           </h3>
         </div>
           <div className="row">
@@ -80,12 +95,11 @@ class Search extends React.Component {
             </div>
           </div>
         <div className="row">
-          <div>
             <SearchResultsTable
               selectSmallTile={this.selectSmallTile}
               movies={this.state.searchResults}
             />
-          </div>
+          {largeTile}
         </div>
       </div>
     );

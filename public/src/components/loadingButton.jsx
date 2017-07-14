@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 const LoadingButton = ({ handleClick, buttonClass}) => {
   return (
     <Button
-      className="col-sm-10 small-tile-button"
+      className="small-tile-button"
       onClick={() => handleClick()}
     >
       <span className={buttonClass} />

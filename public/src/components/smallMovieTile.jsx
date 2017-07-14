@@ -62,28 +62,33 @@ class SmallMovieTile extends React.Component {
   render() {
     return (
       <div
-        className="col-sm-3 small-movie-tile"
+        className="small-movie-tile"
       >
-        <p
-          className="small-movie-tile-title">
-            {this.props.movie.title} ({this.props.movie.year})
-        </p>
-        <div onClick={(e, evt) => this.props.selectSmallTile(e, evt, this.props.movie)}>
+        <div className="row">
+          <p
+            className="col-sm-12 small-movie-tile-title">
+              {this.props.movie.title} ({this.props.movie.year})
+          </p>
+        </div>
+        <div 
+          onClick={(e, evt) => this.props.selectSmallTile(e, evt, this.props.movie)}
+          className="row"
+        >
           <img
-            className="poster-small col-sm-6"
+            className="col-sm-12 poster-small"
             src={this.props.movie.poster}
             alt="Poster"
           />
         </div>
-        <div>
-          <span className="col-sm-6">
-            <div className="row">
+        <div className="row">
+          <span className="col-sm-12">
+            <div className="col-sm-6">
               <LoadingButton
                 buttonClass={this.state.likeButtonClass}
                 handleClick={this.likeMovie}
               />
             </div>
-            <div className="row">
+            <div className="col-sm-6">
               <LoadingButton
                 buttonClass={this.state.dislikeButtonClass}
                 handleClick={this.dislikeMovie}

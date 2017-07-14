@@ -68,14 +68,14 @@ a:hover {
   background-color: #111314;
   bottom: 0;
   position: absolute;
-  min-height: 220px;
+  height: 220px;
   padding: 0 25px;
 }
 
 .small-movie-tile {
   /*margin-left: 15px;*/
   padding: 10px;
-  max-height: 200px;
+  max-height: 400px;
   overflow: auto;
 }
 
@@ -104,13 +104,15 @@ a:hover {
 }
 
 .poster {
-  max-height: 475px;
-  max-width: auto;
+  max-height: auto;
+  max-width: 100%;
 }
 
 .poster-small {
-  max-height: 180px;
-  max-width: auto;
+  display: block;
+  margin: auto;
+  max-height: auto;
+  max-width: 70%;
 }
 
 /*.oauth-button {
@@ -164,8 +166,6 @@ a:hover {
 
 .quote-box-visible {
   opacity: 1;
-  /*position: relative;
-  animation: slideleft 1s;*/
   transition: 1s;
 }
 
