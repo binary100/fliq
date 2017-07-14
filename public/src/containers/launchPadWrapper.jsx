@@ -5,41 +5,45 @@ import { Redirect } from 'react-router-dom';
 
 // DATA OBJECTS
 
-const genres = ['Action', 'Advenure'];
-const decades = ['80s','90s','00s','10s']
-const rated = ['PG13', 'R'];
+const genres = ['Action', 'Advenure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western'];
+const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s','00s']
+const rated = ['G', 'PG', 'PG13', 'R', 'NC-17'];
 const directors = ['Steven Spielberg', 'Christopher Nolan'];
+const actors = ['Christian Bale', 'Al Capino', 'Clint Eastwood'];
 
 const tagsObj = {
-  year: decades,
-  rated: rated,
-  genre: genres,
+  actor: actors,
   director: directors,
+  genre: genres,
+  rated: rated,
+  year: decades,
 };
-
 
 class LaunchPadWrapper extends React.Component {
   constructor(props) {
     super(props);
     console.log('LaunchPadWrapper', props);
     this.state = {
-      selectedTag: tagsObj
-      // tags: [],
-      // genres: ['Action', 'Advenure'],
-      // directors: ['Steven Spielberg', 'Christopher Nolan']
+      tagData: tagsObj
     };
-    // this.getTagsData = this.getTagsData.bind(this);
+    // this.getTagsData();
   }
 
-  // getTagsData() {
-  //   return axios.get('/api/tags')
-  //     .then((results) => {
-  //       this.setState({
-  //         tags: tags.data
-  //       });
-  //       return results;
-  //     });
-  // }
+  componentWillMount() {
+    this.getTagsData();
+  }
+
+  getTagsData() {
+    return axios.get('/api/tags')
+      .then((results) => {
+        console.log('Tags API Call', results.data);
+        this.setState({
+          tagData: results.data
+        });
+        return results;
+      })
+      .catch(err => console.error('Error retrieving movies: ', err));
+  }
 
   // handleTileClick(e, evt, tag) {
   //   this.setState({
@@ -49,7 +53,7 @@ class LaunchPadWrapper extends React.Component {
 
 
   render() {
-    return (<div><LaunchPad tags={this.state.selectedTag} /></div>);
+    return (<div><LaunchPad tags={this.state.tagData} /></div>);
   }
 }
 

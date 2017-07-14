@@ -143,6 +143,28 @@ module.exports.getUserResults = (req, res) => {
     });
 };
 
+module.exports.getTags = (req, res) => {
+  // let tagType;
+  // let tagName;
+  // let tagData = {tagType: tagName};
+
+  db.tags.findAll()
+    .then(results => {
+      const tags = results.reduce((acc, val) => {
+        if (!acc[val.tagType]) {
+          acc[val.tagType] = [];
+        }
+
+        acc[val.tagType].push(val.tagName);
+        return acc;
+      }, {});
+
+      res.send(tags);
+    })
+    .catch(err => res.status(500).send('Error finding tags: ', err));
+};
+
+
 module.exports.getQuote = (req, res) => {
   axios(quoteUrl, {
     method: 'GET',
