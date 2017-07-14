@@ -26,7 +26,7 @@ a:hover {
 
 .welcome {
   margin-top: 10vh;
-
+  color: white;
   min-height: 450px;
   text-align: left;
   background: #444444;
@@ -38,6 +38,17 @@ a:hover {
 
 .welcome-title {
   font-family: 'Open Sans';
+}
+
+.start-lightning {
+  background: #27ae60;
+  border: 1px solid #27ae60;
+}
+.start-lightning:hover,
+.start-lightning:focus,
+.start-lightning:active, {
+  background: #27ae60;
+  border: 1px solid #27ae60;
 }
 
 .flick-iq {
@@ -128,6 +139,7 @@ a:hover {
 .small-tile-button {
   margin: 1em 0;
   background: #2980B9;
+  /*background: #2ecc71;*/
   border: 0px;
   color: white;
 }
@@ -136,6 +148,7 @@ a:hover {
 .small-tile-button:focus,
 .small-tile-button:active {
   background: #2275ad;
+  /*background: #27ae60;*/
   color: white;
   border: 0px;
   outline: transparent;

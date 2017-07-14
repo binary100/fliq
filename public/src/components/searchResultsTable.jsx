@@ -6,7 +6,7 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
   let arr = [];
   for (var i = 0; i < movies.length; i += 2) {
     const result = (
-      <div>
+      <div key={count += 1}>
         <div>
           <span className="col-sm-6">
             <SmallMovieTile
