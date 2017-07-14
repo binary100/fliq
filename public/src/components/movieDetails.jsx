@@ -42,7 +42,6 @@ const MovieDetails = ({ movie }) => {
             <p>Actors: {movie.actors} </p>
           </div>
           <div>
-            criticScores
           </div>
         </div>
       </span>
