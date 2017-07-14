@@ -22,6 +22,7 @@ class Dashboard extends React.Component {
           <DashboardUserProfile
             user={this.props.auth.user}
           />
+          <pieChart/>
         </div>
         <div>
           <PieChart/>
