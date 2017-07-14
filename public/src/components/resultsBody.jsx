@@ -7,9 +7,11 @@ const ResultsBody = ({ movie, trailer }) => {
     ? <LargeMovieTile movie={movie} />
     : null;
   return (
-    <div className="row">
-      {Tile}
-      <Trailer trailer={trailer} />
+    <div className="container results-body">
+      <div className="row">
+        {Tile}
+        <Trailer trailer={trailer} />
+      </div>
     </div>
   );
 };
