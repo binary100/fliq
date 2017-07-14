@@ -170,6 +170,10 @@ at this phase of development
   animation: 0.8s fadeIn ease;
 }
 
+.fadeInDown {
+  animation: 0.8s fadeInDown ease;
+}
+
 .small-movie-tile {
   padding: 10px;
   text-align: center;
