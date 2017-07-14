@@ -23,11 +23,7 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-<<<<<<< HEAD
     this.handleSearch('star wars');
-=======
-    this.handleSearch('transformers');
->>>>>>> style($style): Amend styling of search layout
   }
 
   handleSearch(query) {
