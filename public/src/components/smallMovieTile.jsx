@@ -79,20 +79,22 @@ class SmallMovieTile extends React.Component {
             alt="Poster"
           />
         </div>
-        <div className="like-buttons">
-          <div className="col-sm-6">
-            <LoadingButton
-              buttonClass={this.state.likeButtonClass}
-              handleClick={this.likeMovie}
-            />
+        {this.props.showButtons &&
+          <div className="like-buttons">
+            <div className="col-sm-6">
+              <LoadingButton
+                buttonClass={this.state.likeButtonClass}
+                handleClick={this.likeMovie}
+              />
+            </div>
+            <div className="col-sm-6">
+              <LoadingButton
+                buttonClass={this.state.dislikeButtonClass}
+                handleClick={this.dislikeMovie}
+              />
+            </div>
           </div>
-          <div className="col-sm-6">
-            <LoadingButton
-              buttonClass={this.state.dislikeButtonClass}
-              handleClick={this.dislikeMovie}
-            />
-          </div>
-        </div>
+        }
       </div>
     );
   }
