@@ -45,19 +45,17 @@ class Results extends React.Component {
 
   render() {
     return (
-      <div className="results">
-        <div className="row">
+      <div>
+        <div>
           <ResultsBody
             trailer={this.state.trailer}
             movie={this.state.selectedMovie}
           />
         </div>
-        <div className="row">
-          <ResultsTileBar
-            movies={this.state.tileMovies}
-            selectSmallTile={this.selectSmallTile}
-          />
-        </div>
+        <ResultsTileBar
+          movies={this.state.tileMovies}
+          selectSmallTile={this.selectSmallTile}
+        />
       </div>
     );
   }
