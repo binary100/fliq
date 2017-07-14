@@ -134,7 +134,7 @@ class Welcome extends React.Component {
             <div>
               <h1 className="welcome-title">
                 <span>{welcomeHeader}</span>
-                <span>{this.state.title.slice(0,2)}</span>
+                <span>{this.state.title.slice(0, 2)}</span>
                 <span className={this.state.titleClass}>{this.state.title.slice(2)}</span>
               </h1>
               <h4>{subHeader}</h4>

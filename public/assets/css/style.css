@@ -80,14 +80,7 @@ a:hover {
   left: 0;
 }
 
-.small-movie-tile {
-  padding: 10px;
-  text-align: center;
-}
 
-.small-movie-tile:hover {
-  background: #3f3f3f;
-}
 
 .results {
   max-height: 100%;
@@ -121,12 +114,16 @@ a:hover {
   width: 175px;
 }
 
-/*.oauth-button {
-  width: 200px;
-  height: auto;
-}*/
-
 /************* SMALL MOVIE TILES **************/
+
+.small-movie-tile {
+  padding: 10px;
+  text-align: center;
+}
+
+.small-movie-tile:hover {
+  background: #3f3f3f;
+}
 
 .small-tile-button {
   margin: 1em 0;
@@ -150,6 +147,11 @@ a:hover {
 
 .like-buttons {
   text-align: center;
+}
+
+.results-tile-bar-poster {
+  height: 150px;
+  width: 130px;
 }
 
 /************* SEARCH BOX **************/

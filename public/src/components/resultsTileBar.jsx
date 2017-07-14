@@ -12,6 +12,7 @@ const ResultsTileBar = ({ movies, selectSmallTile }) => (
             key={count += 1}
             movie={movie}
             selectSmallTile={selectSmallTile}
+            isResults
           />
         </span>
       ))}
