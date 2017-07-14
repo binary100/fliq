@@ -23,7 +23,7 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    this.handleSearch('transformers');
+    this.handleSearch('star wars');
   }
 
   handleSearch(query) {
@@ -89,7 +89,7 @@ class Search extends React.Component {
                         <AsyncTypeahead
                           options={this.state.options}
                           onSearch={this.handleSearch}
-                          placeholder="Type in a movie you love"
+                          placeholder="A movie you love, e.g. 'star wars'"
                           renderMenuItemChildren={this.renderMenuItemChildren}
                         />
                         <InputGroup.Button>
