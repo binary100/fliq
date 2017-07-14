@@ -28,24 +28,9 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
     arr.push(result);
   }
 
-
-  // const mapped = (
-  //   <div className="col-sm-6 search-results">
-  //     {
-  //       (movies.map(movie =>
-  //         <SmallMovieTile
-  //           key={count += 1}
-  //           selectSmallTile={selectSmallTile}
-  //           movie={movie}
-  //         />)
-  //       )
-  //     }
-  //   </div>
-  // );
-
   return (
-    <div className="col-sm-6">
-      {movies.length ? arr : null}
+    <div className="col-sm-6 search">
+        {movies.length ? arr : null}
     </div>
   );
 };
