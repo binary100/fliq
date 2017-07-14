@@ -5,6 +5,7 @@ const apiController = require('./apiController.js');
 router.get('/api/lightning', apiController.getTwoMovies);
 router.post('/api/lightning', apiController.handleLightningSelection);
 router.get('/api/results', apiController.getUserResults);
+router.get('/api/tags', apiController.getTags);
 router.get('/api/quote', apiController.getQuote);
 router.post('/api/trailer', apiController.getTrailer);
 router.get('/api/tagCreation', apiController.populateTags);

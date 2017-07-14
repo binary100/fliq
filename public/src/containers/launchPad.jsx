@@ -1,21 +1,21 @@
 import React from 'react';
-import LaunchPadGenres from '../components/launchPads/launchPadGenres.jsx';
-import LaunchPadActors from '../components/launchPads/launchPadActors.jsx';
+import LaunchPadTags from '../components/launchPads/launchPadTags.jsx';
 
-class LaunchPad extends React.Component {
-  constructor(props) {
-    super(props)
-    console.log('launchPad props: ', props)
-  };
-  render() {
+const LaunchPad = ({ tags }) => {
+    // console.log('launchPad Tags: ', tags);
     return (
       <div>
         <h1>LaunchPad</h1>
-        <LaunchPadActors tags={this.props.tags.actors} />
-        <LaunchPadGenres tags={this.props.tags.genre} />
+        <LaunchPadTags tagName={tags.actor} />
+        <LaunchPadTags tagName={tags.director} />
+        <LaunchPadTags tagName={tags.genre} />
+        <LaunchPadTags tagName={tags.rated} />
+        <LaunchPadTags tagName={tags.year} />
       </div>
     );
-  };
 };
+
+// { Object.keys(tags).map(tag => <LaunchPadTags key={tags}  /> )}
+
 
 export default LaunchPad;
