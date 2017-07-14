@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
-
+import PieChart from '../components/pieChart.jsx';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class Dashboard extends React.Component {
           <DashboardUserProfile
             user={this.props.auth.user}
           />
+          <pieChart/>
         </div>
       </div>
     )
