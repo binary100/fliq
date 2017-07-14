@@ -11,10 +11,10 @@ router.post('/api/search', apiController.handleMovieSearchTMDB);
 router.post('/api/autocomplete', apiController.getSearchAutoComplete);
 
 
-router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_likes'] }));
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect('http://localhost:3000/#')
+    res.redirect('http://localhost:3000/#');
   });
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),

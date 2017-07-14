@@ -46,10 +46,11 @@ passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
   callbackURL: 'http://localhost:3000/auth/facebook/callback',
-  profileFields: ['id', 'displayName', 'photos', 'emails']
+  profileFields: ['id', 'displayName', 'photos', 'emails', 'movies']
 },
 (accessToken, refreshToken, profile, done) => {
   console.log('this is the facebook returned profile', profile);
+  console.log('this is the facebook USER_LIKES', profile._json.movies);
   db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
     if (!user) {
