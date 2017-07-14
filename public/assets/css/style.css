@@ -75,6 +75,7 @@ a:hover {
   position: absolute;
   height: 37vh;
   padding: 0 10px;
+  left: 0;
 }
 
 .small-movie-tile {
