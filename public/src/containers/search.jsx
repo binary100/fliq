@@ -71,7 +71,7 @@ class Search extends React.Component {
       : null;
 
     return (
-      <div ref={(el) => { this.mainTile = el; }} className="container">
+      <div ref={(el) => { this.mainTile = el; }} className="container fadeIn">
         <div>
           <h3>
             Search
