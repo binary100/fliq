@@ -6,7 +6,7 @@ import LoginSplash from '../components/loginSplash.jsx';
 import Quote from './quote.jsx';
 
 const welcomeHeader = 'Welcome to ';
-const subHeader = 'A learning movie recommendation system';
+const subHeader = 'An adaptive movie recommendation system';
 const intro =
   `Our machine learning algorithm will get to know
   what kinds of movies you like and ensure that you will always have

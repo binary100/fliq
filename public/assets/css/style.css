@@ -5,7 +5,7 @@ body, html {
   font-family: 'Montserrat', sans-serif;
   color: white;
   background-color: #333333;
-  height: 100vh;
+  height: 100%;
 }
 
 a:link {
@@ -64,19 +64,22 @@ a:hover {
   margin-top: 15px;
 }
 
+.results-body {
+  height: 50vh;
+  overflow-y: scroll;
+}
+
 .results-tile-bar { 
   background-color: #111314;
   bottom: 0;
   position: absolute;
-  min-height: 220px;
-  padding: 0 25px;
+  height: 37vh;
+  padding: 0 10px;
 }
 
 .small-movie-tile {
-  /*margin-left: 15px;*/
   padding: 10px;
-  max-height: 200px;
-  overflow: auto;
+  text-align: center;
 }
 
 .small-movie-tile:hover {
@@ -104,13 +107,15 @@ a:hover {
 }
 
 .poster {
-  max-height: 475px;
-  max-width: auto;
+  max-height: auto;
+  max-width: 100%;
 }
 
 .poster-small {
-  max-height: 180px;
-  max-width: auto;
+  display: block;
+  margin: auto;
+  height: 200px;
+  width: 175px;
 }
 
 /*.oauth-button {
@@ -118,7 +123,7 @@ a:hover {
   height: auto;
 }*/
 
-/************* SEARCH PAGE **************/
+/************* SMALL MOVIE TILES **************/
 
 .small-tile-button {
   margin: 1em 0;
@@ -134,6 +139,21 @@ a:hover {
   color: white;
   border: 0px;
   outline: transparent;
+}
+
+.small-movie-tile-title {
+  height: 2.5em;
+}
+
+.like-buttons {
+  text-align: center;
+}
+
+/************* SEARCH BOX **************/
+
+.search-table {
+  height: 78vh;
+  overflow-y: scroll;
 }
 
 /************* QUOTE BOX **************/
@@ -159,8 +179,6 @@ a:hover {
 
 .quote-box-visible {
   opacity: 1;
-  /*position: relative;
-  animation: slideleft 1s;*/
   transition: 1s;
 }
 

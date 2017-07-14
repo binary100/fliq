@@ -3,6 +3,8 @@ import { InputGroup, Button, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import SearchResultsTable from '../components/searchResultsTable.jsx';
+import LargeMovieTile from '../components/largeMovieTile.jsx';
+import ReactDOM from 'react-dom'
 
 class Search extends React.Component {
 
@@ -13,9 +15,15 @@ class Search extends React.Component {
       allowNew: false,
       multiple: false,
       options: [],
-      searchResults: []
+      searchResults: [],
+      selectedMovie: null
     };
     this.handleSearch = this.handleSearch.bind(this);
+    this.selectSmallTile = this.selectSmallTile.bind(this);
+  }
+
+  componentDidMount() {
+    this.handleSearch('transformers');
   }
 
   handleSearch(query) {
@@ -32,8 +40,23 @@ class Search extends React.Component {
           searchResults: results.data,
           options: autoCompleteStrings
         });
+        this.selectSmallTile(null, null, results.data[0]);
       })
       .catch(err => console.error('Error with search:', err));
+  }
+
+  selectSmallTile(e, evt, movie) {
+    console.log('Selecting: ', movie);
+    axios.post('/api/movie/select', {
+      movie
+    })
+    .then((results) => {
+      console.log('selectSmallTile receied: ', results.data);
+      this.setState({ selectedMovie: results.data });
+      // const node = ReactDOM.findDOMNode(this.mainTile);
+      // node.scrollIntoView({ behavior: 'smooth' });
+    })
+    .catch(err => console.error(err));
   }
 
   renderMenuItemChildren(option) {
@@ -43,16 +66,20 @@ class Search extends React.Component {
   }
 
   render() {
+    const largeTile = this.state.selectedMovie
+      ? <LargeMovieTile movie={this.state.selectedMovie} />
+      : null;
+
     return (
-      <div className="container">
-        <div className="row">
+      <div ref={(el) => { this.mainTile = el; }} className="container">
+        <div>
           <h3>
             Search
           </h3>
         </div>
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="row">
+        <div>
+            <div>
+              <div>
                 <div>
                     <FormGroup>
                       <InputGroup>
@@ -73,11 +100,13 @@ class Search extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-        <div className="row">
-          <div>
-            <SearchResultsTable movies={this.state.searchResults} />
-          </div>
+        </div>
+        <div>
+          <SearchResultsTable
+            selectSmallTile={this.selectSmallTile}
+            movies={this.state.searchResults}
+          />
+          {largeTile}
         </div>
       </div>
     );
@@ -89,18 +118,11 @@ export default Search;
 
 
 /*
-
-<InputGroup.Button>
-  <DropdownButton
-    title="Dropdown"
-    id="bg-vertical-dropdown-1"
-    onSelect={this.handleDropDownSelect}
-  >
-    <MenuItem eventKey="Movie">Movie</MenuItem>
-    <MenuItem eventKey="Genre">Genre</MenuItem>
-    <MenuItem eventKey="Director">Director</MenuItem>
-    <MenuItem eventKey="Actor">Actor</MenuItem>
-  </DropdownButton>
-</InputGroup.Button>
-
+    <div>
+            <SearchResultsTable
+              selectSmallTile={this.selectSmallTile}
+              movies={this.state.searchResults}
+            />
+          {largeTile}
+        </div>
 */
