@@ -41,7 +41,7 @@ a:hover {
 The below animations are not used
 at this phase of development
 */
-/*.tileFade-enter {
+.tileFade-enter {
   opacity: 0.01;
 }
 
@@ -57,7 +57,7 @@ at this phase of development
 .tileFade-leave.tileFade-leave-active {
   opacity: 0.01;
   transition: opacity 0.3s ease-in;
-}*/
+}
 
 /************* WELCOME PAGE **************/
 

@@ -113,8 +113,8 @@ class Search extends React.Component {
               selectSmallTile={this.selectSmallTile}
               movies={this.state.searchResults}
             />
+            {largeTile}
           </ReactCSSTransitionGroup>
-          {largeTile}
         </div>
       </div>
     );
