@@ -25,6 +25,8 @@ a:hover {
 /************* WELCOME PAGE **************/
 
 .welcome {
+  margin-top: 10vh;
+
   min-height: 450px;
   text-align: left;
   background: #444444;
