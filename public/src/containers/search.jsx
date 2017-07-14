@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import SearchResultsTable from '../components/searchResultsTable.jsx';
 import LargeMovieTile from '../components/largeMovieTile.jsx';
-import ReactDOM from 'react-dom'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Search extends React.Component {
 
@@ -78,35 +78,43 @@ class Search extends React.Component {
           </h3>
         </div>
         <div>
-          <div>
             <div>
               <div>
-                  <FormGroup>
-                    <InputGroup>
-                      <InputGroup.Addon>
-                        Movie name
-                      </InputGroup.Addon>
-                      <AsyncTypeahead
-                        options={this.state.options}
-                        onSearch={this.handleSearch}
-                        placeholder="A movie you love, e.g. 'star wars'"
-                        renderMenuItemChildren={this.renderMenuItemChildren}
-                      />
-                      <InputGroup.Button>
-                        <Button onClick={this.handleSearch}>Go</Button>
-                      </InputGroup.Button>
-                    </InputGroup>
-                  </FormGroup>
+                <div>
+                    <FormGroup>
+                      <InputGroup>
+                        <InputGroup.Addon>
+                          Movie name
+                        </InputGroup.Addon>
+                        <AsyncTypeahead
+                          options={this.state.options}
+                          onSearch={this.handleSearch}
+                          placeholder="A movie you love, e.g. 'star wars'"
+                          renderMenuItemChildren={this.renderMenuItemChildren}
+                        />
+                        <InputGroup.Button>
+                          <Button onClick={this.handleSearch}>Go</Button>
+                        </InputGroup.Button>
+                      </InputGroup>
+                    </FormGroup>
+                </div>
               </div>
             </div>
-          </div>
         </div>
         <div>
-          <SearchResultsTable
-            selectSmallTile={this.selectSmallTile}
-            movies={this.state.searchResults}
-          />
-          {largeTile}
+          <ReactCSSTransitionGroup
+            transitionName="tileFade"
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}
+          >
+            <SearchResultsTable
+              selectSmallTile={this.selectSmallTile}
+              movies={this.state.searchResults}
+            />
+            {largeTile}
+          </ReactCSSTransitionGroup>
         </div>
       </div>
     );

@@ -129,12 +129,12 @@ class Welcome extends React.Component {
 
     return (
       <div>
-        <div className="jumbotron welcome">
+        <div className="jumbotron welcome fadeIn">
           <div className="container">
             <div>
               <h1 className="welcome-title">
                 <span>{welcomeHeader}</span>
-                <span>{this.state.title.slice(0,2)}</span>
+                <span>{this.state.title.slice(0, 2)}</span>
                 <span className={this.state.titleClass}>{this.state.title.slice(2)}</span>
               </h1>
               <h4>{subHeader}</h4>
@@ -142,7 +142,7 @@ class Welcome extends React.Component {
             </div>
             <span>
               <Link to="/lightning">
-                <button className="btn btn-lg btn-primary">
+                <button className="btn btn-lg btn-primary start-lightning">
                   Start Picking Movies
                 </button>
               </Link>

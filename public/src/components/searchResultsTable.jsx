@@ -6,12 +6,12 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
   let arr = [];
   for (var i = 0; i < movies.length; i += 2) {
     const result = (
-      <div>
+      <div key={count += 1}>
         <div>
           <span className="col-sm-6">
             <SmallMovieTile
               key={count += 1}
-              showButtons={true}
+              showButtons
               selectSmallTile={selectSmallTile}
               movie={movies[i]}
             />
@@ -19,7 +19,7 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
           <span className="col-sm-6">
             <SmallMovieTile
               key={count += 1}
-              showButtons={true}
+              showButtons
               selectSmallTile={selectSmallTile}
               movie={movies[i+1]}
             />
@@ -29,7 +29,7 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
     );
     arr.push(result);
   }
-  
+
   return (
     <div className="col-sm-6 search-table">
         {movies.length ? arr : null}

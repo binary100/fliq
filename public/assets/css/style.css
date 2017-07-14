@@ -1,3 +1,5 @@
+@import "./animate.css";
+
 body, html {
   margin: 0;
   padding: 0;
@@ -22,11 +24,47 @@ a:hover {
   text-decoration: none;
 }
 
+
+/************* CSS Transitions for searchResultsTable **************/
+
+
+.tileFade-appear {
+  opacity: 0.01;
+}
+
+.tileFade-appear.tileFade-appear-active {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+
+/*
+The below animations are not used
+at this phase of development
+*/
+.tileFade-enter {
+  opacity: 0.01;
+}
+
+.tileFade-enter.tileFade-enter-active {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+
+.tileFade-leave {
+  opacity: 1;
+}
+
+.tileFade-leave.tileFade-leave-active {
+  opacity: 0.01;
+  transition: opacity 0.3s ease-in;
+}
+
 /************* WELCOME PAGE **************/
 
 .welcome {
+  /*animation: 0.8s flipInX ease;*/
   margin-top: 10vh;
-
+  color: white;
   min-height: 450px;
   text-align: left;
   background: #444444;
@@ -38,6 +76,17 @@ a:hover {
 
 .welcome-title {
   font-family: 'Open Sans';
+}
+
+.start-lightning {
+  background: #27ae60;
+  border: 1px solid #27ae60;
+}
+.start-lightning:hover,
+.start-lightning:focus,
+.start-lightning:active, {
+  background: #27ae60;
+  border: 1px solid #27ae60;
 }
 
 .flick-iq {
@@ -75,19 +124,13 @@ a:hover {
   background-color: #111314;
   bottom: 0;
   position: absolute;
-  height: 37vh;
+  height: 34vh;
   padding: 0 10px;
   left: 0;
 }
 
-.small-movie-tile {
-  padding: 10px;
-  text-align: center;
-}
 
-.small-movie-tile:hover {
-  background: #3f3f3f;
-}
+
 
 .results {
   max-height: 100%;
@@ -121,16 +164,25 @@ a:hover {
   width: 175px;
 }
 
-/*.oauth-button {
-  width: 200px;
-  height: auto;
-}*/
-
 /************* SMALL MOVIE TILES **************/
+
+.fadeIn {
+  animation: 0.8s fadeIn ease;
+}
+
+.small-movie-tile {
+  padding: 10px;
+  text-align: center;
+}
+
+.small-movie-tile:hover {
+  background: #3f3f3f;
+}
 
 .small-tile-button {
   margin: 1em 0;
   background: #2980B9;
+  /*background: #2ecc71;*/
   border: 0px;
   color: white;
 }
@@ -139,6 +191,7 @@ a:hover {
 .small-tile-button:focus,
 .small-tile-button:active {
   background: #2275ad;
+  /*background: #27ae60;*/
   color: white;
   border: 0px;
   outline: transparent;
@@ -152,15 +205,9 @@ a:hover {
   text-align: center;
 }
 
-/************* SEARCH BOX **************/
-
-.search-table {
-  height: 78vh;
-  overflow-y: scroll;
-}
-
-.like-buttons {
-  text-align: center;
+.results-tile-bar-poster {
+  height: 150px;
+  width: 130px;
 }
 
 /************* SEARCH BOX **************/
@@ -168,6 +215,11 @@ a:hover {
 .search-table {
   height: 78vh;
   overflow-y: scroll;
+}
+
+.col-centered {
+  float: none;
+  margin: 0 auto;
 }
 
 /************* QUOTE BOX **************/

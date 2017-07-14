@@ -6,7 +6,11 @@ const thumbsUp = 'glyphicon glyphicon-thumbs-up';
 const thumbsDown = 'glyphicon glyphicon-thumbs-down';
 const complete = 'glyphicon glyphicon-ok';
 const inProcess = 'glyphicon glyphicon-refresh';
-const failed ='glyphicon glyphicon-remove';
+const failed = 'glyphicon glyphicon-remove';
+const searchPosterDivClass = 'row poster-small';
+const searchPosterImgClass = 'col-sm-12 poster-small';
+const resultsPosterDivClass = 'row poster-small results-tile-bar-poster';
+const resultsPosterImgClass = 'col-sm-12 poster-small results-tile-bar-poster';
 
 class SmallMovieTile extends React.Component {
   constructor(props) {
@@ -14,18 +18,17 @@ class SmallMovieTile extends React.Component {
     this.state = {
       likeButtonClass: thumbsUp,
       dislikeButtonClass: thumbsDown,
-      canClickLike: true,
-      canClickDislike: true
+      canLikeOrDislike: true
     };
     this.likeMovie = this.likeMovie.bind(this);
     this.dislikeMovie = this.dislikeMovie.bind(this);
   }
 
   likeMovie() {
-    if (!this.state.canClickLike) return;
+    if (!this.state.canLikeOrDislike) return;
     this.setState({
       likeButtonClass: inProcess,
-      canClickLike: false
+      canLikeOrDislike: false
     });
     axios.post('/api/movie/like', {
       movie: this.props.movie
@@ -41,10 +44,10 @@ class SmallMovieTile extends React.Component {
   }
 
   dislikeMovie() {
-    if (!this.state.canClickDislike) return;
+    if (!this.state.canLikeOrDislike) return;
     this.setState({
       dislikeButtonClass: inProcess,
-      canClickDislike: false
+      canLikeOrDislike: false
     });
     axios.post('/api/movie/dislike', {
       movie: this.props.movie
@@ -66,35 +69,33 @@ class SmallMovieTile extends React.Component {
       >
         <div className="row">
           <p className="col-sm-12 small-movie-tile-title">
-              {this.props.movie.title} ({this.props.movie.year})
+            {this.props.movie.title} ({this.props.movie.year})
           </p>
         </div>
-        <div 
+        <div
           onClick={(e, evt) => this.props.selectSmallTile(e, evt, this.props.movie)}
-          className="row poster-small"
+          className={this.props.isResults ? resultsPosterDivClass : searchPosterDivClass}
         >
           <img
-            className="col-sm-12 poster-small"
+            className={this.props.isResults ? resultsPosterImgClass : searchPosterImgClass}
             src={this.props.movie.poster}
             alt="Poster"
           />
         </div>
-        {this.props.showButtons &&
-          <div className="like-buttons">
-            <div className="col-sm-6">
-              <LoadingButton
-                buttonClass={this.state.likeButtonClass}
-                handleClick={this.likeMovie}
-              />
-            </div>
-            <div className="col-sm-6">
-              <LoadingButton
-                buttonClass={this.state.dislikeButtonClass}
-                handleClick={this.dislikeMovie}
-              />
-            </div>
+        <div className="like-buttons col-sm-10 col-centered">
+          <div className="col-sm-6">
+            <LoadingButton
+              buttonClass={this.state.likeButtonClass}
+              handleClick={this.likeMovie}
+            />
           </div>
-        }
+          <div className="col-sm-6">
+            <LoadingButton
+              buttonClass={this.state.dislikeButtonClass}
+              handleClick={this.dislikeMovie}
+            />
+          </div>
+        </div>
       </div>
     );
   }

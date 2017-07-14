@@ -85,7 +85,7 @@ module.exports.getUserResults = (req, res) => {
 
       // Create objects for the Movie.findAll $or operator,
       // which takes objects like this { dbColumn: columnValue }
-      for (let i = 0; i < 4; i += 1) {
+      for (let i = 0; i < 6; i += 1) {
         let randomMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
 
         // Need to handle if 0 bc no id 0 in table.
@@ -116,7 +116,7 @@ module.exports.getQuote = (req, res) => {
 };
 
 module.exports.getTrailer = (req, res) => {
-  const url = getYouTubeUrl(req.body.movie.title);
+  const url = getYouTubeUrl(req.body.movie.title + ' ' + req.body.movie.year);
   axios.get(url)
     .then(results => res.send(results.data.items[0]))
     .catch(err => res.sendStatus(404));
@@ -225,6 +225,8 @@ module.exports.getLargeTileData = (req, res) => {
     })
     .catch(err => console.log('Error getting movie: ', err));
 };
+
+
 
 /*
 
