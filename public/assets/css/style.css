@@ -161,6 +161,11 @@ a:hover {
   overflow-y: scroll;
 }
 
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}
+
 /************* QUOTE BOX **************/
 
 @keyframes spin {

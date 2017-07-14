@@ -82,7 +82,7 @@ class SmallMovieTile extends React.Component {
             alt="Poster"
           />
         </div>
-        <div className="like-buttons">
+        <div className="like-buttons col-sm-10 col-centered">
           <div className="col-sm-6">
             <LoadingButton
               buttonClass={this.state.likeButtonClass}
