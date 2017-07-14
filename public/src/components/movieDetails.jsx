@@ -2,13 +2,14 @@ import React from 'react';
 
 let criticIndex = 0;
 const MovieDetails = ({ movie }) => {
-  const criticScores = movie.ratings === ''
-    ? ''
-    : JSON.parse(movie.ratings).map(critic => (
-        <div key={criticIndex += 1}>
-          <p>{critic.Source}: {critic.Value}</p>
-        </div>
-      ));
+  console.log('Rendering MovieDetails with: ', movie);
+  // const criticScores = movie.ratings === ''
+  //   ? ''
+  //   : JSON.parse(movie.ratings).map(critic => (
+  //       <div key={criticIndex += 1}>
+  //         <p>{critic.Source}: {critic.Value}</p>
+  //       </div>
+  //     ));
 
   return (
     <span className="row">
@@ -41,7 +42,6 @@ const MovieDetails = ({ movie }) => {
             <p>Actors: {movie.actors} </p>
           </div>
           <div>
-            {criticScores}
           </div>
         </div>
       </span>

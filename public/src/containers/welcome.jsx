@@ -6,7 +6,7 @@ import LoginSplash from '../components/loginSplash.jsx';
 import Quote from './quote.jsx';
 
 const welcomeHeader = 'Welcome to ';
-const subHeader = 'A learning movie recommendation system';
+const subHeader = 'An adaptive movie recommendation system';
 const intro =
   `Our machine learning algorithm will get to know
   what kinds of movies you like and ensure that you will always have
@@ -128,29 +128,27 @@ class Welcome extends React.Component {
       : <LoginSplash />;
 
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="jumbotron welcome">
-              <div >
-                <h1 className="welcome-title">
-                  <span>{welcomeHeader}</span>
-                  <span>{this.state.title.slice(0,2)}</span>
-                  <span className={this.state.titleClass}>{this.state.title.slice(2)}</span>
-                </h1>
-                <h4>{subHeader}</h4>
-                <p>{intro}</p>
-              </div>
-              <span>
-                <Link to="/lightning">
-                  <button className="btn btn-lg btn-primary">
-                    Start Picking Movies
-                  </button>
-                </Link>
-              </span>
-              <div className="welcome-footer">
-                {footer}
-              </div>
+      <div>
+        <div className="jumbotron welcome fadeIn">
+          <div className="container">
+            <div>
+              <h1 className="welcome-title">
+                <span>{welcomeHeader}</span>
+                <span>{this.state.title.slice(0, 2)}</span>
+                <span className={this.state.titleClass}>{this.state.title.slice(2)}</span>
+              </h1>
+              <h4>{subHeader}</h4>
+              <p>{intro}</p>
+            </div>
+            <span>
+              <Link to="/lightning">
+                <button className="btn btn-lg btn-primary start-lightning">
+                  Start Picking Movies
+                </button>
+              </Link>
+            </span>
+            <div className="welcome-footer">
+              {footer}
             </div>
           </div>
         </div>

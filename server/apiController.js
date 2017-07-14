@@ -1,7 +1,8 @@
 const axios = require('axios');
 const db = require('../database/dbSetup.js');
-
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
+const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
+const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
 const theMovieDbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=`;
 const theMovieDbPosterUrl = `http://image.tmdb.org/t/p/w185`;
 const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
@@ -84,7 +85,7 @@ module.exports.getUserResults = (req, res) => {
 
       // Create objects for the Movie.findAll $or operator,
       // which takes objects like this { dbColumn: columnValue }
-      for (let i = 0; i < 4; i += 1) {
+      for (let i = 0; i < 6; i += 1) {
         let randomMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
 
         // Need to handle if 0 bc no id 0 in table.
@@ -115,7 +116,7 @@ module.exports.getQuote = (req, res) => {
 };
 
 module.exports.getTrailer = (req, res) => {
-  const url = getYouTubeUrl(req.body.movie.title);
+  const url = getYouTubeUrl(req.body.movie.title + ' ' + req.body.movie.year);
   axios.get(url)
     .then(results => res.send(results.data.items[0]))
     .catch(err => res.sendStatus(404));
@@ -132,7 +133,23 @@ module.exports.getSearchAutoComplete = (req, res) => {
     });
 };
 
+module.exports.likeMovie = (req, res) => {
+  console.log('likeMovie received: ', req.body.movie);
+  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  axios.post(movieUrl)
+    .then((results) => {
+      console.log('likeMovie received: ', results.data);
+      res.sendStatus(200);
+    })
+    .catch(err => console.log('Error getting movie: ', err));
+}
 
+module.exports.dislikeMovie = (req, res) => {
+  console.log('dislikeMovie received: ', req.body.movie);
+  res.sendStatus(200);
+}
+
+// Testing. Not currently used.
 module.exports.handleMovieSearchTMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
@@ -159,16 +176,57 @@ module.exports.handleMovieSearchTMDB = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
-// Testing. Not currently used.
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
-  const searchUrl = omdbUrl + movieName;
-  console.log(searchUrl);
+  const searchUrl = omdbSearchUrl + movieName;
+  console.log('Searching for movies: ', searchUrl);
   axios.post(searchUrl)
-    .then(results => res.send(results.data))
-    .catch(err => res.status(500).send(err));
+    .then(results => {
+      console.log('Received: ', results.data.Search);
+      const movies = results.data.Search.map((movie) => {
+        console.log('Creating movie: ', movie);
+        return {
+          title: movie.Title,
+          year: movie.Year,
+          poster: movie.Poster,
+          imdbID: movie.imdbID
+        };
+      });
+
+      res.send(movies);
+    })
+    .catch(err => res.status(404).send([]));
 };
+
+const reshapeMovieData = movie => {
+  return Object.assign({}, {
+    title: movie.Title,
+    poster: movie.Poster,
+    plot: movie.Plot,
+    rated: movie.Rated,
+    year: movie.Year,
+    genre: movie.Genre,
+    director: movie.Director,
+    writer: movie.Writer,
+    actors: movie.Actors,
+    metascore: movie.Metascore
+  });
+};
+
+module.exports.getLargeTileData = (req, res) => {
+  console.log('getLargeTileData received: ', req.body.movie);
+  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  axios.post(movieUrl)
+    .then((results) => {
+      console.log('getLargeTileData received: ', results.data);
+      const movie = reshapeMovieData(results.data);
+      res.send(movie);
+    })
+    .catch(err => console.log('Error getting movie: ', err));
+};
+
+
 
 /*
 
