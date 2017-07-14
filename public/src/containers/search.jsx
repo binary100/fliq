@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import SearchResultsTable from '../components/searchResultsTable.jsx';
 import LargeMovieTile from '../components/largeMovieTile.jsx';
-import ReactDOM from 'react-dom'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Search extends React.Component {
 
@@ -102,16 +102,23 @@ class Search extends React.Component {
             </div>
         </div>
         <div>
-          <SearchResultsTable
-            selectSmallTile={this.selectSmallTile}
-            movies={this.state.searchResults}
-          />
+          <ReactCSSTransitionGroup
+            transitionName="tileFade"
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}
+          >
+            <SearchResultsTable
+              selectSmallTile={this.selectSmallTile}
+              movies={this.state.searchResults}
+            />
+          </ReactCSSTransitionGroup>
           {largeTile}
         </div>
       </div>
     );
   }
-  
 }
 
 export default Search;

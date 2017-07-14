@@ -45,7 +45,7 @@ class Results extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="fadeIn">
         <div>
           <ResultsBody
             trailer={this.state.trailer}

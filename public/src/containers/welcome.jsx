@@ -129,7 +129,7 @@ class Welcome extends React.Component {
 
     return (
       <div>
-        <div className="jumbotron welcome">
+        <div className="jumbotron welcome fadeIn">
           <div className="container">
             <div>
               <h1 className="welcome-title">
