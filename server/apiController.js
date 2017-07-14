@@ -200,6 +200,35 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
     .catch(err => res.status(404).send([]));
 };
 
+const reshapeMovieData = movie => {
+  return Object.assign({}, {
+    title: movie.Title,
+    poster: movie.Poster,
+    plot: movie.Plot,
+    rated: movie.Rated,
+    year: movie.Year,
+    genre: movie.Genre,
+    director: movie.Director,
+    writer: movie.Writer,
+    actors: movie.Actors,
+    metascore: movie.Metascore
+  });
+};
+
+module.exports.getLargeTileData = (req, res) => {
+  console.log('getLargeTileData received: ', req.body.movie);
+  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  axios.post(movieUrl)
+    .then((results) => {
+      console.log('getLargeTileData received: ', results.data);
+      const movie = reshapeMovieData(results.data);
+      res.send(movie);
+    })
+    .catch(err => console.log('Error getting movie: ', err));
+};
+
+
+
 /*
 
 {
