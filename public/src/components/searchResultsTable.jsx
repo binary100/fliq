@@ -11,6 +11,7 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
           <span className="col-sm-6">
             <SmallMovieTile
               key={count += 1}
+              showButtons={true}
               selectSmallTile={selectSmallTile}
               movie={movies[i]}
             />
@@ -18,6 +19,7 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
           <span className="col-sm-6">
             <SmallMovieTile
               key={count += 1}
+              showButtons={true}
               selectSmallTile={selectSmallTile}
               movie={movies[i+1]}
             />
