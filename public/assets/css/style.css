@@ -143,6 +143,19 @@ a:hover {
   min-height: 2em;
 }
 
+/************* SEARCH BOX **************/
+
+.search {
+  height: 100vh;
+  overflow: scroll;
+
+}
+
+.search-table {
+  height: 100%;
+  overflow: auto;
+}
+
 /************* QUOTE BOX **************/
 
 @keyframes spin {
