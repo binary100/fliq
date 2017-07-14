@@ -23,7 +23,11 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     this.handleSearch('star wars');
+=======
+    this.handleSearch('transformers');
+>>>>>>> style($style): Amend styling of search layout
   }
 
   handleSearch(query) {
@@ -53,6 +57,8 @@ class Search extends React.Component {
     .then((results) => {
       console.log('selectSmallTile receied: ', results.data);
       this.setState({ selectedMovie: results.data });
+      // const node = ReactDOM.findDOMNode(this.mainTile);
+      // node.scrollIntoView({ behavior: 'smooth' });
     })
     .catch(err => console.error(err));
   }
@@ -72,7 +78,7 @@ class Search extends React.Component {
       <div ref={(el) => { this.mainTile = el; }} className="container">
         <div>
           <h3>
-            Search star wars
+            Search
           </h3>
         </div>
         <div>

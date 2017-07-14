@@ -75,24 +75,14 @@ a:hover {
   background-color: #111314;
   bottom: 0;
   position: absolute;
-<<<<<<< HEAD
   height: 37vh;
   padding: 0 10px;
   left: 0;
-=======
-  height: 220px;
-  padding: 0 25px;
->>>>>>> style($stye): Refactor results tiles to properly size
 }
 
 .small-movie-tile {
   padding: 10px;
-<<<<<<< HEAD
   text-align: center;
-=======
-  max-height: 400px;
-  overflow: auto;
->>>>>>> style($stye): Refactor results tiles to properly size
 }
 
 .small-movie-tile:hover {
@@ -155,7 +145,6 @@ a:hover {
 }
 
 .small-movie-tile-title {
-<<<<<<< HEAD
   height: 2.5em;
 }
 
@@ -170,17 +159,15 @@ a:hover {
   overflow-y: scroll;
 }
 
-/************* SEARCH BOX **************/
-
-.search {
-  height: 100vh;
-  overflow: scroll;
-
+.like-buttons {
+  text-align: center;
 }
 
+/************* SEARCH BOX **************/
+
 .search-table {
-  height: 100%;
-  overflow: auto;
+  height: 78vh;
+  overflow-y: scroll;
 }
 
 /************* QUOTE BOX **************/
