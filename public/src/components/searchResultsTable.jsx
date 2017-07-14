@@ -4,10 +4,10 @@ import SmallMovieTile from './smallMovieTile.jsx';
 const SearchResultsTable = ({ movies, selectSmallTile }) => {
   let count = 0;
   let arr = [];
-  for (var i = 0; i < movies.length; i+=2) {
+  for (var i = 0; i < movies.length; i += 2) {
     const result = (
-      <div className="row">
-        <div className="col-sm-12">
+      <div>
+        <div>
           <span className="col-sm-6">
             <SmallMovieTile
               key={count += 1}
@@ -29,7 +29,7 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
   }
 
   return (
-    <div className="col-sm-6 search">
+    <div className="col-sm-6 search-table">
         {movies.length ? arr : null}
     </div>
   );

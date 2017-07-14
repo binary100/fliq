@@ -5,7 +5,7 @@ body, html {
   font-family: 'Montserrat', sans-serif;
   color: white;
   background-color: #333333;
-  height: 100vh;
+  height: 100%;
 }
 
 a:link {
@@ -68,15 +68,14 @@ a:hover {
   background-color: #111314;
   bottom: 0;
   position: absolute;
-  height: 220px;
-  padding: 0 25px;
+  height: 30vh;
+  padding: 0 10px;
 }
 
 .small-movie-tile {
-  /*margin-left: 15px;*/
+  /*height: 270px;*/
   padding: 10px;
-  max-height: 400px;
-  overflow: auto;
+  text-align: center;
 }
 
 .small-movie-tile:hover {
@@ -111,8 +110,8 @@ a:hover {
 .poster-small {
   display: block;
   margin: auto;
-  max-height: auto;
-  max-width: 70%;
+  height: 200px;
+  width: 175px;
 }
 
 /*.oauth-button {
@@ -139,21 +138,18 @@ a:hover {
 }
 
 .small-movie-tile-title {
-  /*width: 100vw*/;
-  min-height: 2em;
+  height: 2.5em;
+}
+
+.like-buttons {
+  text-align: center;
 }
 
 /************* SEARCH BOX **************/
 
-.search {
-  height: 100vh;
-  overflow: scroll;
-
-}
-
 .search-table {
-  height: 100%;
-  overflow: auto;
+  height: 78vh;
+  overflow-y: scroll;
 }
 
 /************* QUOTE BOX **************/

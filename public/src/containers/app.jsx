@@ -37,7 +37,6 @@ class App extends React.Component {
         <Router history={browserHistory}>
           <div>
             <Header user={this.props.auth.user} handleLogout={this.handleLogout} />
-            <div>
               <Switch>
                 <Route exact path="/" component={Welcome} />
                 <Route path="/results" component={Results} />
@@ -45,9 +44,7 @@ class App extends React.Component {
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/search" component={Search} />
                 <Route path="*" component={Welcome} />
-
               </Switch>
-            </div>
           </div>
         </Router>
       </div>
