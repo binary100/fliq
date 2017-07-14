@@ -65,14 +65,13 @@ class SmallMovieTile extends React.Component {
         className="small-movie-tile"
       >
         <div className="row">
-          <p
-            className="col-sm-12 small-movie-tile-title">
+          <p className="col-sm-12 small-movie-tile-title">
               {this.props.movie.title} ({this.props.movie.year})
           </p>
         </div>
         <div 
           onClick={(e, evt) => this.props.selectSmallTile(e, evt, this.props.movie)}
-          className="row"
+          className="row poster-small"
         >
           <img
             className="col-sm-12 poster-small"
@@ -80,21 +79,19 @@ class SmallMovieTile extends React.Component {
             alt="Poster"
           />
         </div>
-        <div className="row">
-          <span className="col-sm-12">
-            <div className="col-sm-6">
-              <LoadingButton
-                buttonClass={this.state.likeButtonClass}
-                handleClick={this.likeMovie}
-              />
-            </div>
-            <div className="col-sm-6">
-              <LoadingButton
-                buttonClass={this.state.dislikeButtonClass}
-                handleClick={this.dislikeMovie}
-              />
-            </div>
-          </span>
+        <div className="like-buttons">
+          <div className="col-sm-6">
+            <LoadingButton
+              buttonClass={this.state.likeButtonClass}
+              handleClick={this.likeMovie}
+            />
+          </div>
+          <div className="col-sm-6">
+            <LoadingButton
+              buttonClass={this.state.dislikeButtonClass}
+              handleClick={this.dislikeMovie}
+            />
+          </div>
         </div>
       </div>
     );

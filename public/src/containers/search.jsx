@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import SearchResultsTable from '../components/searchResultsTable.jsx';
 import LargeMovieTile from '../components/largeMovieTile.jsx';
+import ReactDOM from 'react-dom'
 
 class Search extends React.Component {
 
@@ -19,6 +20,10 @@ class Search extends React.Component {
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.selectSmallTile = this.selectSmallTile.bind(this);
+  }
+
+  componentDidMount() {
+    this.handleSearch('transformers');
   }
 
   handleSearch(query) {
@@ -48,6 +53,8 @@ class Search extends React.Component {
     .then((results) => {
       console.log('selectSmallTile receied: ', results.data);
       this.setState({ selectedMovie: results.data });
+      // const node = ReactDOM.findDOMNode(this.mainTile);
+      // node.scrollIntoView({ behavior: 'smooth' });
     })
     .catch(err => console.error(err));
   }
@@ -64,15 +71,15 @@ class Search extends React.Component {
       : null;
 
     return (
-      <div className="container">
-        <div className="row">
+      <div ref={(el) => { this.mainTile = el; }} className="container">
+        <div>
           <h3>
-            Search star wars
+            Search
           </h3>
         </div>
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="row">
+        <div>
+            <div>
+              <div>
                 <div>
                     <FormGroup>
                       <InputGroup>
@@ -93,12 +100,12 @@ class Search extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-        <div className="row">
-            <SearchResultsTable
-              selectSmallTile={this.selectSmallTile}
-              movies={this.state.searchResults}
-            />
+        </div>
+        <div>
+          <SearchResultsTable
+            selectSmallTile={this.selectSmallTile}
+            movies={this.state.searchResults}
+          />
           {largeTile}
         </div>
       </div>
@@ -111,18 +118,11 @@ export default Search;
 
 
 /*
-
-<InputGroup.Button>
-  <DropdownButton
-    title="Dropdown"
-    id="bg-vertical-dropdown-1"
-    onSelect={this.handleDropDownSelect}
-  >
-    <MenuItem eventKey="Movie">Movie</MenuItem>
-    <MenuItem eventKey="Genre">Genre</MenuItem>
-    <MenuItem eventKey="Director">Director</MenuItem>
-    <MenuItem eventKey="Actor">Actor</MenuItem>
-  </DropdownButton>
-</InputGroup.Button>
-
+    <div>
+            <SearchResultsTable
+              selectSmallTile={this.selectSmallTile}
+              movies={this.state.searchResults}
+            />
+          {largeTile}
+        </div>
 */
