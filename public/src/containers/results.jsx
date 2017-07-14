@@ -3,7 +3,6 @@ import ResultsBody from '../components/resultsBody.jsx';
 import ResultsTileBar from '../components/resultsTileBar.jsx';
 import axios from 'axios';
 
-
 class Results extends React.Component {
   constructor(props) {
     super(props);
