@@ -53,8 +53,6 @@ class Search extends React.Component {
     .then((results) => {
       console.log('selectSmallTile receied: ', results.data);
       this.setState({ selectedMovie: results.data });
-      // const node = ReactDOM.findDOMNode(this.mainTile);
-      // node.scrollIntoView({ behavior: 'smooth' });
     })
     .catch(err => console.error(err));
   }
@@ -74,7 +72,7 @@ class Search extends React.Component {
       <div ref={(el) => { this.mainTile = el; }} className="container">
         <div>
           <h3>
-            Search
+            Search star wars
           </h3>
         </div>
         <div>

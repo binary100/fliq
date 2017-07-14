@@ -29,7 +29,7 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
     );
     arr.push(result);
   }
-
+  
   return (
     <div className="col-sm-6 search-table">
         {movies.length ? arr : null}
