@@ -67,8 +67,29 @@ module.exports.getTwoMovies = (req, res) => {
     .catch(error => res.status(500).send(error));
 };
 
+// Populates Tags Model and MovieTags Model
+module.exports.populateTags = (req, res) => {
+  db.movies.findAll()
+    .then(movieArray =>
+      movieArray.map((movie) => {
+        movie.reduce((acc, curr) => {
+
+        }, []);
+      }
+        // new Promise((resolve, reject) =>
+        //   db.movies.find({ where: { id } })
+        //     .then(foundMovie => resolve(foundMovie))
+        //     .catch(error => reject(error))
+        // )
+      )
+    )
+    .then(dbPromises => Promise.all(dbPromises))
+    .then(resultsArray => res.status(200).send(resultsArray))
+    .catch(error => res.status(500).send(error));
+};
+
 module.exports.handleLightningSelection = (req, res) => {
-  console.log('Lightning selection: ', req.body.movie);
+  console.log('Lightning selection: ', req.body.movie, 'STUFFS: ', req.body.movies);
   res.sendStatus(201);
 };
 
