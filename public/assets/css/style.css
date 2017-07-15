@@ -133,6 +133,10 @@ at this phase of development
   overflow: auto;
 }
 
+.email-inputs {
+  margin-top: 18px;
+}
+
 .email-input-box {
   padding-left: 0;
   padding-right: 0;

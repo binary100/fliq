@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button, FormControl, FormGroup, InputGroup } from 'react-bootstrap';
+import LargeMovieTile from '../components/largeMovieTile.jsx';
 
 const subHeader = `FLIQ's recommendation engine can aggregate several people's preferences to suggest 
   movies that the group may enjoy. Enter other users' email addresses below and search for movies to watch.`;
@@ -110,6 +111,10 @@ class MovieNight extends React.Component {
       <li key={count += 1} onDoubleClick={this.removeEmail}>{email}</li>
     );
 
+    const largeTile = this.state.selectedMovie
+      ? <LargeMovieTile movie={this.state.selectedMovie} />
+      : null;
+
     return (
       <div className="container fadeIn">
         <div className="row">
@@ -118,52 +123,55 @@ class MovieNight extends React.Component {
             <h4>{subHeader}</h4>
           </div>
         </div>
-        <div className="col-sm-5">
-          <div className="row email-inputs">
-            <div className="col-sm-12 email-input-box">
-              <FormGroup>
-                <InputGroup>
-                  <InputGroup.Addon>
-                    Email Address
-                  </InputGroup.Addon>
-                  <FormControl type="email" onChange={this.handleInputChange} />
-                  <InputGroup.Button className="email-input-button">
-                    <Button onClick={this.searchEmail}>Search</Button>
-                  </InputGroup.Button>
-                </InputGroup>
-              </FormGroup>
+        <div className="row">
+          <div className="col-sm-5">
+            <div className="row email-inputs">
+              <div className="col-sm-12 email-input-box">
+                <FormGroup>
+                  <InputGroup>
+                    <InputGroup.Addon>
+                      Email Address
+                    </InputGroup.Addon>
+                    <FormControl type="email" onChange={this.handleInputChange} />
+                    <InputGroup.Button className="email-input-button">
+                      <Button onClick={this.searchEmail}>Search</Button>
+                    </InputGroup.Button>
+                  </InputGroup>
+                </FormGroup>
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-sm-12 email-box">
-              <ul className="email-input-list">
-                {emails}
-              </ul>
+            <div className="row">
+              <div className="col-sm-12 email-box">
+                <ul className="email-input-list">
+                  {emails}
+                </ul>
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <span className="col-sm-12 movienight-confirm-box">
-              <span className={this.state.confirmClass}>
-                {this.state.confirmText}
+            <div className="row">
+              <span className="col-sm-12 movienight-confirm-box">
+                <span className={this.state.confirmClass}>
+                  {this.state.confirmText}
+                </span>
               </span>
-            </span>
-          </div>
-          <div className="row">
-            <div >
-              <button
-                className="btn btn-default btn-primary col-sm-5 fliq-button"
-                onClick={this.clearEmails}
-              >
-                Clear Emails
-              </button>
-              <button
-                className="btn btn-default btn-primary col-sm-5 fliq-button"
-                onClick={this.getResults}
-              >
-                Get Movies!
-              </button>
+            </div>
+            <div className="row">
+              <div >
+                <button
+                  className="btn btn-default btn-primary col-sm-5 fliq-button"
+                  onClick={this.clearEmails}
+                >
+                  Clear Emails
+                </button>
+                <button
+                  className="btn btn-default btn-primary col-sm-5 fliq-button"
+                  onClick={this.getResults}
+                >
+                  Get Movies!
+                </button>
+              </div>
             </div>
           </div>
+          {largeTile}
         </div>
       </div>
     );
