@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
+import PieChart from '../components/pieChart.jsx';
 
 
 class Dashboard extends React.Component {
@@ -9,14 +10,24 @@ class Dashboard extends React.Component {
     super(props);
   }
 
+//container
+//row
+//column
+
   render() {
-    console.log('In dashboard render, props is: ', this.props);
+    console.log('In Dashboard render, props is: ', this.props);
     return (
-      <div>
-        <div>
-          <DashboardUserProfile
-            user={this.props.auth.user}
-          />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-lg-12">
+            <DashboardUserProfile
+              user={this.props.auth.user}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <PieChart/>
+          <PieChart/>
         </div>
       </div>
     )
@@ -31,3 +42,8 @@ export default connect(
   mapStateToProps,
   null
 )(Dashboard);
+
+/*
+
+
+*/
