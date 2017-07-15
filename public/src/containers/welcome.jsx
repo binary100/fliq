@@ -142,7 +142,7 @@ class Welcome extends React.Component {
             </div>
             <span>
               <Link to="/lightning">
-                <button className="btn btn-lg btn-primary start-lightning">
+                <button className="btn btn-lg btn-primary fliq-button">
                   Start Picking Movies
                 </button>
               </Link>

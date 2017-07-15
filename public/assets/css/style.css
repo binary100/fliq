@@ -47,7 +47,7 @@ at this phase of development
 
 .tileFade-enter.tileFade-enter-active {
   opacity: 1;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 500ms ease-in;
 }
 
 .tileFade-leave {
@@ -56,7 +56,15 @@ at this phase of development
 
 .tileFade-leave.tileFade-leave-active {
   opacity: 0.01;
-  transition: opacity 0.3s ease-in;
+  transition: opacity 300ms ease-in;
+}
+
+/************* SITE WIDE **************/
+
+.fliq-button {
+  margin-right: 20px;
+  background: #27ae60;
+  border: 1px solid #27ae60;
 }
 
 /************* WELCOME PAGE **************/
@@ -78,10 +86,6 @@ at this phase of development
   font-family: 'Open Sans';
 }
 
-.start-lightning {
-  background: #27ae60;
-  border: 1px solid #27ae60;
-}
 .start-lightning:hover,
 .start-lightning:focus,
 .start-lightning:active, {
@@ -115,6 +119,23 @@ at this phase of development
   background-color: #444444;
   height: 200px;
   border-radius: 3px;
+}
+
+.email-input-box {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.movienight-confirm-box {
+  height: 2em;
+}
+
+.movienight-email-success {
+  color: #2ecc71;
+}
+
+.movienight-email-failure {
+  color: red;
 }
 
 /************* RESULTS PAGE **************/
