@@ -199,6 +199,11 @@ at this phase of development
   animation: 0.8s fadeIn ease;
 }
 
+.fadeOut {
+  opacity: 0;
+  transition: 500ms all ease;
+}
+
 .fadeInDown {
   animation: 0.8s fadeInDown ease;
 }

@@ -43,13 +43,20 @@ class MovieNight extends React.Component {
     })
       .then((results) => {
         if (results.data.success) {
-          const newEmailsArray = this.state.emails.slice();
-          newEmailsArray.push(results.data.email);
-          this.setState({
-            emails: newEmailsArray,
-            confirmText: 'User added!',
-            confirmClass: 'movienight-email-success'
-          });
+          if (this.state.emails.includes(results.data.email)) {
+            this.setState({
+              confirmText: 'You already added that user! :)',
+              confirmClass: 'movienight-email-failure'
+            });
+          } else {
+            const newEmailsArray = this.state.emails.slice();
+            newEmailsArray.push(results.data.email);
+            this.setState({
+              emails: newEmailsArray,
+              confirmText: 'User added!',
+              confirmClass: 'movienight-email-success'
+            });
+          }
         } else {
           this.setState({
             confirmText: `Whoops! We don't have any users with that email.`,
@@ -82,8 +89,9 @@ class MovieNight extends React.Component {
 
   clearConfirmText() {
     setTimeout(() => {
+      const newClass = `${this.state.confirmClass} fadeOut`;
       this.setState({
-        confirmText: ''
+        confirmClass: newClass
       });
     }, 3000);
   }
