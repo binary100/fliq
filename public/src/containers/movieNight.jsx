@@ -29,12 +29,13 @@ class MovieNight extends React.Component {
       emails: this.state.emails
     })
       .then((results) => {
+        console.log('Received: ', results.data);
         this.setState({
-          searchResults: results.data.results,
-          selectedMovie: results.data.results[0]
+          searchResults: results.data,
+          selectedMovie: results.data[0]
         });
       })
-      .catch(err => console.error('Error getting results: ', error));
+      .catch(err => console.error('Error getting results: ', err));
   }
 
   searchEmail() {

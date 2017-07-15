@@ -238,3 +238,12 @@ module.exports.verifyUserEmail = (req, res) => {
       res.sendStatus(500);
     });
 };
+
+module.exports.getMovieNightResults = (req, res) => {
+  this.getUserResults(req, res);
+};
+
+
+
+
+

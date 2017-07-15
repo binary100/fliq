@@ -14,6 +14,7 @@ router.post('/api/movie/like', apiController.likeMovie);
 router.post('/api/movie/dislike', apiController.dislikeMovie);
 router.post('/api/movie/select', apiController.getLargeTileData);
 router.post('/api/user/email/verify', apiController.verifyUserEmail);
+router.post('/api/movienight', apiController.getMovieNightResults);
 
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_likes'] }));
