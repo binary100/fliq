@@ -1,4 +1,4 @@
-wconst path = require('path');
+const path = require('path');
 
 const SRC_DIR = path.resolve(__dirname, 'public/src');
 const BUILD_DIR = path.resolve(__dirname, 'public/dist');
