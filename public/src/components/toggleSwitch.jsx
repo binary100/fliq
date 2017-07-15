@@ -11,9 +11,9 @@ class ToggleSwitch extends React.Component {
     return (
       <div>
         <label className="switch">
+          Include Viewed Movies
           <input type="checkbox"></input>
           <span className="slider round"></span>
-          <label className="toggle-switch-label col-lg-6">Toggle Switch</label>
         </label>
       </div>
     )
