@@ -15,19 +15,15 @@ class Dashboard extends React.Component {
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-lg-12">
             <DashboardUserProfile
               user={this.props.auth.user}
             />
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6">
-            <PieChart/>
-          </div>
-          <div className="col-md-6">
-            <PieChart/>
-          </div>
+          <PieChart/>
+          <PieChart/>
         </div>
       </div>
     )
@@ -42,3 +38,8 @@ export default connect(
   mapStateToProps,
   null
 )(Dashboard);
+
+/*
+
+
+*/

@@ -29,13 +29,11 @@ const testOptions = {
 
 const PieChart = () => {
   return (
-    <div>
-      <div className="row">
-        <Pie
-          data={testData}
-          options={testOptions}
-        />
-      </div>
+    <div className="col-lg-6">
+      <Pie
+        data={testData}
+        options={testOptions}
+      />
     </div>
   )
 }
