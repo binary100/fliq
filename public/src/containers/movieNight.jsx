@@ -13,11 +13,28 @@ class MovieNight extends React.Component {
       confirmText: '',
       confirmClass: '',
       inputText: '',
-      emails: ['rob.cornell@gmail.com', 'jac@gmail.com', 'doctor@gmail.com']
+      emails: ['joe@hackreactor.com', 'jeff@hackreactor.com', 'john@hackreactor.com'],
+      searchResults: [],
+      selectedMovie: null
     };
     this.searchEmail = this.searchEmail.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.clearEmails = this.clearEmails.bind(this);
     this.removeEmail = this.removeEmail.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.getResults = this.getResults.bind(this);
+  }
+
+  getResults() {
+    axios.post('/api/movienight', {
+      emails: this.state.emails
+    })
+      .then((results) => {
+        this.setState({
+          searchResults: results.data.results,
+          selectedMovie: results.data.results[0]
+        });
+      })
+      .catch(err => console.error('Error getting results: ', error));
   }
 
   searchEmail() {
@@ -50,6 +67,10 @@ class MovieNight extends React.Component {
     this.setState({
       emails: newEmailsArray
     });
+  }
+
+  clearEmails() {
+    this.setState({ emails: [] });
   }
 
   handleInputChange(e) {
@@ -110,10 +131,10 @@ class MovieNight extends React.Component {
           </span>
         </div>
         <div className="row">
-          <button className="btn btn-lg btn-primary fliq-button">
+          <button className="btn btn-lg btn-primary fliq-button" onClick={this.clearEmails}>
             Clear Emails
           </button>
-          <button className="btn btn-lg btn-primary fliq-button">
+          <button className="btn btn-lg btn-primary fliq-button" onClick={this.getResults}>
             Get Movies!
           </button>
         </div>
