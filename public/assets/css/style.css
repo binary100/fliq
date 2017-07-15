@@ -1,5 +1,14 @@
 @import "./animate.css";
 
+/************* TEST ONLY **************/
+
+/* sorry navbar was annoyaf, delete later */
+.nav > li {
+  float: left;
+}
+
+/************* STYLE PAGE START **************/
+
 body, html {
   margin: 0;
   padding: 0;
@@ -348,6 +357,7 @@ at this phase of development
 }
 
 /************* LAUNCHPAD **************/
+
 
 /* TAGS */
 .launchPadPage {
