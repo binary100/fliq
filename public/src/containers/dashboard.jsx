@@ -24,9 +24,6 @@ class Dashboard extends React.Component {
             <ToggleSwitch/>
             <ToggleSwitch/>
           </div>
-          <div className="col-lg-2">
-            <ToggleSwitch/>
-          </div>
         </div>
         <br></br>
         <div className="row">
