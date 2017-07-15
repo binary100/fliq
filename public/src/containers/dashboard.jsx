@@ -17,14 +17,15 @@ class Dashboard extends React.Component {
   render() {
     console.log('In Dashboard render, props is: ', this.props);
     return (
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
-          <DashboardUserProfile
-            user={this.props.auth.user}
-          />
-          <pieChart/>
+          <div className="col-lg-12">
+            <DashboardUserProfile
+              user={this.props.auth.user}
+            />
+          </div>
         </div>
-        <div>
+        <div className="row">
           <PieChart/>
           <PieChart/>
         </div>
@@ -41,3 +42,8 @@ export default connect(
   mapStateToProps,
   null
 )(Dashboard);
+
+/*
+
+
+*/
