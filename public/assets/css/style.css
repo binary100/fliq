@@ -67,6 +67,17 @@ at this phase of development
   border: 1px solid #27ae60;
 }
 
+.fliq-button:hover {
+  background-color: #249e57;
+}
+
+.fliq-button:active,
+.fliq-button:focus {
+  background: #249e57;
+  border: 1px solid #249e57;
+  outline: none;
+}
+
 /************* WELCOME PAGE **************/
 
 .welcome {
