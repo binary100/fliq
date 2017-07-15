@@ -10,7 +10,7 @@ const LaunchPad = ({ tags }) => {
             {Object.keys(tags).map((tag,index) => {
 
               return (
-                <div key={tag}>
+                <div key={tag.index}>
                   <h1>{tag}</h1>
                   <LaunchPadTags tagArray={tags[tag]} />
                 </div>

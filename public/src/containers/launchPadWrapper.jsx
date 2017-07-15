@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import LaunchPad from './launchPad.jsx';
 import { Redirect } from 'react-router-dom';
+import anime from 'animejs';
 
 // DATA OBJECTS
   const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s','00s']

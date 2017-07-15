@@ -3,12 +3,12 @@ import TagBubble from './tagBubble.jsx';
 
 const LaunchPadTags = ({tagArray}) => {
   console.log("tagArray", tagArray)
-  // console.log("tagArray", Object.keys(tagArray))
+
   return (
     <div className="launchPadPage">
 
       <div>
-        <button onClick={this.props.handleClickNextLaunchPad}>Next</button>
+        <button>Next</button>
         <button>Prev</button>
       </div>
 
