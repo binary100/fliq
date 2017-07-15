@@ -150,10 +150,16 @@ class MovieNight extends React.Component {
           </div>
           <div className="row">
             <div >
-              <button className="btn btn-default btn-primary col-sm-5 fliq-button" onClick={this.clearEmails}>
+              <button
+                className="btn btn-default btn-primary col-sm-5 fliq-button"
+                onClick={this.clearEmails}
+              >
                 Clear Emails
               </button>
-              <button className="btn btn-default btn-primary col-sm-5 pull-right fliq-button" onClick={this.getResults}>
+              <button
+                className="btn btn-default btn-primary col-sm-5 fliq-button"
+                onClick={this.getResults}
+              >
                 Get Movies!
               </button>
             </div>
