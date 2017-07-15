@@ -20,11 +20,12 @@ class Dashboard extends React.Component {
             <DashboardUserProfile
               user={this.props.auth.user}
             />
-          </div>
-          <div className="col-lg-2">
+            <br></br>
+            <ToggleSwitch/>
             <ToggleSwitch/>
           </div>
         </div>
+        <br></br>
         <div className="row">
           <PieChart/>
           <PieChart/>
