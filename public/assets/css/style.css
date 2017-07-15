@@ -130,11 +130,22 @@ at this phase of development
   background-color: #444444;
   height: 200px;
   border-radius: 3px;
+  overflow: auto;
 }
 
 .email-input-box {
   padding-left: 0;
   padding-right: 0;
+  overflow-y: scroll;
+}
+
+.email-input-list {
+  list-style: none;
+}
+
+.email-input-list li {
+  padding: 0.5em;
+  border-bottom: 1px solid #2ecc71;
 }
 
 .movienight-confirm-box {

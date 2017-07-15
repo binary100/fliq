@@ -13,7 +13,15 @@ class MovieNight extends React.Component {
       confirmText: '',
       confirmClass: '',
       inputText: '',
-      emails: ['joe@hackreactor.com', 'jeff@hackreactor.com', 'john@hackreactor.com'],
+      emails: [
+        'joe@hackreactor.com',
+        'jeff@hackreactor.com',
+        'john@hackreactor.com',
+        'rob.cornell@gmail.com',
+        'jacqueline@gmail.com',
+        'davidr@earle.com',
+        'ta3woon@gmail.com'
+        ],
       searchResults: [],
       selectedMovie: null
     };
@@ -110,42 +118,46 @@ class MovieNight extends React.Component {
             <h4>{subHeader}</h4>
           </div>
         </div>
-        <div className="row email-inputs">
-          <div className="col-sm-5 email-input-box">
-            <FormGroup>
-              <InputGroup>
-                <InputGroup.Addon>
-                  Email Address
-                </InputGroup.Addon>
-                <FormControl type="email" onChange={this.handleInputChange} />
-                <InputGroup.Button className="email-input-button">
-                  <Button onClick={this.searchEmail}>Search</Button>
-                </InputGroup.Button>
-              </InputGroup>
-            </FormGroup>
+        <div className="col-sm-5">
+          <div className="row email-inputs">
+            <div className="col-sm-12 email-input-box">
+              <FormGroup>
+                <InputGroup>
+                  <InputGroup.Addon>
+                    Email Address
+                  </InputGroup.Addon>
+                  <FormControl type="email" onChange={this.handleInputChange} />
+                  <InputGroup.Button className="email-input-button">
+                    <Button onClick={this.searchEmail}>Search</Button>
+                  </InputGroup.Button>
+                </InputGroup>
+              </FormGroup>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-5 email-box">
-            <ul>
-              {emails}
-            </ul>
+          <div className="row">
+            <div className="col-sm-12 email-box">
+              <ul className="email-input-list">
+                {emails}
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <span className="col-sm-12 movienight-confirm-box">
-            <span className={this.state.confirmClass}>
-              {this.state.confirmText}
+          <div className="row">
+            <span className="col-sm-12 movienight-confirm-box">
+              <span className={this.state.confirmClass}>
+                {this.state.confirmText}
+              </span>
             </span>
-          </span>
-        </div>
-        <div className="row">
-          <button className="btn btn-lg btn-primary fliq-button" onClick={this.clearEmails}>
-            Clear Emails
-          </button>
-          <button className="btn btn-lg btn-primary fliq-button" onClick={this.getResults}>
-            Get Movies!
-          </button>
+          </div>
+          <div className="row">
+            <div >
+              <button className="btn btn-default btn-primary col-sm-5 fliq-button" onClick={this.clearEmails}>
+                Clear Emails
+              </button>
+              <button className="btn btn-default btn-primary col-sm-5 pull-right fliq-button" onClick={this.getResults}>
+                Get Movies!
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
