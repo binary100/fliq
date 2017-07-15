@@ -327,3 +327,8 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.toggle-switch-label {
+  margin-left: 55px;
+  white-space: nowrap;
+}
