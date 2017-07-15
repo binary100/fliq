@@ -1,12 +1,20 @@
 import React from 'react';
 import TagBubble from './tagBubble.jsx';
 
-const LaunchPadTags = ({tagName}) => {
-  // console.log('LaunchPadTagNames:', tagName)
+const LaunchPadTags = ({tagArray}) => {
+  console.log("tagArray", tagArray)
+  // console.log("tagArray", Object.keys(tagArray))
   return (
     <div className="launchPadPage">
-      <h1>Tag</h1>
-      {tagName.map(tagItem => <TagBubble key={tagItem} tagName={tagItem} />)}
+
+      <div>
+        <button onClick={this.props.handleClickNextLaunchPad}>Next</button>
+        <button>Prev</button>
+      </div>
+
+      <div>
+        {tagArray.map((tagItem, index) => <TagBubble key={tagItem.index} tagName={tagItem} />)}
+      </div>
     </div>
   );
 }

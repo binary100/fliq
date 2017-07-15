@@ -1,5 +1,18 @@
+<<<<<<< HEAD
 @import "./animate.css";
 
+||||||| merged common ancestors
+=======
+/************* TEST ONLY **************/
+
+/* sorry navbar was annoyaf, delete later */
+.nav > li {
+  float: left;
+}
+
+/************* STYLE PAGE START **************/
+
+>>>>>>> feat($launchPad): launchPadWrapper functions with selection and submission
 body, html {
   margin: 0;
   padding: 0;
@@ -324,6 +337,7 @@ at this phase of development
 }
 
 /************* LAUNCHPAD **************/
+
 
 /* TAGS */
 .launchPadPage {
