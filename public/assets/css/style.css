@@ -1,8 +1,9 @@
 @import "./animate.css";
 
+
 /************* TEST ONLY **************/
 
-/* sorry navbar was annoyaf, delete later */
+/* sorry navbar was annoyAF, delete later */
 .nav > li {
   float: left;
 }
