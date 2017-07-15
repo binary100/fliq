@@ -27,24 +27,17 @@ const testOptions = {
   maintainAspectRatio: true
 }
 
-
-class PieChart extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div>
+const PieChart = () => {
+  return (
+    <div>
+      <div className="row">
         <Pie
           data={testData}
-          width={100}
-          height={50}
           options={testOptions}
         />
       </div>
-    );
-  }
-};
+    </div>
+  )
+}
 
 export default PieChart;

@@ -10,24 +10,24 @@ class Dashboard extends React.Component {
     super(props);
   }
 
-//container
-//row
-//column
-
   render() {
     console.log('In Dashboard render, props is: ', this.props);
     return (
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
-
-          <DashboardUserProfile 
-            user={this.props.auth.user}
-          />
-
+          <div className="col-md-12">
+            <DashboardUserProfile
+              user={this.props.auth.user}
+            />
+          </div>
         </div>
-        <div>
-          <PieChart/>
-          <PieChart/>
+        <div className="row">
+          <div className="col-md-6">
+            <PieChart/>
+          </div>
+          <div className="col-md-6">
+            <PieChart/>
+          </div>
         </div>
       </div>
     )
