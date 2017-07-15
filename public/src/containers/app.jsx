@@ -7,6 +7,7 @@ import Results from './results.jsx';
 import Header from '../components/header.jsx';
 import LaunchPadWrapper from './launchPadWrapper.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
+import MovieNight from './movieNight.jsx';
 import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
 import { loginUser, logoutUser } from '../actions/actions.js';
@@ -47,6 +48,7 @@ class App extends React.Component {
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/search" component={Search} />
                 <Route path="/launchpad" component={LaunchPadWrapper} />
+                <Route path="/movienight" component={MovieNight} />
                 <Route path="*" component={Welcome} />
               </Switch>
           </div>
