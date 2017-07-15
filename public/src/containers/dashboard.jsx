@@ -3,16 +3,13 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
 import PieChart from '../components/pieChart.jsx';
+import ToggleSwitch from '../components/toggleSwitch.jsx';
 
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
   }
-
-//container
-//row
-//column
 
   render() {
     console.log('In Dashboard render, props is: ', this.props);
@@ -23,8 +20,12 @@ class Dashboard extends React.Component {
             <DashboardUserProfile
               user={this.props.auth.user}
             />
+            <br></br>
+            <ToggleSwitch/>
+            <ToggleSwitch/>
           </div>
         </div>
+        <br></br>
         <div className="row">
           <PieChart/>
           <PieChart/>
@@ -42,8 +43,3 @@ export default connect(
   mapStateToProps,
   null
 )(Dashboard);
-
-/*
-
-
-*/
