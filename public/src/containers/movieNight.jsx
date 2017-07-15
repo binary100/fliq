@@ -1,8 +1,10 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import axios from 'axios';
+import { Button, FieldGroup, FormControl, FormGroup, InputGroup } from 'react-bootstrap';
 
 const subHeader = `FLIQ's recommendation engine can aggregate several people's preferences to suggest 
   movies that the group may enjoy. Enter other users' email addresses below and search for movies to watch.`;
+let count = 0;
 
 class MovieNight extends React.Component {
   constructor(props) {
@@ -12,6 +14,23 @@ class MovieNight extends React.Component {
       inputText: '',
       emails: ['rob.cornell@gmail.com', 'jac@gmail.com', 'doctor@gmail.com']
     };
+    this.searchEmail = this.searchEmail.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  searchEmail() {
+    axios.post('/api/search/user', {
+      email: this.state.inputText
+    })
+      .then((results) => console.log('Received: ', results.data))
+      .catch(err => console.error('Error searching for email: ', err));
+  }
+
+  handleInputChange(e) {
+    console.log(e.target.value);
+    this.setState({
+      inputText: e.target.value
+    });
   }
 
   render() {
@@ -26,18 +45,24 @@ class MovieNight extends React.Component {
         </div>
 
         <div className="row email-inputs">
-          <div className="col-sm-3 email-input-box">
-            input goes here
+          <div className="col-sm-6 email-input-box">
+            <FormGroup>
+              <InputGroup>
+                <InputGroup.Addon>
+                  Email Address
+                </InputGroup.Addon>
+                <FormControl type="email" onChange={this.handleInputChange} />
+                <InputGroup.Button className="email-input-button">
+                  <Button onClick={this.searchEmail}>Search</Button>
+                </InputGroup.Button>
+              </InputGroup>
+            </FormGroup>
           </div>
-          <Button className="col-sm-1 email-input-button">
-            button
-          </Button>
         </div>
-
         <div className="row">
           <div className="col-sm-6 email-box">
             <ul>
-              {this.state.emails.map(email => <li>{email}</li>)}
+              {this.state.emails.map(email => <li key={count++}>{email}</li>)}
             </ul>
           </div>
         </div>

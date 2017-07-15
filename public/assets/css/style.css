@@ -109,6 +109,14 @@ at this phase of development
 
 }
 
+/************* MOVIE NIGHT **************/
+
+.email-box {
+  background-color: #444444;
+  height: 200px;
+  border-radius: 3px;
+}
+
 /************* RESULTS PAGE **************/
 
 .trailer {
