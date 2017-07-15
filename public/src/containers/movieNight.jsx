@@ -19,10 +19,25 @@ class MovieNight extends React.Component {
   }
 
   searchEmail() {
-    axios.post('/api/search/user', {
+    axios.post('/api/user/email/verify', {
       email: this.state.inputText
     })
-      .then((results) => console.log('Received: ', results.data))
+      .then((results) => {
+        console.log('Received: ', results.data)
+        if(results.data.success) {
+          const newEmailsArray = this.state.emails.slice();
+          newEmailsArray.push(results.data.email);
+          this.setState({
+            emails: newEmailsArray,
+            confirmText: ''
+          });
+
+        } else  {
+          this.setState({
+            confirmText: `Whoops! We don't have any users with that email.`
+          })
+        }
+      })
       .catch(err => console.error('Error searching for email: ', err));
   }
 
@@ -62,7 +77,7 @@ class MovieNight extends React.Component {
         <div className="row">
           <div className="col-sm-6 email-box">
             <ul>
-              {this.state.emails.map(email => <li key={count++}>{email}</li>)}
+              {this.state.emails.map(email => <li key={count += 1}>{email}</li>)}
             </ul>
           </div>
         </div>
