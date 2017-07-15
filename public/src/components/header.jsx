@@ -35,6 +35,11 @@ const Header = ({ handleLogout, user }) => (
             </Link>
           </li>
           <li>
+            <Link to="/movienight">
+              Movie Night
+            </Link>
+          </li>
+          <li>
             <Link to="/" onClick={handleLogout}>
               Logout
             </Link>

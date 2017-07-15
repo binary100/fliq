@@ -47,7 +47,7 @@ at this phase of development
 
 .tileFade-enter.tileFade-enter-active {
   opacity: 1;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 500ms ease-in;
 }
 
 .tileFade-leave {
@@ -56,7 +56,26 @@ at this phase of development
 
 .tileFade-leave.tileFade-leave-active {
   opacity: 0.01;
-  transition: opacity 0.3s ease-in;
+  transition: opacity 300ms ease-in;
+}
+
+/************* SITE WIDE **************/
+
+.fliq-button {
+  margin-right: 20px;
+  background: #27ae60;
+  border: 1px solid #27ae60;
+}
+
+.fliq-button:hover {
+  background-color: #249e57;
+}
+
+.fliq-button:active,
+.fliq-button:focus {
+  background: #249e57;
+  border: 1px solid #249e57;
+  outline: none;
 }
 
 /************* WELCOME PAGE **************/
@@ -78,10 +97,6 @@ at this phase of development
   font-family: 'Open Sans';
 }
 
-.start-lightning {
-  background: #27ae60;
-  border: 1px solid #27ae60;
-}
 .start-lightning:hover,
 .start-lightning:focus,
 .start-lightning:active, {
@@ -107,6 +122,46 @@ at this phase of development
 
 .timer-counter h2 {
 
+}
+
+/************* MOVIE NIGHT **************/
+
+.email-box {
+  background-color: #444444;
+  height: 200px;
+  border-radius: 3px;
+  overflow: auto;
+}
+
+.email-inputs {
+  margin-top: 18px;
+}
+
+.email-input-box {
+  padding-left: 0;
+  padding-right: 0;
+  overflow-y: scroll;
+}
+
+.email-input-list {
+  list-style: none;
+}
+
+.email-input-list li {
+  padding: 0.5em;
+  border-bottom: 1px solid #2ecc71;
+}
+
+.movienight-confirm-box {
+  height: 2em;
+}
+
+.movienight-email-success {
+  color: #2ecc71;
+}
+
+.movienight-email-failure {
+  color: red;
 }
 
 /************* RESULTS PAGE **************/
@@ -168,6 +223,15 @@ at this phase of development
 
 .fadeIn {
   animation: 0.8s fadeIn ease;
+}
+
+.fadeOut {
+  opacity: 0;
+  transition: 500ms all ease;
+}
+
+.fadeInDown {
+  animation: 0.8s fadeInDown ease;
 }
 
 .small-movie-tile {

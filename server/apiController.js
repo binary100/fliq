@@ -226,28 +226,24 @@ module.exports.getLargeTileData = (req, res) => {
     .catch(err => console.log('Error getting movie: ', err));
 };
 
+module.exports.verifyUserEmail = (req, res) => {
+  const { email } = req.body;
+  db.users.findOne({ where: { email } })
+    .then((user) => {
+      const responseObj = user ? { success: true, email: user.email } : { success: false };
+      res.send(responseObj);
+    })
+    .catch((error) => {
+      console.log(`Error finding user by email ${req.body.email}:`, error);
+      res.sendStatus(500);
+    });
+};
+
+module.exports.getMovieNightResults = (req, res) => {
+  this.getUserResults(req, res);
+};
 
 
-/*
 
-{
-    "vote_count": 5351,
-    "id": 1891,
-    "video": false,
-    "vote_average": 8.2,
-    "title": "The Empire Strikes Back",
-    "popularity": 3.812604,
-    "poster_path": "/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg",
-    "original_language": "en",
-    "original_title": "The Empire Strikes Back",
-    "genre_ids": [
-        12,
-        28,
-        878
-    ],
-    "backdrop_path": "/amYkOxCwHiVTFKendcIW0rSrRlU.jpg",
-    "adult": false,
-    "overview": "The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.",
-    "release_date": "1980-05-17"
-}
-*/
+
+
