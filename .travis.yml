@@ -1,4 +1,6 @@
 language: node_js
+node_js:
+  - "iojs"
 deploy:
   provider: elasticbeanstalk
   access_key_id: "AKIAILHOA3GUTEXEGZ4Q"
