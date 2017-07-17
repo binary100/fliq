@@ -3,10 +3,15 @@ import LargeMovieTile from './largeMovieTile.jsx';
 import Trailer from './trailer.jsx';
 
 const ResultsBody = ({ movie, trailer }) => {
+  let Tile = movie
+    ? <LargeMovieTile movie={movie} />
+    : null;
   return (
-    <div className="results-body">
-      <LargeMovieTile className="results-large-tile" movie={movie} />
-      <Trailer trailer={trailer} />
+    <div className="container results-body">
+      <div className="row">
+        {Tile}
+        <Trailer trailer={trailer} />
+      </div>
     </div>
   );
 };

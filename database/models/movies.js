@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Movie = sequelize.define('Movies', {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false
-    },
+    // id: {
+    //   type: DataTypes.UUID,
+    //   primaryKey: true,
+    //   defaultValue: DataTypes.UUIDV4,
+    //   allowNull: false
+    // },
     title: {
       type: DataTypes.STRING
     },
@@ -40,5 +40,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     }
   });
+
   return Movie;
 };

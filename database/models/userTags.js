@@ -1,16 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-  const Tag = sequelize.define('Tags', {
+  const userTag = sequelize.define('userTags', {
     // id: {
     //   type: DataTypes.UUID,
     //   primaryKey: true,
     //   defaultValue: DataTypes.UUIDV4,
     //   allowNull: false
     // },
-    tagName: {
-      type: DataTypes.STRING
+    viewsCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
-    tagType: {
-      type: DataTypes.STRING
+    picksCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
   });
 
@@ -22,5 +24,5 @@ module.exports = (sequelize, DataTypes) => {
   //   }
   // });
 
-  return Tag;
+  return userTag;
 };

@@ -5,8 +5,11 @@ import axios from 'axios';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
+import LaunchPadWrapper from './launchPadWrapper.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
-import Teach from './teach.jsx'
+import MovieNight from './movieNight.jsx';
+import Search from './search.jsx';
+import Dashboard from './dashboard.jsx';
 import { loginUser, logoutUser } from '../actions/actions.js';
 
 
@@ -17,6 +20,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
+    // console.log('In App ctor, props: ', props);
     axios.get('/account')
       .then((results) => {
         if (results.data.user) {
@@ -31,20 +35,22 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('In App render, props is: ', this.props);
+    // console.log('In App render, props is: ', this.props);
     return (
       <div>
         <Router history={browserHistory}>
           <div>
             <Header user={this.props.auth.user} handleLogout={this.handleLogout} />
-            <div>
               <Switch>
                 <Route exact path="/" component={Welcome} />
                 <Route path="/results" component={Results} />
                 <Route path="/lightning" component={LightningWrapper} />
-                <Route path="/teach" component={Teach} />
+                <Route path="/dashboard" component={Dashboard} />
+                <Route path="/search" component={Search} />
+                <Route path="/launchpad" component={LaunchPadWrapper} />
+                <Route path="/movienight" component={MovieNight} />
+                <Route path="*" component={Welcome} />
               </Switch>
-            </div>
           </div>
         </Router>
       </div>

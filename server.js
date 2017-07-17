@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const router = require('./server/router.js');
+const scrapeMovies = require('./server/facebookScraper.js');
 
 const session = require('express-session');
 const passport = require('passport');
@@ -15,6 +16,15 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // EXPRESS
 const app = express();
+
+
+// MODELS
+// const User = db.users;
+// const Movie = db.movies;
+// const Tag = db.tags;
+// const MovieTag = db.movieTags;
+// const UserTag = db.userTags;
+// const UserMovie = db.userMovies;
 
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,10 +47,11 @@ passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
   callbackURL: 'http://localhost:3000/auth/facebook/callback',
-  profileFields: ['id', 'displayName', 'photos', 'emails']
+  profileFields: ['id', 'displayName', 'photos', 'emails', 'movies']
 },
 (accessToken, refreshToken, profile, done) => {
   console.log('this is the facebook returned profile', profile);
+  console.log('this is the facebook USER_LIKES', profile._json.movies);
   db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
     if (!user) {
@@ -55,9 +66,11 @@ passport.use(new FacebookStrategy({
       .catch(err => console.error('Failed to create user:', err));
     } else {
       console.log('User found and already exists');
+      user.update({ loginNumber: user.loginNumber + 1 });
       return done(null, user);
     }
   })
+  .then(() => scrapeMovies(profile))
   .catch((err) => {
     console.error('Error finding user:', err);
     return done(err);

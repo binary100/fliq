@@ -1,16 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-  const Tag = sequelize.define('Tags', {
+  const userMovie = sequelize.define('userMovie', {
     // id: {
     //   type: DataTypes.UUID,
     //   primaryKey: true,
     //   defaultValue: DataTypes.UUIDV4,
     //   allowNull: false
     // },
-    tagName: {
-      type: DataTypes.STRING
+    seen: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
-    tagType: {
-      type: DataTypes.STRING
+    liked: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   });
 
@@ -22,5 +24,5 @@ module.exports = (sequelize, DataTypes) => {
   //   }
   // });
 
-  return Tag;
+  return userMovie;
 };
