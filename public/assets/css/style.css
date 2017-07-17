@@ -83,7 +83,7 @@ at this phase of development
   /*animation: 0.8s flipInX ease;*/
   margin-top: 10vh;
   color: white;
-  min-height: 450px;
+  min-height: 520px;
   text-align: left;
   background: #444444;
 }
@@ -302,7 +302,7 @@ at this phase of development
   }
 }
 
-.quote-box-invisible {
+.invisible {
   opacity: 0;
 }
 
