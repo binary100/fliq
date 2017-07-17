@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const router = require('./server/router.js');
+const scrapeMovies = require('./server/facebookScraper.js');
 
 const session = require('express-session');
 const passport = require('passport');
@@ -65,9 +66,11 @@ passport.use(new FacebookStrategy({
       .catch(err => console.error('Failed to create user:', err));
     } else {
       console.log('User found and already exists');
+      user.update({ loginNumber: user.loginNumber + 1 });
       return done(null, user);
     }
   })
+  .then(() => scrapeMovies(profile))
   .catch((err) => {
     console.error('Error finding user:', err);
     return done(err);

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Button, FormControl, FormGroup, InputGroup } from 'react-bootstrap';
 import LargeMovieTile from '../components/largeMovieTile.jsx';
+import ResultsTileBar from '../components/resultsTileBar.jsx';
 
 const subHeader = `FLIQ's recommendation engine can aggregate several people's preferences to suggest 
   movies that the group may enjoy. Enter other users' email addresses below and search for movies to watch.`;
@@ -23,7 +24,7 @@ class MovieNight extends React.Component {
         'davidr@earle.com',
         'ta3woon@gmail.com'
         ],
-      searchResults: [],
+      searchResults: null,
       selectedMovie: null
     };
     this.searchEmail = this.searchEmail.bind(this);
@@ -115,11 +116,14 @@ class MovieNight extends React.Component {
       ? <LargeMovieTile movie={this.state.selectedMovie} />
       : null;
 
+      const tileBar = this.state.searchResults
+        ? <div className="fadeIn"><ResultsTileBar movies={this.state.searchResults} /></div>
+        : null;
+
     return (
       <div className="container fadeIn">
         <div className="row">
           <div className="col-sm-12">
-            <h2>Movie Night</h2>
             <h4>{subHeader}</h4>
           </div>
         </div>
@@ -157,13 +161,13 @@ class MovieNight extends React.Component {
             <div className="row">
               <div >
                 <button
-                  className="btn btn-default btn-primary col-sm-5 fliq-button"
+                  className="btn btn-default btn-primary col-sm-5 pull-left fliq-button"
                   onClick={this.clearEmails}
                 >
                   Clear Emails
                 </button>
                 <button
-                  className="btn btn-default btn-primary col-sm-5 fliq-button"
+                  className="btn btn-default btn-primary col-sm-5 pull-right fliq-button"
                   onClick={this.getResults}
                 >
                   Get Movies!
@@ -172,6 +176,7 @@ class MovieNight extends React.Component {
             </div>
           </div>
           {largeTile}
+          {tileBar}
         </div>
       </div>
     );
