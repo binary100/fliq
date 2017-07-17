@@ -13,12 +13,9 @@ const intro =
   something interesting to watch. Log in, then click below to start 
   the lightning round phase, which will teach FLIQ's neural network
   about what you like.`;
-const nameArray = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
-  'F', 'L', 'I', 'Q'
-];
+
 const intervals = [];
 const targetTitle = 'FLIQ';
-
 const modalBodyFirst = `FLIQ's learning engine can only learn about you if you are logged in.`;
 const modalBodySecond = `If you want to try out the site, that's fine! 
                   Just remember that you will only
@@ -40,39 +37,36 @@ class Welcome extends React.Component {
   }
 
   componentDidMount() {
-    // this.animateTitle();
-    // this.animateTitleTwo();
-    this.animateTitleThree();
+    this.animateTitle();
   }
 
   componentWillUnmount() {
-    intervals.forEach((id) => clearInterval(id));
+    intervals.forEach(id => clearInterval(id));
   }
 
-  animateTitleThree() {
+  animateTitle() {
     let title = this.state.title;
     title.split('').forEach((letter, index) => {
       let remaining = 15;
-      const delay = Math.random() * 200;
       const intervalId = setInterval(() => {
-        let digit = '' + Math.round(Math.random());
+        const digit = '' + Math.round(Math.random());
         title = title.split('');
         title[index] = digit;
         title = title.join('');
         this.setState({ title });
         remaining -= 1;
         if (remaining === 0) {
-          intervals.forEach((id) => clearInterval(id));
+          intervals.forEach(id => clearInterval(id));
           this.concludeAnimation();
         }
-      }, 100);
+      }, 75);
       intervals.push(intervalId);
     });
   }
 
   concludeAnimation() {
-    let title = this.state.title.split('');
-    let remaining = title.length;
+    const title = this.state.title.split('');
+    const remaining = title.length;
     let i = 0;
     const intervalId = setInterval(() => {
       title[i] = targetTitle[i];
@@ -85,50 +79,6 @@ class Welcome extends React.Component {
     }, 100);
   }
 
-  animateTitleTwo() {
-    let title = this.state.title;
-    title.split('').forEach((letter, index) => {
-      let remaining = 20;
-      const delay = Math.random() * 200;
-      const intervalId = setInterval(() => {
-        let digit = '' + Math.round(Math.random());
-        title = title.split('');
-        title[index] = digit;
-        title = title.join('');
-        this.setState({ title });
-        remaining -= 1;
-        if (remaining === 0) {
-          let finalTitle = this.state.title;
-          finalTitle = finalTitle.split('');
-          finalTitle[index] = letter;
-          finalTitle.join('');
-          this.setState({
-            title: 'FLIQ',
-            titleClass: 'flick-iq'
-          });
-          clearInterval(intervalId);
-        }
-      }, 75);
-    });
-  }
-
-  animateTitle() {
-    const delay = 90;
-    let i = 0;
-    let next = '';
-    const intervalId = setInterval(() => {
-      next = nameArray[i + 4];
-      this.setState({
-        title: nameArray.slice(i, i + 4).join('')
-      });
-      i += 1;
-      if (next === undefined) {
-        this.setState({ titleClass: 'flick-iq' });
-        return clearInterval(intervalId);
-      }
-    }, delay);
-  }
-
   showModal() {
     this.setState({ showModal: true });
   }
@@ -138,9 +88,6 @@ class Welcome extends React.Component {
   }
 
   render() {
-    // Can the props passed to LoginSplash be accessed by connect
-    // in that component instead? Which is better?
-
     const footer = this.props.auth.isLoggedIn
       ? <Quote />
       : <LoginSplash />;
@@ -148,13 +95,18 @@ class Welcome extends React.Component {
     const lightningButton = this.props.auth.isLoggedIn
       ? (
           <Link to="/lightning">
-            <button className="btn btn-lg btn-primary fliq-button">
+            <button
+              className="btn btn-lg btn-primary fliq-button"
+            >
               Start Picking Movies
             </button>
           </Link>
         )
       : (
-          <button onClick={this.showModal} className="btn btn-lg btn-primary fliq-button">
+          <button
+            onClick={this.showModal}
+            className="btn btn-lg btn-primary fliq-button"
+          >
             Start Picking Movies
           </button>
         );
@@ -163,18 +115,24 @@ class Welcome extends React.Component {
       <div>
         <div className="jumbotron welcome fadeIn">
           <div className="container">
-
-            <Modal show={this.state.showModal} className="welcome-modal-wrapper">
+            <Modal
+              show={this.state.showModal}
+              className="welcome-modal-wrapper"
+              keyboard
+            >
               <Modal.Header closeButton className="welcome-modal">
                 <Modal.Title>Wait, human!</Modal.Title>
               </Modal.Header>
-              <Modal.Body className="welcome-modal">
+              <Modal.Body className="welcome-modal welcome-modal-body">
                 <p>{modalBodyFirst}</p>
                 <p>{modalBodySecond}</p>
               </Modal.Body>
               <Modal.Footer className="welcome-modal">
                 <div>
-                  <button onClick={this.closeModal} className="btn btn-lg btn-primary fliq-button pull-left">
+                  <button
+                    onClick={this.closeModal}
+                    className="btn btn-lg btn-primary fliq-button pull-left"
+                  >
                     Let me log in
                   </button>
                   <Link to="/lightning">
@@ -185,8 +143,6 @@ class Welcome extends React.Component {
                 </div>
               </Modal.Footer>
             </Modal>
-
-
             <div>
               <h1 className="welcome-title">
                 <span>{welcomeHeader}</span>

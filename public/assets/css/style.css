@@ -64,6 +64,7 @@ at this phase of development
 .fliq-button {
   background: #27ae60;
   border: 1px solid #27ae60;
+  min-width: 150px;
 }
 
 .fliq-button:hover {
@@ -130,7 +131,7 @@ at this phase of development
 }
 
 .modal-body {
-
+  font-size: 14px;
 }
 
 .modal-footer {
