@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import LoginSplash from '../components/loginSplash.jsx';
 import Quote from './quote.jsx';
+import { Modal } from 'react-bootstrap';
 
 const welcomeHeader = 'Welcome to ';
 const subHeader = 'An adaptive movie recommendation system';
 const intro =
-  `Our machine learning algorithm will get to know
+  `Our machine learning engine will get to know
   what kinds of movies you like and ensure that you will always have
   something interesting to watch. Log in, then click below to start 
-  the lightning round phase, which will teach FlickPick's neural network
+  the lightning round phase, which will teach FLIQ's neural network
   about what you like.`;
 const nameArray = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
   'F', 'L', 'I', 'Q'
@@ -19,14 +19,41 @@ const nameArray = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
 const intervals = [];
 const targetTitle = 'FLIQ';
 
+// const modal = (<Modal
+//                 show={this.state.showModal}>
+//                 <Modal.Header closeButton>
+//                   <Modal.Title>Modal heading</Modal.Title>
+//                 </Modal.Header>
+//                 <Modal.Body>
+//                   <h4>Hello, human!</h4>
+//                   <p>FLIQ's learning engine can only learn about you if you are logged in.</p>
+//                   <p>
+//                     If you want to try out the site, that's fine! 
+//                     Just remember that you will only
+//                     be seeing results that are representative of
+//                     FLIQ's entire userbase, rather than results
+//                     that are tailored to what you like.
+//                   </p>
+//                 </Modal.Body>
+//                 <Modal.Footer>
+//                   <Link to="/lightning">
+//                     <button className="btn btn-lg btn-primary fliq-button">
+//                       Yeah, yeah.
+//                     </button>
+//                   </Link>
+//                 </Modal.Footer>
+//               </Modal>);
+
 class Welcome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       intervals: [],
       title: 'FLIQ',
-      titleClass: ''
+      titleClass: '',
+      showModal: false
     };
+    this.showModal = this.showModal.bind(this);
   }
 
   componentDidMount() {
@@ -119,6 +146,10 @@ class Welcome extends React.Component {
     }, delay);
   }
 
+  showModal() {
+    this.setState({ showModal: true });
+  }
+
   render() {
     // Can the props passed to LoginSplash be accessed by connect
     // in that component instead? Which is better?
@@ -127,10 +158,51 @@ class Welcome extends React.Component {
       ? <Quote />
       : <LoginSplash />;
 
+    const lightningButton = this.props.auth.isLoggedIn
+      ? (
+          <Link to="/lightning">
+            <button className="btn btn-lg btn-primary fliq-button">
+              Start Picking Movies
+            </button>
+          </Link>
+        )
+      : (
+          <button onClick={this.showModal} className="btn btn-lg btn-primary fliq-button">
+            Start Picking Movies
+          </button>
+        );
+
     return (
       <div>
         <div className="jumbotron welcome fadeIn">
           <div className="container">
+
+            <Modal
+              show={this.state.showModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <h4>Hello, human!</h4>
+                <p>FLIQ's learning engine can only learn about you if you are logged in.</p>
+                <p>
+                  If you want to try out the site, that's fine! 
+                  Just remember that you will only
+                  be seeing results that are representative of
+                  FLIQ's entire userbase, rather than results
+                  that are tailored to what you like.
+                </p>
+              </Modal.Body>
+              <Modal.Footer>
+                <Link to="/lightning">
+                  <button className="btn btn-lg btn-primary fliq-button">
+                    Yeah, yeah.
+                  </button>
+                </Link>
+              </Modal.Footer>
+            </Modal>
+
+
             <div>
               <h1 className="welcome-title">
                 <span>{welcomeHeader}</span>
@@ -141,11 +213,7 @@ class Welcome extends React.Component {
               <p>{intro}</p>
             </div>
             <span>
-              <Link to="/lightning">
-                <button className="btn btn-lg btn-primary fliq-button">
-                  Start Picking Movies
-                </button>
-              </Link>
+              {lightningButton}
             </span>
             <div className="welcome-footer">
               {footer}
