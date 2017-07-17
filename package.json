@@ -59,11 +59,12 @@
     "webpack": "^2.7.0"
   },
   "scripts": {
-    "test": "mocha test/",
+    "test": "",
     "start": "node server.js",
     "startmon": "nodemon server.js",
     "webpack": "webpack -d --watch",
-    "before_script": "webpack"
+    "before_script": "webpack",
+    "tests": "mocha test/"
   },
   "repository": {
     "type": "git",
