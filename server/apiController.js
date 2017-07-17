@@ -105,8 +105,51 @@ module.exports.populateTags = (req, res) => {
 };
 
 module.exports.handleLightningSelection = (req, res) => {
-  console.log('Lightning selection: ', req.body.movie, 'STUFFS: ', req.body.movies);
-  res.sendStatus(201);
+  db.movieTags.findAll({ where:
+    { $or: [{ movie_Id: req.body.movies[0].id }, { movie_Id: req.body.movies[1].id }] }
+  })
+  .then((movieTags) => {
+    movieTags.forEach((movieTag) => {
+      if (movieTag.dataValues.movie_Id === req.body.movie.id) {
+        db.userTags.find({ where: {
+          tag_Id: movieTag.dataValues.tag_Id,
+          user_Id: req.user.id
+        } })
+        .then((userTag) => {
+          if (userTag === null) {
+            db.userTags.create({
+              viewsCount: 1,
+              picksCount: 1,
+              tag_Id: movieTag.dataValues.tag_Id,
+              user_Id: req.user.id
+            });
+          } else {
+            userTag.increment(['viewsCount', 'picksCount'], { by: 1 });
+          }
+        })
+        .catch(error => res.status(500).send(error));
+      } else {
+        db.userTags.find({ where: {
+          tag_Id: movieTag.dataValues.tag_Id,
+          user_Id: req.user.id
+        } })
+        .then((userTag) => {
+          if (userTag === null) {
+            db.userTags.create({
+              viewsCount: 1,
+              picksCount: 0,
+              tag_Id: movieTag.dataValues.tag_Id,
+              user_Id: req.user.id
+            });
+          } else {
+            userTag.increment(['viewsCount'], { by: 1 });
+          }
+        })
+        .catch(error => res.status(500).send(error));
+      }
+    });
+  })
+  .catch(error => res.status(500).send(error));
 };
 
 // Placeholder logic

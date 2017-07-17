@@ -28,10 +28,6 @@ class App extends React.Component {
         }
       })
       .catch(err => console.error('Login failed: ', err));
-
-    axios.get('/api/tagCreation', { timeout: 100000 })
-      .then(results => console.log(results))
-      .catch(err => console.error('Tag Update failed: ', err));
   }
 
   handleLogout() {
