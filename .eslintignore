@@ -5,3 +5,4 @@ README.md
 package.json
 **/public/dist/**
 LICENSE
+**/test/**

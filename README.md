@@ -1,6 +1,6 @@
-# flick-pick
+# FLIQ
 
-> A site to help people discover travel destinations when they are either new to world travel or unsure of where they want to go.
+> A neural network-based recommendation engine for finding movies to watch!
 
 ## Table of Contents
 
@@ -13,15 +13,13 @@
 
 ## Team
 
-  - __Product Owner__: David Earle
+  - __Product Owner__: David Earl
   - __Scrum Master__: Rob Cornell
-  - __Development Team Members__: Andrew Shih, Tae Lee
+  - __Development Team Members__: Tae Lee, Andrew Shih
 
 ## Usage
 
-> Define usage info
-
-> Define usage info 2
+> Log in on the home page, then begin lightning rounds to teach the neural network about movies you like. When you want suggestions from the site, click through to the results page.
 
 ## Requirements
 

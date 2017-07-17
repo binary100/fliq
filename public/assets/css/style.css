@@ -1,0 +1,422 @@
+@import "./animate.css";
+
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  background-color: #333333;
+  height: 100%;
+}
+
+a:link {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
+}
+
+a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/************* CSS Transitions for searchResultsTable **************/
+
+
+.tileFade-appear {
+  opacity: 0.01;
+}
+
+.tileFade-appear.tileFade-appear-active {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+
+/*
+The below animations are not used
+at this phase of development
+*/
+.tileFade-enter {
+  opacity: 0.01;
+}
+
+.tileFade-enter.tileFade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.tileFade-leave {
+  opacity: 1;
+}
+
+.tileFade-leave.tileFade-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+/************* SITE WIDE **************/
+
+.fliq-button {
+  background: #27ae60;
+  border: 1px solid #27ae60;
+  min-width: 150px;
+}
+
+.fliq-button:hover {
+  background-color: #249e57;
+}
+
+.fliq-button:active,
+.fliq-button:focus {
+  background: #249e57;
+  border: 1px solid #249e57;
+  outline: none;
+}
+
+/************* WELCOME PAGE **************/
+
+.welcome {
+  /*animation: 0.8s flipInX ease;*/
+  margin-top: 10vh;
+  color: white;
+  min-height: 520px;
+  text-align: left;
+  background: #444444;
+}
+
+.welcome-footer {
+  margin-top: 2em;
+}
+
+.welcome-title {
+  font-family: 'Open Sans';
+}
+
+.start-lightning:hover,
+.start-lightning:focus,
+.start-lightning:active, {
+  background: #27ae60;
+  border: 1px solid #27ae60;
+}
+
+.flick-iq {
+  animation: anim 1s 1 ease-out;
+  color: #2ecc71;
+}
+
+@keyframes anim {
+    from {color: white;}
+    to {color: #2ecc71;}
+}
+
+/************* WELCOME MODAL **************/
+
+.welcome-modal-wrapper {
+  margin-top: 150px;
+  border-radius: 6px;
+}
+
+.welcome-modal {
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  background-color: #333333;
+}
+.modal-header {
+  border-bottom: 1px solid black;
+}
+
+.modal-body {
+  font-size: 14px;
+}
+
+.modal-footer {
+  border-top: 1px solid black;
+}
+
+/************* LIGHTNING PAGE **************/
+
+.timer-counter {
+
+}
+
+.timer-counter h2 {
+
+}
+
+/************* MOVIE NIGHT **************/
+
+.email-box {
+  background-color: #444444;
+  height: 200px;
+  border-radius: 3px;
+  overflow: auto;
+}
+
+.email-inputs {
+  margin-top: 18px;
+}
+
+.email-input-box {
+  padding-left: 0;
+  padding-right: 0;
+  overflow-y: scroll;
+}
+
+.email-input-list {
+  list-style: none;
+}
+
+.email-input-list li {
+  padding: 0.5em;
+  border-bottom: 1px solid #2ecc71;
+}
+
+.movienight-confirm-box {
+  height: 2em;
+}
+
+.movienight-email-success {
+  color: #2ecc71;
+}
+
+.movienight-email-failure {
+  color: red;
+}
+
+/************* RESULTS PAGE **************/
+
+.trailer {
+  margin-top: 15px;
+}
+
+.results-body {
+  height: 50vh;
+  overflow-y: scroll;
+}
+
+.results-tile-bar {
+  background-color: #111314;
+  bottom: 0;
+  position: absolute;
+  height: 34vh;
+  padding: 0 10px;
+  left: 0;
+}
+
+
+
+
+.results {
+  max-height: 100%;
+}
+
+/************* NAVBAR **************/
+
+.header {
+  /*background: linear-gradient(to bottom, #606060 , #444444);*/
+}
+
+.header-icon {
+  /* size the hamburger */
+  min-height:  50px;
+  line-height: 50px;
+}
+
+.navbar a:focus {
+  background-color: black;
+}
+
+.poster {
+  max-height: auto;
+  max-width: 100%;
+}
+
+.poster-small {
+  display: block;
+  margin: auto;
+  height: 200px;
+  width: 175px;
+}
+
+/************* SMALL MOVIE TILES **************/
+
+.fadeIn {
+  animation: 0.8s fadeIn ease;
+}
+
+.fadeOut {
+  opacity: 0;
+  transition: 500ms all ease;
+}
+
+.fadeInDown {
+  animation: 0.8s fadeInDown ease;
+}
+
+.small-movie-tile {
+  padding: 10px;
+  text-align: center;
+}
+
+.small-movie-tile:hover {
+  background: #3f3f3f;
+}
+
+.small-tile-button {
+  margin: 1em 0;
+  background: #2980B9;
+  /*background: #2ecc71;*/
+  border: 0px;
+  color: white;
+}
+
+.small-tile-button:hover,
+.small-tile-button:focus,
+.small-tile-button:active {
+  background: #2275ad;
+  /*background: #27ae60;*/
+  color: white;
+  border: 0px;
+  outline: transparent;
+}
+
+.small-movie-tile-title {
+  height: 2.5em;
+}
+
+.like-buttons {
+  text-align: center;
+}
+
+.results-tile-bar-poster {
+  height: 150px;
+  width: 130px;
+}
+
+/************* SEARCH BOX **************/
+
+.search-table {
+  height: 78vh;
+  overflow-y: scroll;
+}
+
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}
+
+/************* QUOTE BOX **************/
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes slideleft {
+  0% {
+    left: -2000px;
+  }
+
+  100% {
+    left: 0px;
+  }
+}
+
+.invisible {
+  opacity: 0;
+}
+
+.quote-box-visible {
+  opacity: 1;
+  transition: 1s;
+}
+
+.author {
+  margin-left: 50px;
+}
+
+/* USER INFO */
+
+.user-photo {
+  max-height: 3em;
+  max-width: 3em;
+}
+
+/************* LAUNCHPAD **************/
+
+/* TAGS */
+.tag {
+  color: black;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  padding: 10px;
+  float: left;
+  background: white;
+}
+
+/************* TOGGLE SWITCH **************/
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.toggle-switch-label {
+  margin-left: 55px;
+  white-space: nowrap;
+}

@@ -1,0 +1,105 @@
+import React from 'react';
+import LoadingButton from './loadingButton.jsx';
+import axios from 'axios';
+
+const thumbsUp = 'glyphicon glyphicon-thumbs-up';
+const thumbsDown = 'glyphicon glyphicon-thumbs-down';
+const complete = 'glyphicon glyphicon-ok';
+const inProcess = 'glyphicon glyphicon-refresh';
+const failed = 'glyphicon glyphicon-remove';
+const searchPosterDivClass = 'row poster-small';
+const searchPosterImgClass = 'col-sm-12 poster-small';
+const resultsPosterDivClass = 'row poster-small results-tile-bar-poster';
+const resultsPosterImgClass = 'col-sm-12 poster-small results-tile-bar-poster';
+
+class SmallMovieTile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      likeButtonClass: thumbsUp,
+      dislikeButtonClass: thumbsDown,
+      canLikeOrDislike: true
+    };
+    this.likeMovie = this.likeMovie.bind(this);
+    this.dislikeMovie = this.dislikeMovie.bind(this);
+  }
+
+  likeMovie() {
+    if (!this.state.canLikeOrDislike) return;
+    this.setState({
+      likeButtonClass: inProcess,
+      canLikeOrDislike: false
+    });
+    axios.post('/api/movie/like', {
+      movie: this.props.movie
+    })
+      .then(() => {
+        this.setState({ likeButtonClass: complete });
+        console.log('Liked: ', this.props.movie);
+      })
+      .catch((err) => {
+        console.error('Error marking as liked: ', err);
+        this.setState({ likeButtonClass: failed });
+      });
+  }
+
+  dislikeMovie() {
+    if (!this.state.canLikeOrDislike) return;
+    this.setState({
+      dislikeButtonClass: inProcess,
+      canLikeOrDislike: false
+    });
+    axios.post('/api/movie/dislike', {
+      movie: this.props.movie
+    })
+      .then(() => {
+        this.setState({ dislikeButtonClass: complete });
+        console.log('Disliked: ', this.props.movie);
+      })
+      .catch((err) => {
+        console.error('Error marking as disliked: ', err);
+        this.setState({ dislikeButtonClass: failed });
+      });
+  }
+
+  render() {
+    return (
+      <div
+        className="small-movie-tile"
+      >
+        <div className="row">
+          <p className="col-sm-12 small-movie-tile-title">
+            {this.props.movie.title} ({this.props.movie.year})
+          </p>
+        </div>
+        <div
+          onClick={(e, evt) => this.props.selectSmallTile(e, evt, this.props.movie)}
+          className={this.props.isResults ? resultsPosterDivClass : searchPosterDivClass}
+        >
+          <img
+            className={this.props.isResults ? resultsPosterImgClass : searchPosterImgClass}
+            src={this.props.movie.poster}
+            alt="Poster"
+          />
+        </div>
+        <div className="like-buttons col-sm-10 col-centered">
+          <div className="col-sm-6">
+            <LoadingButton
+              buttonClass={this.state.likeButtonClass}
+              handleClick={this.likeMovie}
+            />
+          </div>
+          <div className="col-sm-6">
+            <LoadingButton
+              buttonClass={this.state.dislikeButtonClass}
+              handleClick={this.dislikeMovie}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+}
+
+export default SmallMovieTile;
