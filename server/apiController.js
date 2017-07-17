@@ -303,14 +303,7 @@ module.exports.verifyUserEmail = (req, res) => {
 module.exports.getMovieNightResults = (req, res) => {
   this.getUserResults(req, res);
 };
-<<<<<<< HEAD
-||||||| merged common ancestors
 
-
-
-
-
-=======
 
 
 
@@ -363,10 +356,4 @@ module.exports.getMovieNightResults = (req, res) => {
     "release_date": "1980-05-17"
 }
 */
-<<<<<<< HEAD
->>>>>>> feat($launchPad): launchPadWrapper functions with selection and submission
->>>>>>> feat($launchPad): launchPadWrapper functions with selection and submission
-||||||| merged common ancestors
->>>>>>> feat($launchPad): launchPadWrapper functions with selection and submission
-=======
->>>>>>> mergefixes
+
