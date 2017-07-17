@@ -7,13 +7,14 @@ class Quote extends React.Component {
     this.state = {
       quote: null,
       author: null,
-      intervalId: null
+      intervalId: null,
+      elementClass: 'quote-box-visible'
     };
   }
 
   componentWillMount() {
     this.getQuote();
-    // this.createQuoteInterval();
+    this.createQuoteInterval();
   }
 
   componentWillUnmount() {
@@ -25,7 +26,8 @@ class Quote extends React.Component {
       .then((results) => {
         this.setState({
           quote: results.data.quote,
-          author: results.data.author
+          author: results.data.author,
+          elementClass: 'quote-box-visible'
         });
       })
       .catch(err => console.err('Error getting quote: ', err));
@@ -34,8 +36,7 @@ class Quote extends React.Component {
   createQuoteInterval() {
     const intervalId = setInterval(() => {
       this.setState({
-        quote: null,
-        author: null
+        elementClass: 'fadeOut'
       });
       this.getQuote();
     }, 5000);
@@ -45,7 +46,7 @@ class Quote extends React.Component {
   render() {
     return (
       <div>
-        <div className={this.state.quote ? 'quote-box-visible' : 'quote-box-invisible' }>
+        <div className={this.state.quote ? this.state.elementClass : 'invisible'}>
           <div className="quote">
             <h3>{this.state.quote ? `"${this.state.quote}"` : ''}</h3>
           </div>
