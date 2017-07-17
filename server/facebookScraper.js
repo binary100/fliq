@@ -1,8 +1,48 @@
 const db = require('../database/dbsetup.js');
+const axios = require('axios');
+
 const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
 const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
 const regex = /[^a-zA-Z0-9]+/g;
-const axios = require('axios');
+const Movie = db.movies;
+
+
+const addMoviesToDb = allMovies => {
+  let index = 0;
+  const numberToInsert = 20;
+  const intervalId = setInterval(() => {
+    const movies = allMovies
+                    .slice(index, index + numberToInsert)
+                    .map((obj) => {
+                      const newObj = Object.assign({}, obj, {
+                        Ratings: JSON.stringify(obj.Ratings)
+                      });
+                      return newObj;
+                    });
+
+    movies.forEach((movie) => {
+      if (movie.Title) {
+        Movie.create({
+          title: movie.Title,
+          year: movie.Year,
+          rated: movie.Rated,
+          genre: movie.Genre,
+          plot: movie.Plot,
+          ratings: movie.Ratings,
+          poster: movie.Poster,
+          director: movie.Director,
+          writer: movie.Writer,
+          actors: movie.Actors
+        });
+      }
+    });
+
+    index += numberToInsert;
+    if (index > allMovies.length) {
+      clearInterval(intervalId);
+    }
+  }, 2000);
+};
 
 // UPDATE THE USER LOGIN NUMBER
 module.exports = (profile) => {
@@ -41,6 +81,7 @@ module.exports = (profile) => {
     .then(omdbPromises => Promise.all(omdbPromises))
     .then((fullDataResults) => {
       console.log('Received fullDataResults: ', fullDataResults);
+      addMoviesToDb(fullDataResults);
     })
     .catch(err => console.log('Error getting fullDataResults: ', err));
 };
