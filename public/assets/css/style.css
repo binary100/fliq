@@ -64,6 +64,7 @@ at this phase of development
 .fliq-button {
   background: #27ae60;
   border: 1px solid #27ae60;
+  min-width: 150px;
 }
 
 .fliq-button:hover {
@@ -83,7 +84,7 @@ at this phase of development
   /*animation: 0.8s flipInX ease;*/
   margin-top: 10vh;
   color: white;
-  min-height: 450px;
+  min-height: 520px;
   text-align: left;
   background: #444444;
 }
@@ -111,6 +112,30 @@ at this phase of development
 @keyframes anim {
     from {color: white;}
     to {color: #2ecc71;}
+}
+
+/************* WELCOME MODAL **************/
+
+.welcome-modal-wrapper {
+  margin-top: 150px;
+  border-radius: 6px;
+}
+
+.welcome-modal {
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  background-color: #333333;
+}
+.modal-header {
+  border-bottom: 1px solid black;
+}
+
+.modal-body {
+  font-size: 14px;
+}
+
+.modal-footer {
+  border-top: 1px solid black;
 }
 
 /************* LIGHTNING PAGE **************/
@@ -302,7 +327,7 @@ at this phase of development
   }
 }
 
-.quote-box-invisible {
+.invisible {
   opacity: 0;
 }
 
