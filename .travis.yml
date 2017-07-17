@@ -19,6 +19,7 @@ deploy:
   region: us-east-2
   app: flickpick
   env: ee-tsqktm6kwz
+  bucket_name: elasticbeanstalk-us-east-2-088432678416
   on:
     repo: rcornell/flick-pick
     branch: dev
