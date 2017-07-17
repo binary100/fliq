@@ -610,6 +610,7 @@ module.exports.getMovieNightResults = (req, res) => {
   this.getUserResults(req, res);
 };
 
+
 /*
 
 {
@@ -656,5 +657,6 @@ module.exports.getMovieNightResults = (req, res) => {
     "overview": "The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.",
     "release_date": "1980-05-17"
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 */
