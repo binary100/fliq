@@ -101,9 +101,10 @@ class LightningWrapper extends React.Component {
     console.log('Click handler is ending round!');
     this.endRound();
     axios.post('/api/lightning', {
-      movie
+      movie,
+      movies: this.state.movies
     })
-      .catch((err) => console.error('Error selecting movie: ', err));
+      .catch(err => console.error('Error selecting movie: ', err));
   }
 
   render() {

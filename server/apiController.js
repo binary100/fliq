@@ -67,8 +67,45 @@ module.exports.getTwoMovies = (req, res) => {
     .catch(error => res.status(500).send(error));
 };
 
+// Populates Tags Model and MovieTags Model
+module.exports.populateTags = (req, res) => {
+  db.movies.findAll({})
+    .then(movieArray =>
+      movieArray.map((movie) => {
+        const acc = [];
+        acc.push(...movie.dataValues.genre.split(', ').map(item => [item, 'genre']));
+        acc.push(...movie.dataValues.director.split(', ').map(item => [item, 'director']));
+        acc.push(...movie.dataValues.actors.split(', ').splice(3).map(item => [item, 'actor']));
+        return acc;
+      }).map((movieTagsArray, index) =>
+        movieTagsArray.map(movieTagArray =>
+          new Promise((resolve, reject) =>
+            db.tags.findOrCreate({ where: {
+              tagName: movieTagArray[0],
+              tagType: movieTagArray[1]
+            } })
+            .then((foundTag) => {
+              db.movieTags.findOrCreate({ where: {
+                movie_Id: movieArray[index].id,
+                tag_Id: foundTag[0].dataValues.id
+              } })
+              .then(movieTag => resolve(movieTag));
+            })
+            .catch(error => reject(error))
+          )
+        )
+      )
+    )
+    .then(myPromises =>
+      myPromises.map(promiseArray =>
+        Promise.all(promiseArray)
+      ))
+    .then(resultsArray => res.status(200).send(resultsArray))
+    .catch(error => res.status(500).send(error));
+};
+
 module.exports.handleLightningSelection = (req, res) => {
-  console.log('Lightning selection: ', req.body.movie);
+  console.log('Lightning selection: ', req.body.movie, 'STUFFS: ', req.body.movies);
   res.sendStatus(201);
 };
 
@@ -242,8 +279,3 @@ module.exports.verifyUserEmail = (req, res) => {
 module.exports.getMovieNightResults = (req, res) => {
   this.getUserResults(req, res);
 };
-
-
-
-
-
