@@ -1,5 +1,16 @@
 @import "./animate.css";
 
+
+/************* TEST ONLY **************/
+
+/* sorry navbar was annoyAF, delete later */
+.nav > li {
+  float: left;
+}
+
+/************* STYLE PAGE START **************/
+
+>>>>>>> feat($launchPad): launchPadWrapper functions with selection and submission
 body, html {
   margin: 0;
   padding: 0;
@@ -325,7 +336,12 @@ at this phase of development
 
 /************* LAUNCHPAD **************/
 
+
 /* TAGS */
+.launchPadPage {
+  width: 100%;
+  float: left;
+}
 .tag {
   color: black;
   width: 100px;

@@ -1,5 +1,6 @@
 const axios = require('axios');
 const db = require('../database/dbSetup.js');
+
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
 const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
 const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
@@ -143,6 +144,28 @@ module.exports.getUserResults = (req, res) => {
     });
 };
 
+module.exports.getTags = (req, res) => {
+  // let tagType;
+  // let tagName;
+  // let tagData = {tagType: tagName};
+
+  db.tags.findAll()
+    .then(results => {
+      const tags = results.reduce((acc, val) => {
+        if (!acc[val.tagType]) {
+          acc[val.tagType] = [];
+        }
+
+        acc[val.tagType].push(val.tagName);
+        return acc;
+      }, {});
+
+      res.send(tags);
+    })
+    .catch(err => res.status(500).send('Error finding tags: ', err));
+};
+
+
 module.exports.getQuote = (req, res) => {
   axios(quoteUrl, {
     method: 'GET',
@@ -236,6 +259,7 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
     .catch(err => res.status(404).send([]));
 };
 
+
 const reshapeMovieData = movie => {
   return Object.assign({}, {
     title: movie.Title,
@@ -279,3 +303,57 @@ module.exports.verifyUserEmail = (req, res) => {
 module.exports.getMovieNightResults = (req, res) => {
   this.getUserResults(req, res);
 };
+
+
+
+
+
+
+/*
+
+{
+    "vote_count": 5351,
+    "id": 1891,
+    "video": false,
+    "vote_average": 8.2,
+    "title": "The Empire Strikes Back",
+    "popularity": 3.812604,
+    "poster_path": "/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg",
+    "original_language": "en",
+    "original_title": "The Empire Strikes Back",
+    "genre_ids": [
+        12,
+        28,
+        878
+    ],
+    "backdrop_path": "/amYkOxCwHiVTFKendcIW0rSrRlU.jpg",
+    "adult": false,
+    "overview": "The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.",
+    "release_date": "1980-05-17"
+}
+*/
+
+/*
+
+{
+    "vote_count": 5351,
+    "id": 1891,
+    "video": false,
+    "vote_average": 8.2,
+    "title": "The Empire Strikes Back",
+    "popularity": 3.812604,
+    "poster_path": "/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg",
+    "original_language": "en",
+    "original_title": "The Empire Strikes Back",
+    "genre_ids": [
+        12,
+        28,
+        878
+    ],
+    "backdrop_path": "/amYkOxCwHiVTFKendcIW0rSrRlU.jpg",
+    "adult": false,
+    "overview": "The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.",
+    "release_date": "1980-05-17"
+}
+*/
+
