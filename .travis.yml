@@ -18,7 +18,7 @@ deploy:
     secure: EfC/OdXJHZglFTDkL4US5Z0e4RSqR0UCuJgPuzpIP6mE1jIWnwBhGl1dxBBYLu35DSbb6ro+PflQYoEPM0P0U6FW4Knky7cna+WSOQSU9pIJwigr9lhIN77rqr2T+xv6/+c+y69c96pyVGPf7oAM8YuUKIxZ7xh9GwHhpwo539SrF1EjLTp1r8tlYdOHXNRiBUBUt/31ij8EimJ4lwACQjXfjRp7UsXQCkywyFruQcGi29pPEi/pMizmZDjqcrWhmIGsjy3aswQO+72KuSft3P8CqNlJjNcJwTS1qYeu05yXx6S+n/CjRFQUhCPNSsM/mSZupM1wdvRnGRAlU51A2ws/VzhBTgLs9GzexZ2NXGCfCdeMngtI/oUG6CMrVWcmUm9ItS3NxSwchahV9neOmC+lL4QTCGo9BjP9jzGUNY6X8kOUXuW3Qt2LUwajivZrf9GSiZKHSOSQDZ4cD0uMR7OyYT/b/7bUnxU5ePvAaYTKtWOIJXcF3mCgR0X0FkP+qsLzDYQTxd60AaS6FiIB5Q0CZZSkBZq6uzuXfIAOdfqdUt2v3zMFf89Uh080LI4wu1J2VIgnxnpW22Qg+7vMOgBz2QKe69siLj7ZoJjDHLpteDtBNWVxVMNSZ91FroP2xKV50BTcPH/+ASLokfkf6aXxHnaPvuflrnv6tPkR4Zc=
   region: us-east-2
   app: flickpick
-  env: e-tsqktm6kwz
+  env: fliq
   bucket_name: elasticbeanstalk-us-east-2-088432678416
   on:
     repo: rcornell/flick-pick
