@@ -17,6 +17,9 @@ import anime from 'animejs';
     rated: rated,
     year: decades,
   };
+
+
+
   const selectedObj = {
     actor: [],
     director: [],
@@ -55,7 +58,7 @@ class LaunchPadWrapper extends React.Component {
   }
 
   render() {
-    return (<div><LaunchPad tags={this.state.tagData} /></div>);
+    return (<div><LaunchPad tags={this.state.tagData}/></div>);
   }
 }
 

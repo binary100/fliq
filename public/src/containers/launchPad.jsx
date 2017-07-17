@@ -3,21 +3,55 @@ import LaunchPadTags from '../components/launchPads/launchPadTags.jsx';
 // import anime from 'animejs';
 
 
-const LaunchPad = ({ tags }) => {
-    console.log('launchPad Tags: ', tags);
-    return (
-          <div>
-            {Object.keys(tags).map((tag,index) => {
+class LaunchPad extends React.Component{
 
-              return (
-                <div key={tag.index}>
-                  <h1>{tag}</h1>
-                  <LaunchPadTags tagArray={tags[tag]} />
-                </div>
-                )
-            })}
-          </div>
+  constructor(props) {
+    super(props);
+    console.log('LaunchPadWrapper', props);
+    this.state = {
+      step: 1,
+      dummy: "dummy text"
+    };
+    console.log(this)
+    // this.getTagsData();
+  }
+
+  setStep (step) {
+    console.log(step);
+    console.log(this)
+    this.setState({step: step})
+  }
+
+  render() {
+
+    console.log('launchPad Tags: ', this.props.tags);
+    let tag = '';
+    switch (this.state.step) {
+      case 1:
+        tag = 'genre';
+        break;
+      case 2:
+        tag = 'director';
+        break;
+      case 3:
+        tag = 'actor';
+        break;
+      default:
+        tag = 'genre'
+    }
+    return (
+      <div>
+        <div>
+          <h1>{tag}</h1>
+          <LaunchPadTags tagArray={this.props.tags[tag]} 
+            step={this.state.step} setStep={this.setStep.bind(this)}/>
+          {this.state.step === 3 ? <button>Submit</button> : '' }
+            
+
+        </div>
+      </div>
     )
+  }
 };
 
 // <LaunchPadTags tagName={tags.director} />
