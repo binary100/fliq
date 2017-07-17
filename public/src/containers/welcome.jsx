@@ -19,30 +19,12 @@ const nameArray = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1,
 const intervals = [];
 const targetTitle = 'FLIQ';
 
-// const modal = (<Modal
-//                 show={this.state.showModal}>
-//                 <Modal.Header closeButton>
-//                   <Modal.Title>Modal heading</Modal.Title>
-//                 </Modal.Header>
-//                 <Modal.Body>
-//                   <h4>Hello, human!</h4>
-//                   <p>FLIQ's learning engine can only learn about you if you are logged in.</p>
-//                   <p>
-//                     If you want to try out the site, that's fine! 
-//                     Just remember that you will only
-//                     be seeing results that are representative of
-//                     FLIQ's entire userbase, rather than results
-//                     that are tailored to what you like.
-//                   </p>
-//                 </Modal.Body>
-//                 <Modal.Footer>
-//                   <Link to="/lightning">
-//                     <button className="btn btn-lg btn-primary fliq-button">
-//                       Yeah, yeah.
-//                     </button>
-//                   </Link>
-//                 </Modal.Footer>
-//               </Modal>);
+const modalBodyFirst = `FLIQ's learning engine can only learn about you if you are logged in.`;
+const modalBodySecond = `If you want to try out the site, that's fine! 
+                  Just remember that you will only
+                  be seeing results that are representative of
+                  FLIQ's entire userbase, rather than results
+                  that are tailored to what you like.`;
 
 class Welcome extends React.Component {
   constructor(props) {
@@ -54,6 +36,7 @@ class Welcome extends React.Component {
       showModal: false
     };
     this.showModal = this.showModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -150,6 +133,10 @@ class Welcome extends React.Component {
     this.setState({ showModal: true });
   }
 
+  closeModal() {
+    this.setState({ showModal: false });
+  }
+
   render() {
     // Can the props passed to LoginSplash be accessed by connect
     // in that component instead? Which is better?
@@ -177,28 +164,25 @@ class Welcome extends React.Component {
         <div className="jumbotron welcome fadeIn">
           <div className="container">
 
-            <Modal
-              show={this.state.showModal}>
-              <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+            <Modal show={this.state.showModal} className="welcome-modal-wrapper">
+              <Modal.Header closeButton className="welcome-modal">
+                <Modal.Title>Wait, human!</Modal.Title>
               </Modal.Header>
-              <Modal.Body>
-                <h4>Hello, human!</h4>
-                <p>FLIQ's learning engine can only learn about you if you are logged in.</p>
-                <p>
-                  If you want to try out the site, that's fine! 
-                  Just remember that you will only
-                  be seeing results that are representative of
-                  FLIQ's entire userbase, rather than results
-                  that are tailored to what you like.
-                </p>
+              <Modal.Body className="welcome-modal">
+                <p>{modalBodyFirst}</p>
+                <p>{modalBodySecond}</p>
               </Modal.Body>
-              <Modal.Footer>
-                <Link to="/lightning">
-                  <button className="btn btn-lg btn-primary fliq-button">
-                    Yeah, yeah.
+              <Modal.Footer className="welcome-modal">
+                <div>
+                  <button onClick={this.closeModal} className="btn btn-lg btn-primary fliq-button pull-left">
+                    Let me log in
                   </button>
-                </Link>
+                  <Link to="/lightning">
+                    <button className="btn btn-lg btn-primary fliq-button pull-right">
+                      {`That's ok`}
+                    </button>
+                  </Link>
+                </div>
               </Modal.Footer>
             </Modal>
 

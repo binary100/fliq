@@ -113,6 +113,30 @@ at this phase of development
     to {color: #2ecc71;}
 }
 
+/************* WELCOME MODAL **************/
+
+.welcome-modal-wrapper {
+  margin-top: 150px;
+  border-radius: 6px;
+}
+
+.welcome-modal {
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  background-color: #333333;
+}
+.modal-header {
+  border-bottom: 1px solid black;
+}
+
+.modal-body {
+
+}
+
+.modal-footer {
+  border-top: 1px solid black;
+}
+
 /************* LIGHTNING PAGE **************/
 
 .timer-counter {
