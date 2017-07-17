@@ -105,6 +105,7 @@ module.exports.populateTags = (req, res) => {
 };
 
 module.exports.handleLightningSelection = (req, res) => {
+  console.log('Entering handleLightningSelection');
   db.movieTags.findAll({ where:
     { $or: [{ movie_Id: req.body.movies[0].id }, { movie_Id: req.body.movies[1].id }] }
   })

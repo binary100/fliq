@@ -34,6 +34,7 @@ const addMoviesToDb = allMovies => {
           writer: movie.Writer,
           actors: movie.Actors
         });
+        // .then(apiController.likeMovie(movie));
       }
     });
 
@@ -79,9 +80,6 @@ module.exports = (profile) => {
       });
     }))
     .then(omdbPromises => Promise.all(omdbPromises))
-    .then((fullDataResults) => {
-      console.log('Received fullDataResults: ', fullDataResults);
-      addMoviesToDb(fullDataResults);
-    })
+    .then(hydratedMovies => addMoviesToDb(hydratedMovies))
     .catch(err => console.log('Error getting fullDataResults: ', err));
 };
