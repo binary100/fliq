@@ -10,7 +10,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME,
       max: 5,
       min: 0,
       idle: 10000
-    }
+    },
+    logging: false
   }
 );
 
@@ -52,14 +53,38 @@ db.userMovies.belongsTo(db.users, { as: 'user', foreignKey: 'user_Id', constrain
 db.movies.hasMany(db.userMovies, { foreignKey: 'movie_Id', constraints: false });
 db.users.hasMany(db.userMovies, { foreignKey: 'user_Id', constraints: false });
 
+
+db.movies.afterCreate((movie) => { // add Tags and connects tags to movie
+  const acc = [];
+  acc.push(...movie.dataValues.genre.split(', ').map(item => [item, 'genre']));
+  acc.push(...movie.dataValues.director.split(', ').map(item => [item, 'director']));
+  acc.push(...movie.dataValues.actors.split(', ').splice(0, 3).map(item => [item, 'actor']));
+  Promise.all(acc.map(movieTagArray =>
+    new Promise((resolve, reject) =>
+      db.tags.findOrCreate({ where: {
+        tagName: movieTagArray[0],
+        tagType: movieTagArray[1]
+      } })
+      .then((foundTag) => {
+        db.movieTags.findOrCreate({ where: {
+          movie_Id: movie.id,
+          tag_Id: foundTag[0].dataValues.id
+        } })
+        .then(movieTag => resolve(movieTag));
+      })
+      .catch(error => reject(error))
+    )
+  ));
+});
+
 // SYNC
-// sequelize.sync().then((err) => {
-//   if (err) {
-//     console.error('Error creating Tag table', err);
-//   } else {
-//     console.log('Tag table created successfully');
-//   }
-// });
+sequelize.sync().then((err) => {
+  if (err) {
+    console.error('Error creating Tag table', err);
+  } else {
+    console.log('Tag table created successfully');
+  }
+});
 
 sequelize.authenticate()
   .then(() => {

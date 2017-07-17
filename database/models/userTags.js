@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const userTag = sequelize.define('userTags', {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false
-    },
+    // id: {
+    //   type: DataTypes.UUID,
+    //   primaryKey: true,
+    //   defaultValue: DataTypes.UUIDV4,
+    //   allowNull: false
+    // },
     viewsCount: {
       type: DataTypes.INTEGER,
       defaultValue: 0
