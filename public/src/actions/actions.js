@@ -14,9 +14,9 @@ export const logoutUser = () => {
   };
 };
 
-export const toggleUserReviewSetting = (boolean) => {
+export const toggleUserReviewSetting = (shouldDisplayReviews) => {
   return {
     type: 'TOGGLE_USER_REVIEW_SETTING',
-    payload: { displayUserReviews: boolean }
+    payload: { displayUserReviews: !shouldDisplayReviews }
   };
 };
