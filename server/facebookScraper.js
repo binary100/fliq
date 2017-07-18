@@ -7,7 +7,7 @@ const regex = /[^a-zA-Z0-9]+/g;
 const Movie = db.movies;
 
 
-const addMoviesToDb = allMovies => {
+const addMoviesToDb = (allMovies) => {
   let index = 0;
   const numberToInsert = 20;
   const intervalId = setInterval(() => {
@@ -22,7 +22,7 @@ const addMoviesToDb = allMovies => {
 
     movies.forEach((movie) => {
       if (movie.Title) {
-        Movie.create({
+        Movie.findOrCreate({ where: {
           title: movie.Title,
           year: movie.Year,
           rated: movie.Rated,
@@ -33,7 +33,7 @@ const addMoviesToDb = allMovies => {
           director: movie.Director,
           writer: movie.Writer,
           actors: movie.Actors
-        });
+        } });
         // .then(apiController.likeMovie(movie));
       }
     });
