@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, HashRouter as Router, Route, Switch, } from 'react-router-dom';
 import axios from 'axios';
-import anime from 'animejs';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';

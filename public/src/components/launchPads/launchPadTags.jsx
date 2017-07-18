@@ -1,12 +1,12 @@
 import React from 'react';
 import TagBubble from './tagBubble.jsx';
 
+
 class LaunchPadTags extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log("tagArray", this.props.tagArray)
-    console.log(props)
+    console.log("LaunchPadTags Props:", this.props)
   }
 
   goToNext() {
@@ -26,19 +26,28 @@ class LaunchPadTags extends React.Component {
     return (
       <div className="launchPadPage">
 
-        <div className="launchPadControls pull-left">
-          <button className="pull-right" onClick={this.goToNext.bind(this)}>Next</button>
-          <button className="pull-left" onClick={this.goToPrev.bind(this)}>Prev</button>
+        <div className="launchPad-controls">
+          <div>
+            <button className="btn btn-default btn-spacing" onClick={this.goToPrev.bind(this)}>Prev</button>
+            <button className="btn btn-primary btn-spacing" onClick={this.goToNext.bind(this)}>Next</button>
+            { this.props.step === 3 ? <button onClick={this.props.postSelectedTags(this.props.selectedTags)} className="btn btn-success btn-spacing">Submit</button> : '' }
+          </div>
         </div>
 
         <div className="pull-left">
           {this.props.tagArray.map((tagItem, index) => 
             <TagBubble key={index} tagName={tagItem} />)
+            // <TagBubble className={this.props.isSelected(this.props.tag, tagItem)} key={index} tagName={tagItem} onClick={this.props.selectItem(this.props.tag, tagItem)} />)
           }
         </div>
       </div>
     );
   }
 }
+
+
+
+
+
 
 export default LaunchPadTags

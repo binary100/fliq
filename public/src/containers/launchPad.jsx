@@ -1,30 +1,22 @@
 import React from 'react';
 import LaunchPadTags from '../components/launchPads/launchPadTags.jsx';
-// import anime from 'animejs';
-
 
 class LaunchPad extends React.Component{
 
   constructor(props) {
     super(props);
-    console.log('LaunchPadWrapper', props);
     this.state = {
       step: 1,
-      dummy: "dummy text"
     };
-    console.log(this)
-    // this.getTagsData();
+    console.log('LaunchPad Props: ', props)
   }
 
   setStep (step) {
-    console.log(step);
-    console.log(this)
     this.setState({step: step})
   }
 
   render() {
 
-    console.log('launchPad Tags: ', this.props.tags);
     let tag = '';
     switch (this.state.step) {
       case 1:
@@ -41,18 +33,17 @@ class LaunchPad extends React.Component{
     }
     return (
       <div>
-        <div>
+        <div className="container container-fluid text-center">
           <h1>{tag}</h1>
-          <LaunchPadTags tagArray={this.props.tags[tag]} 
-            step={this.state.step} setStep={this.setStep.bind(this)}/>
-          {this.state.step === 3 ? <button>Submit</button> : '' }
-            
-
+          <LaunchPadTags tag={tag} tagArray={this.props.tags[tag]} 
+            step={this.state.step} setStep={this.setStep.bind(this)} selectedTagArray={this.props.selectedTags[tag]} selectedTags={this.props.selectedTags} postSelectedTags={this.props.postSelectedTags} isSelected={this.props.isSelected} selectItem={this.props.selectItem} />
         </div>
       </div>
     )
   }
 };
+
+
 
 // <LaunchPadTags tagName={tags.director} />
 // <LaunchPadTags tagName={tags.genre} />

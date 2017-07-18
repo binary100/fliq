@@ -304,6 +304,18 @@ module.exports.getMovieNightResults = (req, res) => {
   this.getUserResults(req, res);
 };
 
+module.exports.postLaunchPadTags = (req, res) => {
+  console.log('postLaunchPadTags sent: ', req.body.selectedTagData);
+  // const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  const selectedTagData = req.body.selectedTagData;
+
+  axios.post(selectedTagData)
+    .then((results) => {
+      console.log('postLaunchPadTags received: ', results.data);
+      res.sendStatus(200);
+    })
+    .catch(err => console.log('Error postLaunchPadTags: ', err));
+};
 
 
 
