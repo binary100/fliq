@@ -107,7 +107,7 @@ module.exports.populateTags = (req, res) => {
 const buildOrIncrementMovieTags = (currentMovie, userId) => {
   return db.movieTags.findAll({ where: { movie_Id: currentMovie.id } })
     .then((movieTags) => {
-      console.log(`movieTags for ${currentMovie} are ${movieTags}`);
+      console.log('movieTags is: ', movieTags);
       return movieTags.map((movieTag) => {
         return new Promise((resolve, reject) => {
           if (movieTag.dataValues.movie_Id === currentMovie.id) {
@@ -123,9 +123,8 @@ const buildOrIncrementMovieTags = (currentMovie, userId) => {
                   tag_Id: movieTag.dataValues.tag_Id,
                   user_Id: userId
                 });
-              } else {
-                return userTag.increment(['viewsCount', 'picksCount'], { by: 1 });
               }
+              return userTag.increment(['viewsCount', 'picksCount'], { by: 1 });
             })
             .then(() => resolve())
             .catch((err) => {
@@ -231,6 +230,21 @@ module.exports.handleLightningSelection = (req, res) => {
   //   });
   // })
   // .catch(error => res.status(500).send(error));
+};
+
+module.exports.findDuplicateTagIDs = (req, res) => {
+  db.userTags.findAll({ where: { user_Id: 2 }})
+    .then((matchedTags) => {
+      var seen = {};
+      const tags = [];
+      matchedTags.forEach(tag => {
+        if (seen[tag.tag_Id]) {
+          tags.push(tag);
+        }
+        seen[tag.tag_Id] = true;
+      });
+      res.send(tags);
+    });
 };
 
 // Placeholder logic
