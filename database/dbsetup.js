@@ -78,13 +78,13 @@ db.movies.afterCreate((movie) => { // add Tags and connects tags to movie
 });
 
 // SYNC
-// sequelize.sync().then((err) => {
-//   if (err) {
-//     console.error('Error creating Tag table', err);
-//   } else {
-//     console.log('Tag table created successfully');
-//   }
-// });
+sequelize.sync().then((err) => {
+  if (err) {
+    console.error('Error creating Tag table', err);
+  } else {
+    console.log('Tag table created successfully');
+  }
+});
 
 sequelize.authenticate()
   .then(() => {
