@@ -521,6 +521,57 @@ module.exports.handleMovieSearchTMDB = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+
+/*
+one findAll result
+{
+        "id": 2,
+        "seen": true,
+        "liked": -1,
+        "createdAt": "2017-07-18T15:33:22.000Z",
+        "updatedAt": "2017-07-18T15:33:22.000Z",
+        "movie_Id": 260,
+        "user_Id": 1,
+        "movie": {
+            "id": 260,
+            "title": "Star Wars: Episode II - Attack of the Clones",
+            "year": "2002",
+            "rated": "PG",
+            "genre": "Action, Adventure, Fantasy",
+            "plot": "Ten years after initially meeting, Anakin Skywalker shares a forbidden romance with Padmé, while Obi-Wan investigates an assassination attempt on the Senator and discovers a secret clone army crafted for the Jedi.",
+            "ratings": "[{\"Source\":\"Internet Movie Database\",\"Value\":\"6.6/10\"},{\"Source\":\"Rotten Tomatoes\",\"Value\":\"65%\"},{\"Source\":\"Metacritic\",\"Value\":\"54/100\"}]",
+            "trailer": null,
+            "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOWNkZmVjODAtNTFlYy00NTQwLWJhY2UtMmFmZTkyOWJmZjZiL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg",
+            "director": "George Lucas",
+            "writer": "George Lucas (screenplay), Jonathan Hales (screenplay), George Lucas (story by)",
+            "actors": "Ewan McGregor, Natalie Portman, Hayden Christensen, Christopher Lee",
+            "createdAt": "2017-07-18T00:42:15.000Z",
+            "updatedAt": "2017-07-18T00:42:15.000Z"
+        }
+    }
+  */
+
+const hydrateLikesAndDislikes = (movies, userId) => {
+
+  const proms = db.userMovies.findAll({
+    where: { user_Id: userId },
+    include: [{ model: db.movies, as: 'movie' }]
+  })
+    .then((userMovieRefs) => {
+      return movies.map((movie) => {
+        console.log('Mapping over: ', movie.title);
+        const match = userMovieRefs.find((ref) => ref.movie.title === movie.title);
+        if (match) {
+          console.log('Match found for movie', movie);
+          console.log('Match is: ', match);
+          return Object.assign({}, movie, { liked: match.liked });
+        }
+        return movie;
+      });
+    });
+  return proms;
+};
+
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
@@ -528,19 +579,19 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
   console.log('Searching for movies: ', searchUrl);
   axios.post(searchUrl)
     .then((results) => {
-      console.log('Received: ', results.data.Search);
-      const movies = results.data.Search.map((movie) => {
-        console.log('Creating movie: ', movie);
+      const movieObjects = results.data.Search.map((movie) => {
         return {
           title: movie.Title,
           year: movie.Year,
           poster: movie.Poster,
-          imdbID: movie.imdbID
+          imdbID: movie.imdbID,
+          liked: 0
         };
       });
-
-      res.send(movies);
+      return movieObjects;
     })
+    .then(movies => hydrateLikesAndDislikes(movies, 1)) // HARD CODED FOR TEST
+    .then(hydratedMovies => res.send(hydratedMovies))
     .catch(err => res.status(404).send(err));
 };
 
