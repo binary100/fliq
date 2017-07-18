@@ -4,6 +4,7 @@ import axios from 'axios';
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
 import PieChart from '../components/pieChart.jsx';
 import ToggleSwitch from '../components/toggleSwitch.jsx';
+import { toggleUserReviewSetting } from '../actions/actions.js';
 
 
 class Dashboard extends React.Component {
@@ -14,7 +15,8 @@ class Dashboard extends React.Component {
   }
 
   userReviewToggle() {
-    !this.props.actions.toggleUserReviewSetting()
+    console.log('Entering userReviewToggle wirh props: ', this.props);
+    this.props.toggleUserReviews(this.props.displayUserReviews);
   }
 
   render() {
@@ -28,8 +30,8 @@ class Dashboard extends React.Component {
             />
             <br></br>
             <ToggleSwitch
-              // onChange={this.userReviewToggle}
-              // value={this.state.}
+              toggleUserReview={this.userReviewToggle}
+              review={this.props.displayUserReviews}
             />
           </div>
         </div>
@@ -45,10 +47,23 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  toggleUserSettings: state.toggleUserSettings
+  displayUserReviews: state.userSettingsReducer.displayUserReviews
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleUserReviews: (shouldDisplayReviews) => { dispatch(toggleUserReviewSetting(shouldDisplayReviews)); }
 });
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Dashboard);
+
+// const WrapComponentInRedux = connect(
+//   mapStateToProps,
+//   null
+// );
+//
+// const ReduxDashboard = WrapComponentInRedux(Dashboard);
+//
+// export default ReduxDashboard;
