@@ -21,7 +21,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    // console.log('In App ctor, props: ', props);
     axios.get('/account')
       .then((results) => {
         if (results.data.user) {
@@ -29,15 +28,6 @@ class App extends React.Component {
         }
       })
       .catch(err => console.error('Login failed: ', err));
-
-
-    // axios.get('/api/tagCreation')
-    //   .then(results => console.log(results))
-    //   .catch(err => console.error('Tag Update failed: ', err));
-
-    // axios.get('/api/tagCreation')
-    //   .then(results => console.log(results))
-    //   .catch(err => console.error('Tag Update failed: ', err));
   }
 
   handleLogout() {
@@ -45,7 +35,6 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log('In App render, props is: ', this.props);
     return (
       <div>
         <Router history={browserHistory}>
