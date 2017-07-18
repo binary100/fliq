@@ -12,7 +12,7 @@ class LightningWrapper extends React.Component {
     this.state = {
       movies: [],
       timer: timerMax,
-      roundsRemaining: 2,
+      roundsRemaining: 30,
       intervalId: ''
     };
     this.getMovieData = this.getMovieData.bind(this);
@@ -96,12 +96,14 @@ class LightningWrapper extends React.Component {
     }
   }
 
-  handleLightningTileClick(e, evt, movie) {
+  handleLightningTileClick(e, evt, clickedMovie) {
     e.preventDefault();
     console.log('Click handler is ending round!');
     this.endRound();
+    const discardedMovie = this.state.movies.filter(mov => mov !== clickedMovie).pop();
     axios.post('/api/lightning', {
-      movie,
+      clickedMovie,
+      discardedMovie,
       movies: this.state.movies
     })
       .catch(err => console.error('Error selecting movie: ', err));
