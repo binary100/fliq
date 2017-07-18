@@ -31,7 +31,8 @@ class SmallMovieTile extends React.Component {
       canLikeOrDislike: false
     });
     axios.post('/api/movie/like', {
-      movie: this.props.movie
+      movie: this.props.movie,
+      fromSearch: this.props.fromSearch
     })
       .then(() => {
         this.setState({ likeButtonClass: complete });
@@ -50,7 +51,8 @@ class SmallMovieTile extends React.Component {
       canLikeOrDislike: false
     });
     axios.post('/api/movie/dislike', {
-      movie: this.props.movie
+      movie: this.props.movie,
+      fromSearch: this.props.fromSearch
     })
       .then(() => {
         this.setState({ dislikeButtonClass: complete });

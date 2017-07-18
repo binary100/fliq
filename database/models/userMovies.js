@@ -11,18 +11,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false
     },
     liked: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
   });
-
-  // Tag.sync().then((err) => {
-  //   if (err) {
-  //     console.error('Error creating Tag table', err);
-  //   } else {
-  //     console.log('Tag table created successfully');
-  //   }
-  // });
 
   return userMovie;
 };
