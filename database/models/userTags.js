@@ -13,6 +13,14 @@ module.exports = (sequelize, DataTypes) => {
     picksCount: {
       type: DataTypes.INTEGER,
       defaultValue: 0
+    },
+    likesCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    dislikesCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
   });
 

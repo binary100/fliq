@@ -215,19 +215,137 @@ module.exports.getSearchAutoComplete = (req, res) => {
 
 module.exports.likeMovie = (req, res) => {
   console.log('likeMovie received: ', req.body.movie);
-  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
-  axios.post(movieUrl)
+  if (req.body.fromSearch) {
+    const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+    axios.post(movieUrl)
     .then((results) => {
-      console.log('likeMovie received: ', results.data);
-      res.sendStatus(200);
+      const movie = Object.assign({}, results.data, {
+        Ratings: JSON.stringify(results.data.Ratings)
+      });
+      if (movie.Title) {
+        return db.movies.findOrCreate({ where: {
+          title: movie.Title,
+          year: movie.Year,
+          rated: movie.Rated,
+          genre: movie.Genre,
+          plot: movie.Plot,
+          ratings: movie.Ratings,
+          poster: movie.Poster,
+          director: movie.Director,
+          writer: movie.Writer,
+          actors: movie.Actors
+        } })
+        .then((newMovie) => {
+          db.userMovies.findOne({ where: {
+            user_Id: req.user.id,
+            movie_Id: newMovie[0].dataValues.id
+          } })
+          .then((userMovie) => {
+            if (userMovie === null) {
+              db.userMovies.create({
+                user_Id: req.user.id,
+                movie_Id: newMovie[0].dataValues.id,
+                liked: 1,
+                seen: true
+              });
+            } else {
+              userMovie.update({
+                liked: db.sequelize.literal('liked + 1'),
+                seen: true
+              });
+            }
+          })
+          .then(() => {
+            db.movieTags.findAll({ where: { movie_Id: newMovie[0].dataValues.id } })
+            .then((movieTags) => {
+              movieTags.forEach((movieTag) => {
+                db.userTags.find({ where: {
+                  tag_Id: movieTag.dataValues.tag_Id,
+                  user_Id: req.user.id
+                } })
+                .then((userTag) => {
+                  if (userTag === null) {
+                    db.userTags.create({
+                      likesCount: 1,
+                      tag_Id: movieTag.dataValues.tag_Id,
+                      user_Id: req.user.id
+                    });
+                  } else {
+                    userTag.increment(['likesCount'], { by: 1 });
+                  }
+                  res.status(201).send();
+                })
+                .catch(error => res.status(500).send(error));
+              });
+            })
+            .catch(error => res.status(500).send(error));
+          })
+          .catch(error => res.status(500).send(error));
+        });
+      }
     })
-    .catch(err => console.log('Error getting movie: ', err));
-}
+    .catch(err => console.log('Error getting and creating new movie: ', err));
+  } else {
+    return db.movies.findOne({ where: {
+      title: req.body.movie.title,
+      year: req.body.movie.year,
+      plot: req.body.movie.plot
+    } })
+    .then((newMovie) => {
+      db.userMovies.findOne({ where: {
+        user_Id: req.user.id,
+        movie_Id: newMovie.dataValues.id
+      } })
+      .then((userMovie) => {
+        if (userMovie === null) {
+          db.userMovies.create({
+            user_Id: req.user.id,
+            movie_Id: newMovie.dataValues.id,
+            liked: 1,
+            seen: true
+          });
+        } else {
+          userMovie.update({
+            liked: db.sequelize.literal('liked + 1'),
+            seen: true
+          });
+        }
+      })
+      .then(() => {
+        db.movieTags.findAll({ where: { movie_Id: newMovie.dataValues.id } })
+        .then((movieTags) => {
+          movieTags.forEach((movieTag) => {
+            db.userTags.find({ where: {
+              tag_Id: movieTag.dataValues.tag_Id,
+              user_Id: req.user.id
+            } })
+            .then((userTag) => {
+              if (userTag === null) {
+                db.userTags.create({
+                  likesCount: 1,
+                  tag_Id: movieTag.dataValues.tag_Id,
+                  user_Id: req.user.id
+                });
+              } else {
+                userTag.increment(['likesCount'], { by: 1 });
+              }
+              res.status(201).send();
+            })
+            .catch(error => res.status(500).send(error));
+          });
+        })
+        .catch(error => res.status(500).send(error));
+      })
+      .catch(error => res.status(500).send(error));
+    })
+    .catch(error => res.status(500).send(error));
+  }
+};
 
 module.exports.dislikeMovie = (req, res) => {
   console.log('dislikeMovie received: ', req.body.movie);
   res.sendStatus(200);
-}
+};
 
 // Testing. Not currently used.
 module.exports.handleMovieSearchTMDB = (req, res) => {
