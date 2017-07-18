@@ -60,7 +60,7 @@
   },
   "scripts": {
     "test": "",
-    "start": "node server.js",
+    "start": "webpack && node server.js",
     "startmon": "nodemon server.js",
     "webpack": "webpack -d --watch",
     "tests": "mocha test/"
