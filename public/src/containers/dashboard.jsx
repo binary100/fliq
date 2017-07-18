@@ -9,6 +9,12 @@ import ToggleSwitch from '../components/toggleSwitch.jsx';
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+
+    this.userReviewToggle = this.userReviewToggle.bind(this);
+  }
+
+  userReviewToggle() {
+    !this.props.actions.toggleUserReviewSetting()
   }
 
   render() {
@@ -21,8 +27,10 @@ class Dashboard extends React.Component {
               user={this.props.auth.user}
             />
             <br></br>
-            <ToggleSwitch/>
-            <ToggleSwitch/>
+            <ToggleSwitch
+              // onChange={this.userReviewToggle}
+              // value={this.state.}
+            />
           </div>
         </div>
         <br></br>
@@ -36,7 +44,8 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  toggleUserSettings: state.toggleUserSettings
 });
 
 export default connect(

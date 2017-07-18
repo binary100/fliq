@@ -13,3 +13,10 @@ export const logoutUser = () => {
     payload: { isLoggedIn: false }
   };
 };
+
+export const toggleUserReviewSetting = (boolean) => {
+  return {
+    type: 'TOGGLE_USER_REVIEW_SETTING',
+    payload: { displayUserReviews: boolean }
+  };
+};
