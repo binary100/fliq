@@ -111,7 +111,7 @@ const buildOrIncrementMovieTags = (currentMovie, userId) => {
       return movieTags.map((movieTag) => {
         return new Promise((resolve, reject) => {
           if (movieTag.dataValues.movie_Id === currentMovie.id) {
-            db.userTags.find({ where: {
+            return db.userTags.find({ where: {
               tag_Id: movieTag.dataValues.tag_Id,
               user_Id: userId
             } })
