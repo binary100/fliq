@@ -29,18 +29,15 @@ class App extends React.Component {
         }
       })
       .catch(err => console.error('Login failed: ', err));
-<<<<<<< HEAD
-||||||| merged common ancestors
+
 
     axios.get('/api/tagCreation')
       .then(results => console.log(results))
       .catch(err => console.error('Tag Update failed: ', err));
-=======
 
     // axios.get('/api/tagCreation')
     //   .then(results => console.log(results))
     //   .catch(err => console.error('Tag Update failed: ', err));
->>>>>>> launchpad6
   }
 
   handleLogout() {

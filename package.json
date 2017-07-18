@@ -4,7 +4,6 @@
   "description": "A machine-learning application to provide people with profile-matched movie suggestions",
   "main": "server.js",
   "dependencies": {
-    "animejs": "^2.0.2",
     "async": "^2.5.0",
     "axios": "^0.16.2",
     "babel-core": "^6.25.0",
