@@ -1,5 +1,5 @@
 const axios = require('axios');
-const db = require('../database/dbSetup.js');
+const db = require('../database/dbsetup.js');
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
 const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
 const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
