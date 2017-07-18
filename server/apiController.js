@@ -521,6 +521,23 @@ module.exports.handleMovieSearchTMDB = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+const hydrateLikesAndDislikes = (movies, userId) => {
+  const proms = db.userMovies.findAll({
+    where: { user_Id: userId },
+    include: [{ model: db.movies, as: 'movie' }]
+  })
+    .then((userMovieRefs) => {
+      return movies.map((movie) => {
+        const match = userMovieRefs.find(ref => ref.movie.title === movie.title);
+        if (match) {
+          return Object.assign({}, movie, { liked: match.liked });
+        }
+        return movie;
+      });
+    });
+  return proms;
+};
+
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
@@ -528,19 +545,24 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
   console.log('Searching for movies: ', searchUrl);
   axios.post(searchUrl)
     .then((results) => {
-      console.log('Received: ', results.data.Search);
-      const movies = results.data.Search.map((movie) => {
-        console.log('Creating movie: ', movie);
+      const movieObjects = results.data.Search.map((movie) => {
         return {
           title: movie.Title,
           year: movie.Year,
           poster: movie.Poster,
-          imdbID: movie.imdbID
+          imdbID: movie.imdbID,
+          liked: 0
         };
       });
-
-      res.send(movies);
+      return movieObjects;
     })
+    .then(movies => {
+      if (req.user) {
+        return hydrateLikesAndDislikes(movies, req.user.id);
+      }
+      return movies;
+    })
+    .then(hydratedMovies => res.send(hydratedMovies))
     .catch(err => res.status(404).send(err));
 };
 
