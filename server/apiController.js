@@ -135,8 +135,8 @@ const buildOrIncrementMovieTags = (currentMovie, userId) => {
         });
       });
     })
-    .then((clickedMovieTagPromises) => Promise.all(clickedMovieTagPromises))
-    .catch((error) => console.log('Error in buildOrIncrementMovieTags, ', error));
+    .then(clickedMovieTagPromises => Promise.all(clickedMovieTagPromises))
+    .catch(error => console.log('Error in buildOrIncrementMovieTags, ', error));
 };
 
 module.exports.handleLightningSelection = (req, res) => {
@@ -145,99 +145,14 @@ module.exports.handleLightningSelection = (req, res) => {
   .then(buildOrIncrementMovieTags(discardedMovie, req.user.id))
   .then(() => res.sendStatus(201))
   .catch(error => res.status(500).send(error));
-
-  // db.movieTags.findOne({ where: { movie_Id: clickedMovie.id } })
-  //   .then((movieTags) => {
-  //     return movieTags.map((movieTag) => {
-  //       return new Promise((resolve, reject) => {
-  //         if (movieTag.dataValues.movie_Id === clickedMovie.id) {
-  //           db.userTags.find({ where: {
-  //             tag_Id: movieTag.dataValues.tag_Id,
-  //             user_Id: req.user.id
-  //           } })
-  //           .then((userTag) => {
-  //             if (userTag === null) {
-  //               return db.userTags.create({
-  //                 viewsCount: 1,
-  //                 picksCount: 1,
-  //                 tag_Id: movieTag.dataValues.tag_Id,
-  //                 user_Id: req.user.id
-  //               });
-  //             } else {
-  //               return userTag.increment(['viewsCount', 'picksCount'], { by: 1 });
-  //             }
-  //           })
-  //           .then(() => resolve())
-  //           .catch((err) => {
-  //             console.log('Error in userTag if/else promise: ', err);
-  //             reject();
-  //           })
-  //         }
-  //       })
-  //     })
-  //   })
-  //   .then((clickedMovieTagPromises) => Promise.all(clickedMovieTagPromises))
-  //   .then(() => {
-  //     db.movieTags.findOne({ where: { movie_Id: discardedMovie.id }})
-
-  //   })
-
-
-/*              DAVID'S CODE            */
-
-  // db.movieTags.findAll({ where:
-  //   { $or: [{ movie_Id: req.body.movies[0].id }, { movie_Id: req.body.movies[1].id }] }
-  // })
-  // .then((movieTags) => {
-  //   movieTags.forEach((movieTag) => {
-  //     if (movieTag.dataValues.movie_Id === req.body.movie.id) {
-  //       db.userTags.find({ where: {
-  //         tag_Id: movieTag.dataValues.tag_Id,
-  //         user_Id: req.user.id
-  //       } })
-  //       .then((userTag) => {
-  //         if (userTag === null) {
-  //           db.userTags.create({
-  //             viewsCount: 1,
-  //             picksCount: 1,
-  //             tag_Id: movieTag.dataValues.tag_Id,
-  //             user_Id: req.user.id
-  //           });
-  //         } else {
-  //           userTag.increment(['viewsCount', 'picksCount'], { by: 1 });
-  //         }
-  //       })
-  //       .catch(error => res.status(500).send(error));
-  //     } else {
-  //       db.userTags.find({ where: {
-  //         tag_Id: movieTag.dataValues.tag_Id,
-  //         user_Id: req.user.id
-  //       } })
-  //       .then((userTag) => {
-  //         if (userTag === null) {
-  //           db.userTags.create({
-  //             viewsCount: 1,
-  //             picksCount: 0,
-  //             tag_Id: movieTag.dataValues.tag_Id,
-  //             user_Id: req.user.id
-  //           });
-  //         } else {
-  //           userTag.increment(['viewsCount'], { by: 1 });
-  //         }
-  //       })
-  //       .catch(error => res.status(500).send(error));
-  //     }
-  //   });
-  // })
-  // .catch(error => res.status(500).send(error));
 };
 
 module.exports.findDuplicateTagIDs = (req, res) => {
-  db.userTags.findAll({ where: { user_Id: 2 }})
+  db.userTags.findAll({ where: { user_Id: 2 } })
     .then((matchedTags) => {
-      var seen = {};
+      const seen = {};
       const tags = [];
-      matchedTags.forEach(tag => {
+      matchedTags.forEach((tag) => {
         if (seen[tag.tag_Id]) {
           tags.push(tag);
         }
