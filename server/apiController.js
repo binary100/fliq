@@ -1,4 +1,5 @@
 const axios = require('axios');
+const Sequelize = require('sequelize');
 const db = require('../database/dbsetup.js');
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
 const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
@@ -609,14 +610,42 @@ module.exports.getMovieNightResults = (req, res) => {
   this.getUserResults(req, res);
 };
 
+module.exports.getTagsforLaunchPad = (req, res) => {
+  // const { data } = req.body;
+  db.tags
+    .findAll({
+      order: [
+        Sequelize.fn('RAND')
+      ],
+      limit: 20
+    })
+    .then(results => {
+      const tags = results.reduce((acc, val) => {
+        if (!acc[val.tagType]) {
+          acc[val.tagType] = [];
+        }
+
+        acc[val.tagType].push(val.tagName);
+        return acc;
+      }, {});
+
+      res.send(tags);
+    })
+    .catch(err => res.status(500).send('Error finding tags: ', err));
+};
+
+module.exports.getLaunchPadTags = (req, res) => {
+  // axios.get(/api/);
+}
+
 module.exports.postLaunchPadTags = (req, res) => {
-  console.log('postLaunchPadTags sent: ', req.body.selectedTagData);
-  const selectedTagData = req.body.selectedTagData;
+  console.log('postLaunchPadTags sent: ', req.body);
+  const selectedTagData = req.body;
 
   axios.post(selectedTagData)
     .then((results) => {
-      console.log('postLaunchPadTags received: ', results.data);
-      res.sendStatus(200);
+      console.log('postLaunchPadTags sent: ', results.data);
+      res.sendStatus(201);
     })
     .catch(err => console.log('Error postLaunchPadTags: ', err));
 };
