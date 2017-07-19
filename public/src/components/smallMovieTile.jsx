@@ -13,7 +13,7 @@ const searchPosterImgClass = 'col-sm-12 poster-small';
 const resultsPosterDivClass = 'row poster-small results-tile-bar-poster';
 const resultsPosterImgClass = 'col-sm-12 poster-small results-tile-bar-poster';
 const seenFromSearch = '/api/search/movie/seen';
-const seenFromResults = '/api/results/movie/seen'
+const seenFromResults = '/api/results/movie/seen';
 
 class SmallMovieTile extends React.Component {
   constructor(props) {
@@ -104,7 +104,8 @@ class SmallMovieTile extends React.Component {
       axios.post(postUrl, {
         movie: this.props.movie
       })
-        .then(() => {
+        .then((results) => {
+          console.log(results.data);
           this.setState({
             seenButtonClass: complete,
             canClickSeen: false
