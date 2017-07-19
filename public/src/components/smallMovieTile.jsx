@@ -15,11 +15,25 @@ const resultsPosterImgClass = 'col-sm-12 poster-small results-tile-bar-poster';
 class SmallMovieTile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      likeButtonClass: thumbsUp,
-      dislikeButtonClass: thumbsDown,
-      canLikeOrDislike: true
-    };
+    if (this.props.movie.liked === 0) {
+      this.state = {
+        likeButtonClass: thumbsUp,
+        dislikeButtonClass: thumbsDown,
+        canLikeOrDislike: true
+      };
+    } else if (this.props.movie.liked === 1) {
+      this.state = {
+        likeButtonClass: complete,
+        dislikeButtonClass: thumbsDown,
+        canLikeOrDislike: false
+      };
+    } else {
+      this.state = {
+        likeButtonClass: thumbsUp,
+        dislikeButtonClass: complete,
+        canLikeOrDislike: false
+      };
+    }
     this.likeMovie = this.likeMovie.bind(this);
     this.dislikeMovie = this.dislikeMovie.bind(this);
   }

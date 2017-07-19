@@ -191,8 +191,30 @@ module.exports.getUserResults = (req, res) => {
           $or: [...moviesToGrab]
         }
       })
-        .then(movies => res.send(movies))
-        .catch(err => res.status(500).send('Error finding movies: ', err));
+      .then((movies) => {
+        const moviePromises = movies.map(movie =>
+          new Promise((resolve, reject) => {
+            db.userMovies.findOne({ where: {
+              movie_Id: movie.dataValues.id,
+              user_Id: req.user.id
+            } })
+            .then((userMovie) => {
+              const hydramovie = Object.assign({}, movie);
+              if (userMovie) {
+                hydramovie.dataValues.liked = userMovie.liked;
+              } else {
+                hydramovie.dataValues.liked = 0;
+              }
+              return hydramovie;
+            })
+            .then(hydratedMovie => resolve(hydratedMovie.dataValues))
+            .catch(error => reject(error));
+          })
+        );
+        return Promise.all(moviePromises);
+      })
+      .then(hydratedMovies => res.send(hydratedMovies))
+      .catch(err => res.send(err));
     });
 };
 
