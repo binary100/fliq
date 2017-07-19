@@ -27,6 +27,10 @@ class Search extends React.Component {
   }
 
   handleSearch(query) {
+    this.setState({
+      searchResults: [],
+      selectedMovie: null
+    });
     axios.post('/api/search', {
       movieName: query
     })
