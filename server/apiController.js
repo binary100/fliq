@@ -116,15 +116,21 @@ const buildOrIncrementMovieTags = (currentMovie, userId) => {
               user_Id: userId
             } })
             .then((userTag) => {
+              const picksIncrement = currentMovie.selected ? 1 : 0;
               if (userTag === null) {
                 return db.userTags.create({
                   viewsCount: 1,
-                  picksCount: 1,
+                  picksCount: picksIncrement,
                   tag_Id: movieTag.dataValues.tag_Id,
                   user_Id: userId
                 });
               }
-              return userTag.increment(['viewsCount', 'picksCount'], { by: 1 });
+              return userTag.increment('viewsCount', { by: 1 })
+                .then(() => {
+                  if (currentMovie.selected) {
+                    return userTag.increment('picksCount', { by: picksIncrement });
+                  }
+                });
             })
             .then(() => resolve())
             .catch((err) => {
@@ -642,3 +648,55 @@ module.exports.postLaunchPadTags = (req, res) => {
     })
     .catch(err => console.log('Error postLaunchPadTags: ', err));
 };
+
+const setMovieFromDbAsSeen = (movieId, req, res) => {
+  return db.userMovies.findOrCreate({ where: {
+    user_Id: req.user.id,
+    movie_Id: movieId
+  }})
+    .then((findOrCreateObj) => {
+      const userMovie = findOrCreateObj[0];
+      return userMovie.update({ seen: true });
+    })
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error marking movie seen: ', err);
+      res.sendStatus(500);
+    });
+};
+
+module.exports.setResultsMovieAsSeen = (req, res) => {
+  const { movie } = req.body;
+  db.movies.findOne({ where: {
+    id: movie.id
+  }})
+  .then(movie => setMovieFromDbAsSeen(movie.id, req, res));
+};
+
+module.exports.setSearchedMovieAsSeen = (req, res) => {
+  console.log(req.body.movie);
+  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  axios.post(movieUrl)
+    .then((results) => {
+      const movie = Object.assign({}, results.data, {
+        Ratings: JSON.stringify(results.data.Ratings)
+      });
+      return db.movies.findOrCreate({ where: {
+        title: movie.Title,
+        year: movie.Year,
+        rated: movie.Rated,
+        genre: movie.Genre,
+        plot: movie.Plot,
+        ratings: movie.Ratings,
+        poster: movie.Poster,
+        director: movie.Director,
+        writer: movie.Writer,
+        actors: movie.Actors
+      } });
+    })
+    .then((findOrCreateObj) => {
+      const movieFromDb = findOrCreateObj[0];
+      setMovieFromDbAsSeen(movieFromDb.id, req, res);
+    });
+};
+
