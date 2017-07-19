@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import LaunchPad from './launchPad.jsx';
 import { Redirect } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
 
 // DATA OBJECTS
   const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s','00s']
@@ -24,6 +25,9 @@ import { Redirect } from 'react-router-dom';
     year: [],
   }
 
+
+// MESSAGES 
+
 class LaunchPadWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -34,61 +38,37 @@ class LaunchPadWrapper extends React.Component {
 
     this.isSelected = this.isSelected.bind(this);
     this.selectItem = this.selectItem.bind(this);
-    // this.postSelectedTags = this.postSelectedTags.bind(this);
+
     console.log('LaunchPadWrapper', props);
   }
+
+
 
   componentWillMount() {
     this.getTagsData();
   }
 
   isSelected(tag, tagItem) {
-    console.log("isSelected:", tag, tagItem)
-    console.log("selected[tag]:", this.state.selectedTags)
-  // handleTileClick(e, evt, tag) {
-  //   this.setState({
-  //     selectedTag: tags.tag
-  //   });
-  // }
-    return ((this.state.selectedTags[tag].indexOf(tagItem) > -1) ? 'tag-bubble-active' : 'tag-bubble-default');
+    return (this.state.selectedTags[tag].indexOf(tagItem) > -1) ? 'tag-bubble tag-bubble-active' : 'tag-bubble';
   }
+ 
+  selectItem(tagItem, tag) {
 
-  selectItem(tag, tagItem) {
-    console.log("selectItem:", tag, tagItem)
-    if (this.state.selectedTags[tag].indexOf(tagItem) > -1) {
-      var index = this.state.selectedTags[tag].indexOf(tagItem);
-      // this.setState({
-        let selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index)
-        this.setState({selectedTags: selectedTags});
-      // })
+  console.log('check index', this.state.selectedTags[tag])
+    if (this.state.selectedTags[tag].includes(tagItem) ) {
+      // const index = this.state.selectedTags[tag].includes(tagItem);
+      // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);
+      
+      console.log('if', this.state.selectedTags)
+      this.setState({ selectedTags });
     } else {
-      // this.setState({
-        let selectedTags = this.state.selectedTags[tag].concat([tagItem]);
-        this.setState({selectedTags: selectedTags});
-      // })
+      const newSelectedTagObj = Object.assign({}, this.state.selectedTags);
+      newSelectedTagObj[tag].push(tagItem);
+      this.setState({ selectedTags: newSelectedTagObj });
+
+      // console
+      console.log('else', this.state.selectedTags)
     }
-  }
-
-  postSelectedTags(submittedTags) {
-    console.log('submited posted tags');
-    console.log(submittedTags);
-  }
-
-
-  getTagsData() {
-    return axios.get('/api/selectedTags')
-      .then((results) => {
-        console.log('Tags API Call', results.data);
-        this.setState({
-          tagData: results.data
-        });
-        return results;
-      })
-      .catch(err => console.error('Error retrieving movies: ', err));
-  }
-
-  componentWillMount() {
-    this.getTagsData();
   }
 
   getTagsData() {
@@ -103,9 +83,26 @@ class LaunchPadWrapper extends React.Component {
       .catch(err => console.error('Error retrieving movies: ', err));
   }
 
-  render() {
-    return (<div><LaunchPad tags={this.state.tagData} selectedTags={this.state.selectedTags} isSelected={this.isSelected} selectItem={this.selectItem} postSelectedTags={this.postSelectedTags} /></div>);
+  postSelectedTags(submittedTags) {
+    console.log('submited posted tags', submittedTags)
+    return axios.post('/api/selectedTags', submittedTags)
+      .then(res => console.log('submited posted tags', submittedTags))
+      .then(alert("We got your results! Thanks"))
+      .catch(error => console.error('error posting submitted tags'))
   }
+
+  render() {
+    return (
+      <div>
+        <LaunchPad 
+          tags={this.state.tagData} 
+          selectedTags={this.state.selectedTags} 
+          isSelected={this.isSelected}
+          selectItem={this.selectItem} 
+          postSelectedTags={this.postSelectedTags} 
+        /></div>
+    );
+  };
 }
 
 export default LaunchPadWrapper;
