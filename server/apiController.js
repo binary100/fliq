@@ -191,8 +191,30 @@ module.exports.getUserResults = (req, res) => {
           $or: [...moviesToGrab]
         }
       })
-        .then(movies => res.send(movies))
-        .catch(err => res.status(500).send('Error finding movies: ', err));
+      .then((movies) => {
+        const moviePromises = movies.map(movie =>
+          new Promise((resolve, reject) => {
+            db.userMovies.findOne({ where: {
+              movie_Id: movie.dataValues.id,
+              user_Id: req.user.id
+            } })
+            .then((userMovie) => {
+              const hydramovie = Object.assign({}, movie);
+              if (userMovie) {
+                hydramovie.dataValues.liked = userMovie.liked;
+              } else {
+                hydramovie.dataValues.liked = 0;
+              }
+              return hydramovie;
+            })
+            .then(hydratedMovie => resolve(hydratedMovie.dataValues))
+            .catch(error => reject(error));
+          })
+        );
+        return Promise.all(moviePromises);
+      })
+      .then(hydratedMovies => res.send(hydratedMovies))
+      .catch(err => res.send(err));
     });
 };
 
@@ -268,30 +290,34 @@ module.exports.likeMovie = (req, res) => {
           .then(() => {
             db.movieTags.findAll({ where: { movie_Id: newMovie[0].dataValues.id } })
             .then((movieTags) => {
-              movieTags.forEach((movieTag) => {
-                db.userTags.find({ where: {
-                  tag_Id: movieTag.dataValues.tag_Id,
-                  user_Id: req.user.id
-                } })
-                .then((userTag) => {
-                  if (userTag === null) {
-                    db.userTags.create({
-                      likesCount: 1,
-                      tag_Id: movieTag.dataValues.tag_Id,
-                      user_Id: req.user.id
-                    });
-                  } else {
-                    userTag.increment(['likesCount'], { by: 1 });
-                  }
-                  res.status(201).send();
+              const tagPromises = movieTags.map(movieTag =>
+                new Promise((resolve, reject) => {
+                  db.userTags.find({ where: {
+                    tag_Id: movieTag.dataValues.tag_Id,
+                    user_Id: req.user.id
+                  } })
+                  .then((userTag) => {
+                    if (userTag === null) {
+                      return db.userTags.create({
+                        likesCount: 1,
+                        tag_Id: movieTag.dataValues.tag_Id,
+                        user_Id: req.user.id
+                      });
+                    }
+                    return userTag.increment(['likesCount'], { by: 1 });
+                  })
+                  .then(resultss => resolve(resultss))
+                  .catch(error => reject(error));
                 })
-                .catch(error => res.status(500).send(error));
-              });
+              );
+              return Promise.all(tagPromises);
             })
+            .then(() => res.status(201).send())
             .catch(error => res.status(500).send(error));
           })
           .catch(error => res.status(500).send(error));
-        });
+        })
+        .catch(error => res.status(500).send(error));
       }
     })
     .catch(err => console.log('Error getting and creating new movie: ', err));
@@ -324,26 +350,29 @@ module.exports.likeMovie = (req, res) => {
       .then(() => {
         db.movieTags.findAll({ where: { movie_Id: newMovie.dataValues.id } })
         .then((movieTags) => {
-          movieTags.forEach((movieTag) => {
-            db.userTags.find({ where: {
-              tag_Id: movieTag.dataValues.tag_Id,
-              user_Id: req.user.id
-            } })
-            .then((userTag) => {
-              if (userTag === null) {
-                db.userTags.create({
-                  likesCount: 1,
-                  tag_Id: movieTag.dataValues.tag_Id,
-                  user_Id: req.user.id
-                });
-              } else {
-                userTag.increment(['likesCount'], { by: 1 });
-              }
-              res.status(201).send();
+          const tagPromises = movieTags.map(movieTag =>
+            new Promise((resolve, reject) => {
+              db.userTags.find({ where: {
+                tag_Id: movieTag.dataValues.tag_Id,
+                user_Id: req.user.id
+              } })
+              .then((userTag) => {
+                if (userTag === null) {
+                  return db.userTags.create({
+                    likesCount: 1,
+                    tag_Id: movieTag.dataValues.tag_Id,
+                    user_Id: req.user.id
+                  });
+                }
+                return userTag.increment(['likesCount'], { by: 1 });
+              })
+              .then(results => resolve(results))
+              .catch(error => reject(error));
             })
-            .catch(error => res.status(500).send(error));
-          });
+          );
+          return Promise.all(tagPromises);
         })
+        .then(() => res.status(201).send())
         .catch(error => res.status(500).send(error));
       })
       .catch(error => res.status(500).send(error));
@@ -397,30 +426,34 @@ module.exports.dislikeMovie = (req, res) => {
           .then(() => {
             db.movieTags.findAll({ where: { movie_Id: newMovie[0].dataValues.id } })
             .then((movieTags) => {
-              movieTags.forEach((movieTag) => {
-                db.userTags.find({ where: {
-                  tag_Id: movieTag.dataValues.tag_Id,
-                  user_Id: req.user.id
-                } })
-                .then((userTag) => {
-                  if (userTag === null) {
-                    db.userTags.create({
-                      dislikesCount: 1,
-                      tag_Id: movieTag.dataValues.tag_Id,
-                      user_Id: req.user.id
-                    });
-                  } else {
-                    userTag.increment(['dislikesCount'], { by: 1 });
-                  }
-                  res.status(201).send();
+              const tagPromises = movieTags.map(movieTag =>
+                new Promise((resolve, reject) => {
+                  db.userTags.find({ where: {
+                    tag_Id: movieTag.dataValues.tag_Id,
+                    user_Id: req.user.id
+                  } })
+                  .then((userTag) => {
+                    if (userTag === null) {
+                      return db.userTags.create({
+                        dislikesCount: 1,
+                        tag_Id: movieTag.dataValues.tag_Id,
+                        user_Id: req.user.id
+                      });
+                    }
+                    return userTag.increment(['dislikesCount'], { by: 1 });
+                  })
+                  .then(resultss => resolve(resultss))
+                  .catch(error => reject(error));
                 })
-                .catch(error => res.status(500).send(error));
-              });
+              );
+              return Promise.all(tagPromises);
             })
+            .then(() => res.status(201).send())
             .catch(error => res.status(500).send(error));
           })
           .catch(error => res.status(500).send(error));
-        });
+        })
+        .catch(error => res.status(500).send(error));
       }
     })
     .catch(err => console.log('Error getting and creating new movie: ', err));
@@ -453,26 +486,29 @@ module.exports.dislikeMovie = (req, res) => {
       .then(() => {
         db.movieTags.findAll({ where: { movie_Id: newMovie.dataValues.id } })
         .then((movieTags) => {
-          movieTags.forEach((movieTag) => {
-            db.userTags.find({ where: {
-              tag_Id: movieTag.dataValues.tag_Id,
-              user_Id: req.user.id
-            } })
-            .then((userTag) => {
-              if (userTag === null) {
-                db.userTags.create({
-                  dislikesCount: 1,
-                  tag_Id: movieTag.dataValues.tag_Id,
-                  user_Id: req.user.id
-                });
-              } else {
-                userTag.increment(['dislikesCount'], { by: 1 });
-              }
-              res.status(201).send();
+          const tagPromises = movieTags.map(movieTag =>
+            new Promise((resolve, reject) => {
+              db.userTags.find({ where: {
+                tag_Id: movieTag.dataValues.tag_Id,
+                user_Id: req.user.id
+              } })
+              .then((userTag) => {
+                if (userTag === null) {
+                  return db.userTags.create({
+                    dislikesCount: 1,
+                    tag_Id: movieTag.dataValues.tag_Id,
+                    user_Id: req.user.id
+                  });
+                }
+                return userTag.increment(['dislikesCount'], { by: 1 });
+              })
+              .then(results => resolve(results))
+              .catch(error => reject(error));
             })
-            .catch(error => res.status(500).send(error));
-          });
+          );
+          return Promise.all(tagPromises);
         })
+        .then(() => res.status(201).send())
         .catch(error => res.status(500).send(error));
       })
       .catch(error => res.status(500).send(error));
@@ -488,8 +524,7 @@ module.exports.handleMovieSearchTMDB = (req, res) => {
   const searchUrl = theMovieDbUrl + movieName;
   console.log(searchUrl);
   axios.post(searchUrl)
-    .then(results => {
-
+    .then((results) => {
       // Shape the data from The Movie Database into
       // what OMDB API uses
       const movies = results.data.results.map((movie) => {
@@ -508,31 +543,53 @@ module.exports.handleMovieSearchTMDB = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+const hydrateLikesAndDislikes = (movies, userId) => {
+  const proms = db.userMovies.findAll({
+    where: { user_Id: userId },
+    include: [{ model: db.movies, as: 'movie' }]
+  })
+    .then((userMovieRefs) => {
+      return movies.map((movie) => {
+        const match = userMovieRefs.find(ref => ref.movie.title === movie.title);
+        if (match) {
+          return Object.assign({}, movie, { liked: match.liked });
+        }
+        return movie;
+      });
+    });
+  return proms;
+};
+
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
   const searchUrl = omdbSearchUrl + movieName;
   console.log('Searching for movies: ', searchUrl);
   axios.post(searchUrl)
-    .then(results => {
-      console.log('Received: ', results.data.Search);
-      const movies = results.data.Search.map((movie) => {
-        console.log('Creating movie: ', movie);
+    .then((results) => {
+      const movieObjects = results.data.Search.map((movie) => {
         return {
           title: movie.Title,
           year: movie.Year,
           poster: movie.Poster,
-          imdbID: movie.imdbID
+          imdbID: movie.imdbID,
+          liked: 0
         };
       });
-
-      res.send(movies);
+      return movieObjects;
     })
-    .catch(err => res.status(404).send([]));
+    .then(movies => {
+      if (req.user) {
+        return hydrateLikesAndDislikes(movies, req.user.id);
+      }
+      return movies;
+    })
+    .then(hydratedMovies => res.send(hydratedMovies))
+    .catch(err => res.status(404).send(err));
 };
 
-const reshapeMovieData = movie => {
-  return Object.assign({}, {
+const reshapeMovieData = movie =>
+  Object.assign({}, {
     title: movie.Title,
     poster: movie.Poster,
     plot: movie.Plot,
@@ -544,7 +601,6 @@ const reshapeMovieData = movie => {
     actors: movie.Actors,
     metascore: movie.Metascore
   });
-};
 
 module.exports.getLargeTileData = (req, res) => {
   console.log('getLargeTileData received: ', req.body.movie);
@@ -574,3 +630,67 @@ module.exports.verifyUserEmail = (req, res) => {
 module.exports.getMovieNightResults = (req, res) => {
   this.getUserResults(req, res);
 };
+
+module.exports.postLaunchPadTags = (req, res) => {
+  console.log('postLaunchPadTags sent: ', req.body.selectedTagData);
+  const selectedTagData = req.body.selectedTagData;
+
+  axios.post(selectedTagData)
+    .then((results) => {
+      console.log('postLaunchPadTags received: ', results.data);
+      res.sendStatus(200);
+    })
+    .catch(err => console.log('Error postLaunchPadTags: ', err));
+};
+
+const setMovieFromDbAsSeen = (movieId, req, res) => {
+  return db.userMovies.findOrCreate({ where: {
+    user_Id: req.user.id,
+    movie_Id: movieId
+  }})
+    .then((findOrCreateObj) => {
+      const userMovie = findOrCreateObj[0];
+      return userMovie.update({ seen: true });
+    })
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error marking movie seen: ', err);
+      res.sendStatus(500);
+    });
+};
+
+module.exports.setResultsMovieAsSeen = (req, res) => {
+  const { movie } = req.body;
+  db.movies.findOne({ where: {
+    id: movie.id
+  }})
+  .then(movie => setMovieFromDbAsSeen(movie.id, req, res));
+};
+
+module.exports.setSearchedMovieAsSeen = (req, res) => {
+  console.log(req.body.movie);
+  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  axios.post(movieUrl)
+    .then((results) => {
+      const movie = Object.assign({}, results.data, {
+        Ratings: JSON.stringify(results.data.Ratings)
+      });
+      return db.movies.findOrCreate({ where: {
+        title: movie.Title,
+        year: movie.Year,
+        rated: movie.Rated,
+        genre: movie.Genre,
+        plot: movie.Plot,
+        ratings: movie.Ratings,
+        poster: movie.Poster,
+        director: movie.Director,
+        writer: movie.Writer,
+        actors: movie.Actors
+      } });
+    })
+    .then((findOrCreateObj) => {
+      const movieFromDb = findOrCreateObj[0];
+      setMovieFromDbAsSeen(movieFromDb.id, req, res);
+    });
+};
+

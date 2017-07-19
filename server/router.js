@@ -5,6 +5,7 @@ const apiController = require('./apiController.js');
 router.get('/api/lightning', apiController.getTwoMovies);
 router.post('/api/lightning', apiController.handleLightningSelection);
 router.get('/api/results', apiController.getUserResults);
+// router.get('/api/tags', apiController.getTags);
 router.get('/api/quote', apiController.getQuote);
 router.post('/api/trailer', apiController.getTrailer);
 router.get('/api/tagCreation', apiController.populateTags);
@@ -13,10 +14,14 @@ router.post('/api/search', apiController.handleMovieSearchOMDB);
 router.post('/api/autocomplete', apiController.getSearchAutoComplete);
 router.post('/api/movie/like', apiController.likeMovie);
 router.post('/api/movie/dislike', apiController.dislikeMovie);
+router.post('/api/search/movie/seen', apiController.setSearchedMovieAsSeen);
+router.post('/api/results/movie/seen', apiController.setResultsMovieAsSeen);
 router.post('/api/movie/select', apiController.getLargeTileData);
 router.post('/api/user/email/verify', apiController.verifyUserEmail);
 router.post('/api/movienight', apiController.getMovieNightResults);
 router.get('/api/lightning/testUserTags', apiController.findDuplicateTagIDs);
+// router.get('/api/selectedTags');
+router.post('/api/selectedTags', apiController.postLaunchPadTags);
 
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_likes'] }));

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, HashRouter as Router, Route, Switch, } from 'react-router-dom';
 import axios from 'axios';
+import anime from 'animejs';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
@@ -20,7 +21,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    // console.log('In App ctor, props: ', props);
     axios.get('/account')
       .then((results) => {
         if (results.data.user) {
@@ -35,7 +35,6 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log('In App render, props is: ', this.props);
     return (
       <div>
         <Router history={browserHistory}>

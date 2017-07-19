@@ -31,6 +31,7 @@
     "passport-google-oauth20": "^1.0.0",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
+    "react-anime": "^0.3.4",
     "react-bootstrap": "^0.31.0",
     "react-bootstrap-typeahead": "^1.4.2",
     "react-chartjs-2": "^2.4.1",

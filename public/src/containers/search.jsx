@@ -23,7 +23,7 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    this.handleSearch('star wars');
+    this.handleSearch('300');
   }
 
   handleSearch(query) {
