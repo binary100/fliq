@@ -251,10 +251,6 @@ module.exports.getSearchAutoComplete = (req, res) => {
     });
 };
 
-const setMovieAsDisliked = (movieId, req, res) => {
-
-}
-
 const handleLikeOrDislike = (movie, req, res) => {
   const { isLike } = req.body;
   return db.userMovies.findOrCreate({ where: {
@@ -267,7 +263,7 @@ const handleLikeOrDislike = (movie, req, res) => {
       return userMovie.update({ liked: likedValue, seen: true })
         .then(() => userMovie);
     })
-    .then((userMovie) => {
+    .then(() => {
       return db.movieTags.findAll({ where: {
         movie_Id: movie.id
       } });
@@ -314,9 +310,7 @@ const handleLikeOrDislike = (movie, req, res) => {
     });
 };
 
-module.exports.handleLikeOrDislikeFromSearch = (req, res) => {
-  console.log(req.body.movie);
-  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+const getDetailedMovieInformation = movieUrl =>
   axios.post(movieUrl)
     .then((results) => {
       const movie = Object.assign({}, results.data, {
@@ -337,288 +331,53 @@ module.exports.handleLikeOrDislikeFromSearch = (req, res) => {
     })
     .then((findOrCreateObj) => {
       const movieFromDb = findOrCreateObj[0];
-      handleLikeOrDislike(movieFromDb, req, res);
+      return movieFromDb;
     });
+
+module.exports.handleLikeOrDislikeFromSearch = (req, res) => {
+  console.log(req.body.movie);
+  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  getDetailedMovieInformation(movieUrl)
+    .then(movieFromDb => handleLikeOrDislike(movieFromDb, req, res));
 };
 
 module.exports.handleLikeOrDislikeFromResults = (req, res) => {
-    const { movie } = req.body;
-    db.movies.findOne({ where: {
-      id: movie.id
-    }})
-    .then(movie => handleLikeOrDislike(movie, req, res));
+  const { movie } = req.body;
+  db.movies.findOne({ where: {
+    id: movie.id
+  } })
+  .then(matchedMovie => handleLikeOrDislike(matchedMovie, req, res));
 };
 
-module.exports.likeMovie = (req, res) => {
-  console.log('likeMovie received: ', req.body.movie);
-  if (req.body.fromSearch) {
-    const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
-    axios.post(movieUrl)
-    .then((results) => {
-      const movie = Object.assign({}, results.data, {
-        Ratings: JSON.stringify(results.data.Ratings)
-      });
-      if (movie.Title) {
-        return db.movies.findOrCreate({ where: {
-          title: movie.Title,
-          year: movie.Year,
-          rated: movie.Rated,
-          genre: movie.Genre,
-          plot: movie.Plot,
-          ratings: movie.Ratings,
-          poster: movie.Poster,
-          director: movie.Director,
-          writer: movie.Writer,
-          actors: movie.Actors
-        } })
-        .then((newMovie) => {
-          db.userMovies.findOne({ where: {
-            user_Id: req.user.id,
-            movie_Id: newMovie[0].dataValues.id
-          } })
-          .then((userMovie) => {
-            if (userMovie === null) {
-              db.userMovies.create({
-                user_Id: req.user.id,
-                movie_Id: newMovie[0].dataValues.id,
-                liked: 1,
-                seen: true
-              });
-            } else {
-              userMovie.update({
-                liked: db.sequelize.literal('liked + 1'),
-                seen: true
-              });
-            }
-          })
-          .then(() => {
-            db.movieTags.findAll({ where: { movie_Id: newMovie[0].dataValues.id } })
-            .then((movieTags) => {
-              const tagPromises = movieTags.map(movieTag =>
-                new Promise((resolve, reject) => {
-                  db.userTags.find({ where: {
-                    tag_Id: movieTag.dataValues.tag_Id,
-                    user_Id: req.user.id
-                  } })
-                  .then((userTag) => {
-                    if (userTag === null) {
-                      return db.userTags.create({
-                        likesCount: 1,
-                        tag_Id: movieTag.dataValues.tag_Id,
-                        user_Id: req.user.id
-                      });
-                    }
-                    return userTag.increment(['likesCount'], { by: 1 });
-                  })
-                  .then(resultss => resolve(resultss))
-                  .catch(error => reject(error));
-                })
-              );
-              return Promise.all(tagPromises);
-            })
-            .then(() => res.status(201).send())
-            .catch(error => res.status(500).send(error));
-          })
-          .catch(error => res.status(500).send(error));
-        })
-        .catch(error => res.status(500).send(error));
-      }
+const setMovieFromDbAsSeen = (movieId, req, res) => {
+  return db.userMovies.findOrCreate({ where: {
+    user_Id: req.user.id,
+    movie_Id: movieId
+  } })
+    .then((findOrCreateObj) => {
+      const userMovie = findOrCreateObj[0];
+      return userMovie.update({ seen: true });
     })
-    .catch(err => console.log('Error getting and creating new movie: ', err));
-  } else {
-    return db.movies.findOne({ where: {
-      title: req.body.movie.title,
-      year: req.body.movie.year,
-      plot: req.body.movie.plot
-    } })
-    .then((newMovie) => {
-      db.userMovies.findOne({ where: {
-        user_Id: req.user.id,
-        movie_Id: newMovie.dataValues.id
-      } })
-      .then((userMovie) => {
-        if (userMovie === null) {
-          db.userMovies.create({
-            user_Id: req.user.id,
-            movie_Id: newMovie.dataValues.id,
-            liked: 1,
-            seen: true
-          });
-        } else {
-          userMovie.update({
-            liked: db.sequelize.literal('liked + 1'),
-            seen: true
-          });
-        }
-      })
-      .then(() => {
-        db.movieTags.findAll({ where: { movie_Id: newMovie.dataValues.id } })
-        .then((movieTags) => {
-          const tagPromises = movieTags.map(movieTag =>
-            new Promise((resolve, reject) => {
-              db.userTags.find({ where: {
-                tag_Id: movieTag.dataValues.tag_Id,
-                user_Id: req.user.id
-              } })
-              .then((userTag) => {
-                if (userTag === null) {
-                  return db.userTags.create({
-                    likesCount: 1,
-                    tag_Id: movieTag.dataValues.tag_Id,
-                    user_Id: req.user.id
-                  });
-                }
-                return userTag.increment(['likesCount'], { by: 1 });
-              })
-              .then(results => resolve(results))
-              .catch(error => reject(error));
-            })
-          );
-          return Promise.all(tagPromises);
-        })
-        .then(() => res.status(201).send())
-        .catch(error => res.status(500).send(error));
-      })
-      .catch(error => res.status(500).send(error));
-    })
-    .catch(error => res.status(500).send(error));
-  }
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error marking movie seen: ', err);
+      res.sendStatus(500);
+    });
 };
 
-module.exports.dislikeMovie = (req, res) => {
-  console.log('dislikeMovie received: ', req.body.movie);
-  if (req.body.fromSearch) {
-    const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
-    axios.post(movieUrl)
-    .then((results) => {
-      const movie = Object.assign({}, results.data, {
-        Ratings: JSON.stringify(results.data.Ratings)
-      });
-      if (movie.Title) {
-        return db.movies.findOrCreate({ where: {
-          title: movie.Title,
-          year: movie.Year,
-          rated: movie.Rated,
-          genre: movie.Genre,
-          plot: movie.Plot,
-          ratings: movie.Ratings,
-          poster: movie.Poster,
-          director: movie.Director,
-          writer: movie.Writer,
-          actors: movie.Actors
-        } })
-        .then((newMovie) => {
-          db.userMovies.findOne({ where: {
-            user_Id: req.user.id,
-            movie_Id: newMovie[0].dataValues.id
-          } })
-          .then((userMovie) => {
-            if (userMovie === null) {
-              db.userMovies.create({
-                user_Id: req.user.id,
-                movie_Id: newMovie[0].dataValues.id,
-                liked: -1,
-                seen: true
-              });
-            } else {
-              userMovie.update({
-                liked: db.sequelize.literal('liked - 1'),
-                seen: true
-              });
-            }
-          })
-          .then(() => {
-            db.movieTags.findAll({ where: { movie_Id: newMovie[0].dataValues.id } })
-            .then((movieTags) => {
-              const tagPromises = movieTags.map(movieTag =>
-                new Promise((resolve, reject) => {
-                  db.userTags.find({ where: {
-                    tag_Id: movieTag.dataValues.tag_Id,
-                    user_Id: req.user.id
-                  } })
-                  .then((userTag) => {
-                    if (userTag === null) {
-                      return db.userTags.create({
-                        dislikesCount: 1,
-                        tag_Id: movieTag.dataValues.tag_Id,
-                        user_Id: req.user.id
-                      });
-                    }
-                    return userTag.increment(['dislikesCount'], { by: 1 });
-                  })
-                  .then(resultss => resolve(resultss))
-                  .catch(error => reject(error));
-                })
-              );
-              return Promise.all(tagPromises);
-            })
-            .then(() => res.status(201).send())
-            .catch(error => res.status(500).send(error));
-          })
-          .catch(error => res.status(500).send(error));
-        })
-        .catch(error => res.status(500).send(error));
-      }
-    })
-    .catch(err => console.log('Error getting and creating new movie: ', err));
-  } else {
-    return db.movies.findOne({ where: {
-      title: req.body.movie.title,
-      year: req.body.movie.year,
-      plot: req.body.movie.plot
-    } })
-    .then((newMovie) => {
-      db.userMovies.findOne({ where: {
-        user_Id: req.user.id,
-        movie_Id: newMovie.dataValues.id
-      } })
-      .then((userMovie) => {
-        if (userMovie === null) {
-          db.userMovies.create({
-            user_Id: req.user.id,
-            movie_Id: newMovie.dataValues.id,
-            liked: -1,
-            seen: true
-          });
-        } else {
-          userMovie.update({
-            liked: db.sequelize.literal('liked - 1'),
-            seen: true
-          });
-        }
-      })
-      .then(() => {
-        db.movieTags.findAll({ where: { movie_Id: newMovie.dataValues.id } })
-        .then((movieTags) => {
-          const tagPromises = movieTags.map(movieTag =>
-            new Promise((resolve, reject) => {
-              db.userTags.find({ where: {
-                tag_Id: movieTag.dataValues.tag_Id,
-                user_Id: req.user.id
-              } })
-              .then((userTag) => {
-                if (userTag === null) {
-                  return db.userTags.create({
-                    dislikesCount: 1,
-                    tag_Id: movieTag.dataValues.tag_Id,
-                    user_Id: req.user.id
-                  });
-                }
-                return userTag.increment(['dislikesCount'], { by: 1 });
-              })
-              .then(results => resolve(results))
-              .catch(error => reject(error));
-            })
-          );
-          return Promise.all(tagPromises);
-        })
-        .then(() => res.status(201).send())
-        .catch(error => res.status(500).send(error));
-      })
-      .catch(error => res.status(500).send(error));
-    })
-    .catch(error => res.status(500).send(error));
-  }
+module.exports.setResultsMovieAsSeen = (req, res) => {
+  const { movie } = req.body;
+  db.movies.findOne({ where: {
+    id: movie.id
+  } })
+  .then(movieFromDb => setMovieFromDbAsSeen(movieFromDb.id, req, res));
+};
+
+module.exports.setSearchedMovieAsSeen = (req, res) => {
+  console.log(req.body.movie);
+  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  getDetailedMovieInformation(movieUrl)
+    .then(movieFromDb => setMovieFromDbAsSeen(movieFromDb.id, req, res));
 };
 
 // Testing. Not currently used.
@@ -746,55 +505,3 @@ module.exports.postLaunchPadTags = (req, res) => {
     })
     .catch(err => console.log('Error postLaunchPadTags: ', err));
 };
-
-const setMovieFromDbAsSeen = (movieId, req, res) => {
-  return db.userMovies.findOrCreate({ where: {
-    user_Id: req.user.id,
-    movie_Id: movieId
-  }})
-    .then((findOrCreateObj) => {
-      const userMovie = findOrCreateObj[0];
-      return userMovie.update({ seen: true });
-    })
-    .then(() => res.sendStatus(200))
-    .catch((err) => {
-      console.log('Error marking movie seen: ', err);
-      res.sendStatus(500);
-    });
-};
-
-module.exports.setResultsMovieAsSeen = (req, res) => {
-  const { movie } = req.body;
-  db.movies.findOne({ where: {
-    id: movie.id
-  }})
-  .then(movie => setMovieFromDbAsSeen(movie.id, req, res));
-};
-
-module.exports.setSearchedMovieAsSeen = (req, res) => {
-  console.log(req.body.movie);
-  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
-  axios.post(movieUrl)
-    .then((results) => {
-      const movie = Object.assign({}, results.data, {
-        Ratings: JSON.stringify(results.data.Ratings)
-      });
-      return db.movies.findOrCreate({ where: {
-        title: movie.Title,
-        year: movie.Year,
-        rated: movie.Rated,
-        genre: movie.Genre,
-        plot: movie.Plot,
-        ratings: movie.Ratings,
-        poster: movie.Poster,
-        director: movie.Director,
-        writer: movie.Writer,
-        actors: movie.Actors
-      } });
-    })
-    .then((findOrCreateObj) => {
-      const movieFromDb = findOrCreateObj[0];
-      setMovieFromDbAsSeen(movieFromDb.id, req, res);
-    });
-};
-

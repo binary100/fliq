@@ -12,7 +12,7 @@ class LightningWrapper extends React.Component {
     this.state = {
       movies: [],
       timer: timerMax,
-      roundsRemaining: 30,
+      roundsRemaining: 5,
       intervalId: ''
     };
     this.getMovieData = this.getMovieData.bind(this);
