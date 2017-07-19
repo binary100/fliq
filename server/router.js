@@ -25,6 +25,8 @@ router.post('/api/selectedTags', apiController.postLaunchPadTags);
 
 // router.get('/api/dashboard/', apiController.)
 
+router.post('/api/dashboard/initialUserSettings', apiController.getUserInfo);
+router.post('/api/dashboard/updateUserSettings', apiController.updateUserSettings);
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_likes'] }));
 router.get('/auth/facebook/callback',
