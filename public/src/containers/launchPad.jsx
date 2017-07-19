@@ -7,6 +7,7 @@ class LaunchPad extends React.Component{
     this.state = {
       step: 1,
     };
+    this.setStep = this.setStep.bind(this);
     console.log('LaunchPad Props: ', props)
   }
 
@@ -35,8 +36,17 @@ class LaunchPad extends React.Component{
       <div>
         <div className="container container-fluid text-center">
           <h1>{tag}</h1>
-          <LaunchPadTags tag={tag} tagArray={this.props.tags[tag]} 
-            step={this.state.step} setStep={this.setStep.bind(this)} selectedTagArray={this.props.selectedTags[tag]} selectedTags={this.props.selectedTags} postSelectedTags={this.props.postSelectedTags} isSelected={this.props.isSelected} selectItem={this.props.selectItem} />
+          <LaunchPadTags 
+            tag={tag}
+            tagArray={this.props.tags[tag]}
+            step={this.state.step}
+            setStep={this.setStep}
+            selectedTagArray={this.props.selectedTags[tag]}
+            selectedTags={this.props.selectedTags}
+            postSelectedTags={this.props.postSelectedTags}
+            isSelected={this.props.isSelected}
+            selectItem={this.props.selectItem}
+          />
         </div>
       </div>
     )

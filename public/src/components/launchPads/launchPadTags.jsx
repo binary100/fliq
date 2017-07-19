@@ -1,12 +1,18 @@
 import React from 'react';
 import TagBubble from './tagBubble.jsx';
+import { Link } from 'react-router-dom';
+// import Anime from 'react-anime';
 
-
+let bubbleCount = 0;
 class LaunchPadTags extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log("LaunchPadTags Props:", this.props)
+    this.state = {
+    }
+
+    this.goToNext = this.goToNext.bind(this)
+    this.goToPrev = this.goToPrev.bind(this)
   }
 
   goToNext() {
@@ -25,30 +31,37 @@ class LaunchPadTags extends React.Component {
   render() {
     return (
       <div className="launchPadPage">
-
         <div className="launchPad-controls">
           <div>
-            <button className="btn btn-default btn-spacing" onClick={this.goToPrev.bind(this)}>Prev</button>
-            <button className="btn btn-primary btn-spacing" onClick={this.goToNext.bind(this)}>Next</button>
-            { this.props.step === 3 ? <button onClick={this.props.postSelectedTags(this.props.selectedTags)} className="btn btn-success btn-spacing">Submit</button> : '' }
+            <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
+            <button className="btn btn-primary btn-spacing" onClick={this.goToNext}>Next</button>
+              { this.props.step === 3 ? 
+                <Link to="/"><button
+                  onClick={() => this.props.postSelectedTags(this.props.selectedTags)} 
+                  className="btn btn-success btn-spacing"
+                >Submit</button></Link> : null
+              }
           </div>
         </div>
 
         <div className="pull-left">
-          {this.props.tagArray.map((tagItem, index) => 
-            <TagBubble key={index} tagName={tagItem} />)
-            // <TagBubble className={this.props.isSelected(this.props.tag, tagItem)} key={index} tagName={tagItem} onClick={this.props.selectItem(this.props.tag, tagItem)} />)
-          }
+
+            {this.props.tagArray.map(tagItem => 
+              (<TagBubble
+                key={bubbleCount += 1}
+                tagItem={tagItem}
+                selectedTags = {this.props.selectedTags}
+                tag={this.props.tag}
+                isSelected={this.props.isSelected}
+                selectItem={this.props.selectItem}
+              />)
+            )}
+
         </div>
       </div>
     );
   }
 }
-
-
-
-
-
 
 export default LaunchPadTags
 

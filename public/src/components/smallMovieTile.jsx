@@ -8,6 +8,7 @@ const complete = 'glyphicon glyphicon-ok';
 const inProcess = 'glyphicon glyphicon-refresh';
 const failed = 'glyphicon glyphicon-remove';
 const eyeball = 'glyphicon glyphicon-eye-open';
+
 const searchPosterDivClass = 'row poster-small';
 const searchPosterImgClass = 'col-sm-12 poster-small';
 const resultsPosterDivClass = 'row poster-small results-tile-bar-poster';
