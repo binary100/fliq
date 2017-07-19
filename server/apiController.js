@@ -608,3 +608,32 @@ module.exports.verifyUserEmail = (req, res) => {
 module.exports.getMovieNightResults = (req, res) => {
   this.getUserResults(req, res);
 };
+
+module.exports.getUserInfo = (req, res) => {
+  db.users.findOne({
+    where: {
+      id: req.body.user_id
+    }
+  })
+  .then((results) => {
+    const userInfo = results.dataValues;
+    res.send(userInfo);
+  })
+  .catch((error) => {
+    console.log('Error getting user info', error);
+    res.sendStatus(500);
+  })
+};
+
+module.exports.updateUserSettings = (req, res) => {
+  console.log('updateUserSettings controller reached');
+
+  // db.users.update({
+  //   update: {
+  //     reView: req.body.updatedUserReviewSetting
+  //   },
+  //   where: {
+  //     id: req.body.user_id
+  //   }
+  // })
+};

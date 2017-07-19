@@ -14,9 +14,28 @@ class Dashboard extends React.Component {
     this.userReviewToggle = this.userReviewToggle.bind(this);
   }
 
+  componentWillMount() {
+    this.getUserInfo();
+  }
+
   userReviewToggle() {
-    console.log('Entering userReviewToggle wirh props: ', this.props);
     this.props.toggleUserReviews(this.props.displayUserReviews);
+  }
+
+  getUserInfo() {
+    return axios.post('/api/dashboard/initialUserSettings', {
+      user_id: this.props.auth.user.id
+    })
+    .then((userInfo) => {
+      const userReviewSetting = userInfo.data.reView;
+    })
+  }
+
+  updateUserReviewSetting() {
+    return axios.post('/api/dashboard/updateUserSettings', {
+      user_id: this.props.auth.user.id,
+      // reView: this.props.
+    })
   }
 
   render() {
@@ -31,7 +50,7 @@ class Dashboard extends React.Component {
             <br></br>
             <ToggleSwitch
               toggleUserReview={this.userReviewToggle}
-              review={this.props.displayUserReviews}
+              review={this.props.setUserReviewSetting}
             />
           </div>
         </div>
@@ -47,11 +66,13 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  displayUserReviews: state.userSettingsReducer.displayUserReviews
+  displayUserReviews: state.userSettingsReducer.displayUserReviews,
+  setUserReviewSetting: state.userSettingsReducer.setUserReviewSetting
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleUserReviews: (shouldDisplayReviews) => { dispatch(toggleUserReviewSetting(shouldDisplayReviews)); }
+  toggleUserReviews: (shouldDisplayReviews) => { dispatch(toggleUserReviewSetting(shouldDisplayReviews)); },
+  setUserReviewSetting: (userReviewSetting) => { dispatch(setUserReviewSetting(userReviewSetting)); }
 });
 
 export default connect(
