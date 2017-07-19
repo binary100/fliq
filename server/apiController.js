@@ -643,14 +643,19 @@ module.exports.postLaunchPadTags = (req, res) => {
     .catch(err => console.log('Error postLaunchPadTags: ', err));
 };
 
-const setMovieFromDbAsSeen = (movie_Id, user_Id) => {
+const setMovieFromDbAsSeen = (movieId, req, res) => {
   return db.userMovies.findOrCreate({ where: {
-    movie_Id,
-    user_Id
+    user_Id: req.user.id,
+    movie_Id: movieId
   }})
     .then((findOrCreateObj) => {
       const userMovie = findOrCreateObj[0];
       return userMovie.update({ seen: true });
+    })
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error marking movie seen: ', err);
+      res.sendStatus(500);
     });
 };
 
@@ -659,12 +664,7 @@ module.exports.setResultsMovieAsSeen = (req, res) => {
   db.movies.findOne({ where: {
     id: movie.id
   }})
-  .then((movie) => setMovieFromDbAsSeen(movie.id, req.user.id))
-  .then(() => res.sendStatus(200))
-  .catch((err) => {
-    console.log('Error marking movie seen: ', err);
-    res.sendStatus(500);
-  });
+  .then(movie => setMovieFromDbAsSeen(movie.id, req, res));
 };
 
 module.exports.setSearchedMovieAsSeen = (req, res) => {
@@ -690,19 +690,7 @@ module.exports.setSearchedMovieAsSeen = (req, res) => {
     })
     .then((findOrCreateObj) => {
       const movieFromDb = findOrCreateObj[0];
-      return db.userMovies.findOrCreate({ where: {
-          movie_Id: movieFromDb.id,
-          user_Id: req.user.id
-      } });
-    })
-    .then((findOrCreateObj) => {
-      const userMovie = findOrCreateObj[0];
-      return userMovie.update({ seen: true });
-    })
-    .then(() => res.sendStatus(200))
-    .catch((err) => {
-      console.log('Error marking movie seen: ', err);
-      res.sendStatus(500);
+      setMovieFromDbAsSeen(movieFromDb.id, req, res);
     });
 };
 
