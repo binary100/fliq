@@ -15,6 +15,7 @@ router.post('/api/autocomplete', apiController.getSearchAutoComplete);
 router.post('/api/movie/like', apiController.likeMovie);
 router.post('/api/movie/dislike', apiController.dislikeMovie);
 router.post('/api/search/movie/seen', apiController.setSearchedMovieAsSeen);
+router.post('/api/results/movie/seen', apiController.setResultsMovieAsSeen);
 router.post('/api/movie/select', apiController.getLargeTileData);
 router.post('/api/user/email/verify', apiController.verifyUserEmail);
 router.post('/api/movienight', apiController.getMovieNightResults);
