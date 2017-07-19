@@ -43,6 +43,7 @@ class SmallMovieTile extends React.Component {
         canClickSeen: false
       };
     }
+
     this.likeMovie = this.likeMovie.bind(this);
     this.dislikeMovie = this.dislikeMovie.bind(this);
     this.setMovieAsSeen = this.setMovieAsSeen.bind(this);
