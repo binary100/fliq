@@ -1,26 +1,25 @@
 const router = require('express').Router();
 const passport = require('passport');
 const apiController = require('./apiController.js');
+const searchLikeDislikeEndpoints = ['/api/search/movie/like', '/api/search/movie/dislike'];
+const resultsLikeDislikeEndpoints = ['/api/results/movie/like', '/api/results/movie/dislike'];
 
 router.get('/api/lightning', apiController.getTwoMovies);
 router.post('/api/lightning', apiController.handleLightningSelection);
 router.get('/api/results', apiController.getUserResults);
-// router.get('/api/tags', apiController.getTags);
 router.get('/api/quote', apiController.getQuote);
 router.post('/api/trailer', apiController.getTrailer);
 router.get('/api/tagCreation', apiController.populateTags);
-// router.post('/api/search', apiController.handleMovieSearchTMDB);
 router.post('/api/search', apiController.handleMovieSearchOMDB);
 router.post('/api/autocomplete', apiController.getSearchAutoComplete);
-router.post('/api/movie/like', apiController.likeMovie);
-router.post('/api/movie/dislike', apiController.dislikeMovie);
 router.post('/api/search/movie/seen', apiController.setSearchedMovieAsSeen);
+router.post(searchLikeDislikeEndpoints, apiController.handleLikeOrDislikeFromSearch);
 router.post('/api/results/movie/seen', apiController.setResultsMovieAsSeen);
+router.post(resultsLikeDislikeEndpoints, apiController.handleLikeOrDislikeFromResults);
 router.post('/api/movie/select', apiController.getLargeTileData);
 router.post('/api/user/email/verify', apiController.verifyUserEmail);
 router.post('/api/movienight', apiController.getMovieNightResults);
 router.get('/api/lightning/testUserTags', apiController.findDuplicateTagIDs);
-
 router.get('/api/tags', apiController.getTagsforLaunchPad);
 router.post('/api/selectedTags', apiController.postLaunchPadTags);
 
