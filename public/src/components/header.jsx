@@ -10,7 +10,7 @@ const Header = ({ handleLogout, user }) => (
             <span className="glyphicon glyphicon-menu-hamburger header-icon" />
           </li>
           <li>
-            <Link to="/" >
+            <Link to="/" className="home">
               Home
             </Link>
           </li>

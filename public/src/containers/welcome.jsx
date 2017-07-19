@@ -105,7 +105,7 @@ class Welcome extends React.Component {
       : (
           <button
             onClick={this.showModal}
-            className="btn btn-lg btn-primary fliq-button"
+            className="btn btn-lg btn-primary fliq-button start-lightning"
           >
             Start Picking Movies
           </button>
@@ -136,7 +136,7 @@ class Welcome extends React.Component {
                     Let me log in
                   </button>
                   <Link to="/lightning">
-                    <button className="btn btn-lg btn-primary fliq-button pull-right">
+                    <button className="btn btn-lg btn-primary fliq-button pull-right proceed-button">
                       {`That's ok`}
                     </button>
                   </Link>

@@ -45,7 +45,7 @@ describe('FlickPick Server Tests', function() {
           done();
         });
     });
-    it('should respond with 201', function(done) {
+    xit('should respond with 201', function(done) {
       request(serverUrl)
         .post('/api/lightning')
         .expect(201)
@@ -54,14 +54,14 @@ describe('FlickPick Server Tests', function() {
           done();
         });
     });
-    it('should provide five movie objects', function(done) {
+    xit('should provide five movie objects', function(done) {
       request(serverUrl)
         .get('/api/results')
         .end(function(err, res) {
           if (err) throw err;
           expect(res.body).to.be.an('array');
           expect(res.body.length).to.equal(5);
-          for (var i = 0; i < 4; i+=1) {
+          for (var i = 0; i < 4; i += 1) {
             const movie = res.body[i];
             expect(movie.poster).to.be.a('string');
             expect(movie.title).to.be.a('string');

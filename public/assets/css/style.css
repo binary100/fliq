@@ -107,12 +107,12 @@ at this phase of development
   font-family: 'Open Sans';
 }
 
-.start-lightning:hover,
+/*.start-lightning:hover,
 .start-lightning:focus,
 .start-lightning:active, {
   background: #27ae60;
   border: 1px solid #27ae60;
-}
+}*/
 
 .flick-iq {
   animation: anim 1s 1 ease-out;
