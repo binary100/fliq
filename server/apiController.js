@@ -643,12 +643,28 @@ module.exports.postLaunchPadTags = (req, res) => {
     .catch(err => console.log('Error postLaunchPadTags: ', err));
 };
 
-const setMovieFromDbAsSeen = movie => {
-
+const setMovieFromDbAsSeen = (movie_Id, user_Id) => {
+  return db.userMovies.findOrCreate({ where: {
+    movie_Id,
+    user_Id
+  }})
+    .then((findOrCreateObj) => {
+      const userMovie = findOrCreateObj[0];
+      return userMovie.update({ seen: true });
+    });
 };
 
 module.exports.setResultsMovieAsSeen = (req, res) => {
-
+  const { movie } = req.body;
+  db.movies.findOne({ where: {
+    id: movie.id
+  }})
+  .then((movie) => setMovieFromDbAsSeen(movie.id, req.user.id))
+  .then(() => res.sendStatus(200))
+  .catch((err) => {
+    console.log('Error marking movie seen: ', err);
+    res.sendStatus(500);
+  });
 };
 
 module.exports.setSearchedMovieAsSeen = (req, res) => {
