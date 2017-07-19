@@ -12,6 +12,8 @@ const searchPosterDivClass = 'row poster-small';
 const searchPosterImgClass = 'col-sm-12 poster-small';
 const resultsPosterDivClass = 'row poster-small results-tile-bar-poster';
 const resultsPosterImgClass = 'col-sm-12 poster-small results-tile-bar-poster';
+const seenFromSearch = '/api/search/movie/seen';
+const seenFromResults = '/api/results/movie/seen'
 
 class SmallMovieTile extends React.Component {
   constructor(props) {
@@ -53,6 +55,8 @@ class SmallMovieTile extends React.Component {
   }
 
   dislikeMovie() {
+    // SET THE POST URL BASED ON this.props.fromSearch
+    // make two const strings outside class to use
     if (!this.state.canLikeOrDislike) return;
     this.setState({
       dislikeButtonClass: inProcess,
@@ -78,7 +82,8 @@ class SmallMovieTile extends React.Component {
 
   setMovieAsSeen() {
     if (this.state.canClickSeen) {
-      axios.post('/api/movie/seen', {
+      const postUrl = this.props.fromSearch ? seenFromSearch : seenFromResults;
+      axios.post(postUrl, {
         movie: this.props.movie
       })
         .then(() => {
