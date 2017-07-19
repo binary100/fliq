@@ -331,7 +331,11 @@ module.exports.dislikeMovieFromSearch = (req, res) => {
 };
 
 module.exports.likeMovieFromResults = (req, res) => {
-
+    const { movie } = req.body;
+    db.movies.findOne({ where: {
+      id: movie.id
+    }})
+    .then(movie => setMovieAsLiked(movie.id, req, res));
 };
 
 module.exports.dislikeMovieFromResults = (req, res) => {
