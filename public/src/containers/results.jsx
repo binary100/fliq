@@ -18,6 +18,7 @@ class Results extends React.Component {
   getUserMovies() {
     axios.get('/api/results')
       .then((results) => {
+        console.log('ASDDDDDDDDDDDFFFFFFFFFGGGGGGGGG: ', results);
         this.setState({
           selectedMovie: results.data[0],
           tileMovies: results.data
