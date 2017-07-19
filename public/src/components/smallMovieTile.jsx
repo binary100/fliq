@@ -78,10 +78,22 @@ class SmallMovieTile extends React.Component {
 
   setMovieAsSeen() {
     if (this.state.canClickSeen) {
-      this.setState({
-        seenButtonClass: complete,
-        canClickSeen: false
-      });
+      axios.post('/api/movie/seen', {
+        movie: this.props.movie
+      })
+        .then(() => {
+          this.setState({
+            seenButtonClass: complete,
+            canClickSeen: false
+          });
+        })
+        .catch((err) => {
+          console.error('Error marking seen: ', err);
+          this.setState({
+            seenButtonClass: failed,
+            canClickSeen: false
+          });
+        });
     }
   }
 
