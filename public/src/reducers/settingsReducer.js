@@ -1,18 +1,19 @@
-import { toggleUserReviewSetting } from '../actions/actions.js';
+import { setUserReViewSetting, toggleUserReViewSetting } from '../actions/actions.js';
 
 const defaultSettingsState = {
-  displayUserReviews: false
+  userReViewSetting: false
 };
 
 export default function userSettingsReducer(state = defaultSettingsState, action) {
   switch (action.type) {
-    case 'TOGGLE_USER_REVIEW_SETTING':
-      return Object.assign({}, state, {
-        displayUserReviews: action.payload.displayUserReviews
-      });
     case 'SET_USER_REVIEW_SETTING':
       return Object.assign({}, state, {
-        setUserReviewSetting: action.payload.setUserReviewSetting
+        userReViewSetting: action.payload.userReViewSetting
+      });
+    case 'TOGGLE_USER_REVIEW_SETTING':
+      console.log('state.userReViewSetting', state.userReViewSetting);
+      return Object.assign({}, state, {
+        userReViewSetting: !state.userReViewSetting
       });
 
     default:

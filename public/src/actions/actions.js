@@ -14,16 +14,15 @@ export const logoutUser = () => {
   };
 };
 
-export const setUserReviewSetting = (userReviewSetting) => {
+export const setUserReViewSetting = (userReViewSetting) => {
   return {
     type: 'SET_USER_REVIEW_SETTING',
-    payload: { setUserReviewSetting: userReviewSetting }
+    payload: { userReViewSetting: userReViewSetting }
   };
 };
 
-export const toggleUserReviewSetting = (shouldDisplayReviews) => {
+export const toggleUserReViewSetting = () => {
   return {
-    type: 'TOGGLE_USER_REVIEW_SETTING',
-    payload: { displayUserReviews: !shouldDisplayReviews }
+    type: 'TOGGLE_USER_REVIEW_SETTING'
   };
 };
