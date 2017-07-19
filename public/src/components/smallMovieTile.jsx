@@ -7,6 +7,7 @@ const thumbsDown = 'glyphicon glyphicon-thumbs-down';
 const complete = 'glyphicon glyphicon-ok';
 const inProcess = 'glyphicon glyphicon-refresh';
 const failed = 'glyphicon glyphicon-remove';
+const eyeball = 'glyphicon glyphicon-eye-open';
 const searchPosterDivClass = 'row poster-small';
 const searchPosterImgClass = 'col-sm-12 poster-small';
 const resultsPosterDivClass = 'row poster-small results-tile-bar-poster';
@@ -19,37 +20,48 @@ class SmallMovieTile extends React.Component {
       this.state = {
         likeButtonClass: thumbsUp,
         dislikeButtonClass: thumbsDown,
-        canLikeOrDislike: true
+        seenButtonClass: eyeball,
+        canLikeOrDislike: true,
+        canClickSeen: true
       };
     } else if (this.props.movie.liked === 1) {
       this.state = {
         likeButtonClass: complete,
         dislikeButtonClass: thumbsDown,
-        canLikeOrDislike: false
+        seenButtonClass: complete,
+        canLikeOrDislike: false,
+        canClickSeen: false
       };
     } else {
       this.state = {
         likeButtonClass: thumbsUp,
         dislikeButtonClass: complete,
-        canLikeOrDislike: false
+        seenButtonClass: complete,
+        canLikeOrDislike: false,
+        canClickSeen: false
       };
     }
     this.likeMovie = this.likeMovie.bind(this);
     this.dislikeMovie = this.dislikeMovie.bind(this);
+    this.setMovieAsSeen = this.setMovieAsSeen.bind(this);
   }
 
   likeMovie() {
     if (!this.state.canLikeOrDislike) return;
     this.setState({
       likeButtonClass: inProcess,
-      canLikeOrDislike: false
+      canLikeOrDislike: false,
+      canClickSeen: false
     });
     axios.post('/api/movie/like', {
       movie: this.props.movie,
       fromSearch: this.props.fromSearch
     })
       .then(() => {
-        this.setState({ likeButtonClass: complete });
+        this.setState({
+          likeButtonClass: complete,
+          seenButtonClass: complete
+        });
         console.log('Liked: ', this.props.movie);
       })
       .catch((err) => {
@@ -62,20 +74,33 @@ class SmallMovieTile extends React.Component {
     if (!this.state.canLikeOrDislike) return;
     this.setState({
       dislikeButtonClass: inProcess,
-      canLikeOrDislike: false
+      canLikeOrDislike: false,
+      canClickSeen: false
     });
     axios.post('/api/movie/dislike', {
       movie: this.props.movie,
       fromSearch: this.props.fromSearch
     })
       .then(() => {
-        this.setState({ dislikeButtonClass: complete });
+        this.setState({
+          dislikeButtonClass: complete,
+          seenButtonClass: complete
+        });
         console.log('Disliked: ', this.props.movie);
       })
       .catch((err) => {
         console.error('Error marking as disliked: ', err);
         this.setState({ dislikeButtonClass: failed });
       });
+  }
+
+  setMovieAsSeen() {
+    if (this.state.canClickSeen) {
+      this.setState({
+        seenButtonClass: complete,
+        canClickSeen: false
+      });
+    }
   }
 
   render() {
@@ -99,13 +124,19 @@ class SmallMovieTile extends React.Component {
           />
         </div>
         <div className="like-buttons col-sm-10 col-centered">
-          <div className="col-sm-6">
+          <div className="col-sm-4">
             <LoadingButton
               buttonClass={this.state.likeButtonClass}
               handleClick={this.likeMovie}
             />
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-4">
+            <LoadingButton
+              buttonClass={this.state.seenButtonClass}
+              handleClick={this.setMovieAsSeen}
+            />
+          </div>
+          <div className="col-sm-4">
             <LoadingButton
               buttonClass={this.state.dislikeButtonClass}
               handleClick={this.dislikeMovie}
