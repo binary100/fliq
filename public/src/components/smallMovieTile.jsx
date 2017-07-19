@@ -13,7 +13,11 @@ const searchPosterImgClass = 'col-sm-12 poster-small';
 const resultsPosterDivClass = 'row poster-small results-tile-bar-poster';
 const resultsPosterImgClass = 'col-sm-12 poster-small results-tile-bar-poster';
 const seenFromSearch = '/api/search/movie/seen';
+const likedFromSearch = '/api/search/movie/like';
+const dislikedFromSearch = '/api/search/movie/dislike';
 const seenFromResults = '/api/results/movie/seen';
+const likedFromResults = '/api/results/movie/like';
+const dislikedFromResults = '/api/results/movie/dislike';
 
 class SmallMovieTile extends React.Component {
   constructor(props) {
@@ -56,7 +60,8 @@ class SmallMovieTile extends React.Component {
       canLikeOrDislike: false,
       canClickSeen: false
     });
-    axios.post('/api/movie/like', {
+    const postUrl = this.props.fromSearch ? likedFromSearch : likedFromResults;
+    axios.post(postUrl, {
       movie: this.props.movie,
       fromSearch: this.props.fromSearch
     })
@@ -82,7 +87,8 @@ class SmallMovieTile extends React.Component {
       canLikeOrDislike: false,
       canClickSeen: false
     });
-    axios.post('/api/movie/dislike', {
+    const postUrl = this.props.fromSearch ? dislikedFromSearch : dislikedFromResults;
+    axios.post(postUrl, {
       movie: this.props.movie,
       fromSearch: this.props.fromSearch
     })
