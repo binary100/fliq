@@ -116,15 +116,21 @@ const buildOrIncrementMovieTags = (currentMovie, userId) => {
               user_Id: userId
             } })
             .then((userTag) => {
+              const picksIncrement = currentMovie.selected ? 1 : 0;
               if (userTag === null) {
                 return db.userTags.create({
                   viewsCount: 1,
-                  picksCount: 1,
+                  picksCount: picksIncrement,
                   tag_Id: movieTag.dataValues.tag_Id,
                   user_Id: userId
                 });
               }
-              return userTag.increment(['viewsCount', 'picksCount'], { by: 1 });
+              return userTag.increment('viewsCount', { by: 1 })
+                .then(() => {
+                  if (currentMovie.selected) {
+                    return userTag.increment('picksCount', { by: picksIncrement });
+                  }
+                });
             })
             .then(() => resolve())
             .catch((err) => {
