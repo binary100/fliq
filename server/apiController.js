@@ -251,14 +251,21 @@ module.exports.getSearchAutoComplete = (req, res) => {
     });
 };
 
-const setMovieAsLiked = (movieId, req, res) => {
+const setMovieAsDisliked = (movieId, req, res) => {
+
+}
+
+const handleLikeOrDislike = (movie, req, res) => {
+  const { isLike } = req.body;
+
   return db.userMovies.findOrCreate({ where: {
     user_Id: req.user.id,
-    movie_Id: movieId
+    movie_Id: movie.id
   } })
     .then((findOrCreateObj) => {
       const userMovie = findOrCreateObj[0];
-      return userMovie.update({ liked: 1, seen: true })
+      const likedValue = isLike ? 1 : -1;
+      return userMovie.update({ liked: likedValue, seen: true })
         .then(() => userMovie);
     })
     .then((userMovie) => {
@@ -274,14 +281,23 @@ const setMovieAsLiked = (movieId, req, res) => {
             user_Id: req.user.id
           } })
           .then((userTag) => {
-            if (userTag === null) {
+            if (!userTag && isLike) {
               return db.userTags.create({
                 likesCount: 1,
                 tag_Id: movieTag.dataValues.tag_Id,
                 user_Id: req.user.id
               });
+            } else if (!userTag && !isLike) {
+              return db.userTags.create({
+                dislikesCount: 1,
+                tag_Id: movieTag.dataValues.tag_Id,
+                user_Id: req.user.id
+              });
+            } else if (userTag && isLike) {
+              return userTag.update(['likesCount'], { by: 1 });
+            } else if (userTag && !isLike) {
+              return userTag.update(['dislikesCount'], { by: 1 });
             }
-            return userTag.increment(['likesCount'], { by: 1 });
           })
           .then(results => resolve(results))
           .catch(error => reject(error));
@@ -296,9 +312,7 @@ const setMovieAsLiked = (movieId, req, res) => {
     });
 };
 
-// Needs to get movie info
-module.exports.likeMovieFromSearch = (req, res) => {
-  // Need to do findOrCreate in here
+module.exports.handleLikeOrDislikeFromSearch = (req, res) => {
   console.log(req.body.movie);
   const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
   axios.post(movieUrl)
@@ -321,28 +335,17 @@ module.exports.likeMovieFromSearch = (req, res) => {
     })
     .then((findOrCreateObj) => {
       const movieFromDb = findOrCreateObj[0];
-      setMovieAsLiked(movieFromDb.id, req, res);
+      handleLikeOrDislike(movieFromDb, req, res);
     });
 };
 
-// Needs to get movie info
-module.exports.dislikeMovieFromSearch = (req, res) => {
-  // Need to do findOrCreate in here
-};
-
-module.exports.likeMovieFromResults = (req, res) => {
+module.exports.handleLikeOrDislikeFromResults = (req, res) => {
     const { movie } = req.body;
     db.movies.findOne({ where: {
       id: movie.id
     }})
-    .then(movie => setMovieAsLiked(movie.id, req, res));
+    .then(movie => handleLikeOrDislike(movie, req, res));
 };
-
-module.exports.dislikeMovieFromResults = (req, res) => {
-
-};
-
-
 
 module.exports.likeMovie = (req, res) => {
   console.log('likeMovie received: ', req.body.movie);

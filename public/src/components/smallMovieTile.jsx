@@ -63,7 +63,8 @@ class SmallMovieTile extends React.Component {
     const postUrl = this.props.fromSearch ? likedFromSearch : likedFromResults;
     axios.post(postUrl, {
       movie: this.props.movie,
-      fromSearch: this.props.fromSearch
+      fromSearch: this.props.fromSearch,
+      isLike: true
     })
       .then(() => {
         this.setState({
@@ -90,7 +91,8 @@ class SmallMovieTile extends React.Component {
     const postUrl = this.props.fromSearch ? dislikedFromSearch : dislikedFromResults;
     axios.post(postUrl, {
       movie: this.props.movie,
-      fromSearch: this.props.fromSearch
+      fromSearch: this.props.fromSearch,
+      isLike: false
     })
       .then(() => {
         this.setState({
