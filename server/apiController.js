@@ -643,10 +643,18 @@ module.exports.postLaunchPadTags = (req, res) => {
     .catch(err => console.log('Error postLaunchPadTags: ', err));
 };
 
+const setMovieFromDbAsSeen = movie => {
+
+};
+
+module.exports.setResultsMovieAsSeen = (req, res) => {
+
+};
+
 module.exports.setSearchedMovieAsSeen = (req, res) => {
   console.log(req.body.movie);
   const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
-    axios.post(movieUrl)
+  axios.post(movieUrl)
     .then((results) => {
       const movie = Object.assign({}, results.data, {
         Ratings: JSON.stringify(results.data.Ratings)
@@ -664,13 +672,15 @@ module.exports.setSearchedMovieAsSeen = (req, res) => {
         actors: movie.Actors
       } });
     })
-    .then((movieFromDb) => {
-      return db.userMovies.findOrCreate({
-        movie_Id: movieFromDb.id,
-        user_Id: req.user.id
-      });
+    .then((findOrCreateObj) => {
+      const movieFromDb = findOrCreateObj[0];
+      return db.userMovies.findOrCreate({ where: {
+          movie_Id: movieFromDb.id,
+          user_Id: req.user.id
+      } });
     })
-    .then((userMovie) => {
+    .then((findOrCreateObj) => {
+      const userMovie = findOrCreateObj[0];
       return userMovie.update({ seen: true });
     })
     .then(() => res.sendStatus(200))
