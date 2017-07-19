@@ -667,15 +667,11 @@ module.exports.getLaunchPadTags = (req, res) => {
 }
 
 module.exports.postLaunchPadTags = (req, res) => {
-  console.log('postLaunchPadTags sent: ', req.body);
-  const selectedTagData = req.body;
-
-  axios.post(selectedTagData)
-    .then((results) => {
-      console.log('postLaunchPadTags sent: ', results.data);
-      res.sendStatus(201);
-    })
-    .catch(err => console.log('Error postLaunchPadTags: ', err));
+  console.log('postLaunchPadTags sent req.body as: ', req.body);
+  const { selectedTagData } = req.body;
+  
+  console.log('Completed postLaunchPagTags placeholder logic');
+  res.sendStatus(200);
 };
 
 const setMovieFromDbAsSeen = (movieId, req, res) => {
