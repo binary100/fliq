@@ -251,6 +251,63 @@ module.exports.getSearchAutoComplete = (req, res) => {
     });
 };
 
+const setMovieLiked = (movie, req, res) => {
+  return db.userMovies.findOrCreate({ where: {
+    user_Id: req.user.id,
+    movie_Id: movie.id
+  }})
+    .then((findOrCreateObj) => {
+      const userMovie = findOrCreateObj[0];
+      return userMovie.update({ liked: 1, seen: true })
+        .then(() => userMovie);
+    })
+    .then((userMovie) => {
+      return db.movieTags.findAll({ where: {
+        movie_Id: userMovie.id
+      }});
+    })
+    .then((movieTags) => {
+      return movieTags.map(movieTag =>
+        new Promise((resolve, reject) => {
+          db.userTags.find({ where: {
+            tag_Id: movieTag.dataValues.tag_Id,
+            user_Id: req.user.id
+          } })
+          .then((userTag) => {
+            if (userTag === null) {
+              return db.userTags.create({
+                likesCount: 1,
+                tag_Id: movieTag.dataValues.tag_Id,
+                user_Id: req.user.id
+              });
+            }
+            return userTag.increment(['likesCount'], { by: 1 });
+          })
+          .then(resultss => resolve(resultss))
+          .catch(error => reject(error));
+        })
+      );
+    })
+    .then(movieTagPromises => Promise.all(movieTagPromises))
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error liking movie: ', err);
+      res.status(500).send(err);
+    });
+};
+
+// Needs to get movie info
+module.exports.likeMovieFromSearch = (req, res) => {
+  // Need to do findOrCreate in here
+};
+
+// Needs to get movie info
+module.exports.dislikeMovieFromSearch = (req, res) => {
+  // Need to do findOrCreate in here
+};
+
+
+
 module.exports.likeMovie = (req, res) => {
   console.log('likeMovie received: ', req.body.movie);
   if (req.body.fromSearch) {
