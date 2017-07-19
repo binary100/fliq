@@ -612,7 +612,7 @@ module.exports.getMovieNightResults = (req, res) => {
 module.exports.getUserInfo = (req, res) => {
   db.users.findOne({
     where: {
-      id: req.body.user_id
+      id: req.body.id
     }
   })
   .then((results) => {
@@ -626,14 +626,22 @@ module.exports.getUserInfo = (req, res) => {
 };
 
 module.exports.updateUserSettings = (req, res) => {
-  console.log('updateUserSettings controller reached');
+  const { id, reView } = req.body
 
-  // db.users.update({
-  //   update: {
-  //     reView: req.body.updatedUserReviewSetting
-  //   },
-  //   where: {
-  //     id: req.body.user_id
-  //   }
-  // })
+  db.users.update({
+    reView
+  },
+  {
+    where: {
+      id
+    }
+  })
+  .then(() => {
+    console.log('Successfully updated user info (id, reView)', id, reView);
+    res.send(200);
+  })
+  .catch((error) => {
+    console.log('Error updating user info', error);
+    res.sendStatus(500);
+  })
 };

@@ -4,39 +4,50 @@ import axios from 'axios';
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
 import PieChart from '../components/pieChart.jsx';
 import ToggleSwitch from '../components/toggleSwitch.jsx';
-import { toggleUserReviewSetting } from '../actions/actions.js';
+import { setUserReViewSetting, toggleUserReViewSetting } from '../actions/actions.js';
 
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.userReviewToggle = this.userReviewToggle.bind(this);
+    this.getUserInfo = this.getUserInfo.bind(this);
+    this.toggleUserReViewSetting = this.toggleUserReViewSetting.bind(this);
+    this.updateUserReViewSetting = this.updateUserReViewSetting.bind(this);
+    this.changeUserReViewSetting = this.changeUserReViewSetting.bind(this);
   }
 
   componentWillMount() {
     this.getUserInfo();
   }
 
-  userReviewToggle() {
-    this.props.toggleUserReviews(this.props.displayUserReviews);
-  }
-
   getUserInfo() {
     return axios.post('/api/dashboard/initialUserSettings', {
-      user_id: this.props.auth.user.id
+      id: this.props.auth.user.id
     })
     .then((userInfo) => {
-      const userReviewSetting = userInfo.data.reView;
+      const userReViewSetting = userInfo.data.reView;
+      this.props.setUserReViewSetting(userReViewSetting);
     })
   }
 
-  updateUserReviewSetting() {
+
+  toggleUserReViewSetting() {
+    this.props.toggleUserReViewSetting();
+  }
+
+  updateUserReViewSetting() {
     return axios.post('/api/dashboard/updateUserSettings', {
-      user_id: this.props.auth.user.id,
-      // reView: this.props.
+      id: this.props.auth.user.id,
+      reView: this.props.userReViewSetting
     })
   }
+
+  changeUserReViewSetting() {
+    this.toggleUserReViewSetting();
+    this.updateUserReViewSetting();
+  }
+
 
   render() {
     console.log('In Dashboard render, props is: ', this.props);
@@ -49,8 +60,8 @@ class Dashboard extends React.Component {
             />
             <br></br>
             <ToggleSwitch
-              toggleUserReview={this.userReviewToggle}
-              review={this.props.setUserReviewSetting}
+              changeUserReViewSetting={this.changeUserReViewSetting}
+              reViewSetting={this.props.userReViewSetting}
             />
           </div>
         </div>
@@ -66,25 +77,15 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  displayUserReviews: state.userSettingsReducer.displayUserReviews,
-  setUserReviewSetting: state.userSettingsReducer.setUserReviewSetting
+  userReViewSetting: state.userSettingsReducer.userReViewSetting
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleUserReviews: (shouldDisplayReviews) => { dispatch(toggleUserReviewSetting(shouldDisplayReviews)); },
-  setUserReviewSetting: (userReviewSetting) => { dispatch(setUserReviewSetting(userReviewSetting)); }
+  setUserReViewSetting: (userReViewSetting) => { dispatch(setUserReViewSetting(userReViewSetting)); },
+  toggleUserReViewSetting: () => { dispatch(toggleUserReViewSetting()); }
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Dashboard);
-
-// const WrapComponentInRedux = connect(
-//   mapStateToProps,
-//   null
-// );
-//
-// const ReduxDashboard = WrapComponentInRedux(Dashboard);
-//
-// export default ReduxDashboard;
