@@ -526,7 +526,36 @@ module.exports.getLaunchPadTags = (req, res) => {
 module.exports.postLaunchPadTags = (req, res) => {
   console.log('postLaunchPadTags sent req.body as: ', req.body);
   const { selectedTagData } = req.body;
-  
+
   console.log('Completed postLaunchPagTags placeholder logic');
   res.sendStatus(200);
+};
+
+module.exports.getUserInfo = (req, res) => {
+  db.users.findOne({
+    where: {
+      id: req.body.user_id
+    }
+  })
+  .then((results) => {
+    const userInfo = results.dataValues;
+    res.send(userInfo);
+  })
+  .catch((error) => {
+    console.log('Error getting user info', error);
+    res.sendStatus(500);
+  })
+};
+
+module.exports.updateUserSettings = (req, res) => {
+  console.log('updateUserSettings controller reached');
+
+  // db.users.update({
+  //   update: {
+  //     reView: req.body.updatedUserReviewSetting
+  //   },
+  //   where: {
+  //     id: req.body.user_id
+  //   }
+  // })
 };
