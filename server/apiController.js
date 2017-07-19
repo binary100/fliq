@@ -257,7 +257,6 @@ const setMovieAsDisliked = (movieId, req, res) => {
 
 const handleLikeOrDislike = (movie, req, res) => {
   const { isLike } = req.body;
-
   return db.userMovies.findOrCreate({ where: {
     user_Id: req.user.id,
     movie_Id: movie.id
@@ -270,13 +269,13 @@ const handleLikeOrDislike = (movie, req, res) => {
     })
     .then((userMovie) => {
       return db.movieTags.findAll({ where: {
-        movie_Id: userMovie.id
+        movie_Id: movie.id
       } });
     })
     .then((movieTags) => {
       return movieTags.map(movieTag =>
         new Promise((resolve, reject) => {
-          db.userTags.find({ where: {
+          db.userTags.findOne({ where: {
             tag_Id: movieTag.dataValues.tag_Id,
             user_Id: req.user.id
           } })
@@ -287,16 +286,19 @@ const handleLikeOrDislike = (movie, req, res) => {
                 tag_Id: movieTag.dataValues.tag_Id,
                 user_Id: req.user.id
               });
-            } else if (!userTag && !isLike) {
+            }
+            if (!userTag && !isLike) {
               return db.userTags.create({
                 dislikesCount: 1,
                 tag_Id: movieTag.dataValues.tag_Id,
                 user_Id: req.user.id
               });
-            } else if (userTag && isLike) {
-              return userTag.update(['likesCount'], { by: 1 });
-            } else if (userTag && !isLike) {
-              return userTag.update(['dislikesCount'], { by: 1 });
+            }
+            if (userTag && isLike) {
+              return userTag.increment('likesCount', { by: 1 });
+            }
+            if (userTag && !isLike) {
+              return userTag.increment('dislikesCount', { by: 1 });
             }
           })
           .then(results => resolve(results))
