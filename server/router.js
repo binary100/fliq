@@ -12,12 +12,12 @@ router.post('/api/search', apiController.handleMovieSearchOMDB);
 router.post('/api/autocomplete', apiController.getSearchAutoComplete);
 
 router.post('/api/search/movie/seen', apiController.setSearchedMovieAsSeen);
-router.post('/api/search/movie/like', apiController.setSearchedMovieAsLiked);
-router.post('/api/search/movie/dislike', apiController.setSearchedMovieAsDisliked);
+router.post('/api/search/movie/like', apiController.likeMovieFromSearch);
+router.post('/api/search/movie/dislike', apiController.dislikeMovieFromSearch);
 
 router.post('/api/results/movie/seen', apiController.setResultsMovieAsSeen);
-router.post('/api/results/movie/like', apiController.setResultsMovieAsLiked);
-router.post('/api/results/movie/dislike', apiController.setResultsMovieAsDisliked);
+router.post('/api/results/movie/like', apiController.likeMovieFromResults);
+router.post('/api/results/movie/dislike', apiController.dislikeMovieFromResults);
 
 
 router.post('/api/movie/select', apiController.getLargeTileData);

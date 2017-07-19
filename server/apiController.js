@@ -251,11 +251,11 @@ module.exports.getSearchAutoComplete = (req, res) => {
     });
 };
 
-const setMovieLiked = (movie, req, res) => {
+const setMovieAsLiked = (movieId, req, res) => {
   return db.userMovies.findOrCreate({ where: {
     user_Id: req.user.id,
-    movie_Id: movie.id
-  }})
+    movie_Id: movieId
+  } })
     .then((findOrCreateObj) => {
       const userMovie = findOrCreateObj[0];
       return userMovie.update({ liked: 1, seen: true })
@@ -264,7 +264,7 @@ const setMovieLiked = (movie, req, res) => {
     .then((userMovie) => {
       return db.movieTags.findAll({ where: {
         movie_Id: userMovie.id
-      }});
+      } });
     })
     .then((movieTags) => {
       return movieTags.map(movieTag =>
@@ -283,7 +283,7 @@ const setMovieLiked = (movie, req, res) => {
             }
             return userTag.increment(['likesCount'], { by: 1 });
           })
-          .then(resultss => resolve(resultss))
+          .then(results => resolve(results))
           .catch(error => reject(error));
         })
       );
@@ -299,11 +299,43 @@ const setMovieLiked = (movie, req, res) => {
 // Needs to get movie info
 module.exports.likeMovieFromSearch = (req, res) => {
   // Need to do findOrCreate in here
+  console.log(req.body.movie);
+  const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
+  axios.post(movieUrl)
+    .then((results) => {
+      const movie = Object.assign({}, results.data, {
+        Ratings: JSON.stringify(results.data.Ratings)
+      });
+      return db.movies.findOrCreate({ where: {
+        title: movie.Title,
+        year: movie.Year,
+        rated: movie.Rated,
+        genre: movie.Genre,
+        plot: movie.Plot,
+        ratings: movie.Ratings,
+        poster: movie.Poster,
+        director: movie.Director,
+        writer: movie.Writer,
+        actors: movie.Actors
+      } });
+    })
+    .then((findOrCreateObj) => {
+      const movieFromDb = findOrCreateObj[0];
+      setMovieAsLiked(movieFromDb.id, req, res);
+    });
 };
 
 // Needs to get movie info
 module.exports.dislikeMovieFromSearch = (req, res) => {
   // Need to do findOrCreate in here
+};
+
+module.exports.likeMovieFromResults = (req, res) => {
+
+};
+
+module.exports.dislikeMovieFromResults = (req, res) => {
+
 };
 
 
