@@ -96,11 +96,13 @@ class LightningWrapper extends React.Component {
     }
   }
 
-  handleLightningTileClick(e, evt, clickedMovie) {
+  handleLightningTileClick(e, evt, selectedMovie) {
     e.preventDefault();
     console.log('Click handler is ending round!');
     this.endRound();
-    const discardedMovie = this.state.movies.filter(mov => mov !== clickedMovie).pop();
+    const discardedMovie = this.state.movies.filter(mov => mov !== selectedMovie).pop();
+    const clickedMovie = Object.assign({}, selectedMovie, { clicked: true });
+    discardedMovie.clicked = false;
     axios.post('/api/lightning', {
       clickedMovie,
       discardedMovie,

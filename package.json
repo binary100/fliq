@@ -56,8 +56,7 @@
     "eslint-plugin-react": "^7.1.0",
     "mocha": "^3.4.2",
     "redux-devtools": "^3.4.0",
-    "nightmare": "^2.10.0",
-    "redux-devtools": "^3.4.0"
+    "nightmare": "^2.10.0"
   },
   "scripts": {
     "test": "",
