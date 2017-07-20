@@ -36,6 +36,7 @@ class LaunchPadTags extends React.Component {
 <<<<<<< HEAD
 <<<<<<< HEAD
 
+
             { this.props.step === 1 ? 
               null :
               <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>

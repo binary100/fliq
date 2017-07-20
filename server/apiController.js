@@ -561,6 +561,7 @@ module.exports.getTagsforLaunchPad = (req, res) => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 module.exports.getSubmittedLaunchPadTags = (req, res) => {
 };
 
@@ -629,6 +630,15 @@ module.exports.getSubmittedLaunchPadTags = (req, res) => {
 module.exports.updateLaunchPadTags = (req, res) => {
 };
 
+||||||| merged common ancestors
+module.exports.getSubmittedLaunchPadTags = (req, res) => {
+};
+
+module.exports.updateLaunchPadTags = (req, res) => {
+};
+
+=======
+>>>>>>> feat($launchpad): add route for new users
 const buildOrIncrementUserTags = (userId, tagId) => {
   return db.userTags
     .findAll(
@@ -675,6 +685,10 @@ const buildOrIncrementUserTags = (userId, tagId) => {
 >>>>>>> feat($launchpad): add route for new users
 
 
+module.exports.getLaunchPadTags = (req, res) => {
+  // axios.get(/api/);
+}
+
 module.exports.postLaunchPadTags = (req, res) => {
 <<<<<<< HEAD
   console.log('postLaunchPadTags sent req.body as: ', req.body);
@@ -710,6 +724,7 @@ module.exports.postLaunchPadTags = (req, res) => {
 
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
   const { selectedTagData } = req.body;
+<<<<<<< HEAD
 
   console.log('Completed postLaunchPagTags placeholder logic');
   res.sendStatus(200);
@@ -722,6 +737,13 @@ module.exports.postLaunchPadTags = (req, res) => {
 ||||||| merged common ancestors
 =======
 
+||||||| merged common ancestors
+
+  console.log('Completed postLaunchPagTags placeholder logic');
+  res.sendStatus(200);
+
+=======
+>>>>>>> feat($launchpad): add route for new users
   const selectedTags = req.body.submitTags;
   const currentUser = req.body.currentUser;
 
@@ -735,6 +757,7 @@ module.exports.postLaunchPadTags = (req, res) => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 // const buildOrIncrementUserTags = (submittedTags, userId) => {
 //   return db.userTags.findAll({ where: { user_Id: userId } })
@@ -831,6 +854,55 @@ module.exports.postLaunchPadTags = (req, res) => {
 
 
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
+||||||| merged common ancestors
+
+// const buildOrIncrementUserTags = (submittedTags, userId) => {
+//   return db.userTags.findAll({ where: { user_Id: userId } })
+//     .then((userTags) => {
+//       console.log('WHATS THIS USER TAG++++++++++++++++++++++++++++++++++++++++++++++++++++++', userTags)
+//       return userTags.dataValues.map((userTag) => {
+//         console.log('WHATS THIS USER TAG++++++++++++++++++++++++++++++++++++++++++++++++++++++', userTag)
+//               // const picksIncrement = submittedTags.selected ? 1 : 0;
+//         if (userTag === null) {
+//           return db.userTags.create({
+//             viewsCount: 1,
+//             picksCount: 1,
+//             tag_Id: submittedTags,
+//             user_Id: userId
+//           });
+//         }
+//         return userTag.increment('viewsCount', { by: 1 })
+//           .then(() => {
+//               return userTag.increment('picksCount', { by: 1 });
+//           })
+//       })
+//       .then(() => resolve())
+//       .catch((err) => console.log('Error in userTag if/else promise: ', err) });
+//     })
+//     .then(UserTagPromises => Promise.all(UserTagPromises))
+//     .catch(error => console.log('Error in buildOrIncrementUserTags, ', error));
+// };
+
+
+////////////////////////////////////////////////////
+
+// return db.userTags.find({ where: {
+//   tag_Id: movieTag.dataValues.tag_Id,
+//   user_Id: userId
+// } })
+// .then((userTag) => {
+//   const picksIncrement = currentMovie.selected ? 1 : 0;
+//   if (userTag === null) {
+//     return db.userTags.create({
+//       viewsCount: 1,
+//       picksCount: picksIncrement,
+//       tag_Id: movieTag.dataValues.tag_Id,
+//       user_Id: userId
+//     });
+
+
+=======
+>>>>>>> feat($launchpad): add route for new users
 module.exports.getUserInfo = (req, res) => {
   const user_id = req.body.id;
   const responseObj = {};
@@ -1021,6 +1093,7 @@ module.exports.updateUserSettings = (req, res) => {
   });
 ||||||| merged common ancestors
   })
+<<<<<<< HEAD
 =======
   })
 <<<<<<< HEAD
@@ -1059,6 +1132,15 @@ module.exports.updateUserSettings = (req, res) => {
   //     res.sendStatus(201);
   //   })
   //   .catch(err => console.log('Error postLaunchPadTags: ', err));
+>>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
+=======
 >>>>>>> feat($launchpad): add route for new users
 };
 

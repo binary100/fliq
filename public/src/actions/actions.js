@@ -17,6 +17,7 @@ export const logoutUser = () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ||||||| merged common ancestors
 =======
 <<<<<<< HEAD
@@ -26,6 +27,10 @@ export const logoutUser = () => {
 =======
 >>>>>>> small whitespace merge conflict fix
 
+||||||| merged common ancestors
+
+=======
+>>>>>>> feat($launchpad): add route for new users
 export const clearMovie = () => {
   return {
     type: 'CLEAR_WATCHED_MOVIE',
@@ -57,6 +62,7 @@ export const toggleUserReViewSetting = () => {
   };
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 };
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -95,3 +101,9 @@ export const toggleUserReViewSetting = () => {
 
 };
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
+||||||| merged common ancestors
+
+};
+=======
+};
+>>>>>>> feat($launchpad): add route for new users
