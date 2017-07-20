@@ -2,21 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import Lightning from './lightning.jsx';
 import LightningHeader from '../components/lightningHeader.jsx';
-import { Redirect } from 'react-router-dom';
+import LightningFooter from '../components/lightningFooter.jsx';
+import { Redirect, Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
-const timerMax = 5;
 
 class LightningWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       movies: [],
-      timer: timerMax,
-      roundsRemaining: 5,
-      intervalId: ''
+      roundsRemaining: 5
     };
     this.getMovieData = this.getMovieData.bind(this);
-    this.startTimer = this.startTimer.bind(this);
     this.startNextRound = this.startNextRound.bind(this);
     this.endRound = this.endRound.bind(this);
     this.handleLightningTileClick = this.handleLightningTileClick.bind(this);
@@ -31,14 +29,11 @@ class LightningWrapper extends React.Component {
 
   componentWillUnmount() {
     console.log('Unmounting lightningWrapper.');
-    clearInterval(this.state.intervalId);
   }
 
   // Get an array with two movies objects
   // from DB
   getMovieData() {
-    // Return this promise in order to
-    // allow for then-able logic
     return axios.get('/api/lightning')
       .then((results) => {
         this.setState({
@@ -48,33 +43,13 @@ class LightningWrapper extends React.Component {
       });
   }
 
-  startTimer() {
-    const intervalId = setInterval(function () {
-      if (this.state.timer > 0) {
-        this.setState({
-          timer: this.state.timer - 1
-        });
-      } else {
-        console.log('Interval is ending round!');
-        this.endRound();
-      }
-    }.bind(this), 1000);
-    console.log('Created interval #', intervalId);
-
-    this.setState({
-      intervalId
-    });
-  }
-
   startNextRound() {
     console.log('Starting round. Remaining: ', this.state.roundsRemaining);
     if (this.state.roundsRemaining <= 0) {
       return;
     }
-
     return this.getMovieData()
       .then((results) => {
-        //this.startTimer();
         return results;
       });
   }
@@ -84,21 +59,16 @@ class LightningWrapper extends React.Component {
     clearInterval(this.state.intervalId);
 
     if (this.state.roundsRemaining <= 0) {
-      // This forces rounds below 0, which triggers redirect to results
       this.setState({
         roundsRemaining: this.state.roundsRemaining - 1
       });
     } else {
-      this.setState({
-        timer: timerMax
-      });
       this.startNextRound();
     }
   }
 
   handleLightningTileClick(e, evt, selectedMovie) {
     e.preventDefault();
-    console.log('Click handler is ending round!');
     this.endRound();
     const discardedMovie = this.state.movies.filter(mov => mov !== selectedMovie).pop();
     const clickedMovie = Object.assign({}, selectedMovie, { selected: true });
@@ -115,14 +85,22 @@ class LightningWrapper extends React.Component {
     const Page = this.state.roundsRemaining < 0
       ? <Redirect push to="/results" />
       : (
-        <div>
-          <LightningHeader timer={this.state.timer} />
-          <Lightning
-            handleLightningTileClick={this.handleLightningTileClick}
-            movies={this.state.movies}
-          />
+        <div className="container-fluid">
+          <div className="lightning-wrapper">
+            <div>
+              <LightningHeader />
+            </div>
+            <div>
+              <Lightning
+                handleLightningTileClick={this.handleLightningTileClick}
+                movies={this.state.movies}
+              />
+            </div>
+          </div>
+          <LightningFooter />
         </div>
         );
+
     return (
       Page
     );

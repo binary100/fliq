@@ -150,21 +150,39 @@ at this phase of development
 
 /************* LIGHTNING PAGE **************/
 
-.timer-counter {
-
+.lightning-wrapper {
+  height: 100vh;
 }
 
-.timer-counter h2 {
+.lightning-header {
+  border-bottom: 2px solid #2ecc71;
+}
 
+.lightning-footer {
+  align-content: center;
+  background-color: #111314;
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  bottom: 0;
+  left: 0;
+}
+
+.lightning-tile:hover {
+  background-color: #3f3f3f;
+  transition: 0.5s ease;
+  height: 530px;
 }
 
 /************* MOVIE NIGHT **************/
 
 .email-box {
+  margin-bottom: 1em;
   background-color: #444444;
-  height: 200px;
+  height: 170px;
   border-radius: 3px;
   overflow: auto;
+  padding: 0;
 }
 
 .email-inputs {
@@ -178,15 +196,17 @@ at this phase of development
 }
 
 .email-input-list {
-  list-style: none;
+  /*list-style: none;*/
 }
 
-.email-input-list li {
+.email-input-list div {
   padding: 0.5em;
   border-bottom: 1px solid #2ecc71;
 }
 
 .movienight-confirm-box {
+  margin-top: 1em;
+  padding: 5px 0;
   height: 2em;
 }
 
@@ -213,7 +233,7 @@ at this phase of development
   background-color: #111314;
   bottom: 0;
   position: absolute;
-  height: 34vh;
+  height: 33vh;
   padding: 0 10px;
   left: 0;
 }
@@ -228,7 +248,7 @@ at this phase of development
 /************* NAVBAR **************/
 
 .header {
-  /*background: linear-gradient(to bottom, #606060 , #444444);*/
+
 }
 
 .header-icon {
@@ -251,6 +271,16 @@ at this phase of development
   margin: auto;
   height: 200px;
   width: 175px;
+}
+
+.user-name {
+  padding: 15px 15px 15px 0;
+}
+
+.user-photo {
+  height: 50px;
+  width: 50px;
+  padding: 5px;
 }
 
 /************* SMALL MOVIE TILES **************/
@@ -308,7 +338,7 @@ at this phase of development
   width: 130px;
 }
 
-/************* SEARCH BOX **************/
+/************* SEARCH PAGE **************/
 
 .search-table {
   height: 78vh;
@@ -348,13 +378,6 @@ at this phase of development
 
 .author {
   margin-left: 50px;
-}
-
-/* USER INFO */
-
-.user-photo {
-  max-height: 3em;
-  max-width: 3em;
 }
 
 /************* LAUNCHPAD **************/

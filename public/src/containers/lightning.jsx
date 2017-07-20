@@ -16,8 +16,9 @@ class Lightning extends React.Component {
             key={tileIndex += 1}
             handleLightningTileClick={this.props.handleLightningTileClick}
             movie={movie}
+            isLightning
           />)
-        )};
+        )}
       </div>
     );
   }
