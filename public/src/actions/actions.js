@@ -55,6 +55,7 @@ export const toggleUserReViewSetting = () => {
   return {
     type: 'TOGGLE_USER_REVIEW_SETTING'
   };
+<<<<<<< HEAD
 };
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -80,4 +81,10 @@ export const toggleUserReViewSetting = () => {
 ||||||| merged common ancestors
 =======
 
+>>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+};
+
+=======
+};
 >>>>>>> feat($launchpad): add route for new users
