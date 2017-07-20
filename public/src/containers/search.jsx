@@ -23,10 +23,14 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    this.handleSearch('300');
+    this.handleSearch('star wars');
   }
 
   handleSearch(query) {
+    this.setState({
+      searchResults: [],
+      selectedMovie: null
+    });
     axios.post('/api/search', {
       movieName: query
     })
