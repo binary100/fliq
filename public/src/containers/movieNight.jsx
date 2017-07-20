@@ -7,6 +7,21 @@ import ResultsTileBar from '../components/resultsTileBar.jsx';
 const subHeader = `FLIQ's recommendation engine can aggregate several people's preferences to suggest 
   movies that the group may enjoy. Enter other users' email addresses below and search for movies to watch.`;
 let count = 0;
+const sampleUsers = [
+  {
+    name: 'Henry Han',
+    email: 'henry@gmail.com'
+  },
+  {
+    name: 'JP Marra',
+    email: 'jp@jpmarra.com'
+  },
+  {
+    name: 'Matt Smith',
+    email: 'matt@gmail.com'
+  }
+];
+
 
 class MovieNight extends React.Component {
   constructor(props) {
@@ -15,7 +30,7 @@ class MovieNight extends React.Component {
       confirmText: '',
       confirmClass: '',
       inputText: '',
-      emails: [],
+      emails: sampleUsers,
       searchResults: null,
       selectedMovie: null
     };
