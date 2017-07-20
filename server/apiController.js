@@ -225,6 +225,10 @@ module.exports.getUserResults = (req, res) => {
     });
 };
 
+module.exports.getTopResults = (req, res) => {
+
+};
+
 module.exports.getQuote = (req, res) => {
   axios(quoteUrl, {
     method: 'GET',

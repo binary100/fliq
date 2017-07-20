@@ -1,6 +1,7 @@
 import React from 'react';
 import ResultsBody from '../components/resultsBody.jsx';
 import ResultsTileBar from '../components/resultsTileBar.jsx';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
 class Results extends React.Component {
@@ -10,15 +11,15 @@ class Results extends React.Component {
       selectedMovie: null,
       tileMovies: []
     };
-
     this.getUserMovies();
     this.selectSmallTile = this.selectSmallTile.bind(this);
   }
 
   getUserMovies() {
-    axios.get('/api/results')
+    // If no user is logged in, get top result (e.g. most liked)
+    const getUrl = this.props.isLoggedIn ? '/api/results/user' : '/api/results/top';
+    axios.get(getUrl)
       .then((results) => {
-        console.log('ASDDDDDDDDDDDFFFFFFFFFGGGGGGGGG: ', results);
         this.setState({
           selectedMovie: results.data[0],
           tileMovies: results.data
@@ -62,4 +63,11 @@ class Results extends React.Component {
   }
 }
 
-export default Results;
+const mapStateToProps = state => ({
+  isLoggedIn: state.auth.isLoggedIn
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(Results);

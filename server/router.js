@@ -6,7 +6,8 @@ const resultsLikeDislikeEndpoints = ['/api/results/movie/like', '/api/results/mo
 
 router.get('/api/lightning', apiController.getTwoMovies);
 router.post('/api/lightning', apiController.handleLightningSelection);
-router.get('/api/results', apiController.getUserResults);
+router.get('/api/results/user', apiController.getUserResults);
+router.get('/api/results/top', apiController.getTopResults);
 router.get('/api/quote', apiController.getQuote);
 router.post('/api/trailer', apiController.getTrailer);
 router.get('/api/tagCreation', apiController.populateTags);
