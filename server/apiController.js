@@ -482,7 +482,7 @@ module.exports.verifyUserEmail = (req, res) => {
   const { email } = req.body;
   db.users.findOne({ where: { email } })
     .then((user) => {
-      const responseObj = user ? { success: true, email: user.email } : { success: false };
+      const responseObj = user ? { success: true, user } : { success: false };
       res.send(responseObj);
     })
     .catch((error) => {

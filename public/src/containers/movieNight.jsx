@@ -15,14 +15,7 @@ class MovieNight extends React.Component {
       confirmText: '',
       confirmClass: '',
       inputText: '',
-      emails: [
-        'joe@hackreactor.com',
-        'jeff@hackreactor.com',
-        'john@hackreactor.com',
-        'jacqueline@gmail.com',
-        'davidr@earle.com',
-        'ta3woon@gmail.com'
-        ],
+      emails: [],
       searchResults: null,
       selectedMovie: null
     };
@@ -32,11 +25,6 @@ class MovieNight extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getResults = this.getResults.bind(this);
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   // return this.state.emails === nextState.emails;
-  //   return true;
-  // }
 
   getResults() {
     axios.post('/api/movienight', {
@@ -57,16 +45,20 @@ class MovieNight extends React.Component {
       email: this.state.inputText
     })
       .then((results) => {
-        console.log('Got results');
         if (results.data.success) {
-          if (this.state.emails.includes(results.data.email)) {
+          const { name, email, id } = results.data.user;
+          const userEmailObj = { name, email, id };
+          const isAlreadyAdded = this.state.emails.some((obj) => {
+            return obj.email === userEmailObj.email;
+          });
+          if (isAlreadyAdded) {
             this.setState({
               confirmText: 'You already added that user! :)',
               confirmClass: 'movienight-email-failure'
             });
           } else {
             const newEmailsArray = this.state.emails.slice();
-            newEmailsArray.unshift(results.data.email);
+            newEmailsArray.unshift(userEmailObj);
             this.setState({
               emails: newEmailsArray,
               confirmText: 'User added!',
@@ -85,8 +77,10 @@ class MovieNight extends React.Component {
   }
 
   removeEmail(e) {
-    let newEmailsArray = this.state.emails.slice();
-    newEmailsArray = newEmailsArray.filter(email => email !== e.target.innerText);
+    const newEmailsArray =
+      this.state.emails
+        .slice()
+        .filter(userObj => !e.target.innerText.includes(userObj.email));
     this.setState({
       emails: newEmailsArray
     });
@@ -112,12 +106,12 @@ class MovieNight extends React.Component {
   }
 
   render() {
-    const emails = this.state.emails.map(email =>
+    const emails = this.state.emails.map(emailObj =>
       (<div
         key={count += 1}
         onDoubleClick={this.removeEmail}
       >
-        {email}
+        {emailObj.name} ({emailObj.email})
       </div>));
 
     const largeTile = this.state.selectedMovie
@@ -144,7 +138,11 @@ class MovieNight extends React.Component {
                     <InputGroup.Addon>
                       Email Address
                     </InputGroup.Addon>
-                    <FormControl type="email" onChange={this.handleInputChange} />
+                    <FormControl
+                      type="email"
+                      onChange={this.handleInputChange}
+                      placeholder="Enter a user's email address"
+                    />
                     <InputGroup.Button className="email-input-button">
                       <Button onClick={this.searchEmail}>Search</Button>
                     </InputGroup.Button>
