@@ -4,6 +4,7 @@
   "description": "A machine-learning application to provide people with profile-matched movie suggestions",
   "main": "server.js",
   "dependencies": {
+    "animejs": "^2.0.2",
     "async": "^2.5.0",
     "axios": "^0.16.2",
     "babel-core": "^6.25.0",
@@ -29,6 +30,7 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-anime": "^0.3.4",
