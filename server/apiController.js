@@ -226,7 +226,17 @@ module.exports.getUserResults = (req, res) => {
 };
 
 module.exports.getTopResults = (req, res) => {
+  db.userMovies.findAll({})
+    .then((userMovies) => {
+      // const memo = {};
 
+      const top = userMovies.reduce((memo, obj) => {
+        memo[obj.movie_Id] = memo[obj.movie_Id] + obj.liked || obj.liked;
+        return memo;
+      }, {});
+
+      res.send(top);
+    })
 };
 
 module.exports.getQuote = (req, res) => {
