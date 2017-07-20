@@ -13,6 +13,7 @@ export const logoutUser = () => {
   };
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 export const clearMovie = () => {
   return {
@@ -23,6 +24,10 @@ export const clearMovie = () => {
     }
   };
 };
+||||||| merged common ancestors
+=======
+<<<<<<< HEAD
+>>>>>>> feat($launchpad): add route for new users
 
 export const setUserReViewSetting = (userReViewSetting) => {
   return {

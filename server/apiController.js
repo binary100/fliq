@@ -567,9 +567,8 @@ module.exports.getLaunchPadTags = (req, res) => {
 
 module.exports.postLaunchPadTags = (req, res) => {
   console.log('postLaunchPadTags sent req.body as: ', req.body);
-  const { selectedTagData } = req.body;
-
-  console.log('Completed postLaunchPagTags placeholder logic');
+  // const { selectedTagData } = req.body;
+  // console.log('Completed postLaunchPagTags placeholder logic');
   res.sendStatus(200);
 };
 
@@ -656,6 +655,7 @@ module.exports.updateUserSettings = (req, res) => {
   .catch((error) => {
     console.log('Error updating user info', error);
     res.sendStatus(500);
+<<<<<<< HEAD
   });
 };
 
@@ -727,4 +727,15 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
       .catch(err => res.send(err));
     }
   });
+||||||| merged common ancestors
+  })
+=======
+  })
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
+>>>>>>> feat($launchpad): add route for new users
 };
