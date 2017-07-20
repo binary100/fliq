@@ -31,6 +31,12 @@ class Dashboard extends React.Component {
     })
   }
 
+  changeUserReViewSetting() {
+    this.updateUserReViewSetting()
+      .then(() => {
+        this.toggleUserReViewSetting();
+      })
+  }
 
   toggleUserReViewSetting() {
     this.props.toggleUserReViewSetting();
@@ -39,13 +45,8 @@ class Dashboard extends React.Component {
   updateUserReViewSetting() {
     return axios.post('/api/dashboard/updateUserSettings', {
       id: this.props.auth.user.id,
-      reView: this.props.userReViewSetting
+      reView: !this.props.userReViewSetting
     })
-  }
-
-  changeUserReViewSetting() {
-    this.toggleUserReViewSetting();
-    this.updateUserReViewSetting();
   }
 
 

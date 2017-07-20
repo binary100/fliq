@@ -729,7 +729,7 @@ module.exports.updateUserSettings = (req, res) => {
   })
   .then(() => {
     console.log('Successfully updated user info (id, reView)', id, reView);
-    res.send(200);
+    res.sendStatus(200);
   })
   .catch((error) => {
     console.log('Error updating user info', error);
