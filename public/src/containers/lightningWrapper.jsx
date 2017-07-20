@@ -115,7 +115,7 @@ class LightningWrapper extends React.Component {
     const Page = this.state.roundsRemaining < 0
       ? <Redirect push to="/results" />
       : (
-        <div>
+        <div className="container-fluid">
           <LightningHeader timer={this.state.timer} />
           <Lightning
             handleLightningTileClick={this.handleLightningTileClick}
