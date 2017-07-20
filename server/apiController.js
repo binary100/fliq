@@ -228,15 +228,25 @@ module.exports.getUserResults = (req, res) => {
 module.exports.getTopResults = (req, res) => {
   db.userMovies.findAll({})
     .then((userMovies) => {
-      // const memo = {};
-
-      const top = userMovies.reduce((memo, obj) => {
-        memo[obj.movie_Id] = memo[obj.movie_Id] + obj.liked || obj.liked;
+      const topMovies = userMovies.reduce((memo, obj) => {
+        const match = memo.find(item => item.movie_Id === obj.movie_Id);
+        if (match) {
+          match.likes += obj.liked;
+        } else {
+          memo.push({ movie_Id: obj.movie_Id, likes: obj.liked });
+        }
         return memo;
-      }, {});
+      }, [])
+      .sort((a, b) => b.likes - a.likes)
+      .slice(0, 6)
+      .map(obj => ({ id: obj.movie_Id }));
 
-      res.send(top);
-    })
+      db.movies.findAll({ where: {
+        $or: [...topMovies]
+      } })
+        .then(movies => res.send(movies))
+        .catch(err => res.status(500).send(err));
+    });
 };
 
 module.exports.getQuote = (req, res) => {
