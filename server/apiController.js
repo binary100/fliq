@@ -558,6 +558,7 @@ module.exports.getTagsforLaunchPad = (req, res) => {
     .catch(err => res.status(500).send('Error finding tags: ', err));
 };
 
+<<<<<<< HEAD
 module.exports.getSubmittedLaunchPadTags = (req, res) => {
 };
 
@@ -602,9 +603,19 @@ const buildOrIncrementUserTags = (userId, tagId) => {
     }); // end of userTags
 };
 
+||||||| merged common ancestors
+module.exports.getLaunchPadTags = (req, res) => {
+  // axios.get(/api/);
+}
+=======
+module.exports.getLaunchPadTags = (req, res) => {
+  // axios.get(/api/);
+};
+>>>>>>> feat($launchpad): add route for new users
 
 module.exports.postLaunchPadTags = (req, res) => {
   console.log('postLaunchPadTags sent req.body as: ', req.body);
+<<<<<<< HEAD
   const selectedTags = req.body.submitTags;
   const currentUser = req.body.currentUser;
 
@@ -614,6 +625,16 @@ module.exports.postLaunchPadTags = (req, res) => {
     })
     .then(() => res.sendStatus(201))
     .catch(error => res.status(500).send(error));
+||||||| merged common ancestors
+  const { selectedTagData } = req.body;
+
+  console.log('Completed postLaunchPagTags placeholder logic');
+  res.sendStatus(200);
+=======
+  // const { selectedTagData } = req.body;
+  // console.log('Completed postLaunchPagTags placeholder logic');
+  res.sendStatus(200);
+>>>>>>> feat($launchpad): add route for new users
 };
 
 
@@ -746,7 +767,19 @@ module.exports.updateUserSettings = (req, res) => {
     console.log('Error updating user info', error);
     res.sendStatus(500);
 <<<<<<< HEAD
+<<<<<<< HEAD
   });
+||||||| merged common ancestors
+  })
+=======
+  })
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
+>>>>>>> feat($launchpad): add route for new users
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {

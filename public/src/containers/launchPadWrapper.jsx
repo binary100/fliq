@@ -94,8 +94,14 @@ class LaunchPadWrapper extends React.Component {
 
 
   componentWillMount() {
+<<<<<<< HEAD
     // this.getUserInfo();
     this.getTagsData();
+||||||| merged common ancestors
+    this.getTagsData();
+=======
+    // this.getTagsData();
+>>>>>>> feat($launchpad): add route for new users
   }
 
   isSelected(tag, tagItem) {
@@ -104,6 +110,7 @@ class LaunchPadWrapper extends React.Component {
 
   selectItem(tagItem, tag) {
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     console.log('check index', this.state.selectedTags[tag]);
@@ -145,8 +152,23 @@ class LaunchPadWrapper extends React.Component {
     if (clickedArray.indexOf(tagItem) > -1) {
       const index = clickedArray.includes(tagItem);
       const selectedTags = clickedArray.filter((_, i) => i !== index);
+||||||| merged common ancestors
+  console.log('check index', this.state.selectedTags[tag])
+    if (this.state.selectedTags[tag].includes(tagItem) ) {
+      // const index = this.state.selectedTags[tag].includes(tagItem);
+      // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);
+=======
+  console.log('check index', this.state.selectedTags[tag])
+    const clickedArray = this.state.selectedTags[tag];
+
+
+    if (clickedArray.indexOf(tagItem) > -1) {
+      const index = clickedArray.includes(tagItem);
+      const selectedTags = clickedArray.filter((_, i) => i !== index);
+>>>>>>> feat($launchpad): add route for new users
       
       console.log('if', this.state.selectedTags)
+<<<<<<< HEAD
       this.setState({ selectedTags: selectedTags });
 >>>>>>> feat($launchpad): add route for new users
 ||||||| merged common ancestors
@@ -159,6 +181,11 @@ class LaunchPadWrapper extends React.Component {
 =======
       this.setState({ selectedTags: selectTagsFilter });
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
+||||||| merged common ancestors
+      this.setState({ selectedTags });
+=======
+      this.setState({ selectedTags: selectedTags });
+>>>>>>> feat($launchpad): add route for new users
     } else {
 <<<<<<< HEAD
       const newSelectedTagObj = Object.assign({}, this.state.selectedTags);
@@ -176,12 +203,17 @@ class LaunchPadWrapper extends React.Component {
       newSelectedTagObj[tag].push(tagItem);
       this.setState({ selectedTags: newSelectedTagObj });
 
+<<<<<<< HEAD
 =======
       clickedArray[tag].push(tagItem);
       this.setState({ selectedTags: clickedArray });
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
       console.log('else', this.state.selectedTags)
 =======
+||||||| merged common ancestors
+      // console
+=======
+>>>>>>> feat($launchpad): add route for new users
 ||||||| merged common ancestors
       // console
 =======

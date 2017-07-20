@@ -15,6 +15,11 @@ export const logoutUser = () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+||||||| merged common ancestors
+=======
+<<<<<<< HEAD
+>>>>>>> feat($launchpad): add route for new users
 
 export const clearMovie = () => {
   return {
@@ -46,4 +51,12 @@ export const toggleUserReViewSetting = () => {
     type: 'TOGGLE_USER_REVIEW_SETTING'
   };
 };
+<<<<<<< HEAD
 
+||||||| merged common ancestors
+=======
+||||||| merged common ancestors
+=======
+
+>>>>>>> feat($launchpad): add route for new users
+>>>>>>> feat($launchpad): add route for new users
