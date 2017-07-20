@@ -6,7 +6,7 @@ const LightningFooter = props => (
     <div className="col-sm-12">
       <div className="lightning-footer">
         <h3 className="col-sm-6">{`When you want to see FLIQ's suggestions, click here: `}</h3>
-        <div >
+        <div className="col-sm-6">
           <Link to="/results">
             <button
               className="btn btn-lg btn-primary fliq-button pull-left"
