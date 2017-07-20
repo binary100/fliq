@@ -1,10 +1,12 @@
 import React from 'react';
-import { InputGroup, Button, FormGroup } from 'react-bootstrap';
+import { InputGroup, Button, FormGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
-import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import SearchResultsTable from '../components/searchResultsTable.jsx';
 import LargeMovieTile from '../components/largeMovieTile.jsx';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
+const subHeader = `Tell FLIQ about movies you love or hate.
+  If you've seen a movie but don't feel strongly about it, simply mark that you've seen it.`;
 
 class Search extends React.Component {
 
@@ -15,10 +17,13 @@ class Search extends React.Component {
       allowNew: false,
       multiple: false,
       options: [],
+      searchString: 'star wars',
       searchResults: [],
       selectedMovie: null
     };
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleInputKeyPress = this.handleInputKeyPress.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.selectSmallTile = this.selectSmallTile.bind(this);
   }
 
@@ -26,13 +31,17 @@ class Search extends React.Component {
     this.handleSearch('star wars');
   }
 
-  handleSearch(query) {
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.searchString === nextState.searchString;
+  }
+
+  handleSearch() {
     this.setState({
       searchResults: [],
       selectedMovie: null
     });
     axios.post('/api/search', {
-      movieName: query
+      movieName: this.state.searchString
     })
       .then(results => {
         console.log('Received: ', results.data);
@@ -49,6 +58,16 @@ class Search extends React.Component {
       .catch(err => console.error('Error with search:', err));
   }
 
+  handleInputChange(e) {
+    this.setState({ searchString: e.target.value });
+  }
+
+  handleInputKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.handleSearch();
+    }
+  }
+
   selectSmallTile(e, evt, movie) {
     console.log('Selecting: ', movie);
     axios.post('/api/movie/select', {
@@ -57,16 +76,8 @@ class Search extends React.Component {
     .then((results) => {
       console.log('selectSmallTile receied: ', results.data);
       this.setState({ selectedMovie: results.data });
-      // const node = ReactDOM.findDOMNode(this.mainTile);
-      // node.scrollIntoView({ behavior: 'smooth' });
     })
     .catch(err => console.error(err));
-  }
-
-  renderMenuItemChildren(option) {
-    return (
-      <span>{option}</span>
-    );
   }
 
   render() {
@@ -80,30 +91,25 @@ class Search extends React.Component {
           <h3>
             Search
           </h3>
+          <h4>{subHeader}</h4>
         </div>
         <div>
-            <div>
-              <div>
-                <div>
-                    <FormGroup>
-                      <InputGroup>
-                        <InputGroup.Addon>
-                          Movie name
-                        </InputGroup.Addon>
-                        <AsyncTypeahead
-                          options={this.state.options}
-                          onSearch={this.handleSearch}
-                          placeholder="A movie you love, e.g. 'star wars'"
-                          renderMenuItemChildren={this.renderMenuItemChildren}
-                        />
-                        <InputGroup.Button>
-                          <Button onClick={this.handleSearch}>Go</Button>
-                        </InputGroup.Button>
-                      </InputGroup>
-                    </FormGroup>
-                </div>
-              </div>
-            </div>
+          <FormGroup>
+            <InputGroup>
+              <InputGroup.Addon>
+                Movie name
+              </InputGroup.Addon>
+              <FormControl
+                type="text"
+                placeholder={`A movie you love, e.g. "star wars"`}
+                onChange={this.handleInputChange}
+                onKeyPress={e => this.handleInputKeyPress(e)}
+              />
+              <InputGroup.Button>
+                <Button onClick={this.handleSearch}>Search!</Button>
+              </InputGroup.Button>
+            </InputGroup>
+          </FormGroup>
         </div>
         <div>
           <ReactCSSTransitionGroup
