@@ -16,7 +16,7 @@ const intro =
 
 const intervals = [];
 const targetTitle = 'FLIQ';
-const modalBodyFirst = `FLIQ's learning engine can only learn about you if you are logged in.`;
+const modalBodyFirst = 'FLIQ\'s learning engine can only learn about you if you are logged in.';
 const modalBodySecond = `If you want to try out the site, that's fine! 
                   Just remember that you will only
                   be seeing results that are representative of
@@ -94,22 +94,20 @@ class Welcome extends React.Component {
 
     const lightningButton = this.props.auth.isLoggedIn
       ? (
-          <Link to="/lightning">
-            <button
-              className="btn btn-lg btn-primary fliq-button"
-            >
-              Start Picking Movies
-            </button>
-          </Link>
-        )
-      : (
-          <button
-            onClick={this.showModal}
-            className="btn btn-lg btn-primary fliq-button"
-          >
+        <Link to="/lightning">
+          <button className="btn btn-lg btn-primary fliq-button">
             Start Picking Movies
           </button>
-        );
+        </Link>
+      )
+    : (
+      <button
+        onClick={this.showModal}
+        className="btn btn-lg btn-primary fliq-button"
+      >
+        Start Picking Movies
+      </button>
+    );
 
     return (
       <div>
@@ -137,7 +135,7 @@ class Welcome extends React.Component {
                   </button>
                   <Link to="/lightning">
                     <button className="btn btn-lg btn-primary fliq-button pull-right">
-                      {`That's ok`}
+                      {'That\'s ok'}
                     </button>
                   </Link>
                 </div>

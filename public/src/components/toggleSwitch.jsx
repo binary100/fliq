@@ -10,20 +10,20 @@ const ToggleSwitch = ({ changeUserReViewSetting, reViewSetting }) => {
             onChange={changeUserReViewSetting}
             checked
           />
-            <span className="slider round"></span>
+          <span className="slider round" />
           <label className="toggle-switch-label col-lg-6">Show Watched Movies</label>
         </label> :
-        <label className="switch">
-          <input
-            type="checkbox"
-            onChange={changeUserReViewSetting}
-          />
-            <span className="slider round"></span>
+          <label className="switch">
+            <input
+              type="checkbox"
+              onChange={changeUserReViewSetting}
+            />
+            <span className="slider round" />
           <label className="toggle-switch-label col-lg-6">Show Watched Movies</label>
         </label>
       }
     </div>
-  )
-}
+  );
+};
 
 export default ToggleSwitch;

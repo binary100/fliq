@@ -1,6 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
+import { connect } from 'react-redux';
+
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
 import PieChart from '../components/pieChart.jsx';
 import BarChart from '../components/barChart.jsx';
@@ -28,7 +29,7 @@ class Dashboard extends React.Component {
       mostSelectedTagIds: null,
       mostSelectedTagNames: null,
       mostSelectedTagPercentages: null
-    }
+    };
 
     this.getUserInfo = this.getUserInfo.bind(this);
     this.getTableData = this.getTableData.bind(this);
@@ -47,35 +48,35 @@ class Dashboard extends React.Component {
     return axios.post('/api/dashboard/userInfo', {
       id: this.props.auth.user.id
     })
-    .then(responseObj => {
+    .then((responseObj) => {
       this.setState({
         userInfo: responseObj.data.userInfo,
         userMoviesInfo: responseObj.data.userMoviesInfo,
         userTagsInfo: responseObj.data.userTagsInfo
-      })
+      });
 
-      //toggle switch for user reViewSetting
+      // toggle switch for user reViewSetting
       const userReViewSetting = responseObj.data.userInfo.reView;
       this.props.setUserReViewSetting(userReViewSetting);
     })
     .then(() => {
       this.getTableData();
-    })
+    });
   }
 
   getTableData() {
     return axios.get('/api/dashboard/tableData')
-    .then(responseObj => {
+    .then((responseObj) => {
       this.setState({
         tagsTableData: responseObj.data.tagsTableData
-      })
+      });
     })
     .then(() => {
       this.chartTopTagsByUser();
     })
     .then(() => {
       this.chartTopTagsBySelectionPercentage();
-    })
+    });
   }
 
   chartTopTagsByUser() {
@@ -84,20 +85,20 @@ class Dashboard extends React.Component {
     const tagPicksCounts = [];
     const tagNames = [];
 
-    const tagsWithPicksCountGreaterThanCutoff = this.state.userTagsInfo.filter(tagObj => {
+    const tagsWithPicksCountGreaterThanCutoff = this.state.userTagsInfo.filter((tagObj) => {
       if (tagObj.picksCount > tagPicksCountCutoff) {
         tagIds.push(tagObj.tag_Id);
         tagPicksCounts.push(tagObj.picksCount);
       }
     });
 
-    tagIds.forEach(tagId => {
-      this.state.tagsTableData.forEach(tagObj => {
+    tagIds.forEach((tagId) => {
+      this.state.tagsTableData.forEach((tagObj) => {
         if (tagId === tagObj.id) {
           tagNames.push(tagObj.tagName);
-        };
-      })
-    })
+        }
+      });
+    });
 
     this.setState({
       topTagIdsByUser: tagIds,
@@ -112,33 +113,33 @@ class Dashboard extends React.Component {
     const tagSelectionPercentages = [];
     const tagNames = [];
 
-    const calcTagSelectionPerecentage = this.state.userTagsInfo.filter(tagObj => {
+    const calcTagSelectionPerecentage = this.state.userTagsInfo.filter((tagObj) => {
       if (tagObj.picksCount > tagPicksCountCutoff) {
         tagIds.push(tagObj.tag_Id);
         tagSelectionPercentages.push(tagObj.picksCount / tagObj.viewsCount);
       }
-    })
+    });
 
     tagIds.forEach(tagId => {
       this.state.tagsTableData.forEach(tagObj => {
         if (tagId === tagObj.id) {
           tagNames.push(tagObj.tagName);
         }
-      })
-    })
+      });
+    });
 
     this.setState({
       mostSelectedTagIds: tagIds,
       mostSelectedTagNames: tagNames,
       mostSelectedTagPercentages: tagSelectionPercentages
-    })
+    });
   }
 
   changeUserReViewSetting() {
     this.updateUserReViewSetting()
       .then(() => {
         this.toggleUserReViewSetting();
-      })
+      });
   }
 
   toggleUserReViewSetting() {
@@ -149,7 +150,7 @@ class Dashboard extends React.Component {
     return axios.post('/api/dashboard/updateUserSettings', {
       id: this.props.auth.user.id,
       reView: !this.props.userReViewSetting
-    })
+    });
   }
 
 
@@ -162,14 +163,14 @@ class Dashboard extends React.Component {
             <DashboardUserProfile
               user={this.props.auth.user}
             />
-            <br></br>
+            <br />
             <ToggleSwitch
               changeUserReViewSetting={this.changeUserReViewSetting}
               reViewSetting={this.props.userReViewSetting}
             />
           </div>
         </div>
-        <br></br>
+        <br />
         <div className="row">
           {this.state.topTagsByName && <PieChart
             labels={this.state.topTagsByName}
@@ -181,7 +182,7 @@ class Dashboard extends React.Component {
           />}
         </div>
       </div>
-    )
+    );
   }
 }
 

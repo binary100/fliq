@@ -43,7 +43,7 @@ class Search extends React.Component {
     axios.post('/api/search', {
       movieName: this.state.searchString
     })
-      .then(results => {
+      .then((results) => {
         console.log('Received: ', results.data);
         const autoCompleteStrings =
           results.data.map(movie =>
@@ -101,7 +101,7 @@ class Search extends React.Component {
               </InputGroup.Addon>
               <FormControl
                 type="text"
-                placeholder={`A movie you love, e.g. "star wars"`}
+                placeholder={'A movie you love, e.g. "star wars"'}
                 onChange={this.handleInputChange}
                 onKeyPress={e => this.handleInputKeyPress(e)}
               />
