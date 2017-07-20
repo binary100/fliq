@@ -422,6 +422,8 @@ at this phase of development
 }
 
 /************* TOGGLE SWITCH **************/
+
+/*sets size of toggle switch container*/
 .switch {
   position: relative;
   display: inline-block;
@@ -429,7 +431,10 @@ at this phase of development
   height: 34px;
 }
 
-.switch input {display:none;}
+/*hides checkbox*/
+.switch input {
+  display: none;
+}
 
 .slider {
   position: absolute;
@@ -443,6 +448,7 @@ at this phase of development
   transition: .4s;
 }
 
+/*sets size of slider and speed of move*/
 .slider:before {
   position: absolute;
   content: "";
@@ -455,24 +461,28 @@ at this phase of development
   transition: .4s;
 }
 
+/*changes slider background when clicked*/
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #32cd32;
 }
 
-input:focus + .slider {
+/*input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
-}
+}*/
 
+/*moves slider when clicked*/
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 
+/*rounds toggle switch container*/
 .slider.round {
   border-radius: 34px;
 }
 
+/*rounds slider*/
 .slider.round:before {
   border-radius: 50%;
 }
