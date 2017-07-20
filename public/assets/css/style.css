@@ -177,6 +177,7 @@ at this phase of development
 /************* MOVIE NIGHT **************/
 
 .email-box {
+  margin-bottom: 1em;
   background-color: #444444;
   height: 200px;
   border-radius: 3px;
@@ -203,6 +204,8 @@ at this phase of development
 }
 
 .movienight-confirm-box {
+  margin-top: 1em;
+  padding: 5px 0;
   height: 2em;
 }
 

@@ -151,13 +151,7 @@ class MovieNight extends React.Component {
                 </ul>
               </div>
             </div>
-            <div className="row">
-              <span className="col-sm-12 movienight-confirm-box">
-                <span className={this.state.confirmClass}>
-                  {this.state.confirmText}
-                </span>
-              </span>
-            </div>
+            
             <div className="row">
               <div >
                 <button
@@ -173,6 +167,13 @@ class MovieNight extends React.Component {
                   Get Movies!
                 </button>
               </div>
+            </div>
+            <div className="row">
+              <span className="movienight-confirm-box">
+                <span className={this.state.confirmClass}>
+                  {this.state.confirmText}
+                </span>
+              </span>
             </div>
           </div>
           {largeTile}
