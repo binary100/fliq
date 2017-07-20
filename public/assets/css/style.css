@@ -168,6 +168,12 @@ at this phase of development
   left: 0;
 }
 
+.lightning-tile:hover {
+  background-color: #3f3f3f;
+  transition: 0.5s ease;
+  height: 530px;
+}
+
 /************* MOVIE NIGHT **************/
 
 .email-box {
