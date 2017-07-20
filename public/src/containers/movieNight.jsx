@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button, FormControl, FormGroup, InputGroup } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import LargeMovieTile from '../components/largeMovieTile.jsx';
 import ResultsTileBar from '../components/resultsTileBar.jsx';
 
@@ -22,7 +23,6 @@ const sampleUsers = [
   }
 ];
 
-
 class MovieNight extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +30,7 @@ class MovieNight extends React.Component {
       confirmText: '',
       confirmClass: '',
       inputText: '',
-      emails: sampleUsers,
+      emails: [],
       searchResults: null,
       selectedMovie: null
     };
@@ -39,6 +39,13 @@ class MovieNight extends React.Component {
     this.removeEmail = this.removeEmail.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getResults = this.getResults.bind(this);
+    this.loadUserEmail = this.loadUserEmail.bind(this);
+  }
+  
+  componentDidMount() {
+    if (this.props.user) {
+      this.loadUserEmail(this.props.user);
+    }
   }
 
   getResults() {
@@ -55,31 +62,43 @@ class MovieNight extends React.Component {
       .catch(err => console.error('Error getting results: ', err));
   }
 
+  loadUserEmail(user, shouldFlashDialogue) {
+    const { name, email, id } = user;
+    const userEmailObj = { name, email, id };
+    const isAlreadyAdded = this.state.emails.some((obj) => {
+      return obj.email === userEmailObj.email;
+    });
+
+    if (isAlreadyAdded) {
+      return this.setState({
+        confirmText: 'You already added that user! :)',
+        confirmClass: 'movienight-email-failure'
+      });
+    }
+
+    const newEmailsArray = this.state.emails.slice();
+    newEmailsArray.unshift(userEmailObj);
+
+    if (shouldFlashDialogue) {
+      this.setState({
+        emails: newEmailsArray,
+        confirmText: 'User added!',
+        confirmClass: 'movienight-email-success'
+      });
+    } else {
+      this.setState({
+        emails: newEmailsArray
+      });
+    }
+  }
+
   searchEmail() {
     axios.post('/api/user/email/verify', {
       email: this.state.inputText
     })
       .then((results) => {
         if (results.data.success) {
-          const { name, email, id } = results.data.user;
-          const userEmailObj = { name, email, id };
-          const isAlreadyAdded = this.state.emails.some((obj) => {
-            return obj.email === userEmailObj.email;
-          });
-          if (isAlreadyAdded) {
-            this.setState({
-              confirmText: 'You already added that user! :)',
-              confirmClass: 'movienight-email-failure'
-            });
-          } else {
-            const newEmailsArray = this.state.emails.slice();
-            newEmailsArray.unshift(userEmailObj);
-            this.setState({
-              emails: newEmailsArray,
-              confirmText: 'User added!',
-              confirmClass: 'movienight-email-success'
-            });
-          }
+          this.loadUserEmail(results.data.user, true);
         } else {
           this.setState({
             confirmText: `Whoops! We don't have any users with that email.`,
@@ -204,4 +223,11 @@ class MovieNight extends React.Component {
   }
 }
 
-export default MovieNight;
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(MovieNight);
