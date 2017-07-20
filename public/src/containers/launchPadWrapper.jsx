@@ -44,7 +44,7 @@ class LaunchPadWrapper extends React.Component {
 
 
   componentWillMount() {
-    this.getTagsData();
+    // this.getTagsData();
   }
 
   isSelected(tag, tagItem) {
@@ -53,19 +53,47 @@ class LaunchPadWrapper extends React.Component {
 
   selectItem(tagItem, tag) {
 
+<<<<<<< HEAD
     console.log('check index', this.state.selectedTags[tag]);
     if (this.state.selectedTags[tag].includes(tagItem)) {
       // const index = this.state.selectedTags[tag].includes(tagItem);
       // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);    
       console.log('if', this.state.selectedTags);
       this.setState({ selectedTags });
+||||||| merged common ancestors
+  console.log('check index', this.state.selectedTags[tag])
+    if (this.state.selectedTags[tag].includes(tagItem) ) {
+      // const index = this.state.selectedTags[tag].includes(tagItem);
+      // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);
+      
+      console.log('if', this.state.selectedTags)
+      this.setState({ selectedTags });
+=======
+  console.log('check index', this.state.selectedTags[tag])
+    const clickedArray = this.state.selectedTags[tag];
+
+
+    if (clickedArray.indexOf(tagItem) > -1) {
+      const index = clickedArray.includes(tagItem);
+      const selectedTags = clickedArray.filter((_, i) => i !== index);
+      
+      console.log('if', this.state.selectedTags)
+      this.setState({ selectedTags: selectedTags });
+>>>>>>> feat($launchpad): add route for new users
     } else {
       const newSelectedTagObj = Object.assign({}, this.state.selectedTags);
       newSelectedTagObj[tag].push(tagItem);
       this.setState({ selectedTags: newSelectedTagObj });
 
+<<<<<<< HEAD
       // console
       console.log('else', this.state.selectedTags);
+||||||| merged common ancestors
+      // console
+      console.log('else', this.state.selectedTags)
+=======
+      console.log('else', this.state.selectedTags)
+>>>>>>> feat($launchpad): add route for new users
     }
   }
 
