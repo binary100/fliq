@@ -19,7 +19,6 @@ class MovieNight extends React.Component {
         'joe@hackreactor.com',
         'jeff@hackreactor.com',
         'john@hackreactor.com',
-        'rob.cornell@gmail.com',
         'jacqueline@gmail.com',
         'davidr@earle.com',
         'ta3woon@gmail.com'
@@ -33,6 +32,11 @@ class MovieNight extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getResults = this.getResults.bind(this);
   }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // return this.state.emails === nextState.emails;
+  //   return true;
+  // }
 
   getResults() {
     axios.post('/api/movienight', {
@@ -53,6 +57,7 @@ class MovieNight extends React.Component {
       email: this.state.inputText
     })
       .then((results) => {
+        console.log('Got results');
         if (results.data.success) {
           if (this.state.emails.includes(results.data.email)) {
             this.setState({
@@ -61,7 +66,7 @@ class MovieNight extends React.Component {
             });
           } else {
             const newEmailsArray = this.state.emails.slice();
-            newEmailsArray.push(results.data.email);
+            newEmailsArray.unshift(results.data.email);
             this.setState({
               emails: newEmailsArray,
               confirmText: 'User added!',
@@ -92,7 +97,6 @@ class MovieNight extends React.Component {
   }
 
   handleInputChange(e) {
-    console.log(e.target.value);
     this.setState({
       inputText: e.target.value
     });
@@ -109,8 +113,12 @@ class MovieNight extends React.Component {
 
   render() {
     const emails = this.state.emails.map(email =>
-      <li key={count += 1} onDoubleClick={this.removeEmail}>{email}</li>
-    );
+      (<li
+        key={count += 1}
+        onDoubleClick={this.removeEmail}
+      >
+        {email}
+      </li>));
 
     const largeTile = this.state.selectedMovie
       ? <LargeMovieTile movie={this.state.selectedMovie} />
