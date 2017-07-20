@@ -1,6 +1,7 @@
 import React from 'react';
 import LoadingButton from './loadingButton.jsx';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 const thumbsUp = 'glyphicon glyphicon-thumbs-up';
 const thumbsDown = 'glyphicon glyphicon-thumbs-down';
@@ -160,18 +161,21 @@ class SmallMovieTile extends React.Component {
         <div className="like-buttons col-sm-10 col-centered">
           <div className="col-sm-4">
             <LoadingButton
+              disabled={!this.props.isLoggedIn}
               buttonClass={this.state.likeButtonClass}
               handleClick={this.likeMovie}
             />
           </div>
           <div className="col-sm-4">
             <LoadingButton
+              disabled={!this.props.isLoggedIn}
               buttonClass={this.state.seenButtonClass}
               handleClick={this.setMovieAsSeen}
             />
           </div>
           <div className="col-sm-4">
             <LoadingButton
+              disabled={!this.props.isLoggedIn}
               buttonClass={this.state.dislikeButtonClass}
               handleClick={this.dislikeMovie}
             />
@@ -183,4 +187,11 @@ class SmallMovieTile extends React.Component {
 
 }
 
-export default SmallMovieTile;
+const mapStateToProps = state => ({
+  isLoggedIn: state.auth.isLoggedIn
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(SmallMovieTile);
