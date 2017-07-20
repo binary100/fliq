@@ -244,7 +244,7 @@ at this phase of development
 /************* NAVBAR **************/
 
 .header {
-  /*background: linear-gradient(to bottom, #606060 , #444444);*/
+
 }
 
 .header-icon {
@@ -267,6 +267,16 @@ at this phase of development
   margin: auto;
   height: 200px;
   width: 175px;
+}
+
+.user-name {
+  padding: 15px 15px 15px 0;
+}
+
+.user-photo {
+  height: 50px;
+  width: 50px;
+  padding: 5px;
 }
 
 /************* SMALL MOVIE TILES **************/
@@ -364,13 +374,6 @@ at this phase of development
 
 .author {
   margin-left: 50px;
-}
-
-/* USER INFO */
-
-.user-photo {
-  max-height: 3em;
-  max-width: 3em;
 }
 
 /************* LAUNCHPAD **************/
