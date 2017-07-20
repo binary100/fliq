@@ -571,6 +571,7 @@ module.exports.postLaunchPadTags = (req, res) => {
   console.log('postLaunchPadTags sent req.body as: ', req.body);
   const { selectedTagData } = req.body;
 
+
   console.log('Completed postLaunchPagTags placeholder logic');
   res.sendStatus(200);
 };
@@ -663,4 +664,5 @@ module.exports.setUserWatchedMovie = (req, res) => {
 
 module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
+
 };

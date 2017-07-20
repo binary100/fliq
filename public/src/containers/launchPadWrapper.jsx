@@ -45,7 +45,7 @@ class LaunchPadWrapper extends React.Component {
 
 
   componentWillMount() {
-    this.getTagsData();
+    // this.getTagsData();
   }
 
   isSelected(tag, tagItem) {
@@ -55,18 +55,20 @@ class LaunchPadWrapper extends React.Component {
   selectItem(tagItem, tag) {
 
   console.log('check index', this.state.selectedTags[tag])
-    if (this.state.selectedTags[tag].includes(tagItem) ) {
-      // const index = this.state.selectedTags[tag].includes(tagItem);
-      // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);
+    const clickedArray = this.state.selectedTags[tag];
+
+
+    if (clickedArray.indexOf(tagItem) > -1) {
+      const index = clickedArray.includes(tagItem);
+      const selectedTags = clickedArray.filter((_, i) => i !== index);
       
       console.log('if', this.state.selectedTags)
-      this.setState({ selectedTags });
+      this.setState({ selectedTags: selectedTags });
     } else {
       const newSelectedTagObj = Object.assign({}, this.state.selectedTags);
       newSelectedTagObj[tag].push(tagItem);
       this.setState({ selectedTags: newSelectedTagObj });
 
-      // console
       console.log('else', this.state.selectedTags)
     }
   }
