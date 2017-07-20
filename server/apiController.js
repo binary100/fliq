@@ -547,6 +547,22 @@ module.exports.getUserInfo = (req, res) => {
   })
 };
 
+module.exports.getUserInfo = (req, res) => {
+  db.users.findOne({
+    where: {
+      id: req.body.id
+    }
+  })
+  .then((results) => {
+    const userInfo = results.dataValues;
+    res.send(userInfo);
+  })
+  .catch((error) => {
+    console.log('Error getting user info', error);
+    res.sendStatus(500);
+  })
+};
+
 module.exports.updateUserSettings = (req, res) => {
   const { id, reView } = req.body
 
@@ -560,7 +576,7 @@ module.exports.updateUserSettings = (req, res) => {
   })
   .then(() => {
     console.log('Successfully updated user info (id, reView)', id, reView);
-    res.send(200);
+    res.sendStatus(200);
   })
   .catch((error) => {
     console.log('Error updating user info', error);

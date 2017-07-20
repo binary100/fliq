@@ -31,6 +31,12 @@ class Dashboard extends React.Component {
     })
   }
 
+  changeUserReViewSetting() {
+    this.updateUserReViewSetting()
+      .then(() => {
+        this.toggleUserReViewSetting();
+      })
+  }
 
   toggleUserReViewSetting() {
     this.props.toggleUserReViewSetting();
@@ -39,13 +45,8 @@ class Dashboard extends React.Component {
   updateUserReViewSetting() {
     return axios.post('/api/dashboard/updateUserSettings', {
       id: this.props.auth.user.id,
-      reView: this.props.userReViewSetting
+      reView: !this.props.userReViewSetting
     })
-  }
-
-  changeUserReViewSetting() {
-    this.toggleUserReViewSetting();
-    this.updateUserReViewSetting();
   }
 
 
@@ -60,13 +61,8 @@ class Dashboard extends React.Component {
             />
             <br></br>
             <ToggleSwitch
-<<<<<<< HEAD
               changeUserReViewSetting={this.changeUserReViewSetting}
               reViewSetting={this.props.userReViewSetting}
-=======
-              // onChange={this.userReviewToggle}
-              // value={this.state.}
->>>>>>> feat($dashboard): Start connecting front-end components to back-end
             />
           </div>
         </div>
@@ -82,16 +78,12 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-<<<<<<< HEAD
   userReViewSetting: state.userSettingsReducer.userReViewSetting
 });
 
 const mapDispatchToProps = dispatch => ({
   setUserReViewSetting: (userReViewSetting) => { dispatch(setUserReViewSetting(userReViewSetting)); },
   toggleUserReViewSetting: () => { dispatch(toggleUserReViewSetting()); }
-=======
-  toggleUserSettings: state.toggleUserSettings
->>>>>>> feat($dashboard): Start connecting front-end components to back-end
 });
 
 export default connect(

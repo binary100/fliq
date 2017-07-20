@@ -1,7 +1,7 @@
 import { setUserReViewSetting, toggleUserReViewSetting } from '../actions/actions.js';
 
 const defaultSettingsState = {
-  userReViewSetting: false
+  userReViewSetting: null
 };
 
 export default function userSettingsReducer(state = defaultSettingsState, action) {
