@@ -13,6 +13,7 @@ export const logoutUser = () => {
     payload: { isLoggedIn: false }
   };
 };
+<<<<<<< HEAD
 
 export const setUserReViewSetting = (userReViewSetting) => {
   return {
@@ -26,3 +27,7 @@ export const toggleUserReViewSetting = () => {
     type: 'TOGGLE_USER_REVIEW_SETTING'
   };
 };
+||||||| merged common ancestors
+=======
+
+>>>>>>> feat($launchpad): add route for new users
