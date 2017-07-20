@@ -642,10 +642,10 @@ module.exports.postLaunchPadTags = (req, res) => {
   console.log('postLaunchPadTags sent: ', req.body);
   const selectedTagData = req.body;
 
-  axios.post(selectedTagData)
-    .then((results) => {
-      console.log('postLaunchPadTags sent: ', results.data);
-      res.sendStatus(201);
-    })
-    .catch(err => console.log('Error postLaunchPadTags: ', err));
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
 };

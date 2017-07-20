@@ -13,3 +13,4 @@ export const logoutUser = () => {
     payload: { isLoggedIn: false }
   };
 };
+
