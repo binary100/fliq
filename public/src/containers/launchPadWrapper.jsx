@@ -112,12 +112,18 @@ class LaunchPadWrapper extends React.Component {
   componentWillMount() {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     // this.getUserInfo();
 ||||||| merged common ancestors
     // this.getUserInfo();
 =======
 >>>>>>> fix($launchpad): fix merge code and cleaned up console logs
     this.getTagsData();
+||||||| merged common ancestors
+    this.getTagsData();
+=======
+    // this.getTagsData();
+>>>>>>> feat($launchpad): add route for new users
 ||||||| merged common ancestors
     this.getTagsData();
 =======
@@ -184,6 +190,7 @@ class LaunchPadWrapper extends React.Component {
       const selectedTags = clickedArray.filter((_, i) => i !== index);
 ||||||| merged common ancestors
   console.log('check index', this.state.selectedTags[tag])
+<<<<<<< HEAD
     if (this.state.selectedTags[tag].includes(tagItem) ) {
       // const index = this.state.selectedTags[tag].includes(tagItem);
       // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);
@@ -196,8 +203,21 @@ class LaunchPadWrapper extends React.Component {
       const index = clickedArray.includes(tagItem);
       const selectedTags = clickedArray.filter((_, i) => i !== index);
 >>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+    if (this.state.selectedTags[tag].includes(tagItem) ) {
+      // const index = this.state.selectedTags[tag].includes(tagItem);
+      // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);
+=======
+    const clickedArray = this.state.selectedTags[tag];
+
+
+    if (clickedArray.indexOf(tagItem) > -1) {
+      const index = clickedArray.includes(tagItem);
+      const selectedTags = clickedArray.filter((_, i) => i !== index);
+>>>>>>> feat($launchpad): add route for new users
       
       console.log('if', this.state.selectedTags)
+<<<<<<< HEAD
 <<<<<<< HEAD
       this.setState({ selectedTags: selectedTags });
 >>>>>>> feat($launchpad): add route for new users
@@ -215,6 +235,11 @@ class LaunchPadWrapper extends React.Component {
 >>>>>>> fix($launchpad): fix merge code and cleaned up console logs
       this.setState({ selectedTags: selectTagsFilter });
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
+||||||| merged common ancestors
+      this.setState({ selectedTags });
+=======
+      this.setState({ selectedTags: selectedTags });
+>>>>>>> feat($launchpad): add route for new users
 ||||||| merged common ancestors
       this.setState({ selectedTags });
 =======
@@ -238,6 +263,7 @@ class LaunchPadWrapper extends React.Component {
       this.setState({ selectedTags: newSelectedTagObj });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       clickedArray[tag].push(tagItem);
       this.setState({ selectedTags: clickedArray });
@@ -256,6 +282,10 @@ class LaunchPadWrapper extends React.Component {
       console.log('else', this.state.selectedTags)
 >>>>>>> feat($launchpad): add route for new users
 ||||||| merged common ancestors
+||||||| merged common ancestors
+      // console
+=======
+>>>>>>> feat($launchpad): add route for new users
       console.log('else', this.state.selectedTags)
 =======
 >>>>>>> fix($launchpad): fix merge code and cleaned up console logs

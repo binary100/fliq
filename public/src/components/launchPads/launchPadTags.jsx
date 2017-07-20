@@ -34,6 +34,7 @@ class LaunchPadTags extends React.Component {
         <div className="launchPad-controls">
           <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             { this.props.step === 1 ? 
               null :
@@ -54,6 +55,27 @@ class LaunchPadTags extends React.Component {
             <button className="btn btn-primary btn-spacing" onClick={this.goToNext}>Next</button>
               { this.props.step === 3 ? 
                 <Link to="/"><button
+||||||| merged common ancestors
+            <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
+            <button className="btn btn-primary btn-spacing" onClick={this.goToNext}>Next</button>
+              { this.props.step === 3 ? 
+                <Link to="/"><button
+=======
+
+            { this.props.step === 1 ? 
+              null :
+              <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
+            }
+
+            { this.props.step === 3 ? 
+              null :
+              <button className="btn btn-default btn-spacing" onClick={this.goToNext}>Next</button>
+            }
+
+            { this.props.step === 3 ? 
+              <Link to="/">
+                <button
+>>>>>>> feat($launchpad): add route for new users
                   onClick={() => this.props.postSelectedTags(this.props.selectedTags)} 
 =======
 
