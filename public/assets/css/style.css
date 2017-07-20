@@ -179,9 +179,10 @@ at this phase of development
 .email-box {
   margin-bottom: 1em;
   background-color: #444444;
-  height: 200px;
+  height: 170px;
   border-radius: 3px;
   overflow: auto;
+  padding: 0;
 }
 
 .email-inputs {
@@ -195,10 +196,10 @@ at this phase of development
 }
 
 .email-input-list {
-  list-style: none;
+  /*list-style: none;*/
 }
 
-.email-input-list li {
+.email-input-list div {
   padding: 0.5em;
   border-bottom: 1px solid #2ecc71;
 }

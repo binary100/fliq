@@ -113,12 +113,12 @@ class MovieNight extends React.Component {
 
   render() {
     const emails = this.state.emails.map(email =>
-      (<li
+      (<div
         key={count += 1}
         onDoubleClick={this.removeEmail}
       >
         {email}
-      </li>));
+      </div>));
 
     const largeTile = this.state.selectedMovie
       ? <LargeMovieTile movie={this.state.selectedMovie} />
@@ -154,12 +154,11 @@ class MovieNight extends React.Component {
             </div>
             <div className="row">
               <div className="col-sm-12 email-box">
-                <ul className="email-input-list">
+                <div className="email-input-list">
                   {emails}
-                </ul>
+                </div>
               </div>
-            </div>
-            
+            </div>         
             <div className="row">
               <div >
                 <button
