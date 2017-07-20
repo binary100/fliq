@@ -17,7 +17,7 @@ class Lightning extends React.Component {
             handleLightningTileClick={this.props.handleLightningTileClick}
             movie={movie}
           />)
-        )};
+        )}
       </div>
     );
   }
