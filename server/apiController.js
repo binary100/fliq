@@ -225,6 +225,30 @@ module.exports.getUserResults = (req, res) => {
     });
 };
 
+module.exports.getTopResults = (req, res) => {
+  db.userMovies.findAll({})
+    .then((userMovies) => {
+      const topMovies = userMovies.reduce((memo, obj) => {
+        const match = memo.find(item => item.movie_Id === obj.movie_Id);
+        if (match) {
+          match.likes += obj.liked;
+        } else {
+          memo.push({ movie_Id: obj.movie_Id, likes: obj.liked });
+        }
+        return memo;
+      }, [])
+      .sort((a, b) => b.likes - a.likes)
+      .slice(0, 6)
+      .map(obj => ({ id: obj.movie_Id }));
+
+      db.movies.findAll({ where: {
+        $or: [...topMovies]
+      } })
+        .then(movies => res.send(movies))
+        .catch(err => res.status(500).send(err));
+    });
+};
+
 module.exports.getQuote = (req, res) => {
   axios(quoteUrl, {
     method: 'GET',
