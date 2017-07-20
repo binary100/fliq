@@ -12,7 +12,6 @@ export const logoutUser = () => {
     payload: { isLoggedIn: false }
   };
 };
-
 export const clearMovie = () => {
   return {
     type: 'CLEAR_WATCHED_MOVIE',
@@ -34,5 +33,4 @@ export const toggleUserReViewSetting = () => {
   return {
     type: 'TOGGLE_USER_REVIEW_SETTING'
   };
-
 };

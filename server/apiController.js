@@ -560,12 +560,6 @@ module.exports.getTagsforLaunchPad = (req, res) => {
     .catch(err => res.status(500).send('Error finding tags: ', err));
 };
 
-module.exports.getSubmittedLaunchPadTags = (req, res) => {
-};
-
-module.exports.updateLaunchPadTags = (req, res) => {
-};
-
 const buildOrIncrementUserTags = (userId, tagId) => {
   return db.userTags
     .findAll(
@@ -605,14 +599,14 @@ const buildOrIncrementUserTags = (userId, tagId) => {
 };
 
 
+module.exports.getLaunchPadTags = (req, res) => {
+  // axios.get(/api/);
+}
+
 module.exports.postLaunchPadTags = (req, res) => {
   console.log('postLaunchPadTags sent req.body as: ', req.body);
 
   const { selectedTagData } = req.body;
-
-  console.log('Completed postLaunchPagTags placeholder logic');
-  res.sendStatus(200);
-
   const selectedTags = req.body.submitTags;
   const currentUser = req.body.currentUser;
 
@@ -623,52 +617,6 @@ module.exports.postLaunchPadTags = (req, res) => {
     .then(() => res.sendStatus(201))
     .catch(error => res.status(500).send(error));
 };
-
-
-// const buildOrIncrementUserTags = (submittedTags, userId) => {
-//   return db.userTags.findAll({ where: { user_Id: userId } })
-//     .then((userTags) => {
-//       console.log('WHATS THIS USER TAG++++++++++++++++++++++++++++++++++++++++++++++++++++++', userTags)
-//       return userTags.dataValues.map((userTag) => {
-//         console.log('WHATS THIS USER TAG++++++++++++++++++++++++++++++++++++++++++++++++++++++', userTag)
-//               // const picksIncrement = submittedTags.selected ? 1 : 0;
-//         if (userTag === null) {
-//           return db.userTags.create({
-//             viewsCount: 1,
-//             picksCount: 1,
-//             tag_Id: submittedTags,
-//             user_Id: userId
-//           });
-//         }
-//         return userTag.increment('viewsCount', { by: 1 })
-//           .then(() => {
-//               return userTag.increment('picksCount', { by: 1 });
-//           })
-//       })
-//       .then(() => resolve())
-//       .catch((err) => console.log('Error in userTag if/else promise: ', err) });
-//     })
-//     .then(UserTagPromises => Promise.all(UserTagPromises))
-//     .catch(error => console.log('Error in buildOrIncrementUserTags, ', error));
-// };
-
-
-////////////////////////////////////////////////////
-
-// return db.userTags.find({ where: {
-//   tag_Id: movieTag.dataValues.tag_Id,
-//   user_Id: userId
-// } })
-// .then((userTag) => {
-//   const picksIncrement = currentMovie.selected ? 1 : 0;
-//   if (userTag === null) {
-//     return db.userTags.create({
-//       viewsCount: 1,
-//       picksCount: picksIncrement,
-//       tag_Id: movieTag.dataValues.tag_Id,
-//       user_Id: userId
-//     });
-
 
 module.exports.getUserInfo = (req, res) => {
   const user_id = req.body.id;
@@ -746,12 +694,6 @@ module.exports.updateUserSettings = (req, res) => {
     console.log('Error updating user info', error);
     res.sendStatus(500);
   })
-  // axios.post(selectedTagData)
-  //   .then((results) => {
-  //     console.log('postLaunchPadTags sent: ', results.data);
-  //     res.sendStatus(201);
-  //   })
-  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
