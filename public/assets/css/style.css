@@ -157,6 +157,11 @@ at this phase of development
   animation: 1s mySlideDown ease;
 }
 
+.popdown-slideUp {
+  top: -300px;
+  transition: 1s ease;
+}
+
 @keyframes mySlideDown  {
   0% {
     top: -200px;
