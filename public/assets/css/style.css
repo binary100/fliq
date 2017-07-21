@@ -115,11 +115,11 @@ at this phase of development
 }
 
 .flick-iq {
-  animation: anim 1s 1 ease-out;
+  animation: greenify 1s 1 ease-out;
   color: #2ecc71;
 }
 
-@keyframes anim {
+@keyframes greenify {
     from {color: white;}
     to {color: #2ecc71;}
 }
@@ -129,19 +129,39 @@ at this phase of development
 
 .popdown {
   /* colors taken from bootstrap inverse nav bar text color */
+  text-align: center;
   color: #9d9d9d; 
   background-color: #222;  
   position: absolute;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
+  border-radius: 5px;
+  padding: 1em 0;
   border-top: 0;
   right: 0;
-  top: 50px;
+  top: 49px;
   width: 200px;
-  height: 150px;
-  z-index: 1000;
+  z-index: 1;
 }
 
+.popdown-buttons {
+  padding: 0 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+.popdown-slideDown {
+  animation: 1s mySlideDown ease;
+}
+
+@keyframes mySlideDown  {
+  0% {
+    top: 0px;
+  }
+
+  100% {
+    top: 49px;
+  }
+}
 
 /************* WELCOME MODAL **************/
 
@@ -257,9 +277,6 @@ at this phase of development
   left: 0;
 }
 
-
-
-
 .results {
   max-height: 100%;
 }
@@ -267,7 +284,7 @@ at this phase of development
 /************* NAVBAR **************/
 
 .header {
-
+  z-index: 2;
 }
 
 .header-icon {
