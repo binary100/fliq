@@ -1,8 +1,5 @@
 import React from 'react';
 
-const toggleSwitchTrueClass = "input:checked + .slider";
-const toggleSwitchFalseClass = "input:"
-
 const ToggleSwitch = ({ changeUserReViewSetting, reViewSetting }) => {
   return (
     <div>
