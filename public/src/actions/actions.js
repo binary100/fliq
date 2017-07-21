@@ -7,10 +7,19 @@ export const loginUser = (user) => {
 };
 
 export const logoutUser = () => {
-  console.log('Removing logged in state.');
   return {
     type: 'USER_LOGOUT',
     payload: { isLoggedIn: false }
+  };
+};
+
+export const clearWatchedMovie = () => {
+  return {
+    type: 'CLEAR_WATCHED_MOVIE',
+    payload: {
+      watchedMovieTitle: null,
+      watchedMovieId: null
+    }
   };
 };
 
