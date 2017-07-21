@@ -124,6 +124,17 @@ at this phase of development
     to {color: #2ecc71;}
 }
 
+
+/************* POPDOWN PAGE **************/
+
+.popdown {
+  width: 300px
+  height: 250px;
+  background-color: cyan;
+}
+
+
+
 /************* WELCOME MODAL **************/
 
 .welcome-modal-wrapper {

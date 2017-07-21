@@ -615,6 +615,6 @@ module.exports.setUserWatchedMovie = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
-module.exports.setUserWatchedMovieToNull = user => {
+module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null }, { where: { id: user.id } });
 };
