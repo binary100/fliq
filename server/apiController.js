@@ -609,21 +609,13 @@ module.exports.updateUserSettings = (req, res) => {
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
-  const userId = req.body.userId;
-  const { watchedMovieId, watchedMovieTitle, watchedMovieImdbID } = req.body.movie;
 
-  db.users.update({
-    watchedMovieId,
-    watchedMovieTitle,
-    watchedMovieImdbID }, { where: { id: userId } })
+  const { watchedMovieId, watchedMovieTitle, userId } = req.body;
+  db.users.update({ watchedMovieId, watchedMovieTitle }, { where: { id: userId } })
     .then(() => res.sendStatus(200))
     .catch(err => res.status(500).send(err));
 };
 
 module.exports.setUserWatchedMovieToNull = (user) => {
-  db.users.update({
-    watchedMovieId: null,
-    watchedMovieImdbID: null,
-    watchedMovieTitle: null
-  }, { where: { id: user.id } });
+  db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
 };
