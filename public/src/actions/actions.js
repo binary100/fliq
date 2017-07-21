@@ -13,7 +13,7 @@ export const logoutUser = () => {
   };
 };
 
-export const clearWatchedMovie = () => {
+export const clearMovie = () => {
   return {
     type: 'CLEAR_WATCHED_MOVIE',
     payload: {

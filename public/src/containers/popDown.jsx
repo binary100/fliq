@@ -9,8 +9,8 @@ class PopDown extends React.Component {
   render() {
 
     return (
-      <div className="container-fluid">
-        <div className="popdown">
+      <div className="container">
+        <div className="popdown popdown-slideDown">
           {this.props.component}
         </div>
       </div>

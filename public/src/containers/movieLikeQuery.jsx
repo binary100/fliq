@@ -1,6 +1,8 @@
 import React from 'react';
 import LoadingButton from '../components/loadingButton.jsx';
 import axios from 'axios';
+import { clearMovie } from '../actions/actions.js';
+import { connect } from 'react-redux';
 
 const thumbsUp = 'glyphicon glyphicon-thumbs-up';
 const thumbsDown = 'glyphicon glyphicon-thumbs-down';
@@ -21,6 +23,13 @@ class UserLikeQuery extends React.Component {
     };
     this.likeMovie = this.likeMovie.bind(this);
     this.dislikeMovie = this.dislikeMovie.bind(this);
+    this.clearWatchedMovie = this.clearWatchedMovie.bind(this);
+  }
+
+  clearWatchedMovie() {
+    setTimeout(() => {
+      this.props.clearMovie();
+    }, 1000);
   }
 
   likeMovie() {
@@ -35,6 +44,7 @@ class UserLikeQuery extends React.Component {
       isLike: true
     })
       .then(() => {
+        this.clearWatchedMovie();
         this.setState({
           likeButtonClass: complete
         });
@@ -56,6 +66,7 @@ class UserLikeQuery extends React.Component {
       isLike: false
     })
       .then(() => {
+        this.clearWatchedMovie();
         this.setState({
           dislikeButtonClass: complete
         });
@@ -69,27 +80,36 @@ class UserLikeQuery extends React.Component {
     return (
       <div>
         <div className="row">
-          Did you like {this.props.movie.title}?
+          <div className="col-sm-12 .col-centered">
+            Did you like {this.props.movie.title}?
+          </div>
         </div>
         <div className="row">
-          <div className="like-buttons col-sm-10 col-centered">
-           <div className="col-sm-4">
-              <LoadingButton
-                buttonClass={this.state.likeButtonClass}
-                handleClick={this.likeMovie}
-              />
+          <div className="like-buttons col-sm-12 popdown-buttons">
+              <div className="col-sm-6">
+                <LoadingButton
+                  buttonClass={this.state.likeButtonClass}
+                  handleClick={this.likeMovie}
+                />
+              </div>
+              <div className="col-sm-6">
+                <LoadingButton
+                  buttonClass={this.state.dislikeButtonClass}
+                  handleClick={this.dislikeMovie}
+                />
+              </div>
             </div>
-            <div className="col-sm-4">
-              <LoadingButton
-                buttonClass={this.state.dislikeButtonClass}
-                handleClick={this.dislikeMovie}
-              />
-            </div>
-          </div>
         </div>
       </div>
     )
   }
 }
 
-export default UserLikeQuery;
+const mapDispatchToProps = dispatch => ({
+  clearMovie: () => { dispatch(clearMovie()); }
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(UserLikeQuery);
