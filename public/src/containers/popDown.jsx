@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 class PopDown extends React.Component {
   constructor(props) {
     super(props);
@@ -8,8 +9,10 @@ class PopDown extends React.Component {
   render() {
 
     return (
-      <div className="popdown">
-        Pop Down
+      <div className="container-fluid">
+        <div className="popdown">
+          {this.props.component}
+        </div>
       </div>
     );
   }

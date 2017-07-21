@@ -50,7 +50,8 @@ class Results extends React.Component {
     // if (!this.props.isLoggedIn) return;
     axios.post('/api/user/watched', {
       userId: this.props.user.id,
-      watchedMovieId: this.state.selectedMovie.id
+      watchedMovieId: this.state.selectedMovie.id,
+      watchedMovieTitle: this.state.selectedMovie.title
     });
   }
 

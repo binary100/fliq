@@ -11,6 +11,8 @@ import LightningWrapper from './lightningWrapper.jsx';
 import MovieNight from './movieNight.jsx';
 import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
+import PopDown from './popDown.jsx';
+import MovieLikeQuery from './movieLikeQuery.jsx';
 import { loginUser, logoutUser } from '../actions/actions.js';
 
 
@@ -34,12 +36,29 @@ class App extends React.Component {
     axios.get('/logout').then(() => this.props.logoutUser());
   }
 
+  buildLikeQueryPopdown() {
+    const movieObj = {
+      id: this.props.auth.user.watchedMovieId,
+      title: this.props.auth.user.watchedMovieTitle
+    };
+    const query = <MovieLikeQuery movie={movieObj} />;
+    return query;
+  }
+
   render() {
+    let popDown = null;
+
+    if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
+      const query = this.buildLikeQueryPopdown();
+      popDown = <PopDown component={query} />;
+    }
+    
     return (
       <div>
         <Router history={browserHistory}>
           <div>
             <Header user={this.props.auth.user} handleLogout={this.handleLogout} />
+              {popDown}
               <Switch>
                 <Route exact path="/" component={Welcome} />
                 <Route path="/results" component={Results} />

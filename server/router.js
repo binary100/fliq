@@ -46,7 +46,7 @@ router.get('/checkSession', apiController.checkSession, (req, res) => {
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
     res.send({ user: req.user });
-    apiController.setUserWatchedMovieToNull(req.user);
+    // apiController.setUserWatchedMovieToNull(req.user);
   } else {
     res.send({ user: null });
   }
