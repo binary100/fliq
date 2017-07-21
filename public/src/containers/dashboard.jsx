@@ -42,6 +42,7 @@ class Dashboard extends React.Component {
     this.getUserInfo();
   }
 
+
   getUserInfo() {
     return axios.post('/api/dashboard/userInfo', {
       id: this.props.auth.user.id
@@ -132,6 +133,27 @@ class Dashboard extends React.Component {
       mostSelectedTagNames: tagNames,
       mostSelectedTagPercentages: tagSelectionPercentages
     })
+  }
+
+  chartTopTagsByUser() {
+    const tagPicksCountCutoff = 1;
+    const tagIds = [];
+    const tagPicksCounts = [];
+
+    const tagsWithPicksCountGreaterThanCutoff = this.state.userTagsInfo.filter(tagObj => {
+      if (tagObj.picksCount > tagPicksCountCutoff) {
+        tagIds.push(tagObj.tag_Id);
+        tagPicksCounts.push(tagObj.picksCount);
+      }
+    });
+
+    // console.log('tagIds:', tagIds);
+    // console.log('tagPickCounts:', tagPickCounts);
+
+    this.setState({
+      topTagIdsByUser: tagIds,
+      topTagPicksCountsByUser: tagPicksCounts
+    });
   }
 
   changeUserReViewSetting() {

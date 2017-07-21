@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import Dashboard from '../containers/dashboard.jsx';
 
 const PieChart = (props) => {
   const chartData = {
@@ -16,13 +17,14 @@ const PieChart = (props) => {
   }
 
   const chartOptions = {
-    // cutoutPercentage: 0,
+    cutoutPercentage: 0,
     // rotation: ,
     // circumference: ,
     // animation.animateRotate: true,
     // animation.animteScale: false
     maintainAspectRatio: true
   }
+
 
   return (
     <div className="col-lg-6">
