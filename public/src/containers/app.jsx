@@ -11,8 +11,7 @@ import LightningWrapper from './lightningWrapper.jsx';
 import MovieNight from './movieNight.jsx';
 import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
-import PopDown from './popDown.jsx';
-import MovieLikeQuery from './movieLikeQuery.jsx';
+import LikeMoviePopdown from './popdown/likeMoviePopdown.jsx';
 import { loginUser, logoutUser } from '../actions/actions.js';
 
 
@@ -41,16 +40,14 @@ class App extends React.Component {
       id: this.props.auth.user.watchedMovieId,
       title: this.props.auth.user.watchedMovieTitle
     };
-    const query = <MovieLikeQuery movie={movieObj} />;
-    return query;
+    return <LikeMoviePopdown movie={movieObj} />;
   }
 
   render() {
     let popDown = null;
 
     if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
-      const query = this.buildLikeQueryPopdown();
-      popDown = <PopDown component={query} />;
+      popDown = this.buildLikeQueryPopdown();
     }
     
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
-import LoadingButton from '../components/loadingButton.jsx';
+import LoadingButton from '../../components/loadingButton.jsx';
 import axios from 'axios';
-import { clearMovie } from '../actions/actions.js';
+import { clearMovie } from '../../actions/actions.js';
 import { connect } from 'react-redux';
 
 const thumbsUp = 'glyphicon glyphicon-thumbs-up';
@@ -13,23 +13,34 @@ const failed = 'glyphicon glyphicon-remove';
 const likedFromResults = '/api/results/movie/like';
 const dislikedFromResults = '/api/results/movie/dislike';
 
-class UserLikeQuery extends React.Component {
+class LikeMoviePopdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       likeButtonClass: thumbsUp,
       dislikeButtonClass: thumbsDown,
-      canLikeOrDislike: true
+      canLikeOrDislike: true,
+      animationClass: 'popdown-slideDown'
     };
     this.likeMovie = this.likeMovie.bind(this);
     this.dislikeMovie = this.dislikeMovie.bind(this);
     this.clearWatchedMovie = this.clearWatchedMovie.bind(this);
+    this.hidePopDown = this.hidePopDown.bind(this);
   }
 
   clearWatchedMovie() {
     setTimeout(() => {
-      this.props.clearMovie();
-    }, 1000);
+      this.hidePopDown();
+      setTimeout(() => {
+        this.props.clearMovie();
+      }, 1000);
+    }, 500);
+  }
+
+  hidePopDown() {
+    this.setState({
+      animationClass: 'popdown-slideUp'
+    });
   }
 
   likeMovie() {
@@ -78,14 +89,15 @@ class UserLikeQuery extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row">
-          <div className="col-sm-12 .col-centered">
-            Did you like {this.props.movie.title}?
+      <div className="container">
+        <div className={`popdown ${this.state.animationClass}`}>
+          <div className="row">
+            <div className="col-sm-12 .col-centered">
+              Did you like {this.props.movie.title}?
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="like-buttons col-sm-12 popdown-buttons">
+          <div className="row">
+            <div className="like-buttons col-sm-12 popdown-buttons">
               <div className="col-sm-6">
                 <LoadingButton
                   buttonClass={this.state.likeButtonClass}
@@ -99,9 +111,10 @@ class UserLikeQuery extends React.Component {
                 />
               </div>
             </div>
+          </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -112,4 +125,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(UserLikeQuery);
+)(LikeMoviePopdown);
