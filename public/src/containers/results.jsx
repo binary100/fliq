@@ -13,6 +13,7 @@ class Results extends React.Component {
     };
     this.getUserMovies();
     this.selectSmallTile = this.selectSmallTile.bind(this);
+    this.handleSeeMovieClick = this.handleSeeMovieClick.bind(this);
   }
 
   getUserMovies() {
@@ -45,11 +46,16 @@ class Results extends React.Component {
       });
   }
 
+  handleSeeMovieClick() {
+
+  }
+
   render() {
     return (
       <div className="fadeIn">
         <div>
           <ResultsBody
+            handleSeeMovieClick={this.handleSeeMovieClick}
             trailer={this.state.trailer}
             movie={this.state.selectedMovie}
           />
