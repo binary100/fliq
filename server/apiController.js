@@ -531,37 +531,69 @@ module.exports.postLaunchPadTags = (req, res) => {
   res.sendStatus(200);
 };
 
+
+// module.exports.getUserInfo = (req, res) => {
+//   db.users.findOne({
+//     where: {
+//       id: req.body.id
+//     }
+//   })
+//   .then((results) => {
+//     const userInfo = results.dataValues;
+//     res.send(userInfo);
+//   })
+//   .catch((error) => {
+//     console.log('Error getting user info', error);
+//     res.sendStatus(500);
+//   })
+// };
+
 module.exports.getUserInfo = (req, res) => {
+  const user_id = req.body.id;
+  const responseObj = {};
+  console.log('user_id:', user_id);
+
   db.users.findOne({
     where: {
-      id: req.body.id
+      id: user_id
     }
   })
-  .then((results) => {
-    const userInfo = results.dataValues;
-    res.send(userInfo);
+  .then(userResults => {
+    responseObj.userInfo = userResults;
+    // console.log('user responseObj:', responseObj);
+  })
+  .then(() => {
+    return db.userMovies.findAll({
+      where: {
+        user_Id: user_id
+      }
+    })
+    .then(userMoviesResults => {
+      responseObj.userMoviesInfo = userMoviesResults;
+      // console.log('userMovies responseObj:', responseObj);
+    })
+  })
+  .then(() => {
+    return db.userTags.findAll({
+      where: {
+        user_Id: user_id
+      }
+    })
+    .then(userTagsResults => {
+      responseObj.userTagsInfo = userTagsResults;
+      // console.log('userTags responseObj:', responseObj);
+    })
+  })
+  .then(() => {
+    console.log('getUserInfo responseObj:', responseObj);
+    res.send(responseObj);
   })
   .catch((error) => {
-    console.log('Error getting user info', error);
+    console.log('Error getting info', error);
     res.sendStatus(500);
   })
 };
 
-module.exports.getUserInfo = (req, res) => {
-  db.users.findOne({
-    where: {
-      id: req.body.id
-    }
-  })
-  .then((results) => {
-    const userInfo = results.dataValues;
-    res.send(userInfo);
-  })
-  .catch((error) => {
-    console.log('Error getting user info', error);
-    res.sendStatus(500);
-  })
-};
 
 module.exports.updateUserSettings = (req, res) => {
   const { id, reView } = req.body
