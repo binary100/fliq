@@ -100,6 +100,7 @@ passport.use(new GoogleStrategy({
       .catch(err => console.error('Failed to create user:', err));
     } else {
       console.log('User found and already exists');
+      user.update({ loginNumber: user.loginNumber + 1 });
       return done(null, user);
     }
   })
