@@ -30,7 +30,7 @@ class MovieNight extends React.Component {
       confirmText: '',
       confirmClass: '',
       inputText: '',
-      emails: [],
+      userList: [],
       searchResults: null,
       selectedMovie: null
     };
@@ -49,8 +49,16 @@ class MovieNight extends React.Component {
   }
 
   getResults() {
+    if (this.state.userList.length <= 1) {
+      this.setState({
+        confirmText: 'Please enter at least two e-mails.',
+        confirmClass: 'movienight-email-failure'
+      });
+      return this.clearConfirmText();
+    }
+
     axios.post('/api/movienight', {
-      emails: this.state.emails
+      emails: this.state.userList
     })
       .then((results) => {
         console.log('Received: ', results.data);
@@ -65,7 +73,7 @@ class MovieNight extends React.Component {
   loadUserEmail(user, shouldFlashDialogue) {
     const { name, email, id } = user;
     const userEmailObj = { name, email, id };
-    const isAlreadyAdded = this.state.emails.some((obj) => {
+    const isAlreadyAdded = this.state.userList.some((obj) => {
       return obj.email === userEmailObj.email;
     });
 
@@ -76,7 +84,7 @@ class MovieNight extends React.Component {
       });
     }
 
-    const newEmailsArray = this.state.emails.slice();
+    const newEmailsArray = this.state.userList.slice();
     newEmailsArray.unshift(userEmailObj);
 
     if (shouldFlashDialogue) {
@@ -112,7 +120,7 @@ class MovieNight extends React.Component {
 
   removeEmail(e) {
     const newEmailsArray =
-      this.state.emails
+      this.state.userList
         .slice()
         .filter(userObj => !e.target.innerText.includes(userObj.email));
     this.setState({
@@ -140,7 +148,7 @@ class MovieNight extends React.Component {
   }
 
   render() {
-    const emails = this.state.emails.map(emailObj =>
+    const emails = this.state.userList.map(emailObj =>
       (<div
         key={count += 1}
         onDoubleClick={this.removeEmail}
