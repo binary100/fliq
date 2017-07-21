@@ -49,8 +49,8 @@ class Results extends React.Component {
   handleSeeMovieClick() {
     // if (!this.props.isLoggedIn) return;
     axios.post('/api/user/watched', {
-      user: this.props.user,
-      movieId: this.state.selectedMovie.id
+      userId: this.props.user.id,
+      watchedMovieId: this.state.selectedMovie.id
     });
   }
 

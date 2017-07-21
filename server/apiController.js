@@ -588,7 +588,7 @@ module.exports.getUserInfo = (req, res) => {
 };
 
 module.exports.updateUserSettings = (req, res) => {
-  const { id, reView } = req.body
+  const { id, reView } = req.body;
 
   db.users.update({
     reView
@@ -609,6 +609,11 @@ module.exports.updateUserSettings = (req, res) => {
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
-  console.log('setUserWatchedMovie: ', req.body);
-  res.sendStatus(200);
+  const { userId, watchedMovieId } = req.body;
+  db.users.update({ watchedMovieId }, { where: { id: userId } })
+    .then(() => res.sendStatus(200))
+    .catch(err => res.status(500).send(err));
 };
+
+
+
