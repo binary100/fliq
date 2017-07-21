@@ -112,6 +112,7 @@ class LikeMoviePopdown extends React.Component {
               </div>
             </div>
           </div>
+          <span style={{ cursor: 'pointer' }} onClick={this.hidePopDown}>Close</span>
         </div>
       </div>
     );
