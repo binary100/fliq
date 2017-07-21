@@ -22,12 +22,14 @@ class Dashboard extends React.Component {
   }
 
   getUserInfo() {
-    return axios.post('/api/dashboard/initialUserSettings', {
+    return axios.post('/api/dashboard/userInfo', {
       id: this.props.auth.user.id
     })
-    .then((userInfo) => {
-      const userReViewSetting = userInfo.data.reView;
-      this.props.setUserReViewSetting(userReViewSetting);
+    .then(responseObj => {
+    console.log('getUserInfo responseObj:', responseObj);
+    const userReViewSetting = responseObj.data.userInfo.reView;
+    console.log(userReViewSetting);
+    // this.props.setUserReViewSetting(userReViewSetting);
     })
   }
 
