@@ -14,6 +14,7 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
               showButtons
               selectSmallTile={selectSmallTile}
               movie={movies[i]}
+              fromSearch
             />
           </span>
           <span className="col-sm-6">
@@ -21,7 +22,8 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
               key={count += 1}
               showButtons
               selectSmallTile={selectSmallTile}
-              movie={movies[i+1]}
+              movie={movies[i + 1]}
+              fromSearch
             />
           </span>
         </div>
@@ -32,7 +34,7 @@ const SearchResultsTable = ({ movies, selectSmallTile }) => {
 
   return (
     <div className="col-sm-6 search-table">
-        {movies.length ? arr : null}
+      {movies.length ? arr : null}
     </div>
   );
 };

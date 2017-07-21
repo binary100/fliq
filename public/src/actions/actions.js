@@ -13,3 +13,16 @@ export const logoutUser = () => {
     payload: { isLoggedIn: false }
   };
 };
+
+export const setUserReViewSetting = (userReViewSetting) => {
+  return {
+    type: 'SET_USER_REVIEW_SETTING',
+    payload: { userReViewSetting: userReViewSetting }
+  };
+};
+
+export const toggleUserReViewSetting = () => {
+  return {
+    type: 'TOGGLE_USER_REVIEW_SETTING'
+  };
+};

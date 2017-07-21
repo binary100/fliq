@@ -1,26 +1,32 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
+const toggleSwitchTrueClass = "input:checked + .slider";
+const toggleSwitchFalseClass = "input:"
 
-class ToggleSwitch extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div>
+const ToggleSwitch = ({ changeUserReViewSetting, reViewSetting }) => {
+  return (
+    <div>
+      {reViewSetting ?
         <label className="switch">
-          <input type="checkbox"></input>
-          <span className="slider round"></span>
-          <label className="toggle-switch-label col-lg-6">Toggle Switch</label>
+          <input
+            type="checkbox"
+            onChange={changeUserReViewSetting}
+            checked
+          />
+            <span className="slider round"></span>
+          <label className="toggle-switch-label col-lg-6">Show Watched Movies</label>
+        </label> :
+        <label className="switch">
+          <input
+            type="checkbox"
+            onChange={changeUserReViewSetting}
+          />
+            <span className="slider round"></span>
+          <label className="toggle-switch-label col-lg-6">Show Watched Movies</label>
         </label>
-      </div>
-    )
-  }
+      }
+    </div>
+  )
 }
 
-export default connect(
-  null,
-  null
-)(ToggleSwitch);
+export default ToggleSwitch;

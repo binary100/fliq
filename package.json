@@ -4,6 +4,7 @@
   "description": "A machine-learning application to provide people with profile-matched movie suggestions",
   "main": "server.js",
   "dependencies": {
+    "animejs": "^2.0.2",
     "async": "^2.5.0",
     "axios": "^0.16.2",
     "babel-core": "^6.25.0",
@@ -29,8 +30,10 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
+    "react-anime": "^0.3.4",
     "react-bootstrap": "^0.31.0",
     "react-bootstrap-typeahead": "^1.4.2",
     "react-chartjs-2": "^2.4.1",
@@ -42,25 +45,27 @@
     "sequelize": "^4.2.1",
     "style-loader": "^0.18.2",
     "supertest": "^3.0.0",
-    "uglify": "^0.1.5"
+    "uglify": "^0.1.5",
+    "webpack": "^2.7.0"
   },
   "devDependencies": {
+    "chai": "^4.0.2",
     "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.1.0",
-    "nightmare": "^2.10.0",
+    "mocha": "^3.4.2",
     "redux-devtools": "^3.4.0",
-    "webpack": "^2.7.0"
+    "nightmare": "^2.10.0"
   },
   "scripts": {
-    "test": "mocha test/",
-    "start": "node server.js",
+    "test": "",
+    "start": "webpack && node server.js",
     "startmon": "nodemon server.js",
     "webpack": "webpack -d --watch",
-    "heroku-postbuild": "webpack"
+    "tests": "mocha test/"
   },
   "repository": {
     "type": "git",

@@ -1,21 +1,56 @@
 import React from 'react';
-import LaunchPadGenres from '../components/launchPads/launchPadGenres.jsx';
-import LaunchPadActors from '../components/launchPads/launchPadActors.jsx';
+import LaunchPadTags from '../components/launchPads/launchPadTags.jsx';
 
-class LaunchPad extends React.Component {
+class LaunchPad extends React.Component{
   constructor(props) {
-    super(props)
-    console.log('launchPad props: ', props)
-  };
+    super(props);
+    this.state = {
+      step: 1,
+    };
+    this.setStep = this.setStep.bind(this);
+    console.log('LaunchPad Props: ', props)
+  }
+
+  setStep (step) {
+    this.setState({step: step})
+  }
+
   render() {
+
+    let tag = '';
+    switch (this.state.step) {
+      case 1:
+        tag = 'genre';
+        break;
+      case 2:
+        tag = 'director';
+        break;
+      case 3:
+        tag = 'actor';
+        break;
+      default:
+        tag = 'genre'
+    }
+
     return (
       <div>
-        <h1>LaunchPad</h1>
-        <LaunchPadActors tags={this.props.tags.actors} />
-        <LaunchPadGenres tags={this.props.tags.genre} />
+        <div className="container container-fluid text-center">
+          <h1>{tag}</h1>
+          <LaunchPadTags 
+            tag={tag}
+            tagArray={this.props.tags[tag]}
+            step={this.state.step}
+            setStep={this.setStep}
+            selectedTagArray={this.props.selectedTags[tag]}
+            selectedTags={this.props.selectedTags}
+            postSelectedTags={this.props.postSelectedTags}
+            isSelected={this.props.isSelected}
+            selectItem={this.props.selectItem}
+          />
+        </div>
       </div>
-    );
-  };
+    )
+  }
 };
 
 export default LaunchPad;

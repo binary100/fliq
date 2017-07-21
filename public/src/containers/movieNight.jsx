@@ -1,12 +1,27 @@
 import React from 'react';
 import axios from 'axios';
 import { Button, FormControl, FormGroup, InputGroup } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import LargeMovieTile from '../components/largeMovieTile.jsx';
 import ResultsTileBar from '../components/resultsTileBar.jsx';
 
 const subHeader = `FLIQ's recommendation engine can aggregate several people's preferences to suggest 
   movies that the group may enjoy. Enter other users' email addresses below and search for movies to watch.`;
 let count = 0;
+const sampleUsers = [
+  {
+    name: 'Henry Han',
+    email: 'henry@gmail.com'
+  },
+  {
+    name: 'JP Marra',
+    email: 'jp@jpmarra.com'
+  },
+  {
+    name: 'Matt Smith',
+    email: 'matt@gmail.com'
+  }
+];
 
 class MovieNight extends React.Component {
   constructor(props) {
@@ -15,15 +30,7 @@ class MovieNight extends React.Component {
       confirmText: '',
       confirmClass: '',
       inputText: '',
-      emails: [
-        'joe@hackreactor.com',
-        'jeff@hackreactor.com',
-        'john@hackreactor.com',
-        'rob.cornell@gmail.com',
-        'jacqueline@gmail.com',
-        'davidr@earle.com',
-        'ta3woon@gmail.com'
-        ],
+      emails: [],
       searchResults: null,
       selectedMovie: null
     };
@@ -32,6 +39,13 @@ class MovieNight extends React.Component {
     this.removeEmail = this.removeEmail.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getResults = this.getResults.bind(this);
+    this.loadUserEmail = this.loadUserEmail.bind(this);
+  }
+  
+  componentDidMount() {
+    if (this.props.user) {
+      this.loadUserEmail(this.props.user);
+    }
   }
 
   getResults() {
@@ -48,26 +62,43 @@ class MovieNight extends React.Component {
       .catch(err => console.error('Error getting results: ', err));
   }
 
+  loadUserEmail(user, shouldFlashDialogue) {
+    const { name, email, id } = user;
+    const userEmailObj = { name, email, id };
+    const isAlreadyAdded = this.state.emails.some((obj) => {
+      return obj.email === userEmailObj.email;
+    });
+
+    if (isAlreadyAdded) {
+      return this.setState({
+        confirmText: 'You already added that user! :)',
+        confirmClass: 'movienight-email-failure'
+      });
+    }
+
+    const newEmailsArray = this.state.emails.slice();
+    newEmailsArray.unshift(userEmailObj);
+
+    if (shouldFlashDialogue) {
+      this.setState({
+        emails: newEmailsArray,
+        confirmText: 'User added!',
+        confirmClass: 'movienight-email-success'
+      });
+    } else {
+      this.setState({
+        emails: newEmailsArray
+      });
+    }
+  }
+
   searchEmail() {
     axios.post('/api/user/email/verify', {
       email: this.state.inputText
     })
       .then((results) => {
         if (results.data.success) {
-          if (this.state.emails.includes(results.data.email)) {
-            this.setState({
-              confirmText: 'You already added that user! :)',
-              confirmClass: 'movienight-email-failure'
-            });
-          } else {
-            const newEmailsArray = this.state.emails.slice();
-            newEmailsArray.push(results.data.email);
-            this.setState({
-              emails: newEmailsArray,
-              confirmText: 'User added!',
-              confirmClass: 'movienight-email-success'
-            });
-          }
+          this.loadUserEmail(results.data.user, true);
         } else {
           this.setState({
             confirmText: `Whoops! We don't have any users with that email.`,
@@ -80,8 +111,10 @@ class MovieNight extends React.Component {
   }
 
   removeEmail(e) {
-    let newEmailsArray = this.state.emails.slice();
-    newEmailsArray = newEmailsArray.filter(email => email !== e.target.innerText);
+    const newEmailsArray =
+      this.state.emails
+        .slice()
+        .filter(userObj => !e.target.innerText.includes(userObj.email));
     this.setState({
       emails: newEmailsArray
     });
@@ -92,7 +125,6 @@ class MovieNight extends React.Component {
   }
 
   handleInputChange(e) {
-    console.log(e.target.value);
     this.setState({
       inputText: e.target.value
     });
@@ -108,9 +140,13 @@ class MovieNight extends React.Component {
   }
 
   render() {
-    const emails = this.state.emails.map(email =>
-      <li key={count += 1} onDoubleClick={this.removeEmail}>{email}</li>
-    );
+    const emails = this.state.emails.map(emailObj =>
+      (<div
+        key={count += 1}
+        onDoubleClick={this.removeEmail}
+      >
+        {emailObj.name} ({emailObj.email})
+      </div>));
 
     const largeTile = this.state.selectedMovie
       ? <LargeMovieTile movie={this.state.selectedMovie} />
@@ -136,7 +172,11 @@ class MovieNight extends React.Component {
                     <InputGroup.Addon>
                       Email Address
                     </InputGroup.Addon>
-                    <FormControl type="email" onChange={this.handleInputChange} />
+                    <FormControl
+                      type="email"
+                      onChange={this.handleInputChange}
+                      placeholder="Enter a user's email address"
+                    />
                     <InputGroup.Button className="email-input-button">
                       <Button onClick={this.searchEmail}>Search</Button>
                     </InputGroup.Button>
@@ -146,18 +186,11 @@ class MovieNight extends React.Component {
             </div>
             <div className="row">
               <div className="col-sm-12 email-box">
-                <ul className="email-input-list">
+                <div className="email-input-list">
                   {emails}
-                </ul>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <span className="col-sm-12 movienight-confirm-box">
-                <span className={this.state.confirmClass}>
-                  {this.state.confirmText}
-                </span>
-              </span>
-            </div>
+            </div>         
             <div className="row">
               <div >
                 <button
@@ -174,6 +207,13 @@ class MovieNight extends React.Component {
                 </button>
               </div>
             </div>
+            <div className="row">
+              <span className="movienight-confirm-box">
+                <span className={this.state.confirmClass}>
+                  {this.state.confirmText}
+                </span>
+              </span>
+            </div>
           </div>
           {largeTile}
           {tileBar}
@@ -183,4 +223,11 @@ class MovieNight extends React.Component {
   }
 }
 
-export default MovieNight;
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(MovieNight);
