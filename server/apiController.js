@@ -607,3 +607,8 @@ module.exports.updateUserSettings = (req, res) => {
     res.sendStatus(500);
   })
 };
+
+module.exports.setUserWatchedMovie = (req, res) => {
+  console.log('setUserWatchedMovie: ', req.body);
+  res.sendStatus(200);
+};

@@ -47,7 +47,11 @@ class Results extends React.Component {
   }
 
   handleSeeMovieClick() {
-
+    // if (!this.props.isLoggedIn) return;
+    axios.post('/api/user/watched', {
+      user: this.props.user,
+      movieId: this.state.selectedMovie.id
+    });
   }
 
   render() {
@@ -70,7 +74,8 @@ class Results extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn
+  isLoggedIn: state.auth.isLoggedIn,
+  user: state.auth.user
 });
 
 export default connect(

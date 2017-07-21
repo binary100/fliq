@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
     reView: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    watchedMovieId: {
+      type: DataTypes.INTEGER,
+      defaultValue: null
     }
   });
   return User;
