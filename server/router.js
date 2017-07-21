@@ -19,6 +19,7 @@ router.post('/api/results/movie/seen', apiController.setResultsMovieAsSeen);
 router.post(resultsLikeDislikeEndpoints, apiController.handleLikeOrDislikeFromResults);
 router.post('/api/movie/select', apiController.getLargeTileData);
 router.post('/api/user/email/verify', apiController.verifyUserEmail);
+router.post('/api/user/watched', apiController.setUserWatchedMovie);
 router.post('/api/movienight', apiController.getMovieNightResults);
 router.get('/api/lightning/testUserTags', apiController.findDuplicateTagIDs);
 router.get('/api/tags', apiController.getTagsforLaunchPad);
@@ -45,6 +46,7 @@ router.get('/checkSession', apiController.checkSession, (req, res) => {
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
     res.send({ user: req.user });
+    apiController.setUserWatchedMovieToNull(req.user);
   } else {
     res.send({ user: null });
   }

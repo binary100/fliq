@@ -13,6 +13,7 @@ class Results extends React.Component {
     };
     this.getUserMovies();
     this.selectSmallTile = this.selectSmallTile.bind(this);
+    this.handleSeeMovieClick = this.handleSeeMovieClick.bind(this);
   }
 
   getUserMovies() {
@@ -45,11 +46,21 @@ class Results extends React.Component {
       });
   }
 
+  handleSeeMovieClick() {
+    // if (!this.props.isLoggedIn) return;
+    axios.post('/api/user/watched', {
+      userId: this.props.user.id,
+      watchedMovieId: this.state.selectedMovie.id,
+      watchedMovieTitle: this.state.selectedMovie.title
+    });
+  }
+
   render() {
     return (
       <div className="fadeIn">
         <div>
           <ResultsBody
+            handleSeeMovieClick={this.handleSeeMovieClick}
             trailer={this.state.trailer}
             movie={this.state.selectedMovie}
           />
@@ -64,7 +75,8 @@ class Results extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn
+  isLoggedIn: state.auth.isLoggedIn,
+  user: state.auth.user
 });
 
 export default connect(
