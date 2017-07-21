@@ -36,20 +36,10 @@ class Dashboard extends React.Component {
       id: this.props.auth.user.id
     })
     .then(responseObj => {
-      // console.log('getUserInfo responseObj:', responseObj);
-
-      this.setState({
-        userInfo: responseObj.data.userInfo,
-        userMoviesInfo: responseObj.data.userMoviesInfo,
-        userTagsInfo: responseObj.data.userTagsInfo
-      })
-
-      // const userReViewSetting = responseObj.data.userInfo.reView;
-      // // console.log(userReViewSetting);
-      // this.props.setUserReViewSetting(userReViewSetting);
-    })
-    .then(() => {
-      this.chartTopTagsByUser();
+    console.log('getUserInfo responseObj:', responseObj);
+    const userReViewSetting = responseObj.data.userInfo.reView;
+    console.log(userReViewSetting);
+    // this.props.setUserReViewSetting(userReViewSetting);
     })
   }
 
