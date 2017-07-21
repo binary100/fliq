@@ -97,6 +97,10 @@ at this phase of development
   min-height: 520px;
   text-align: left;
   background: #444444;
+  position: absolute;
+  top: 75px;
+  right: 0;
+  left: 0;
 }
 
 .welcome-footer {
@@ -140,7 +144,7 @@ at this phase of development
   right: 0;
   top: 49px;
   width: 200px;
-  z-index: 1;
+  z-index: 2;
 }
 
 .popdown-buttons {
@@ -155,7 +159,7 @@ at this phase of development
 
 @keyframes mySlideDown  {
   0% {
-    top: 0px;
+    top: -200px;
   }
 
   100% {
@@ -284,7 +288,7 @@ at this phase of development
 /************* NAVBAR **************/
 
 .header {
-  z-index: 2;
+  z-index: 3;
 }
 
 .header-icon {
