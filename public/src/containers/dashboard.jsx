@@ -11,26 +11,67 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      userInfo: null,
+      userMoviesInfo: null,
+      userTagsInfo: null,
+      topTagIdsByUser: null,
+      topTagPicksCountsByUser: null
+    }
+
     this.getUserInfo = this.getUserInfo.bind(this);
     this.toggleUserReViewSetting = this.toggleUserReViewSetting.bind(this);
     this.updateUserReViewSetting = this.updateUserReViewSetting.bind(this);
     this.changeUserReViewSetting = this.changeUserReViewSetting.bind(this);
+    this.chartTopTagsByUser = this.chartTopTagsByUser.bind(this);
   }
 
   componentWillMount() {
     this.getUserInfo();
   }
 
+
   getUserInfo() {
     return axios.post('/api/dashboard/userInfo', {
       id: this.props.auth.user.id
     })
     .then(responseObj => {
-    console.log('getUserInfo responseObj:', responseObj);
-    const userReViewSetting = responseObj.data.userInfo.reView;
-    console.log(userReViewSetting);
-    // this.props.setUserReViewSetting(userReViewSetting);
+      // console.log('getUserInfo responseObj:', responseObj);
+
+      this.setState({
+        userInfo: responseObj.data.userInfo,
+        userMoviesInfo: responseObj.data.userMoviesInfo,
+        userTagsInfo: responseObj.data.userTagsInfo
+      })
+
+      // const userReViewSetting = responseObj.data.userInfo.reView;
+      // // console.log(userReViewSetting);
+      // this.props.setUserReViewSetting(userReViewSetting);
     })
+    .then(() => {
+      this.chartTopTagsByUser();
+    })
+  }
+
+  chartTopTagsByUser() {
+    const tagPicksCountCutoff = 1;
+    const tagIds = [];
+    const tagPicksCounts = [];
+
+    const tagsWithPicksCountGreaterThanCutoff = this.state.userTagsInfo.filter(tagObj => {
+      if (tagObj.picksCount > tagPicksCountCutoff) {
+        tagIds.push(tagObj.tag_Id);
+        tagPicksCounts.push(tagObj.picksCount);
+      }
+    });
+
+    // console.log('tagIds:', tagIds);
+    // console.log('tagPickCounts:', tagPickCounts);
+
+    this.setState({
+      topTagIdsByUser: tagIds,
+      topTagPicksCountsByUser: tagPicksCounts
+    });
   }
 
   changeUserReViewSetting() {
@@ -70,7 +111,10 @@ class Dashboard extends React.Component {
         </div>
         <br></br>
         <div className="row">
-          <PieChart/>
+          <PieChart
+            labels={this.state.topTagIdsByUser}
+            data={this.state.topTagPicksCountsByUser}
+          />
           <PieChart/>
         </div>
       </div>

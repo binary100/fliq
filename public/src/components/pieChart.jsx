@@ -1,38 +1,37 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import Dashboard from '../containers/dashboard.jsx';
 
-const testData = {
-  labels: [
-    'Action',
-    'Comedy',
-    'Horror'
-  ],
-  datasets: [{
-    label: 'Test Chart',
-    backgroundColor: ['#FF6384','#36A2EB','#FFCE56'],
-    borderColor: 'White',
-    borderWidth: 2,
-    // hoverBackgroundColor: [],
-    hoverBorderColor: 'White',
-    data: [300, 50, 100]
-  }]
-}
+const PieChart = (props) => {
 
-const testOptions = {
-  cutoutPercentage: 0,
-  // rotation: ,
-  // circumference: ,
-  // animation.animateRotate: true,
-  // animation.animteScale: false
-  maintainAspectRatio: true
-}
+  const chartData = {
+    labels: props.labels,
+    datasets: [{
+      label: 'Test Chart',
+      backgroundColor: ['#FF6384','#36A2EB','#FFCE56'],
+      borderColor: 'White',
+      borderWidth: 2,
+      // hoverBackgroundColor: [],
+      hoverBorderColor: 'White',
+      data: props.data
+    }]
+  }
 
-const PieChart = () => {
+  const chartOptions = {
+    cutoutPercentage: 0,
+    // rotation: ,
+    // circumference: ,
+    // animation.animateRotate: true,
+    // animation.animteScale: false
+    maintainAspectRatio: true
+  }
+
+
   return (
     <div className="col-lg-6">
       <Pie
-        data={testData}
-        options={testOptions}
+        data={chartData}
+        options={chartOptions}
       />
     </div>
   )
