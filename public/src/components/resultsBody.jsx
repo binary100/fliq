@@ -31,7 +31,7 @@ const ResultsBody = ({ movie, trailer, handleSeeMovieClick }) => {
             </div>
           </div>
           <div className="row">
-            <a >
+            <a href={hrefString}>
               {
                 movie &&
                 <button className="btn btn-primary fliq-button" onClick={handleSeeMovieClick}>
