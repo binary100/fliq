@@ -18,6 +18,7 @@ export const logoutUser = () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ||||||| merged common ancestors
 =======
 <<<<<<< HEAD
@@ -31,6 +32,10 @@ export const logoutUser = () => {
 
 =======
 >>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+=======
+
+>>>>>>> small whitespace merge conflict fix
 export const clearMovie = () => {
   return {
     type: 'CLEAR_WATCHED_MOVIE',
