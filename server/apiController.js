@@ -683,6 +683,7 @@ module.exports.postLaunchPadTags = (req, res) => {
 //     });
 
 
+<<<<<<< HEAD
 module.exports.getUserInfo = (req, res) => {
   const user_id = req.body.id;
   const responseObj = {};
@@ -734,6 +735,25 @@ module.exports.getUserInfo = (req, res) => {
     res.sendStatus(500);
   })
 };
+||||||| merged common ancestors
+<<<<<<< HEAD
+module.exports.getUserInfo = (req, res) => {
+  db.users.findOne({
+    where: {
+      id: req.body.id
+    }
+  })
+  .then((results) => {
+    const userInfo = results.dataValues;
+    res.send(userInfo);
+  })
+  .catch((error) => {
+    console.log('Error getting user info', error);
+    res.sendStatus(500);
+  })
+};
+=======
+>>>>>>> fix conflicts in apicontroller
 
 module.exports.getTableData = (req, res) => {
   const responseObj = {};
@@ -773,6 +793,7 @@ module.exports.updateUserSettings = (req, res) => {
   })
 =======
   })
+<<<<<<< HEAD
   // axios.post(selectedTagData)
   //   .then((results) => {
   //     console.log('postLaunchPadTags sent: ', results.data);
@@ -780,6 +801,15 @@ module.exports.updateUserSettings = (req, res) => {
   //   })
   //   .catch(err => console.log('Error postLaunchPadTags: ', err));
 >>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
+=======
+>>>>>>> fix conflicts in apicontroller
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
