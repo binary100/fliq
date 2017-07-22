@@ -47,7 +47,7 @@ class LaunchPadTags extends React.Component {
             { this.props.step === 3 ? 
               <Link to="/">
                 <button
-                  onClick={() => this.props.postSelectedTags(this.props.selectedTags)} 
+                  onClick={() => this.props.postSelectedTags(this.props.selectedTags, this.props.user)}
                   className="btn btn-success btn-spacing"
                 >
                   Submit
@@ -63,6 +63,7 @@ class LaunchPadTags extends React.Component {
 
             {this.props.tagArray.map(tagItem => 
               (<TagBubble
+                user={this.props.user}
                 key={bubbleCount += 1}
                 tagItem={tagItem}
                 selectedTags = {this.props.selectedTags}

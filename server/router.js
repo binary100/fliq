@@ -22,7 +22,10 @@ router.post('/api/user/email/verify', apiController.verifyUserEmail);
 router.post('/api/user/watched', apiController.setUserWatchedMovie);
 router.post('/api/movienight', apiController.getMovieNightResults);
 router.get('/api/lightning/testUserTags', apiController.findDuplicateTagIDs);
+
 router.get('/api/tags', apiController.getTagsforLaunchPad);
+// router.get('/api/selectedTags', apiController.getSubmittedLaunchPadTags);
+// router.put('/api/selectedTags', apiController.updateLaunchPadTags);
 router.post('/api/selectedTags', apiController.postLaunchPadTags);
 
 router.post('/api/dashboard/initialUserSettings', apiController.getUserInfo);
@@ -30,13 +33,23 @@ router.post('/api/dashboard/updateUserSettings', apiController.updateUserSetting
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_likes'] }));
 router.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect('http://localhost:3000/#');
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  (req, res) => {
+    if (req.user._previousDataValues.loginNumber === 0) {
+      res.redirect('/#/launchPad');
+    } else {
+      res.redirect('http://localhost:3000/#');
+      // res.redirect('/');
+    }
   });
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
   (req, res) => {
-    res.redirect('/');
+    if (req.user._previousDataValues.loginNumber === 0) {
+      res.redirect('/#/launchPad');
+    } else {
+      res.redirect('/');
+    }
   });
 
 router.get('/checkSession', apiController.checkSession, (req, res) => {
