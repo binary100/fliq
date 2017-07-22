@@ -27,7 +27,7 @@ class MovieNight extends React.Component {
     this.getResults = this.getResults.bind(this);
     this.loadUserEmail = this.loadUserEmail.bind(this);
   }
-  
+
   componentDidMount() {
     if (this.props.user) {
       this.loadUserEmail(this.props.user);
@@ -47,7 +47,6 @@ class MovieNight extends React.Component {
       emails: this.state.userList
     })
       .then((results) => {
-        console.log('Received: ', results.data);
         this.setState({
           searchResults: results.data,
           selectedMovie: results.data[0]
@@ -59,7 +58,6 @@ class MovieNight extends React.Component {
   loadUserEmail(user, shouldFlashDialogue) {
     const { name, email, id } = user;
     const userEmailObj = { name, email, id };
-    console.log('userEmailObj: ', userEmailObj);
     const isAlreadyAdded = this.state.userList.some((obj) => {
       return obj.email === userEmailObj.email;
     });
@@ -73,7 +71,6 @@ class MovieNight extends React.Component {
 
     const newEmailsArray = this.state.userList.slice();
     newEmailsArray.unshift(userEmailObj);
-    console.log('newEmailsArray: ', newEmailsArray)
     if (shouldFlashDialogue) {
       this.setState({
         userList: newEmailsArray,
@@ -185,7 +182,7 @@ class MovieNight extends React.Component {
                   {emails}
                 </div>
               </div>
-            </div>         
+            </div>
             <div className="row">
               <div >
                 <button
