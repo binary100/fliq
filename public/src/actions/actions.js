@@ -12,7 +12,6 @@ export const logoutUser = () => {
     payload: { isLoggedIn: false }
   };
 };
-<<<<<<< HEAD
 
 export const clearMovie = () => {
   return {
@@ -36,7 +35,4 @@ export const toggleUserReViewSetting = () => {
     type: 'TOGGLE_USER_REVIEW_SETTING'
   };
 };
-||||||| merged common ancestors
-=======
 
->>>>>>> feat($launchpad): add route for new users
