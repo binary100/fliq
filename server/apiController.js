@@ -574,22 +574,6 @@ module.exports.postLaunchPadTags = (req, res) => {
   res.sendStatus(200);
 };
 
-<<<<<<< HEAD
-module.exports.getUserInfo = (req, res) => {
-  db.users.findOne({
-    where: {
-      id: req.body.id
-    }
-  })
-  .then((results) => {
-    const userInfo = results.dataValues;
-    res.send(userInfo);
-  })
-  .catch((error) => {
-    console.log('Error getting user info', error);
-    res.sendStatus(500);
-  })
-};
 
 module.exports.getUserInfo = (req, res) => {
   db.users.findOne({
@@ -626,12 +610,6 @@ module.exports.updateUserSettings = (req, res) => {
     console.log('Error updating user info', error);
     res.sendStatus(500);
   })
-  // axios.post(selectedTagData)
-  //   .then((results) => {
-  //     console.log('postLaunchPadTags sent: ', results.data);
-  //     res.sendStatus(201);
-  //   })
-  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
