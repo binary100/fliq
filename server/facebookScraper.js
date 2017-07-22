@@ -21,25 +21,38 @@ const addMoviesToDb = (allMovies, user) => {
                       return newObj;
                     });
 
+    /*
+      We stopped using findOrCreate
+      when we found that omdbAPI can change genre definitions
+      seemingly at random, which leads to duplicate movie
+      instances with slightly altered genres
+    */
     movies.forEach((movie) => {
       if (movie.Title) {
-        Movie.findOrCreate({ where: {
-          title: movie.Title,
-          year: movie.Year,
-          rated: movie.Rated,
-          genre: movie.Genre,
-          plot: movie.Plot,
-          ratings: movie.Ratings,
-          poster: movie.Poster,
-          director: movie.Director,
-          writer: movie.Writer,
-          actors: movie.Actors
+        Movie.find({ where: {
+          $and: [{ title: movie.Title }, { year: movie.Year }]
         } })
-        .then(findOrCreateObj => { 
-          const movieCreatedInDb = findOrCreateObj[1];
-          console.log('findOrCreateObj is: ', findOrCreateObj);
-          apiController.handleLikeOrDislikeFromScraper(findOrCreateObj[0], user.id);
-        });
+          .then((matchedMovie) => {
+            if (!matchedMovie) {
+              return Movie.create({
+                title: movie.Title,
+                year: movie.Year,
+                rated: movie.Rated,
+                genre: movie.Genre,
+                plot: movie.Plot,
+                ratings: movie.Ratings,
+                poster: movie.Poster,
+                director: movie.Director,
+                writer: movie.Writer,
+                actors: movie.Actors
+              })
+                .then(savedMovie => ({ movie: savedMovie, isNewScrape: true }));
+            }
+            return { movie: matchedMovie, isNewScrape: false };
+          })
+          .then((movieObj) => {
+            apiController.handleLikeFromScraper(movieObj.movie, user.id);
+          });
       }
     });
 
@@ -50,11 +63,9 @@ const addMoviesToDb = (allMovies, user) => {
   }, 2000);
 };
 
-module.exports = (profile, user) => {
-  // Only scrape and like movies at first login
-  // if (user.loginNumber > 0) return;
+module.exports = profile => {
 
-  console.log('Entering scraper with user: ', user);
+  console.log('Entering scraper');
   const likedMovies = profile._json.movies.data;
 
   const omdbRequests = likedMovies.map((movie) => {

@@ -72,7 +72,9 @@ passport.use(new FacebookStrategy({
       return user;
     }
   })
-  .then(user => scrapeMovies(profile, user))
+  .then((user) => { // Only scrape at first login
+    if (user.loginNumber === 0) { scrapeMovies(profile); }
+  })
   .catch((err) => {
     console.error('Error finding user:', err);
     return done(err);

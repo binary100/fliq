@@ -276,10 +276,9 @@ module.exports.getSearchAutoComplete = (req, res) => {
     });
 };
 
-const handleLikeOrDislike = (movie, req, res) => {
-  const { isLike } = req.body;
+const handleLikeOrDislike = (movie, userId, isLike) => {
   return db.userMovies.findOrCreate({ where: {
-    user_Id: req.user.id,
+    user_Id: userId,
     movie_Id: movie.id
   } })
     .then((findOrCreateObj) => {
@@ -298,21 +297,21 @@ const handleLikeOrDislike = (movie, req, res) => {
         new Promise((resolve, reject) => {
           db.userTags.findOne({ where: {
             tag_Id: movieTag.dataValues.tag_Id,
-            user_Id: req.user.id
+            user_Id: userId
           } })
           .then((userTag) => {
             if (!userTag && isLike) {
               return db.userTags.create({
                 likesCount: 1,
                 tag_Id: movieTag.dataValues.tag_Id,
-                user_Id: req.user.id
+                user_Id: userId
               });
             }
             if (!userTag && !isLike) {
               return db.userTags.create({
                 dislikesCount: 1,
                 tag_Id: movieTag.dataValues.tag_Id,
-                user_Id: req.user.id
+                user_Id: userId
               });
             }
             if (userTag && isLike) {
@@ -327,12 +326,7 @@ const handleLikeOrDislike = (movie, req, res) => {
         })
       );
     })
-    .then(movieTagPromises => Promise.all(movieTagPromises))
-    .then(() => res.sendStatus(200))
-    .catch((err) => {
-      console.log('Error liking movie: ', err);
-      res.status(500).send(err);
-    });
+    .then(movieTagPromises => Promise.all(movieTagPromises)); 
 };
 
 const getDetailedMovieInformation = movieUrl =>
@@ -363,7 +357,13 @@ module.exports.handleLikeOrDislikeFromSearch = (req, res) => {
   console.log(req.body.movie);
   const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
   getDetailedMovieInformation(movieUrl)
-    .then(movieFromDb => handleLikeOrDislike(movieFromDb, req, res));
+    .then(movieFromDb => handleLikeOrDislike(movieFromDb, req.user.id, req.body.isLike))
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error liking search movie: ', err);
+      res.status(500).send(err);
+    });
+
 };
 
 module.exports.handleLikeOrDislikeFromResults = (req, res) => {
@@ -371,14 +371,22 @@ module.exports.handleLikeOrDislikeFromResults = (req, res) => {
   db.movies.findOne({ where: {
     id: movie.id
   } })
-  .then(matchedMovie => handleLikeOrDislike(matchedMovie, req, res));
+  .then(matchedMovie => handleLikeOrDislike(matchedMovie, req.user.id, req.body.isLike))
+  .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error liking results movie: ', err);
+      res.status(500).send(err);
+    });
 };
 
-module.exports.handleLikeOrDislikeFromScraper = (movie, userId) => {
+module.exports.handleLikeFromScraper = (movie, userId) => {
   db.movies.findOne({ where: {
     id: movie.id
-  }})
-  .then(matchedMovie => console.log('Found movie: ', matchedMovie));
+  } })
+  .then(matchedMovie => handleLikeOrDislike(matchedMovie, userId, true))
+  .catch((err) => {
+    console.log('Error liking scraped movie: ', err);
+  });
 };
 
 const setMovieFromDbAsSeen = (movieId, req, res) => {
