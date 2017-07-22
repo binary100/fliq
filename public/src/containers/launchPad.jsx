@@ -35,7 +35,14 @@ class LaunchPad extends React.Component {
       <div>
         <div className="container container-fluid text-center">
           <h1>{tag}</h1>
+<<<<<<< HEAD
           <LaunchPadTags
+||||||| merged common ancestors
+          <LaunchPadTags 
+=======
+          <LaunchPadTags 
+            user={this.props.user}
+>>>>>>> feat($launchpad $server): add api routes to update view and picks count
             tag={tag}
             tagArray={this.props.tags[tag]}
             step={this.state.step}

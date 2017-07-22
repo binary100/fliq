@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import LaunchPad from './launchPad.jsx';
 import { Redirect } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 
 // DATA OBJECTS
+<<<<<<< HEAD
 const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s', '00s'];
 const actors = ['Christian Bale', 'Al Capino', 'Clint Eastwood'];
 const directors = ['Steven Spielberg', 'Christopher Nolan'];
@@ -28,6 +30,54 @@ const selectedObj = {
 
 // MESSAGES
 
+||||||| merged common ancestors
+  const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s','00s']
+  const actors = ['Christian Bale', 'Al Capino', 'Clint Eastwood'];
+  const directors = ['Steven Spielberg', 'Christopher Nolan'];
+  const genres = ['Action', 'Advenure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western'];
+  const rated = ['G', 'PG', 'PG13', 'R', 'NC-17'];
+  const tagsObj = {
+    actor: actors,
+    director: directors,
+    genre: genres,
+    rated: rated,
+    year: decades,
+  };
+  const selectedObj = {
+    actor: [],
+    director: [],
+    genre: [],
+    rated: [],
+    year: [],
+  }
+
+
+// MESSAGES 
+
+=======
+  const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s','00s']
+  const actors = ['Christian Bale', 'Al Capino', 'Clint Eastwood'];
+  const directors = ['Steven Spielberg', 'Christopher Nolan'];
+  const genres = ['Action', 'Advenure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western'];
+  const rated = ['G', 'PG', 'PG13', 'R', 'NC-17'];
+  const tagsObj = {
+    actor: actors,
+    director: directors,
+    genre: genres,
+    rated: rated,
+    year: decades,
+  };
+  const selectedObj = {
+    actor: [],
+    director: [],
+    genre: [],
+    rated: [],
+    year: [],
+  }
+
+
+// MESSAGES 
+>>>>>>> feat($launchpad $server): add api routes to update view and picks count
 class LaunchPadWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -35,24 +85,26 @@ class LaunchPadWrapper extends React.Component {
       tagData: tagsObj,
       selectedTags: selectedObj
     };
-
+    // this.getUserInfo = this.getUserInfo.bind(this);
     this.isSelected = this.isSelected.bind(this);
     this.selectItem = this.selectItem.bind(this);
 
-    console.log('LaunchPadWrapper', props);
+    // console.log('LaunchPadWrapper', props);
   }
 
 
   componentWillMount() {
-    // this.getTagsData();
+    // this.getUserInfo();
+    this.getTagsData();
   }
 
   isSelected(tag, tagItem) {
-    return (this.state.selectedTags[tag].indexOf(tagItem) > -1) ? 'tag-bubble tag-bubble-active' : 'tag-bubble';
+     return (this.state.selectedTags[tag].indexOf(tagItem) > -1) ? 'tag-bubble tag-bubble-active' : 'tag-bubble tag-bubble-default';
   }
 
   selectItem(tagItem, tag) {
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     console.log('check index', this.state.selectedTags[tag]);
     if (this.state.selectedTags[tag].includes(tagItem)) {
@@ -64,12 +116,25 @@ class LaunchPadWrapper extends React.Component {
   console.log('check index', this.state.selectedTags[tag])
     const clickedArray = this.state.selectedTags[tag];
 
+||||||| merged common ancestors
+  console.log('check index', this.state.selectedTags[tag])
+    const clickedArray = this.state.selectedTags[tag];
 
-    if (clickedArray.indexOf(tagItem) > -1) {
-      const index = clickedArray.includes(tagItem);
-      const selectedTags = clickedArray.filter((_, i) => i !== index);
+=======
+  // console.log('check index', this.state.selectedTags[tag])
+    // const clickedArray = this.state.selectedTags[tag];
+    
+    
+    const clickedArray = Object.assign({}, this.state.selectedTags);
+    console.log('clickedArray', clickedArray)
+>>>>>>> feat($launchpad $server): add api routes to update view and picks count
+
+    if ( clickedArray[tag].indexOf(tagItem) > -1 ) {
+      const index = clickedArray[tag].indexOf(tagItem);
+      const selectTagsFilter = clickedArray[tag].filter((i) => i !== index);
       
       console.log('if', this.state.selectedTags)
+<<<<<<< HEAD
 <<<<<<< HEAD
       this.setState({ selectedTags });
 =======
@@ -89,7 +154,13 @@ class LaunchPadWrapper extends React.Component {
 =======
       this.setState({ selectedTags: selectedTags });
 >>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+      this.setState({ selectedTags: selectedTags });
+=======
+      this.setState({ selectedTags: selectTagsFilter });
+>>>>>>> feat($launchpad $server): add api routes to update view and picks count
     } else {
+<<<<<<< HEAD
       const newSelectedTagObj = Object.assign({}, this.state.selectedTags);
       newSelectedTagObj[tag].push(tagItem);
       this.setState({ selectedTags: newSelectedTagObj });
@@ -100,6 +171,15 @@ class LaunchPadWrapper extends React.Component {
       console.log('else', this.state.selectedTags);
 ||||||| merged common ancestors
       // console
+||||||| merged common ancestors
+      const newSelectedTagObj = Object.assign({}, this.state.selectedTags);
+      newSelectedTagObj[tag].push(tagItem);
+      this.setState({ selectedTags: newSelectedTagObj });
+
+=======
+      clickedArray[tag].push(tagItem);
+      this.setState({ selectedTags: clickedArray });
+>>>>>>> feat($launchpad $server): add api routes to update view and picks count
       console.log('else', this.state.selectedTags)
 =======
 ||||||| merged common ancestors
@@ -110,6 +190,12 @@ class LaunchPadWrapper extends React.Component {
 >>>>>>> feat($launchpad): add route for new users
     }
   }
+
+  // getUserInfo() {
+  //   return axios.post('/api/selectedTags/user', {
+  //     id: this.props.auth.user.id
+  //   })
+  // }
 
   getTagsData() {
     return axios.get('/api/tags')
@@ -123,20 +209,68 @@ class LaunchPadWrapper extends React.Component {
       .catch(err => console.error('Error retrieving movies: ', err));
   }
 
+<<<<<<< HEAD
   postSelectedTags(submittedTags) {
     console.log('submited posted tags', submittedTags);
     return axios.post('/api/selectedTags', submittedTags)
       .then(res => console.log('submited posted tags', submittedTags))
       .then(() => alert('We got your results! Thanks'))
       .catch(error => console.error('error posting submitted tags'));
+||||||| merged common ancestors
+  postSelectedTags(submittedTags) {
+    console.log('submited posted tags', submittedTags)
+    return axios.post('/api/selectedTags', submittedTags)
+      .then(res => console.log('submited posted tags', submittedTags))
+      .then(alert("We got your results! Thanks"))
+      .catch(error => console.error('error posting submitted tags'))
+=======
+  getSubmittedLaunchPadTags(submittedTags) {
+    return axios.get('/api/selectedData')
+      .then((results) => {
+        console.log('Tags API Call', results.data);
+        this.setState({
+          tagData: results.data
+        });
+        return results;
+      })
+      .catch(err => console.error('Error retrieving movies: ', err));
+  }
+
+  postSelectedTags(submitTags, currentUser) {
+
+    let flattenedTags = [];
+    for (let tag in submitTags) {
+      flattenedTags.push(submitTags[tag])
+    }
+    submitTags = flattenedTags.reduce((a,b) => a.concat(b));
+
+    const submitData = Object.assign({ submitTags, currentUser });
+    console.log('SUBMIT TAG', submitData)
+
+    return axios.post('/api/selectedTags', submitData)
+      .then(res => console.log('submitted posted tags', submitData))
+      .then(alert("We got your results! Thanks"))
+      .catch(error => console.error('error posting submitted tags'))
+>>>>>>> feat($launchpad $server): add api routes to update view and picks count
   }
 
   render() {
     return (
       <div>
+<<<<<<< HEAD
         <LaunchPad
           tags={this.state.tagData}
           selectedTags={this.state.selectedTags}
+||||||| merged common ancestors
+        <LaunchPad 
+          tags={this.state.tagData} 
+          selectedTags={this.state.selectedTags} 
+=======
+        <LaunchPad 
+          user={this.props.auth.user} 
+          tags={this.state.tagData} 
+          selectedTags={this.state.selectedTags} 
+>>>>>>> feat($launchpad $server): add api routes to update view and picks count
           isSelected={this.isSelected}
           selectItem={this.selectItem}
           postSelectedTags={this.postSelectedTags}
@@ -145,4 +279,19 @@ class LaunchPadWrapper extends React.Component {
   }
 }
 
-export default LaunchPadWrapper;
+// export default LaunchPadWrapper;
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  // userReViewSetting: state.userSettingsReducer.userReViewSetting
+});
+
+// const mapDispatchToProps = dispatch => ({
+//   setUserReViewSetting: (userReViewSetting) => { dispatch(setUserReViewSetting(userReViewSetting)); },
+//   toggleUserReViewSetting: () => { dispatch(toggleUserReViewSetting()); }
+// });
+
+export default connect(
+  mapStateToProps,
+  null
+)(LaunchPadWrapper);
