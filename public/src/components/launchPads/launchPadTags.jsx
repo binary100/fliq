@@ -92,8 +92,14 @@ class LaunchPadTags extends React.Component {
             { this.props.step === 3 ? 
               <Link to="/">
                 <button
+<<<<<<< HEAD
                   onClick={() => this.props.postSelectedTags(this.props.selectedTags)} 
 >>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+                  onClick={() => this.props.postSelectedTags(this.props.selectedTags)} 
+=======
+                  onClick={() => this.props.postSelectedTags(this.props.selectedTags, this.props.user)}
+>>>>>>> feat($launchpad $server): add api routes to update view and picks count
                   className="btn btn-success btn-spacing"
                 >
                   Submit

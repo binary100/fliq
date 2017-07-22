@@ -46,6 +46,11 @@ class LaunchPad extends React.Component {
           <LaunchPadTags 
 =======
           <LaunchPadTags 
+<<<<<<< HEAD
+            user={this.props.user}
+>>>>>>> feat($launchpad $server): add api routes to update view and picks count
+||||||| merged common ancestors
+=======
             user={this.props.user}
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
             tag={tag}

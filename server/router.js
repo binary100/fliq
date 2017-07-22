@@ -24,6 +24,8 @@ router.post('/api/movienight', apiController.getMovieNightResults);
 router.get('/api/lightning/testUserTags', apiController.findDuplicateTagIDs);
 
 router.get('/api/tags', apiController.getTagsforLaunchPad);
+// router.get('/api/selectedTags', apiController.getSubmittedLaunchPadTags);
+// router.put('/api/selectedTags', apiController.updateLaunchPadTags);
 router.post('/api/selectedTags', apiController.postLaunchPadTags);
 
 router.post('/api/dashboard/userInfo', apiController.getUserInfo);
