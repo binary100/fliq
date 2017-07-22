@@ -466,6 +466,9 @@ const hydrateLikesAndDislikes = (movies, userId) => {
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
+  if (movieName[movieName.length - 1] === '+') {
+    movieName = movieName.substring(0, movieName.length - 1);
+  }
   const searchUrl = omdbSearchUrl + movieName;
   console.log('Searching for movies: ', searchUrl);
   axios.post(searchUrl)
@@ -482,7 +485,7 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
       });
       return movieObjects;
     })
-    .then(movies => {
+    .then((movies) => {
       if (req.user) {
         console.log('Trying to hydrate');
         return hydrateLikesAndDislikes(movies, req.user.id);
