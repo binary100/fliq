@@ -16,10 +16,15 @@ export const logoutUser = () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ||||||| merged common ancestors
 =======
 <<<<<<< HEAD
 >>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+<<<<<<< HEAD
+=======
+>>>>>>> small whitespace merge conflict fix
 
 export const clearMovie = () => {
   return {
@@ -52,11 +57,22 @@ export const toggleUserReViewSetting = () => {
   };
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 ||||||| merged common ancestors
 =======
 ||||||| merged common ancestors
 =======
+||||||| merged common ancestors
+||||||| merged common ancestors
+=======
+=======
+>>>>>>> small whitespace merge conflict fix
 
+<<<<<<< HEAD
 >>>>>>> feat($launchpad): add route for new users
 >>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+>>>>>>> feat($launchpad): add route for new users
+=======
+>>>>>>> small whitespace merge conflict fix
