@@ -10,7 +10,6 @@ const LoadingButton = ({ handleClick, buttonClass, disabled }) => {
     >
       <span className={buttonClass} />
     </Button>
-
   );
 };
 

@@ -46,12 +46,49 @@ app.use('/', router);
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: 'http://localhost:3000/auth/facebook/callback',
+  callbackURL: process.env.FACEBOOK_OAUTH_CALLBACK_URL,
   profileFields: ['id', 'displayName', 'photos', 'emails', 'movies']
 },
 (accessToken, refreshToken, profile, done) => {
-  console.log('this is the facebook returned profile', profile);
-  console.log('this is the facebook USER_LIKES', profile._json.movies);
+  db.users.findOne({ where: { authId: profile.id } })
+  .then((user) => {
+    if (!user) {
+      console.log('Creating new user!!!!!');
+      return db.users.create({
+        name: profile.displayName,
+        picture: profile.photos[0].value,
+        email: profile.emails[0].value,
+        authId: profile.id
+      })
+      .then(newUser => {
+        done(null, newUser);
+        return newUser;
+      })
+      .catch(err => console.error('Failed to create user:', err));
+    } else {
+      console.log('User found and already exists');
+      user.update({ loginNumber: user.loginNumber + 1 });
+      done(null, user);
+      return user;
+    }
+  })
+  .then((user) => { // Only scrape at first login
+    if (user.loginNumber === 0) { scrapeMovies(profile); }
+  })
+  .catch((err) => {
+    console.error('Error finding user:', err);
+    return done(err);
+  });
+}));
+
+// Google
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_OAUTH_CALLBACK_URL,
+  profileFields: ['id', 'displayName', 'photos', 'emails']
+},
+(accessToken, refreshToken, profile, done) => {
   db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
     if (!user) {
@@ -67,39 +104,6 @@ passport.use(new FacebookStrategy({
     } else {
       console.log('User found and already exists');
       user.update({ loginNumber: user.loginNumber + 1 });
-      return done(null, user);
-    }
-  })
-  .then(() => scrapeMovies(profile))
-  .catch((err) => {
-    console.error('Error finding user:', err);
-    return done(err);
-  });
-}));
-
-// Google
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:3000/auth/google/callback',
-  profileFields: ['id', 'displayName', 'photos', 'emails']
-},
-(accessToken, refreshToken, profile, done) => {
-  console.log('this is the google returned profile', profile);
-  db.users.findOne({ where: { authId: profile.id } })
-  .then((user) => {
-    if (!user) {
-      console.log('Creating new user!!!!!');
-      db.users.create({
-        name: profile.displayName,
-        picture: profile.photos[0].value,
-        email: profile.emails[0].value,
-        authId: profile.id
-      })
-      .then(newUser => done(null, newUser))
-      .catch(err => console.error('Failed to create user:', err));
-    } else {
-      console.log('User found and already exists');
       return done(null, user);
     }
   })

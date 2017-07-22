@@ -276,10 +276,9 @@ module.exports.getSearchAutoComplete = (req, res) => {
     });
 };
 
-const handleLikeOrDislike = (movie, req, res) => {
-  const { isLike } = req.body;
-  return db.userMovies.findOrCreate({ where: {
-    user_Id: req.user.id,
+const handleLikeOrDislike = (movie, userId, isLike) =>
+  db.userMovies.findOrCreate({ where: {
+    user_Id: userId,
     movie_Id: movie.id
   } })
     .then((findOrCreateObj) => {
@@ -288,31 +287,31 @@ const handleLikeOrDislike = (movie, req, res) => {
       return userMovie.update({ liked: likedValue, seen: true })
         .then(() => userMovie);
     })
-    .then(() => {
-      return db.movieTags.findAll({ where: {
+    .then(() =>
+      db.movieTags.findAll({ where: {
         movie_Id: movie.id
-      } });
-    })
-    .then((movieTags) => {
-      return movieTags.map(movieTag =>
+      } })
+    )
+    .then(movieTags =>
+      movieTags.map(movieTag =>
         new Promise((resolve, reject) => {
           db.userTags.findOne({ where: {
             tag_Id: movieTag.dataValues.tag_Id,
-            user_Id: req.user.id
+            user_Id: userId
           } })
           .then((userTag) => {
             if (!userTag && isLike) {
               return db.userTags.create({
                 likesCount: 1,
                 tag_Id: movieTag.dataValues.tag_Id,
-                user_Id: req.user.id
+                user_Id: userId
               });
             }
             if (!userTag && !isLike) {
               return db.userTags.create({
                 dislikesCount: 1,
                 tag_Id: movieTag.dataValues.tag_Id,
-                user_Id: req.user.id
+                user_Id: userId
               });
             }
             if (userTag && isLike) {
@@ -325,15 +324,9 @@ const handleLikeOrDislike = (movie, req, res) => {
           .then(results => resolve(results))
           .catch(error => reject(error));
         })
-      );
-    })
-    .then(movieTagPromises => Promise.all(movieTagPromises))
-    .then(() => res.sendStatus(200))
-    .catch((err) => {
-      console.log('Error liking movie: ', err);
-      res.status(500).send(err);
-    });
-};
+      )
+    )
+    .then(movieTagPromises => Promise.all(movieTagPromises));
 
 const getDetailedMovieInformation = movieUrl =>
   axios.post(movieUrl)
@@ -363,7 +356,13 @@ module.exports.handleLikeOrDislikeFromSearch = (req, res) => {
   console.log(req.body.movie);
   const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
   getDetailedMovieInformation(movieUrl)
-    .then(movieFromDb => handleLikeOrDislike(movieFromDb, req, res));
+    .then(movieFromDb => handleLikeOrDislike(movieFromDb, req.user.id, req.body.isLike))
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error liking search movie: ', err);
+      res.status(500).send(err);
+    });
+
 };
 
 module.exports.handleLikeOrDislikeFromResults = (req, res) => {
@@ -371,7 +370,22 @@ module.exports.handleLikeOrDislikeFromResults = (req, res) => {
   db.movies.findOne({ where: {
     id: movie.id
   } })
-  .then(matchedMovie => handleLikeOrDislike(matchedMovie, req, res));
+  .then(matchedMovie => handleLikeOrDislike(matchedMovie, req.user.id, req.body.isLike))
+  .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error liking results movie: ', err);
+      res.status(500).send(err);
+    });
+};
+
+module.exports.handleLikeFromScraper = (movie, userId) => {
+  db.movies.findOne({ where: {
+    id: movie.id
+  } })
+  .then(matchedMovie => handleLikeOrDislike(matchedMovie, userId, true))
+  .catch((err) => {
+    console.log('Error liking scraped movie: ', err);
+  });
 };
 
 const setMovieFromDbAsSeen = (movieId, req, res) => {
@@ -437,6 +451,7 @@ const hydrateLikesAndDislikes = (movies, userId) => {
     include: [{ model: db.movies, as: 'movie' }]
   })
     .then((userMovieRefs) => {
+      console.log('Found userMovieRefs', userMovieRefs);
       return movies.map((movie) => {
         const match = userMovieRefs.find(ref => ref.movie.title === movie.title);
         if (match) {
@@ -451,10 +466,14 @@ const hydrateLikesAndDislikes = (movies, userId) => {
 module.exports.handleMovieSearchOMDB = (req, res) => {
   let { movieName } = req.body;
   movieName = movieName.replace(regex, '+');
+  if (movieName[movieName.length - 1] === '+') {
+    movieName = movieName.substring(0, movieName.length - 1);
+  }
   const searchUrl = omdbSearchUrl + movieName;
   console.log('Searching for movies: ', searchUrl);
   axios.post(searchUrl)
     .then((results) => {
+      console.log('Received results: ', results.data);
       const movieObjects = results.data.Search.map((movie) => {
         return {
           title: movie.Title,
@@ -466,8 +485,9 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
       });
       return movieObjects;
     })
-    .then(movies => {
+    .then((movies) => {
       if (req.user) {
+        console.log('Trying to hydrate');
         return hydrateLikesAndDislikes(movies, req.user.id);
       }
       return movies;

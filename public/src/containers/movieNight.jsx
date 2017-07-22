@@ -8,20 +8,6 @@ import ResultsTileBar from '../components/resultsTileBar.jsx';
 const subHeader = `FLIQ's recommendation engine can aggregate several people's preferences to suggest 
   movies that the group may enjoy. Enter other users' email addresses below and search for movies to watch.`;
 let count = 0;
-const sampleUsers = [
-  {
-    name: 'Henry Han',
-    email: 'henry@gmail.com'
-  },
-  {
-    name: 'JP Marra',
-    email: 'jp@jpmarra.com'
-  },
-  {
-    name: 'Matt Smith',
-    email: 'matt@gmail.com'
-  }
-];
 
 class MovieNight extends React.Component {
   constructor(props) {
@@ -41,7 +27,7 @@ class MovieNight extends React.Component {
     this.getResults = this.getResults.bind(this);
     this.loadUserEmail = this.loadUserEmail.bind(this);
   }
-  
+
   componentDidMount() {
     if (this.props.user) {
       this.loadUserEmail(this.props.user);
@@ -61,7 +47,6 @@ class MovieNight extends React.Component {
       emails: this.state.userList
     })
       .then((results) => {
-        console.log('Received: ', results.data);
         this.setState({
           searchResults: results.data,
           selectedMovie: results.data[0]
@@ -86,16 +71,15 @@ class MovieNight extends React.Component {
 
     const newEmailsArray = this.state.userList.slice();
     newEmailsArray.unshift(userEmailObj);
-
     if (shouldFlashDialogue) {
       this.setState({
-        emails: newEmailsArray,
+        userList: newEmailsArray,
         confirmText: 'User added!',
         confirmClass: 'movienight-email-success'
       });
     } else {
       this.setState({
-        emails: newEmailsArray
+        userList: newEmailsArray
       });
     }
   }
@@ -198,7 +182,7 @@ class MovieNight extends React.Component {
                   {emails}
                 </div>
               </div>
-            </div>         
+            </div>
             <div className="row">
               <div >
                 <button
