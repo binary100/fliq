@@ -50,27 +50,29 @@ passport.use(new FacebookStrategy({
   profileFields: ['id', 'displayName', 'photos', 'emails', 'movies']
 },
 (accessToken, refreshToken, profile, done) => {
-  console.log('this is the facebook returned profile', profile);
-  console.log('this is the facebook USER_LIKES', profile._json.movies);
   db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
     if (!user) {
       console.log('Creating new user!!!!!');
-      db.users.create({
+      return db.users.create({
         name: profile.displayName,
         picture: profile.photos[0].value,
         email: profile.emails[0].value,
         authId: profile.id
       })
-      .then(newUser => done(null, newUser))
+      .then(newUser => {
+        done(null, newUser);
+        return newUser;
+      })
       .catch(err => console.error('Failed to create user:', err));
     } else {
       console.log('User found and already exists');
       user.update({ loginNumber: user.loginNumber + 1 });
-      return done(null, user);
+      done(null, user);
+      return user;
     }
   })
-  .then(() => scrapeMovies(profile))
+  .then(user => scrapeMovies(profile, user))
   .catch((err) => {
     console.error('Error finding user:', err);
     return done(err);
@@ -85,7 +87,6 @@ passport.use(new GoogleStrategy({
   profileFields: ['id', 'displayName', 'photos', 'emails']
 },
 (accessToken, refreshToken, profile, done) => {
-  console.log('this is the google returned profile', profile);
   db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
     if (!user) {

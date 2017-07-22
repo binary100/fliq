@@ -1,5 +1,6 @@
 const db = require('../database/dbsetup.js');
 const axios = require('axios');
+const apiController = require('./apiController.js');
 
 const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
 const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
@@ -7,7 +8,7 @@ const regex = /[^a-zA-Z0-9]+/g;
 const Movie = db.movies;
 
 
-const addMoviesToDb = (allMovies) => {
+const addMoviesToDb = (allMovies, user) => {
   let index = 0;
   const numberToInsert = 20;
   const intervalId = setInterval(() => {
@@ -33,8 +34,12 @@ const addMoviesToDb = (allMovies) => {
           director: movie.Director,
           writer: movie.Writer,
           actors: movie.Actors
-        } });
-        // .then(apiController.likeMovie(movie));
+        } })
+        .then(findOrCreateObj => { 
+          const movieCreatedInDb = findOrCreateObj[1];
+          console.log('findOrCreateObj is: ', findOrCreateObj);
+          apiController.handleLikeOrDislikeFromScraper(findOrCreateObj[0], user.id);
+        });
       }
     });
 
@@ -45,8 +50,11 @@ const addMoviesToDb = (allMovies) => {
   }, 2000);
 };
 
-// UPDATE THE USER LOGIN NUMBER
-module.exports = (profile) => {
+module.exports = (profile, user) => {
+  // Only scrape and like movies at first login
+  // if (user.loginNumber > 0) return;
+
+  console.log('Entering scraper with user: ', user);
   const likedMovies = profile._json.movies.data;
 
   const omdbRequests = likedMovies.map((movie) => {
@@ -80,6 +88,6 @@ module.exports = (profile) => {
       });
     }))
     .then(omdbPromises => Promise.all(omdbPromises))
-    .then(hydratedMovies => addMoviesToDb(hydratedMovies))
+    .then(hydratedMovies => addMoviesToDb(hydratedMovies, user))
     .catch(err => console.log('Error getting fullDataResults: ', err));
 };

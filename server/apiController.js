@@ -374,6 +374,13 @@ module.exports.handleLikeOrDislikeFromResults = (req, res) => {
   .then(matchedMovie => handleLikeOrDislike(matchedMovie, req, res));
 };
 
+module.exports.handleLikeOrDislikeFromScraper = (movie, userId) => {
+  db.movies.findOne({ where: {
+    id: movie.id
+  }})
+  .then(matchedMovie => console.log('Found movie: ', matchedMovie));
+};
+
 const setMovieFromDbAsSeen = (movieId, req, res) => {
   return db.userMovies.findOrCreate({ where: {
     user_Id: req.user.id,
