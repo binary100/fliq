@@ -154,7 +154,11 @@ class SmallMovieTile extends React.Component {
         >
           <img
             className={this.props.isResults ? resultsPosterImgClass : searchPosterImgClass}
-            src={this.props.movie.poster}
+            src={
+              this.props.movie.poster === 'N/A'
+              ? '../assets/img/no-poster.png'
+              : this.props.movie.poster
+            }
             alt="Poster"
           />
         </div>
