@@ -574,6 +574,7 @@ module.exports.postLaunchPadTags = (req, res) => {
   res.sendStatus(200);
 };
 
+<<<<<<< HEAD
 module.exports.getUserInfo = (req, res) => {
   db.users.findOne({
     where: {
@@ -643,4 +644,19 @@ module.exports.setUserWatchedMovie = (req, res) => {
 
 module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
+
+  axios.post(selectedTagData)
+    .then((results) => {
+      console.log('postLaunchPadTags sent: ', results.data);
+      res.sendStatus(201);
+    })
+    .catch(err => console.log('Error postLaunchPadTags: ', err));
+
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
+
 };
