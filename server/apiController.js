@@ -37,7 +37,6 @@ module.exports.checkSession = (req, res, next) => {
   }
 };
 
-
 module.exports.getTwoMovies = (req, res) => {
   // At first, randomly select two movies from DB
   let firstMovieId = null;
@@ -543,18 +542,16 @@ module.exports.getTagsforLaunchPad = (req, res) => {
   // const { data } = req.body;
   db.tags
     .findAll({
-      order: [
-        Sequelize.fn('RAND')
-      ],
-      limit: 20
+      limit: 100
     })
     .then(results => {
       const tags = results.reduce((acc, val) => {
         if (!acc[val.tagType]) {
           acc[val.tagType] = [];
         }
-
-        acc[val.tagType].push(val.tagName);
+        if (acc[val.tagType].length < 20) {
+          acc[val.tagType].push([val.id, val.tagName]);
+        }
         return acc;
       }, {});
 
@@ -567,13 +564,63 @@ module.exports.getLaunchPadTags = (req, res) => {
   // axios.get(/api/);
 }
 
+const buildOrIncrementUserTags = (userId, tagId) => {
+  return db.userTags
+    .findAll(
+    {
+      limit: 2,
+      where: { tag_Id: tagId }
+    })
+    .then((userTags) => {
+      console.log('WHAT IS THIS:', userTags);
+      return userTags.map((userTag) => {
+        return new Promise((resolve, reject) => {
+        // const picksIncrement = currentMovie.selected ? 1 : 0;
+          if (userTag === null) {
+            return db.userTags.create({
+              viewsCount: 1,
+              picksCount: 1,
+              tag_Id: tagId,
+              user_Id: userId
+            });
+          }
+          return userTag
+            .increment('viewsCount', { by: 1 })
+            .then(() => {
+              userTag.increment('picksCount', { by: 1 });
+            })
+            .then(() => {
+              console.log('done');
+              resolve();
+            })
+            .catch((err) => {
+              console.log('Error in userTag if/else promise:', err);
+              reject();
+            });
+        }); // end of new promise
+      }); // end of userTags.MAP (then)
+    }); // end of userTags
+};
+
+
 module.exports.postLaunchPadTags = (req, res) => {
   console.log('postLaunchPadTags sent req.body as: ', req.body);
-  const { selectedTagData } = req.body;
 
-  console.log('Completed postLaunchPagTags placeholder logic');
-  res.sendStatus(200);
+  // const { selectedTagData } = req.body;
+  // console.log('Completed postLaunchPagTags placeholder logic');
+
+  const selectedTags = req.body.submitTags;
+  const currentUser = req.body.currentUser;
+
+  selectedTags
+    .forEach((id, tag) => {
+      buildOrIncrementUserTags(currentUser.id, tag);
+    })
+    .then(() => res.sendStatus(201))
+    .catch(error => res.status(500).send(error));
+
 };
+
 
 module.exports.getUserInfo = (req, res) => {
   db.users.findOne({
@@ -590,6 +637,69 @@ module.exports.getUserInfo = (req, res) => {
     res.sendStatus(500);
   })
 };
+
+
+// const buildOrIncrementUserTags = (submittedTags, userId) => {
+//   return db.userTags.findAll({ where: { user_Id: userId } })
+//     .then((userTags) => {
+//       console.log('WHATS THIS USER TAG++++++++++++++++++++++++++++++++++++++++++++++++++++++', userTags)
+//       return userTags.dataValues.map((userTag) => {
+//         console.log('WHATS THIS USER TAG++++++++++++++++++++++++++++++++++++++++++++++++++++++', userTag)
+//               // const picksIncrement = submittedTags.selected ? 1 : 0;
+//         if (userTag === null) {
+//           return db.userTags.create({
+//             viewsCount: 1,
+//             picksCount: 1,
+//             tag_Id: submittedTags,
+//             user_Id: userId
+//           });
+//         }
+//         return userTag.increment('viewsCount', { by: 1 })
+//           .then(() => {
+//               return userTag.increment('picksCount', { by: 1 });
+//           })
+//       })
+//       .then(() => resolve())
+//       .catch((err) => console.log('Error in userTag if/else promise: ', err) });
+//     })
+//     .then(UserTagPromises => Promise.all(UserTagPromises))
+//     .catch(error => console.log('Error in buildOrIncrementUserTags, ', error));
+// };
+
+
+////////////////////////////////////////////////////
+
+// return db.userTags.find({ where: {
+//   tag_Id: movieTag.dataValues.tag_Id,
+//   user_Id: userId
+// } })
+// .then((userTag) => {
+//   const picksIncrement = currentMovie.selected ? 1 : 0;
+//   if (userTag === null) {
+//     return db.userTags.create({
+//       viewsCount: 1,
+//       picksCount: picksIncrement,
+//       tag_Id: movieTag.dataValues.tag_Id,
+//       user_Id: userId
+//     });
+
+
+module.exports.getUserInfo = (req, res) => {
+  db.users.findOne({
+    where: {
+      id: req.body.id
+    }
+  })
+  .then((results) => {
+    const userInfo = results.dataValues;
+    res.send(userInfo);
+  })
+  .catch((error) => {
+    console.log('Error getting user info', error);
+    res.sendStatus(500);
+  })
+};
+
 
 module.exports.getUserInfo = (req, res) => {
   db.users.findOne({
@@ -626,6 +736,12 @@ module.exports.updateUserSettings = (req, res) => {
     console.log('Error updating user info', error);
     res.sendStatus(500);
   })
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
@@ -638,4 +754,19 @@ module.exports.setUserWatchedMovie = (req, res) => {
 
 module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
+
+  axios.post(selectedTagData)
+    .then((results) => {
+      console.log('postLaunchPadTags sent: ', results.data);
+      res.sendStatus(201);
+    })
+    .catch(err => console.log('Error postLaunchPadTags: ', err));
+
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
+
 };

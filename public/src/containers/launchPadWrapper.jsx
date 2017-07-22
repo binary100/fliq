@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import LaunchPad from './launchPad.jsx';
 import { Redirect } from 'react-router-dom';
@@ -27,49 +28,58 @@ import { Modal } from 'react-bootstrap';
 
 
 // MESSAGES 
-
 class LaunchPadWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tagData: tagsObj,
-      selectedTags: selectedObj,
+      selectedTags: selectedObj
     };
-
+    // this.getUserInfo = this.getUserInfo.bind(this);
     this.isSelected = this.isSelected.bind(this);
     this.selectItem = this.selectItem.bind(this);
 
-    console.log('LaunchPadWrapper', props);
+    // console.log('LaunchPadWrapper', props);
   }
 
 
 
   componentWillMount() {
+    // this.getUserInfo();
     this.getTagsData();
   }
 
   isSelected(tag, tagItem) {
-    return (this.state.selectedTags[tag].indexOf(tagItem) > -1) ? 'tag-bubble tag-bubble-active' : 'tag-bubble';
+     return (this.state.selectedTags[tag].indexOf(tagItem) > -1) ? 'tag-bubble tag-bubble-active' : 'tag-bubble tag-bubble-default';
   }
  
   selectItem(tagItem, tag) {
 
-  console.log('check index', this.state.selectedTags[tag])
-    if (this.state.selectedTags[tag].includes(tagItem) ) {
-      // const index = this.state.selectedTags[tag].includes(tagItem);
-      // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);
+  // console.log('check index', this.state.selectedTags[tag])
+    // const clickedArray = this.state.selectedTags[tag];
+    
+    
+    const clickedArray = Object.assign({}, this.state.selectedTags);
+    console.log('clickedArray', clickedArray)
+
+    if ( clickedArray[tag].indexOf(tagItem) > -1 ) {
+      const index = clickedArray[tag].indexOf(tagItem);
+      const selectTagsFilter = clickedArray[tag].filter((i) => i !== index);
       
       console.log('if', this.state.selectedTags)
-      this.setState({ selectedTags });
+      this.setState({ selectedTags: selectTagsFilter });
     } else {
-      const newSelectedTagObj = Object.assign({}, this.state.selectedTags);
-      newSelectedTagObj[tag].push(tagItem);
-      this.setState({ selectedTags: newSelectedTagObj });
-
-      // console
+      clickedArray[tag].push(tagItem);
+      this.setState({ selectedTags: clickedArray });
       console.log('else', this.state.selectedTags)
     }
   }
+
+  // getUserInfo() {
+  //   return axios.post('/api/selectedTags/user', {
+  //     id: this.props.auth.user.id
+  //   })
+  // }
 
   getTagsData() {
     return axios.get('/api/tags')
@@ -83,10 +93,31 @@ class LaunchPadWrapper extends React.Component {
       .catch(err => console.error('Error retrieving movies: ', err));
   }
 
-  postSelectedTags(submittedTags) {
-    console.log('submited posted tags', submittedTags)
-    return axios.post('/api/selectedTags', submittedTags)
-      .then(res => console.log('submited posted tags', submittedTags))
+  getSubmittedLaunchPadTags(submittedTags) {
+    return axios.get('/api/selectedData')
+      .then((results) => {
+        console.log('Tags API Call', results.data);
+        this.setState({
+          tagData: results.data
+        });
+        return results;
+      })
+      .catch(err => console.error('Error retrieving movies: ', err));
+  }
+
+  postSelectedTags(submitTags, currentUser) {
+
+    let flattenedTags = [];
+    for (let tag in submitTags) {
+      flattenedTags.push(submitTags[tag])
+    }
+    submitTags = flattenedTags.reduce((a,b) => a.concat(b));
+
+    const submitData = Object.assign({ submitTags, currentUser });
+    console.log('SUBMIT TAG', submitData)
+
+    return axios.post('/api/selectedTags', submitData)
+      .then(res => console.log('submitted posted tags', submitData))
       .then(alert("We got your results! Thanks"))
       .catch(error => console.error('error posting submitted tags'))
   }
@@ -95,6 +126,7 @@ class LaunchPadWrapper extends React.Component {
     return (
       <div>
         <LaunchPad 
+          user={this.props.auth.user} 
           tags={this.state.tagData} 
           selectedTags={this.state.selectedTags} 
           isSelected={this.isSelected}
@@ -105,4 +137,19 @@ class LaunchPadWrapper extends React.Component {
   };
 }
 
-export default LaunchPadWrapper;
+// export default LaunchPadWrapper;
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  // userReViewSetting: state.userSettingsReducer.userReViewSetting
+});
+
+// const mapDispatchToProps = dispatch => ({
+//   setUserReViewSetting: (userReViewSetting) => { dispatch(setUserReViewSetting(userReViewSetting)); },
+//   toggleUserReViewSetting: () => { dispatch(toggleUserReViewSetting()); }
+// });
+
+export default connect(
+  mapStateToProps,
+  null
+)(LaunchPadWrapper);
