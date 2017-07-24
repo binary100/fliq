@@ -584,7 +584,7 @@ module.exports.getUserInfo = (req, res) => {
       id: user_id
     }
   })
-  .then(userResults => {
+  .then((userResults) => {
     responseObj.userInfo = userResults;
   })
   .then(() => {
@@ -594,7 +594,7 @@ module.exports.getUserInfo = (req, res) => {
       },
       include: [{ model: db.movies, as: 'movie' }]
     })
-    .then(userMoviesResults => {
+    .then((userMoviesResults) => {
       responseObj.userMoviesInfo = userMoviesResults;
     })
   })
@@ -605,9 +605,19 @@ module.exports.getUserInfo = (req, res) => {
       },
       include: [{ model: db.tags, as: 'tag' }]
     })
-    .then(userTagsResults => {
+    .then((userTagsResults) => {
       responseObj.userTagsInfo = userTagsResults;
-    })
+      const shapedResults = userTagsResults.map(tag => ({
+        name: tag.tag.tagName,
+        type: tag.tag.tagType,
+        dislikesCount: tag.dislikesCount,
+        likesCount: tag.likesCount,
+        picksCount: tag.picksCount,
+        viewsCount: tag.viewsCount,
+        id: tag.id
+      }));
+      responseObj.shapedTagInfo = shapedResults;
+    });
   })
   .then(() => {
     res.send(responseObj);
@@ -615,7 +625,7 @@ module.exports.getUserInfo = (req, res) => {
   .catch((error) => {
     console.log('Error getting info', error);
     res.sendStatus(500);
-  })
+  });
 };
 
 module.exports.getTableData = (req, res) => {
@@ -630,7 +640,7 @@ module.exports.getTableData = (req, res) => {
   })
   .catch((error) => {
     res.sendStatus(500);
-  })
+  });
 };
 
 

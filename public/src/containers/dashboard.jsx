@@ -31,6 +31,10 @@ class Dashboard extends React.Component {
       mostSelectedTagPercentages: null,
 
       // chart data for most liked actors
+      shapedTagInfo: null,
+      topActors: null,
+      topDirectors: null,
+      topGenres: null
 
     };
 
@@ -52,12 +56,14 @@ class Dashboard extends React.Component {
       id: this.props.auth.user.id
     })
     .then((responseObj) => {
-      console.log('userInfo: ', responseObj.data);
+      console.log('shaped Info: ', responseObj.data.shapedTagInfo);
       this.setState({
         userInfo: responseObj.data.userInfo,
         userMoviesInfo: responseObj.data.userMoviesInfo,
-        userTagsInfo: responseObj.data.userTagsInfo
+        userTagsInfo: responseObj.data.userTagsInfo,
+        shapedTagInfo: responseObj.data.shapedTagInfo
       });
+      console.log('shapedInfo is: ', responseObj.data);
 
       // Toggle switch for user reViewSetting
       const userReViewSetting = responseObj.data.userInfo.reView;
@@ -81,7 +87,8 @@ class Dashboard extends React.Component {
     })
     .then(() => {
       this.chartTopTagsBySelectionPercentage();
-    });
+    })
+    .then(() => this.chartTopActorsByLikes());
   }
 
   chartTopTagsByUser() {
@@ -141,7 +148,25 @@ class Dashboard extends React.Component {
   }
 
   chartTopActorsByLikes() {
-   
+    const sortedByType = this.state.shapedTagInfo.reduce((acc, tag) => {
+      if (!acc[tag.type]) {
+        acc[tag.type] = [];
+      }
+      acc[tag.type].push({ likesCount: tag.likesCount, name: tag.name });
+      return acc;
+    }, {});
+    const topGenres = sortedByType.genre
+      .sort((a, b) => b.likesCount - a.likesCount)
+      .slice(0, 10);
+    const topActors = sortedByType.actor
+      .sort((a, b) => b.likesCount - a.likesCount)
+      .slice(0, 10);
+    const topDirectors = sortedByType.director
+      .sort((a, b) => b.likesCount - a.likesCount)
+      .slice(0, 10);
+    console.log('topActors: ', topActors);
+    console.log('topGenres: ', topGenres);
+    this.setState({ topGenres, topActors, topDirectors });
   }
 
   changeUserReViewSetting() {
@@ -160,7 +185,6 @@ class Dashboard extends React.Component {
 
 
   render() {
-    console.log('In Dashboard render, props is: ', this.props);
     return (
       <div className="container-fluid">
         <div className="row">
@@ -168,7 +192,7 @@ class Dashboard extends React.Component {
             <DashboardUserProfile
               user={this.props.auth.user}
             />
-            <br></br>
+            <br />
             <ToggleSwitch
               changeUserReViewSetting={this.changeUserReViewSetting}
               reViewSetting={this.props.userReViewSetting}
@@ -177,19 +201,38 @@ class Dashboard extends React.Component {
         </div>
         <br />
         <div className="row">
-          {this.state.topTagsByName && <PieChart
-            labels={this.state.topTagsByName}
-            data={this.state.topTagPicksCountsByUser}
-          />}
-          {this.state.mostSelectedTagNames && <BarChart
-            labels={this.state.mostSelectedTagNames}
-            data={this.state.mostSelectedTagPercentages}
-          />}
+          { this.state.topTagsByName &&
+            this.state.mostSelectedTagNames &&
+            this.state.topActors ?
+            <div>
+              <PieChart
+                labels={this.state.topTagsByName}
+                data={this.state.topTagPicksCountsByUser}
+              />
+              <BarChart
+                title="Most Selected Tags (%)"
+                labels={this.state.mostSelectedTagNames}
+                data={this.state.mostSelectedTagPercentages}
+              />   
+            </div>
+            : <h1 className="col-sm-10">Loading your profile data...</h1>
+          } 
         </div>
       </div>
     );
   }
 }
+
+/*
+
+  chart to use later
+
+  <BarChart
+    title="Top 10 Actors"
+    labels={this.state.topActors.map(a => a.name)}
+    data={this.state.topActors.map(a => a.likesCount)}
+  />
+*/
 
 const mapStateToProps = state => ({
   auth: state.auth,
