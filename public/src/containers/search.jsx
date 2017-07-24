@@ -16,10 +16,11 @@ class Search extends React.Component {
       inputText: '',
       allowNew: false,
       multiple: false,
-      options: [],
       searchString: 'star wars',
       searchResults: [],
-      selectedMovie: null
+      selectedMovie: null,
+      isSearching: false,
+      noResults: false
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleInputKeyPress = this.handleInputKeyPress.bind(this);
@@ -38,24 +39,25 @@ class Search extends React.Component {
   handleSearch() {
     this.setState({
       searchResults: [],
-      selectedMovie: null
+      selectedMovie: null,
+      isSearching: true,
+      noResults: false
     });
     axios.post('/api/search', {
       movieName: this.state.searchString
     })
-      .then(results => {
-        console.log('Received: ', results.data);
-        const autoCompleteStrings =
-          results.data.map(movie =>
-            `${movie.title} (${movie.year})`
-          );
+      .then((results) => {
         this.setState({
           searchResults: results.data,
-          options: autoCompleteStrings
+          isSearching: false,
+          noResults: false
         });
         this.selectSmallTile(null, null, results.data[0]);
       })
-      .catch(err => console.error('Error with search:', err));
+      .catch(err => {
+        console.error('Error with search:', err);
+        this.setState({ noResults: true });
+      });
   }
 
   handleInputChange(e) {
@@ -85,32 +87,9 @@ class Search extends React.Component {
       ? <LargeMovieTile movie={this.state.selectedMovie} />
       : null;
 
-    return (
-      <div ref={(el) => { this.mainTile = el; }} className="container fadeIn">
-        <div>
-          <h3>
-          </h3>
-          <h4>{subHeader}</h4>
-        </div>
-        <div>
-          <FormGroup>
-            <InputGroup>
-              <InputGroup.Addon>
-                Movie name
-              </InputGroup.Addon>
-              <FormControl
-                type="text"
-                placeholder={`A movie you love, e.g. "star wars"`}
-                onChange={this.handleInputChange}
-                onKeyPress={e => this.handleInputKeyPress(e)}
-              />
-              <InputGroup.Button>
-                <Button onClick={this.handleSearch}>Search!</Button>
-              </InputGroup.Button>
-            </InputGroup>
-          </FormGroup>
-        </div>
-        <div>
+    let searchResultsTable = this.state.isSearching
+      ? <h2>Searching for movies...</h2>
+      : (<div>
           <ReactCSSTransitionGroup
             transitionName="tileFade"
             transitionAppear
@@ -124,7 +103,36 @@ class Search extends React.Component {
             />
             {largeTile}
           </ReactCSSTransitionGroup>
+        </div>);
+
+    if (this.state.noResults) {
+      searchResultsTable = <h2>No search results</h2>;
+    }
+
+    return (
+      <div ref={(el) => { this.mainTile = el; }} className="container fadeIn">
+        <div>
+          <h4>{subHeader}</h4>
         </div>
+        <div>
+          <FormGroup>
+            <InputGroup>
+              <InputGroup.Addon>
+                Movie title
+              </InputGroup.Addon>
+              <FormControl
+                type="text"
+                placeholder={`A movie you love, e.g. "star wars"`}
+                onChange={this.handleInputChange}
+                onKeyPress={e => this.handleInputKeyPress(e)}
+              />
+              <InputGroup.Button>
+                <Button onClick={this.handleSearch}>Search!</Button>
+              </InputGroup.Button>
+            </InputGroup>
+          </FormGroup>
+        </div>
+        {searchResultsTable}
       </div>
     );
   }
