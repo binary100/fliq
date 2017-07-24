@@ -6,11 +6,16 @@ import { Redirect } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 
 // DATA OBJECTS
-  const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s','00s']
-  const actors = ['Christian Bale', 'Al Capino', 'Clint Eastwood'];
-  const directors = ['Steven Spielberg', 'Christopher Nolan'];
-  const genres = ['Action', 'Advenure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western'];
-  const rated = ['G', 'PG', 'PG13', 'R', 'NC-17'];
+  // const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s','00s']
+  // const actors = ['Christian Bale', 'Al Capino', 'Clint Eastwood'];
+  // const directors = ['Steven Spielberg', 'Christopher Nolan'];
+  // const genres = ['Action', 'Advenure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western'];
+  // const rated = ['G', 'PG', 'PG13', 'R', 'NC-17'];  
+  const decades = []
+  const actors = [];
+  const directors = [];
+  const genres = [];
+  const rated = [];
   const tagsObj = {
     actor: actors,
     director: directors,
