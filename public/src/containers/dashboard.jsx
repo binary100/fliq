@@ -13,18 +13,18 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      // raw data
+      // raw data for charts
       userInfo: null,
       userMoviesInfo: null,
       userTagsInfo: null,
       tagsTableData: null,
 
-      // data for top tags chart
+      // chart data for most selected tags based on absolute number
       topTagIdsByUser: null,
       topTagsByName: null,
       topTagPicksCountsByUser: null,
 
-      // data for most selected tags based on percentage
+      // chart data for most selected tags based on percentage
       mostSelectedTagIds: null,
       mostSelectedTagNames: null,
       mostSelectedTagPercentages: null
@@ -48,7 +48,6 @@ class Dashboard extends React.Component {
       id: this.props.auth.user.id
     })
     .then(responseObj => {
-<<<<<<< HEAD
       this.setState({
         userInfo: responseObj.data.userInfo,
         userMoviesInfo: responseObj.data.userMoviesInfo,
@@ -133,27 +132,6 @@ class Dashboard extends React.Component {
       mostSelectedTagNames: tagNames,
       mostSelectedTagPercentages: tagSelectionPercentages
     })
-  }
-
-  chartTopTagsByUser() {
-    const tagPicksCountCutoff = 1;
-    const tagIds = [];
-    const tagPicksCounts = [];
-
-    const tagsWithPicksCountGreaterThanCutoff = this.state.userTagsInfo.filter(tagObj => {
-      if (tagObj.picksCount > tagPicksCountCutoff) {
-        tagIds.push(tagObj.tag_Id);
-        tagPicksCounts.push(tagObj.picksCount);
-      }
-    });
-
-    // console.log('tagIds:', tagIds);
-    // console.log('tagPickCounts:', tagPickCounts);
-
-    this.setState({
-      topTagIdsByUser: tagIds,
-      topTagPicksCountsByUser: tagPicksCounts
-    });
   }
 
   changeUserReViewSetting() {
