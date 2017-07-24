@@ -1,9 +1,7 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
-import Dashboard from '../containers/dashboard.jsx';
 
 const PieChart = (props) => {
-
   const chartData = {
     labels: props.labels,
     datasets: [{
@@ -25,7 +23,6 @@ const PieChart = (props) => {
     // animation.animteScale: false
     maintainAspectRatio: true
   }
-
 
   return (
     <div className="col-lg-6">
