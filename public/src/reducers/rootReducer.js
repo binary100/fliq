@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import auth from './loginReducer.js';
+import userSettingsReducer from './settingsReducer.js';
 
 const reducer = combineReducers({
-  auth
+  auth,
+  userSettingsReducer
 });
 
 export default reducer;

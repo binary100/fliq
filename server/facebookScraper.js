@@ -1,5 +1,6 @@
 const db = require('../database/dbsetup.js');
 const axios = require('axios');
+const apiController = require('./apiController.js');
 
 const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
 const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
@@ -7,7 +8,7 @@ const regex = /[^a-zA-Z0-9]+/g;
 const Movie = db.movies;
 
 
-const addMoviesToDb = allMovies => {
+const addMoviesToDb = (allMovies, user) => {
   let index = 0;
   const numberToInsert = 20;
   const intervalId = setInterval(() => {
@@ -20,21 +21,38 @@ const addMoviesToDb = allMovies => {
                       return newObj;
                     });
 
+    /*
+      We stopped using findOrCreate
+      when we found that omdbAPI can change genre definitions
+      seemingly at random, which leads to duplicate movie
+      instances with slightly altered genres
+    */
     movies.forEach((movie) => {
       if (movie.Title) {
-        Movie.create({
-          title: movie.Title,
-          year: movie.Year,
-          rated: movie.Rated,
-          genre: movie.Genre,
-          plot: movie.Plot,
-          ratings: movie.Ratings,
-          poster: movie.Poster,
-          director: movie.Director,
-          writer: movie.Writer,
-          actors: movie.Actors
-        });
-        // .then(apiController.likeMovie(movie));
+        Movie.find({ where: {
+          $and: [{ title: movie.Title }, { year: movie.Year }]
+        } })
+          .then((matchedMovie) => {
+            if (!matchedMovie) {
+              return Movie.create({
+                title: movie.Title,
+                year: movie.Year,
+                rated: movie.Rated,
+                genre: movie.Genre,
+                plot: movie.Plot,
+                ratings: movie.Ratings,
+                poster: movie.Poster,
+                director: movie.Director,
+                writer: movie.Writer,
+                actors: movie.Actors
+              })
+                .then(savedMovie => ({ movie: savedMovie, isNewScrape: true }));
+            }
+            return { movie: matchedMovie, isNewScrape: false };
+          })
+          .then((movieObj) => {
+            apiController.handleLikeFromScraper(movieObj.movie, user.id);
+          });
       }
     });
 
@@ -45,8 +63,9 @@ const addMoviesToDb = allMovies => {
   }, 2000);
 };
 
-// UPDATE THE USER LOGIN NUMBER
-module.exports = (profile) => {
+module.exports = profile => {
+
+  console.log('Entering scraper');
   const likedMovies = profile._json.movies.data;
 
   const omdbRequests = likedMovies.map((movie) => {
@@ -80,6 +99,6 @@ module.exports = (profile) => {
       });
     }))
     .then(omdbPromises => Promise.all(omdbPromises))
-    .then(hydratedMovies => addMoviesToDb(hydratedMovies))
+    .then(hydratedMovies => addMoviesToDb(hydratedMovies, user))
     .catch(err => console.log('Error getting fullDataResults: ', err));
 };

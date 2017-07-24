@@ -1,5 +1,15 @@
 @import "./animate.css";
 
+
+/************* TEST ONLY **************/
+
+/* sorry navbar was annoyAF, delete later */
+.nav > li {
+  float: left;
+}
+
+/************* STYLE PAGE START **************/
+
 body, html {
   margin: 0;
   padding: 0;
@@ -87,6 +97,10 @@ at this phase of development
   min-height: 520px;
   text-align: left;
   background: #444444;
+  position: absolute;
+  top: 75px;
+  right: 0;
+  left: 0;
 }
 
 .welcome-footer {
@@ -105,13 +119,57 @@ at this phase of development
 }
 
 .flick-iq {
-  animation: anim 1s 1 ease-out;
+  animation: greenify 1s 1 ease-out;
   color: #2ecc71;
 }
 
-@keyframes anim {
+@keyframes greenify {
     from {color: white;}
     to {color: #2ecc71;}
+}
+
+
+/************* POPDOWN PAGE **************/
+
+.popdown {
+  /* colors taken from bootstrap inverse nav bar text color */
+  text-align: center;
+  color: #9d9d9d; 
+  background-color: #222;  
+  position: absolute;
+  /*border: 1px solid black;*/
+  border-radius: 5px;
+  padding: 1em 0;
+  border-top: 0;
+  right: 0;
+  top: 49px;
+  width: 200px;
+  z-index: 2;
+}
+
+.popdown-buttons {
+  padding: 0 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.popdown-slideDown {
+  animation: 1s mySlideDown ease;
+}
+
+.popdown-slideUp {
+  top: -300px;
+  transition: 1s ease;
+}
+
+@keyframes mySlideDown  {
+  0% {
+    top: -200px;
+  }
+
+  100% {
+    top: 49px;
+  }
 }
 
 /************* WELCOME MODAL **************/
@@ -140,21 +198,39 @@ at this phase of development
 
 /************* LIGHTNING PAGE **************/
 
-.timer-counter {
-
+.lightning-wrapper {
+  height: 100vh;
 }
 
-.timer-counter h2 {
+.lightning-header {
+  border-bottom: 2px solid #2ecc71;
+}
 
+.lightning-footer {
+  align-content: center;
+  background-color: #111314;
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  bottom: 0;
+  left: 0;
+}
+
+.lightning-tile:hover {
+  background-color: #3f3f3f;
+  transition: 0.5s ease;
+  height: 530px;
 }
 
 /************* MOVIE NIGHT **************/
 
 .email-box {
+  margin-bottom: 1em;
   background-color: #444444;
-  height: 200px;
+  height: 170px;
   border-radius: 3px;
   overflow: auto;
+  padding: 0;
 }
 
 .email-inputs {
@@ -168,15 +244,17 @@ at this phase of development
 }
 
 .email-input-list {
-  list-style: none;
+  /*list-style: none;*/
 }
 
-.email-input-list li {
+.email-input-list div {
   padding: 0.5em;
   border-bottom: 1px solid #2ecc71;
 }
 
 .movienight-confirm-box {
+  margin-top: 1em;
+  padding: 5px 0;
   height: 2em;
 }
 
@@ -203,13 +281,10 @@ at this phase of development
   background-color: #111314;
   bottom: 0;
   position: absolute;
-  height: 34vh;
+  height: 33vh;
   padding: 0 10px;
   left: 0;
 }
-
-
-
 
 .results {
   max-height: 100%;
@@ -218,7 +293,7 @@ at this phase of development
 /************* NAVBAR **************/
 
 .header {
-  /*background: linear-gradient(to bottom, #606060 , #444444);*/
+  z-index: 3;
 }
 
 .header-icon {
@@ -241,6 +316,16 @@ at this phase of development
   margin: auto;
   height: 200px;
   width: 175px;
+}
+
+.user-name {
+  padding: 15px 15px 15px 0;
+}
+
+.user-photo {
+  height: 50px;
+  width: 50px;
+  padding: 5px;
 }
 
 /************* SMALL MOVIE TILES **************/
@@ -298,7 +383,7 @@ at this phase of development
   width: 130px;
 }
 
-/************* SEARCH BOX **************/
+/************* SEARCH PAGE **************/
 
 .search-table {
   height: 78vh;
@@ -340,27 +425,73 @@ at this phase of development
   margin-left: 50px;
 }
 
-/* USER INFO */
-
-.user-photo {
-  max-height: 3em;
-  max-width: 3em;
-}
-
 /************* LAUNCHPAD **************/
 
+
 /* TAGS */
-.tag {
-  color: black;
-  width: 100px;
-  height: 100px;
-  margin: 10px;
+.launchPadPage {
+  width: 100%;
+  float: left;
+}
+
+.launchPadPage {
+  width: 100%;
+  float: left;
+}
+
+.launchPad-controls {
+  margin: 0 auto;
+}
+
+.btn-spacing {
+  margin: 0 10px;
+}
+
+.tag-bubble {
+  /*position: absolute;*/
+  /*overflow: */
+  color: white;
+  width: 110px;
+  height: 110px;
+  border-radius: 60px;
+  margin: 10px 10px 10px 0;
   padding: 10px;
   float: left;
-  background: white;
+  background:teal;
+  /*background: linear-gradient(to bottom, #F05A28, #E80A89);*/
+}
+
+.tag-bubble:hover {
+/*  width: 120px;
+  height: 120px;*/
+  border-radius: 75px;
+}
+
+.tag-bubble:active {
+  border: 1px solid red;
+}
+
+.tag-bubble-active {
+  border: 5px solid yellow;
+  size: 1.5;
+}
+
+.tag-bubble-default {
+  border-color: 5px solid black;
+}
+
+.tag-text{
+  position: relative;
+  padding: 5px;
+  float: left;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /************* TOGGLE SWITCH **************/
+
+/*sets size of toggle switch container*/
 .switch {
   position: relative;
   display: inline-block;
@@ -368,7 +499,10 @@ at this phase of development
   height: 34px;
 }
 
-.switch input {display:none;}
+/*hides checkbox*/
+.switch input {
+  display: none;
+}
 
 .slider {
   position: absolute;
@@ -382,6 +516,7 @@ at this phase of development
   transition: .4s;
 }
 
+/*sets size of slider and speed of move*/
 .slider:before {
   position: absolute;
   content: "";
@@ -394,24 +529,28 @@ at this phase of development
   transition: .4s;
 }
 
+/*changes slider background when clicked*/
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #32cd32;
 }
 
-input:focus + .slider {
+/*input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
-}
+}*/
 
+/*moves slider when clicked*/
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 
+/*rounds toggle switch container*/
 .slider.round {
   border-radius: 34px;
 }
 
+/*rounds slider*/
 .slider.round:before {
   border-radius: 50%;
 }

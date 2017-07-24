@@ -17,6 +17,12 @@ const auth = (state = defaultAuthState, action) => {
         isLoggedIn: action.payload.isLoggedIn,
         user: null
       });
+    case 'CLEAR_WATCHED_MOVIE':
+      const user = Object.assign({}, state.user, action.payload);
+      return Object.assign({}, state, {
+        isLoggedIn: state.isLoggedIn,
+        user
+      });
     default:
       console.log('Returning default state: ', state);
       return state;

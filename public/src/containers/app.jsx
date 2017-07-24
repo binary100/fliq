@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, HashRouter as Router, Route, Switch, } from 'react-router-dom';
 import axios from 'axios';
+import anime from 'animejs';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
@@ -10,6 +11,7 @@ import LightningWrapper from './lightningWrapper.jsx';
 import MovieNight from './movieNight.jsx';
 import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
+import LikeMoviePopdown from './popdown/likeMoviePopdown.jsx';
 import { loginUser, logoutUser } from '../actions/actions.js';
 
 
@@ -20,7 +22,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    // console.log('In App ctor, props: ', props);
     axios.get('/account')
       .then((results) => {
         if (results.data.user) {
@@ -34,13 +35,27 @@ class App extends React.Component {
     axios.get('/logout').then(() => this.props.logoutUser());
   }
 
+  buildLikeQueryPopdown() {
+    const movieObj = {
+      id: this.props.auth.user.watchedMovieId,
+      title: this.props.auth.user.watchedMovieTitle
+    };
+    return <LikeMoviePopdown movie={movieObj} />;
+  }
+
   render() {
-    // console.log('In App render, props is: ', this.props);
+    let popDown = null;
+
+    if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
+      popDown = this.buildLikeQueryPopdown();
+    }
+    
     return (
       <div>
         <Router history={browserHistory}>
           <div>
             <Header user={this.props.auth.user} handleLogout={this.handleLogout} />
+              {popDown}
               <Switch>
                 <Route exact path="/" component={Welcome} />
                 <Route path="/results" component={Results} />
