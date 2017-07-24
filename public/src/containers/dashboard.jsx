@@ -6,6 +6,7 @@ import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
 import PieChart from '../components/pieChart.jsx';
 import BarChart from '../components/barChart.jsx';
 import ToggleSwitch from '../components/toggleSwitch.jsx';
+import DropDownMenu from '../components/dropDownMenu.jsx';
 import { setUserReViewSetting, toggleUserReViewSetting } from '../actions/actions.js';
 
 const tagsCountCutoff = 10;
@@ -45,6 +46,8 @@ class Dashboard extends React.Component {
     this.changeUserReViewSetting = this.changeUserReViewSetting.bind(this);
     this.chartTopTagsByUser = this.chartTopTagsByUser.bind(this);
     this.chartTopActorsByLikes = this.chartTopActorsByLikes.bind(this);
+    this.absoluteChartsDropDownHandler = this.absoluteChartsDropDownHandler.bind(this);
+    // this.relativeChartsDropDownHandler = this.relativeChartsDropDownHandler.bind(this);
   }
 
   componentWillMount() {
@@ -182,6 +185,23 @@ class Dashboard extends React.Component {
     });
   }
 
+  absoluteChartsDropDownHandler(eventKey) {
+    let labels = [];
+    let data = [];
+
+    if (eventKey === 'actor') {
+      console.log(eventKey);
+    } else if (eventKey === 'director') {
+      console.log(eventKey);
+    } else if (eventKey === 'genre') {
+      console.log(eventKey);
+    }
+  }
+
+  // relativeChartsDropDownHandler(eventKey) {
+  //   console.log('dropDownHandler #2 fired:', eventKey);
+  // }
+
 
   render() {
     return (
@@ -200,6 +220,7 @@ class Dashboard extends React.Component {
         </div>
         <br />
         <div className="row">
+<<<<<<< HEAD
           { this.state.topTagsByName &&
             this.state.mostSelectedTagNames &&
             this.state.topActors ?
@@ -216,6 +237,19 @@ class Dashboard extends React.Component {
             </div>
             : <h1 className="col-sm-10">Loading your profile data...</h1>
           }
+=======
+          <DropDownMenu
+            onSelect={this.absoluteChartsDropDownHandler}
+          />
+          {this.state.topTagsByName && <PieChart
+            labels={this.state.topTagsByName}
+            data={this.state.topTagPicksCountsByUser}
+          />}
+          {this.state.mostSelectedTagNames && <BarChart
+            labels={this.state.mostSelectedTagNames}
+            data={this.state.mostSelectedTagPercentages}
+          />}
+>>>>>>> feat($dashboard): Display dropdown menu for charts; component remains unconnected
         </div>
       </div>
     );
