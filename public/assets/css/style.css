@@ -290,6 +290,10 @@ at this phase of development
   max-height: 100%;
 }
 
+.go-see-button {
+  margin: 10px 0;
+}
+
 /************* NAVBAR **************/
 
 .header {
