@@ -562,6 +562,7 @@ module.exports.getTagsforLaunchPad = (req, res) => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 module.exports.getSubmittedLaunchPadTags = (req, res) => {
 };
 
@@ -576,6 +577,12 @@ module.exports.getLaunchPadTags = (req, res) => {
 };
 >>>>>>> fix($launchpad): fix merge code and cleaned up console logs
 
+||||||| merged common ancestors
+module.exports.getLaunchPadTags = (req, res) => {
+};
+
+=======
+>>>>>>> fix merge apicontroller missing semicolon
 const buildOrIncrementUserTags = (userId, tagId) => {
   return db.userTags
     .findAll(
@@ -612,6 +619,7 @@ const buildOrIncrementUserTags = (userId, tagId) => {
     }); // end of userTags
 };
 
+<<<<<<< HEAD
 ||||||| merged common ancestors
 module.exports.getLaunchPadTags = (req, res) => {
   // axios.get(/api/);
@@ -689,6 +697,10 @@ module.exports.getLaunchPadTags = (req, res) => {
   // axios.get(/api/);
 }
 
+||||||| merged common ancestors
+
+=======
+>>>>>>> fix merge apicontroller missing semicolon
 module.exports.postLaunchPadTags = (req, res) => {
 <<<<<<< HEAD
   console.log('postLaunchPadTags sent req.body as: ', req.body);
@@ -953,6 +965,7 @@ module.exports.getUserInfo = (req, res) => {
     console.log('Error getting info', error);
     res.sendStatus(500);
   })
+<<<<<<< HEAD
 ||||||| merged common ancestors
 
 };
@@ -1056,6 +1069,10 @@ module.exports.getUserInfo = (req, res) => {
 };
 =======
 >>>>>>> fix conflicts in apicontroller
+||||||| merged common ancestors
+=======
+};
+>>>>>>> fix merge apicontroller missing semicolon
 
 module.exports.getTableData = (req, res) => {
   const responseObj = {};
@@ -1153,6 +1170,7 @@ module.exports.setUserWatchedMovie = (req, res) => {
 
 module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
+<<<<<<< HEAD
 
 };
 
@@ -1249,3 +1267,8 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
     .catch(err => console.log('Error postLaunchPadTags: ', err));
 >>>>>>> fix($launchpad): fix merge code and cleaned up console logs
 };
+||||||| merged common ancestors
+};
+=======
+};
+>>>>>>> fix merge apicontroller missing semicolon
