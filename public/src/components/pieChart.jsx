@@ -3,11 +3,10 @@ import { Pie } from 'react-chartjs-2';
 import Dashboard from '../containers/dashboard.jsx';
 
 const PieChart = (props) => {
-
   const chartData = {
     labels: props.labels,
     datasets: [{
-      label: 'Test Chart',
+      label: 'Pie Chart',
       backgroundColor: ['#FF6384','#36A2EB','#FFCE56'],
       borderColor: 'White',
       borderWidth: 2,
