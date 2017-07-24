@@ -575,6 +575,23 @@ module.exports.postLaunchPadTags = (req, res) => {
   res.sendStatus(200);
 };
 
+
+// module.exports.getUserInfo = (req, res) => {
+//   db.users.findOne({
+//     where: {
+//       id: req.body.id
+//     }
+//   })
+//   .then((results) => {
+//     const userInfo = results.dataValues;
+//     res.send(userInfo);
+//   })
+//   .catch((error) => {
+//     console.log('Error getting user info', error);
+//     res.sendStatus(500);
+//   })
+// };
+
 module.exports.getUserInfo = (req, res) => {
   const user_id = req.body.id;
   const responseObj = {};
