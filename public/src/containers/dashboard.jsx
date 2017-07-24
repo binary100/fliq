@@ -64,13 +64,7 @@ class Dashboard extends React.Component {
         userTagsInfo: responseObj.data.userTagsInfo,
         shapedTagInfo: responseObj.data.shapedTagInfo
       });
-<<<<<<< HEAD
-      // toggle switch for user reViewSetting
-=======
       console.log('shapedInfo is: ', responseObj.data);
-
-      // Toggle switch for user reViewSetting
->>>>>>> feat($dashboard): Create third barchart, commented for later use
       const userReViewSetting = responseObj.data.userInfo.reView;
       this.props.setUserReViewSetting(userReViewSetting);
     })

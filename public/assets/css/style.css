@@ -1,14 +1,6 @@
 @import "./animate.css";
 
-
-/************* TEST ONLY **************/
-
-/* sorry navbar was annoyAF, delete later */
-.nav > li {
-  float: left;
-}
-
-/************* STYLE PAGE START **************/
+/************* PAGE STYLE START **************/
 
 body, html {
   margin: 0;
@@ -204,6 +196,8 @@ at this phase of development
 
 .lightning-header {
   border-bottom: 2px solid #2ecc71;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .lightning-footer {
@@ -273,7 +267,7 @@ at this phase of development
 }
 
 .results-body {
-  height: 50vh;
+  max-height: 50vh;
   overflow-y: scroll;
 }
 
@@ -294,16 +288,59 @@ at this phase of development
   margin: 10px 0;
 }
 
+.results-header {
+  border-bottom: 2px solid #2ecc71;
+}
+
+.results-header h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
 /************* NAVBAR **************/
 
 .header {
   z-index: 3;
 }
 
-.header-icon {
-  /* size the hamburger */
-  min-height:  50px;
-  line-height: 50px;
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
+}
+
+.hamburger {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.hamburger-open {
+  animation: mySpinOpen 1s ease;
+}
+
+.hamburger-closed {
+  animation: mySpinClosed 1s ease;
+}
+
+@keyframes mySpinOpen {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mySpinClosed {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 
 .navbar a:focus {
@@ -348,6 +385,7 @@ at this phase of development
 }
 
 .small-movie-tile {
+  font-size: 12px;
   padding: 10px;
   text-align: center;
 }
@@ -394,8 +432,10 @@ at this phase of development
 /************* SEARCH PAGE **************/
 
 .search-table {
-  height: 78vh;
+  height: 625px;
   overflow-y: scroll;
+  border: 2px solid black;
+  border-radius: 10px;
 }
 
 .col-centered {
@@ -566,4 +606,44 @@ input:checked + .slider:before {
 .toggle-switch-label {
   margin-left: 55px;
   white-space: nowrap;
+}
+
+/************* SIDE MENU  **************/
+
+.sidemenu {
+  background-color: navy;
+  position: absolute;
+  width: 150px;
+  height: 300px;
+  top: -350px;
+  transition: 1s ease;
+  z-index: 2;
+  overflow: auto;
+  background-color: #222;
+}
+
+.sidemenu-active {
+  animation: sidemenuSlideDown 1s ease;
+  top: 49px;
+}
+
+.sidemenu ul {
+  padding-top: 20px;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.sidemenu li {
+  font-size: 20px;
+  height: 50px;
+}
+
+@keyframes sidemenuSlideDown {
+    0% {
+    top: -600px;
+  }
+
+  100% {
+    top: 49px;
+  }
 }
