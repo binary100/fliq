@@ -8,7 +8,12 @@ class LaunchPad extends React.Component {
       step: 1
     };
     this.setStep = this.setStep.bind(this);
+<<<<<<< HEAD
     console.log('LaunchPad Props: ', props);
+||||||| merged common ancestors
+    console.log('LaunchPad Props: ', props)
+=======
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
   }
 
   setStep(step) {

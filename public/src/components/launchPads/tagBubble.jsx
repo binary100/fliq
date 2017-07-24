@@ -25,28 +25,6 @@ class TagBubble extends React.Component {
     )
   }
 
-
-// <div 
-//   className={this.currentSelect(this.props.tagItem)} 
-//   onClick={this.click.bind(this, this.props.tagItem)}
-// >
-
 };
 
 export default TagBubble;
-
- // targets= ['.tag-bubble']
- // translateX={['13rem']}
- // rotate={[180]}
- // borderRadius={'8px'}
- // duration={2000}
- // loop={true} >
-
-// var myAnimation = anime({
-//   targets: ['.blue', '.green'],
-//   translateX: '13rem',
-//   rotate: 180,
-//   borderRadius: '8px',
-//   duration: 2000,
-//   loop: true
-// });

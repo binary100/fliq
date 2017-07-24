@@ -542,7 +542,7 @@ module.exports.getTagsforLaunchPad = (req, res) => {
     .findAll({
       limit: 100
     })
-    .then(results => {
+    .then((results) => {
       const tags = results.reduce((acc, val) => {
         if (!acc[val.tagType]) {
           acc[val.tagType] = [];
@@ -559,11 +559,20 @@ module.exports.getTagsforLaunchPad = (req, res) => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 module.exports.getSubmittedLaunchPadTags = (req, res) => {
 };
 
 module.exports.updateLaunchPadTags = (req, res) => {
 };
+||||||| merged common ancestors
+module.exports.getLaunchPadTags = (req, res) => {
+  // axios.get(/api/);
+}
+=======
+module.exports.getLaunchPadTags = (req, res) => {
+};
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
 
 const buildOrIncrementUserTags = (userId, tagId) => {
   return db.userTags
@@ -573,11 +582,11 @@ const buildOrIncrementUserTags = (userId, tagId) => {
       where: { tag_Id: tagId }
     })
     .then((userTags) => {
-      console.log('WHAT IS THIS:', userTags);
+      console.log('USERTAGS:', userTags);
       return userTags.map((userTag) => {
         return new Promise((resolve, reject) => {
-        // const picksIncrement = currentMovie.selected ? 1 : 0;
           if (userTag === null) {
+            console.log('HIT CREATE');
             return db.userTags.create({
               viewsCount: 1,
               picksCount: 1,
@@ -585,11 +594,9 @@ const buildOrIncrementUserTags = (userId, tagId) => {
               user_Id: userId
             });
           }
+          console.log('HIT INCRE');
           return userTag
-            .increment('viewsCount', { by: 1 })
-            .then(() => {
-              userTag.increment('picksCount', { by: 1 });
-            })
+            .increment(['viewsCount', 'picksCount'], { by: 1 })
             .then(() => {
               console.log('done');
               resolve();
@@ -614,17 +621,33 @@ module.exports.getLaunchPadTags = (req, res) => {
 >>>>>>> feat($launchpad): add route for new users
 
 module.exports.postLaunchPadTags = (req, res) => {
+<<<<<<< HEAD
   console.log('postLaunchPadTags sent req.body as: ', req.body);
 <<<<<<< HEAD
   const selectedTags = req.body.submitTags;
   const currentUser = req.body.currentUser;
 
   selectedTags
+||||||| merged common ancestors
+  console.log('postLaunchPadTags sent req.body as: ', req.body);
+
+  // const { selectedTagData } = req.body;
+  // console.log('Completed postLaunchPagTags placeholder logic');
+
+  const selectedTags = req.body.submitTags;
+  const currentUser = req.body.currentUser;
+
+  selectedTags
+=======
+  // console.log('postLaunchPadTags sent req.body as: ', req.body);
+  req.body.submitTags
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
     .forEach((id, tag) => {
-      buildOrIncrementUserTags(currentUser.id, tag);
+      buildOrIncrementUserTags(req.body.currentUser.id, tag);
     })
     .then(() => res.sendStatus(201))
     .catch(error => res.status(500).send(error));
+<<<<<<< HEAD
 ||||||| merged common ancestors
   const { selectedTagData } = req.body;
 
@@ -734,6 +757,89 @@ module.exports.getUserInfo = (req, res) => {
     console.log('Error getting info', error);
     res.sendStatus(500);
   })
+||||||| merged common ancestors
+
+};
+
+
+module.exports.getUserInfo = (req, res) => {
+  db.users.findOne({
+    where: {
+      id: req.body.id
+    }
+  })
+  .then((results) => {
+    const userInfo = results.dataValues;
+    res.send(userInfo);
+  })
+  .catch((error) => {
+    console.log('Error getting user info', error);
+    res.sendStatus(500);
+  })
+};
+
+
+// const buildOrIncrementUserTags = (submittedTags, userId) => {
+//   return db.userTags.findAll({ where: { user_Id: userId } })
+//     .then((userTags) => {
+//       console.log('WHATS THIS USER TAG++++++++++++++++++++++++++++++++++++++++++++++++++++++', userTags)
+//       return userTags.dataValues.map((userTag) => {
+//         console.log('WHATS THIS USER TAG++++++++++++++++++++++++++++++++++++++++++++++++++++++', userTag)
+//               // const picksIncrement = submittedTags.selected ? 1 : 0;
+//         if (userTag === null) {
+//           return db.userTags.create({
+//             viewsCount: 1,
+//             picksCount: 1,
+//             tag_Id: submittedTags,
+//             user_Id: userId
+//           });
+//         }
+//         return userTag.increment('viewsCount', { by: 1 })
+//           .then(() => {
+//               return userTag.increment('picksCount', { by: 1 });
+//           })
+//       })
+//       .then(() => resolve())
+//       .catch((err) => console.log('Error in userTag if/else promise: ', err) });
+//     })
+//     .then(UserTagPromises => Promise.all(UserTagPromises))
+//     .catch(error => console.log('Error in buildOrIncrementUserTags, ', error));
+// };
+
+
+////////////////////////////////////////////////////
+
+// return db.userTags.find({ where: {
+//   tag_Id: movieTag.dataValues.tag_Id,
+//   user_Id: userId
+// } })
+// .then((userTag) => {
+//   const picksIncrement = currentMovie.selected ? 1 : 0;
+//   if (userTag === null) {
+//     return db.userTags.create({
+//       viewsCount: 1,
+//       picksCount: picksIncrement,
+//       tag_Id: movieTag.dataValues.tag_Id,
+//       user_Id: userId
+//     });
+
+
+module.exports.getUserInfo = (req, res) => {
+  db.users.findOne({
+    where: {
+      id: req.body.id
+    }
+  })
+  .then((results) => {
+    const userInfo = results.dataValues;
+    res.send(userInfo);
+  })
+  .catch((error) => {
+    console.log('Error getting user info', error);
+    res.sendStatus(500);
+  })
+=======
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
 };
 ||||||| merged common ancestors
 <<<<<<< HEAD
@@ -794,6 +900,7 @@ module.exports.updateUserSettings = (req, res) => {
 =======
   })
 <<<<<<< HEAD
+<<<<<<< HEAD
   // axios.post(selectedTagData)
   //   .then((results) => {
   //     console.log('postLaunchPadTags sent: ', results.data);
@@ -810,6 +917,15 @@ module.exports.updateUserSettings = (req, res) => {
   //   .catch(err => console.log('Error postLaunchPadTags: ', err));
 =======
 >>>>>>> fix conflicts in apicontroller
+||||||| merged common ancestors
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
+=======
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
@@ -823,6 +939,7 @@ module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
 };
 
+<<<<<<< HEAD
 module.exports.createTrophiesAndReturnUser = (req, res) => {
   return db.users.findOne({ where: { id: req.user.id } })
   .then((user) => {
@@ -891,4 +1008,27 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
   //   })
   //   .catch(err => console.log('Error postLaunchPadTags: ', err));
 >>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+  axios.post(selectedTagData)
+    .then((results) => {
+      console.log('postLaunchPadTags sent: ', results.data);
+      res.sendStatus(201);
+    })
+    .catch(err => console.log('Error postLaunchPadTags: ', err));
+
+  // axios.post(selectedTagData)
+  //   .then((results) => {
+  //     console.log('postLaunchPadTags sent: ', results.data);
+  //     res.sendStatus(201);
+  //   })
+  //   .catch(err => console.log('Error postLaunchPadTags: ', err));
+
+=======
+  axios.post(selectedTagData)
+    .then((results) => {
+      console.log('postLaunchPadTags sent: ', results.data);
+      res.sendStatus(201);
+    })
+    .catch(err => console.log('Error postLaunchPadTags: ', err));
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
 };

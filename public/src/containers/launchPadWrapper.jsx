@@ -85,17 +85,19 @@ class LaunchPadWrapper extends React.Component {
       tagData: tagsObj,
       selectedTags: selectedObj
     };
-    // this.getUserInfo = this.getUserInfo.bind(this);
     this.isSelected = this.isSelected.bind(this);
     this.selectItem = this.selectItem.bind(this);
-
-    // console.log('LaunchPadWrapper', props);
   }
 
 
   componentWillMount() {
 <<<<<<< HEAD
+<<<<<<< HEAD
     // this.getUserInfo();
+||||||| merged common ancestors
+    // this.getUserInfo();
+=======
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
     this.getTagsData();
 ||||||| merged common ancestors
     this.getTagsData();
@@ -110,6 +112,7 @@ class LaunchPadWrapper extends React.Component {
 
   selectItem(tagItem, tag) {
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -132,6 +135,13 @@ class LaunchPadWrapper extends React.Component {
     // const clickedArray = this.state.selectedTags[tag];
     
     
+||||||| merged common ancestors
+  // console.log('check index', this.state.selectedTags[tag])
+    // const clickedArray = this.state.selectedTags[tag];
+    
+    
+=======
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
     const clickedArray = Object.assign({}, this.state.selectedTags);
     console.log('clickedArray', clickedArray)
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
@@ -140,6 +150,7 @@ class LaunchPadWrapper extends React.Component {
       const index = clickedArray[tag].indexOf(tagItem);
       const selectTagsFilter = clickedArray[tag].filter((i) => i !== index);
       
+<<<<<<< HEAD
       console.log('if', this.state.selectedTags)
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -179,6 +190,10 @@ class LaunchPadWrapper extends React.Component {
 ||||||| merged common ancestors
       this.setState({ selectedTags: selectedTags });
 =======
+||||||| merged common ancestors
+      console.log('if', this.state.selectedTags)
+=======
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
       this.setState({ selectedTags: selectTagsFilter });
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
 ||||||| merged common ancestors
@@ -207,6 +222,7 @@ class LaunchPadWrapper extends React.Component {
 =======
       clickedArray[tag].push(tagItem);
       this.setState({ selectedTags: clickedArray });
+<<<<<<< HEAD
 >>>>>>> feat($launchpad $server): add api routes to update view and picks count
       console.log('else', this.state.selectedTags)
 =======
@@ -220,19 +236,16 @@ class LaunchPadWrapper extends React.Component {
 >>>>>>> feat($launchpad): add route for new users
       console.log('else', this.state.selectedTags)
 >>>>>>> feat($launchpad): add route for new users
+||||||| merged common ancestors
+      console.log('else', this.state.selectedTags)
+=======
+>>>>>>> fix($launchpad): fix merge code and cleaned up console logs
     }
   }
-
-  // getUserInfo() {
-  //   return axios.post('/api/selectedTags/user', {
-  //     id: this.props.auth.user.id
-  //   })
-  // }
 
   getTagsData() {
     return axios.get('/api/tags')
       .then((results) => {
-        console.log('Tags API Call', results.data);
         this.setState({
           tagData: results.data
         });
@@ -259,7 +272,6 @@ class LaunchPadWrapper extends React.Component {
   getSubmittedLaunchPadTags(submittedTags) {
     return axios.get('/api/selectedData')
       .then((results) => {
-        console.log('Tags API Call', results.data);
         this.setState({
           tagData: results.data
         });
@@ -311,17 +323,9 @@ class LaunchPadWrapper extends React.Component {
   }
 }
 
-// export default LaunchPadWrapper;
-
 const mapStateToProps = state => ({
-  auth: state.auth,
-  // userReViewSetting: state.userSettingsReducer.userReViewSetting
+  auth: state.auth
 });
-
-// const mapDispatchToProps = dispatch => ({
-//   setUserReViewSetting: (userReViewSetting) => { dispatch(setUserReViewSetting(userReViewSetting)); },
-//   toggleUserReViewSetting: () => { dispatch(toggleUserReViewSetting()); }
-// });
 
 export default connect(
   mapStateToProps,
