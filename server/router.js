@@ -25,8 +25,9 @@ router.get('/api/lightning/testUserTags', apiController.findDuplicateTagIDs);
 router.get('/api/tags', apiController.getTagsforLaunchPad);
 router.post('/api/selectedTags', apiController.postLaunchPadTags);
 
-router.post('/api/dashboard/initialUserSettings', apiController.getUserInfo);
+router.post('/api/dashboard/userInfo', apiController.getUserInfo);
 router.post('/api/dashboard/updateUserSettings', apiController.updateUserSettings);
+router.get('/api/dashboard/tableData', apiController.getTableData);
 
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_likes'] }));
 router.get('/auth/facebook/callback',
