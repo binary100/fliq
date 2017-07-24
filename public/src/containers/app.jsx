@@ -24,6 +24,7 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/account')
       .then((results) => {
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: ', results);
         if (results.data.user) {
           this.props.loginUser(results.data.user);
         }
@@ -49,23 +50,23 @@ class App extends React.Component {
     if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
       popDown = this.buildLikeQueryPopdown();
     }
-    
+
     return (
       <div>
         <Router history={browserHistory}>
           <div>
             <Header user={this.props.auth.user} handleLogout={this.handleLogout} />
-              {popDown}
-              <Switch>
-                <Route exact path="/" component={Welcome} />
-                <Route path="/results" component={Results} />
-                <Route path="/lightning" component={LightningWrapper} />
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/search" component={Search} />
-                <Route path="/launchpad" component={LaunchPadWrapper} />
-                <Route path="/movienight" component={MovieNight} />
-                <Route path="*" component={Welcome} />
-              </Switch>
+            {popDown}
+            <Switch>
+              <Route exact path="/" component={Welcome} />
+              <Route path="/results" component={Results} />
+              <Route path="/lightning" component={LightningWrapper} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/search" component={Search} />
+              <Route path="/launchpad" component={LaunchPadWrapper} />
+              <Route path="/movienight" component={MovieNight} />
+              <Route path="*" component={Welcome} />
+            </Switch>
           </div>
         </Router>
       </div>

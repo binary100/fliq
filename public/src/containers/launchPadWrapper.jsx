@@ -5,35 +5,35 @@ import { Redirect } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 
 // DATA OBJECTS
-  const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s','00s']
-  const actors = ['Christian Bale', 'Al Capino', 'Clint Eastwood'];
-  const directors = ['Steven Spielberg', 'Christopher Nolan'];
-  const genres = ['Action', 'Advenure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western'];
-  const rated = ['G', 'PG', 'PG13', 'R', 'NC-17'];
-  const tagsObj = {
-    actor: actors,
-    director: directors,
-    genre: genres,
-    rated: rated,
-    year: decades,
-  };
-  const selectedObj = {
-    actor: [],
-    director: [],
-    genre: [],
-    rated: [],
-    year: [],
-  }
+const decades = ['Silent Era', '30s', '40s', '50s', '60s', '70s', '80s', '90s', '00s'];
+const actors = ['Christian Bale', 'Al Capino', 'Clint Eastwood'];
+const directors = ['Steven Spielberg', 'Christopher Nolan'];
+const genres = ['Action', 'Advenure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western'];
+const rated = ['G', 'PG', 'PG13', 'R', 'NC-17'];
+const tagsObj = {
+  actor: actors,
+  director: directors,
+  genre: genres,
+  rated,
+  year: decades
+};
+const selectedObj = {
+  actor: [],
+  director: [],
+  genre: [],
+  rated: [],
+  year: []
+};
 
 
-// MESSAGES 
+// MESSAGES
 
 class LaunchPadWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tagData: tagsObj,
-      selectedTags: selectedObj,
+      selectedTags: selectedObj
     };
 
     this.isSelected = this.isSelected.bind(this);
@@ -43,7 +43,6 @@ class LaunchPadWrapper extends React.Component {
   }
 
 
-
   componentWillMount() {
     this.getTagsData();
   }
@@ -51,15 +50,14 @@ class LaunchPadWrapper extends React.Component {
   isSelected(tag, tagItem) {
     return (this.state.selectedTags[tag].indexOf(tagItem) > -1) ? 'tag-bubble tag-bubble-active' : 'tag-bubble';
   }
- 
+
   selectItem(tagItem, tag) {
 
-  console.log('check index', this.state.selectedTags[tag])
-    if (this.state.selectedTags[tag].includes(tagItem) ) {
+    console.log('check index', this.state.selectedTags[tag]);
+    if (this.state.selectedTags[tag].includes(tagItem)) {
       // const index = this.state.selectedTags[tag].includes(tagItem);
-      // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);
-      
-      console.log('if', this.state.selectedTags)
+      // const selectedTags = this.state.selectedTags[tag].filter((_, i) => i !== index);    
+      console.log('if', this.state.selectedTags);
       this.setState({ selectedTags });
     } else {
       const newSelectedTagObj = Object.assign({}, this.state.selectedTags);
@@ -67,7 +65,7 @@ class LaunchPadWrapper extends React.Component {
       this.setState({ selectedTags: newSelectedTagObj });
 
       // console
-      console.log('else', this.state.selectedTags)
+      console.log('else', this.state.selectedTags);
     }
   }
 
@@ -84,25 +82,25 @@ class LaunchPadWrapper extends React.Component {
   }
 
   postSelectedTags(submittedTags) {
-    console.log('submited posted tags', submittedTags)
+    console.log('submited posted tags', submittedTags);
     return axios.post('/api/selectedTags', submittedTags)
       .then(res => console.log('submited posted tags', submittedTags))
-      .then(alert("We got your results! Thanks"))
-      .catch(error => console.error('error posting submitted tags'))
+      .then(() => alert('We got your results! Thanks'))
+      .catch(error => console.error('error posting submitted tags'));
   }
 
   render() {
     return (
       <div>
-        <LaunchPad 
-          tags={this.state.tagData} 
-          selectedTags={this.state.selectedTags} 
+        <LaunchPad
+          tags={this.state.tagData}
+          selectedTags={this.state.selectedTags}
           isSelected={this.isSelected}
-          selectItem={this.selectItem} 
-          postSelectedTags={this.postSelectedTags} 
+          selectItem={this.selectItem}
+          postSelectedTags={this.postSelectedTags}
         /></div>
     );
-  };
+  }
 }
 
 export default LaunchPadWrapper;

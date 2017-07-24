@@ -1,12 +1,13 @@
 const axios = require('axios');
 const Sequelize = require('sequelize');
 const db = require('../database/dbsetup.js');
+
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
 const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
 const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
 const theMovieDbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=`;
-const theMovieDbPosterUrl = `http://image.tmdb.org/t/p/w185`;
-const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
+const theMovieDbPosterUrl = 'http://image.tmdb.org/t/p/w185';
+const quoteUrl = 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"';
 const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 
@@ -105,12 +106,12 @@ module.exports.populateTags = (req, res) => {
     .catch(error => res.status(500).send(error));
 };
 
-const buildOrIncrementMovieTags = (currentMovie, userId) => {
-  return db.movieTags.findAll({ where: { movie_Id: currentMovie.id } })
+const buildOrIncrementMovieTags = (currentMovie, userId) =>
+  db.movieTags.findAll({ where: { movie_Id: currentMovie.id } })
     .then((movieTags) => {
       console.log('movieTags is: ', movieTags);
-      return movieTags.map((movieTag) => {
-        return new Promise((resolve, reject) => {
+      return movieTags.map(movieTag =>
+        new Promise((resolve, reject) => {
           if (movieTag.dataValues.movie_Id === currentMovie.id) {
             return db.userTags.find({ where: {
               tag_Id: movieTag.dataValues.tag_Id,
@@ -139,12 +140,11 @@ const buildOrIncrementMovieTags = (currentMovie, userId) => {
               reject();
             });
           }
-        });
-      });
+        })
+      );
     })
     .then(clickedMovieTagPromises => Promise.all(clickedMovieTagPromises))
     .catch(error => console.log('Error in buildOrIncrementMovieTags, ', error));
-};
 
 module.exports.handleLightningSelection = (req, res) => {
   const { clickedMovie, discardedMovie } = req.body;
@@ -270,7 +270,7 @@ module.exports.getSearchAutoComplete = (req, res) => {
   const url = theMovieDbUrl + query;
   axios.get(url)
     .then(results => res.send(results.data.results))
-    .catch(err => {
+    .catch((err) => {
       console.log('Error in autocomplete: ', err);
       res.status(500).send(err);
     });
@@ -326,7 +326,7 @@ const handleLikeOrDislike = (movie, userId, isLike) =>
         })
       )
     )
-    .then(movieTagPromises => Promise.all(movieTagPromises));
+    .then(movieTagPromises => Promise.all(movieTagPromises))
 
 const getDetailedMovieInformation = movieUrl =>
   axios.post(movieUrl)
@@ -388,8 +388,8 @@ module.exports.handleLikeFromScraper = (movie, userId) => {
   });
 };
 
-const setMovieFromDbAsSeen = (movieId, req, res) => {
-  return db.userMovies.findOrCreate({ where: {
+const setMovieFromDbAsSeen = (movieId, req, res) =>
+  db.userMovies.findOrCreate({ where: {
     user_Id: req.user.id,
     movie_Id: movieId
   } })
@@ -402,7 +402,6 @@ const setMovieFromDbAsSeen = (movieId, req, res) => {
       console.log('Error marking movie seen: ', err);
       res.sendStatus(500);
     });
-};
 
 module.exports.setResultsMovieAsSeen = (req, res) => {
   const { movie } = req.body;
@@ -450,16 +449,15 @@ const hydrateLikesAndDislikes = (movies, userId) => {
     where: { user_Id: userId },
     include: [{ model: db.movies, as: 'movie' }]
   })
-    .then((userMovieRefs) => {
-      console.log('Found userMovieRefs', userMovieRefs);
-      return movies.map((movie) => {
+    .then(userMovieRefs =>
+      movies.map((movie) => {
         const match = userMovieRefs.find(ref => ref.movie.title === movie.title);
         if (match) {
           return Object.assign({}, movie, { liked: match.liked });
         }
         return movie;
-      });
-    });
+      })
+    );
   return proms;
 };
 
@@ -474,15 +472,15 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
   axios.post(searchUrl)
     .then((results) => {
       console.log('Received results: ', results.data);
-      const movieObjects = results.data.Search.map((movie) => {
-        return {
+      const movieObjects = results.data.Search.map(movie => (
+        {
           title: movie.Title,
           year: movie.Year,
           poster: movie.Poster,
           imdbID: movie.imdbID,
           liked: 0
-        };
-      });
+        }
+      ));
       return movieObjects;
     })
     .then((movies) => {
@@ -565,7 +563,7 @@ module.exports.getTagsforLaunchPad = (req, res) => {
 
 module.exports.getLaunchPadTags = (req, res) => {
   // axios.get(/api/);
-}
+};
 
 module.exports.postLaunchPadTags = (req, res) => {
   console.log('postLaunchPadTags sent req.body as: ', req.body);
@@ -584,36 +582,36 @@ module.exports.getUserInfo = (req, res) => {
       id: user_id
     }
   })
-  .then(userResults => {
+  .then((userResults) => {
     responseObj.userInfo = userResults;
   })
-  .then(() => {
-    return db.userMovies.findAll({
+  .then(() =>
+    db.userMovies.findAll({
       where: {
         user_Id: user_id
       }
     })
-    .then(userMoviesResults => {
+    .then((userMoviesResults) => {
       responseObj.userMoviesInfo = userMoviesResults;
     })
-  })
-  .then(() => {
-    return db.userTags.findAll({
+  )
+  .then(() =>
+    db.userTags.findAll({
       where: {
         user_Id: user_id
       }
     })
-    .then(userTagsResults => {
+    .then((userTagsResults) => {
       responseObj.userTagsInfo = userTagsResults;
     })
-  })
+  )
   .then(() => {
     res.send(responseObj);
   })
   .catch((error) => {
     console.log('Error getting info', error);
     res.sendStatus(500);
-  })
+  });
 };
 
 module.exports.getTableData = (req, res) => {
@@ -628,7 +626,7 @@ module.exports.getTableData = (req, res) => {
   })
   .catch((error) => {
     res.sendStatus(500);
-  })
+  });
 };
 
 
@@ -637,11 +635,8 @@ module.exports.updateUserSettings = (req, res) => {
 
   db.users.update({
     reView
-  },
-  {
-    where: {
-      id
-    }
+  }, {
+    where: { id }
   })
   .then(() => {
     console.log('Successfully updated user info (id, reView)', id, reView);
@@ -650,11 +645,10 @@ module.exports.updateUserSettings = (req, res) => {
   .catch((error) => {
     console.log('Error updating user info', error);
     res.sendStatus(500);
-  })
+  });
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
-
   const { watchedMovieId, watchedMovieTitle, userId } = req.body;
   db.users.update({ watchedMovieId, watchedMovieTitle }, { where: { id: userId } })
     .then(() => res.sendStatus(200))
@@ -663,4 +657,63 @@ module.exports.setUserWatchedMovie = (req, res) => {
 
 module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
+};
+
+module.exports.createTrophiesAndReturnUser = (req, res) => {
+  return db.users.findOne({ where: { id: req.user.id } })
+  .then((user) => {
+    if (user.loginNumber === 1) {
+      db.trophies.findAll({})
+      .then((trophiesAll) => {
+        const trophyPromises = trophiesAll.map(trophy =>
+          new Promise((resolve, reject) => {
+            if (trophy.trophyNames[0] === 'Like1') {
+              return db.userTrophies.create({
+                hasTrophies: [1, 0, 0],
+                trophyCount: 1,
+                trophy_Id: trophy.id,
+                user_Id: req.user.id
+              })
+              .then(userTrophy => resolve(userTrophy))
+              .catch(err => reject(err));
+            } else {
+              return db.userTrophies.create({
+                hasTrophies: trophy.targetNums.reduce((acc) => {
+                  acc.push(0);
+                  return acc;
+                }, []),
+                trophyCount: 0,
+                trophy_Id: trophy.id,
+                user_Id: req.user.id
+              })
+              .then(userTrophy => resolve(userTrophy))
+              .catch(err => reject(err));
+            }
+          })
+        );
+        return Promise.All(trophyPromises);
+      })
+      .then((promises) => res.send('BBBBBBBBBB'))
+      .catch(err => res.send(err));
+    } else {
+      console.log('CCCCCCCCCCCCC');
+      db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: req.user.id, trophy_Id: 1 } })
+      .then(() => {
+        db.userTrophies.findOne({
+          where: { user_Id: req.user.id, trophy_Id: 1 },
+          include: [{ model: db.trophies, as: 'Trophy' }]
+        })
+        .then((userTrophy) => {
+          const index = userTrophy.hasTrophies.indexOf(0);
+          if (userTrophy.Trophy.targetNums[index] === userTrophy.trophyCount) {
+            res.send({ user: req.user, trophy: ['sucess', userTrophy.Trophy.trophyNames[index]] });
+          } else {
+            res.send({ user: req.user });
+          }
+        })
+        .catch(err => res.send(err));
+      })
+      .catch(err => res.send(err));
+    }
+  });
 };

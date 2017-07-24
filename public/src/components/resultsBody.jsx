@@ -3,7 +3,7 @@ import LargeMovieTile from './largeMovieTile.jsx';
 // import Trailer from './trailer.jsx';
 
 const youtubeUrl = 'https://www.youtube.com/embed/';
-const hrefBase = `https://www.google.com/search?q=where+can+I+stream+MOVIE+YEAR`;
+const hrefBase = 'https://www.google.com/search?q=where+can+I+stream+MOVIE+YEAR';
 const regex = /[^a-zA-Z0-9]+/g;
 
 const ResultsBody = ({ movie, trailer, handleSeeMovieClick }) => {

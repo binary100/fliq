@@ -58,7 +58,8 @@ passport.use(new FacebookStrategy({
         name: profile.displayName,
         picture: profile.photos[0].value,
         email: profile.emails[0].value,
-        authId: profile.id
+        authId: profile.id,
+        loginNumber: 1
       })
       .then(newUser => {
         done(null, newUser);
@@ -97,7 +98,8 @@ passport.use(new GoogleStrategy({
         name: profile.displayName,
         picture: profile.photos[0].value,
         email: profile.emails[0].value,
-        authId: profile.id
+        authId: profile.id,
+        loginNumber: 1
       })
       .then(newUser => done(null, newUser))
       .catch(err => console.error('Failed to create user:', err));

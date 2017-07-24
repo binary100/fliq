@@ -1,8 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import ResultsBody from '../components/resultsBody.jsx';
 import ResultsTileBar from '../components/resultsTileBar.jsx';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 class Results extends React.Component {
   constructor(props) {

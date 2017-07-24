@@ -13,7 +13,7 @@
 
 ## Team
 
-  - __Product Owner__: David Earl
+  - __Product Owner__: David Earle
   - __Scrum Master__: Rob Cornell
   - __Development Team Members__: Tae Lee, Andrew Shih
 

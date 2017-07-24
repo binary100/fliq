@@ -1,7 +1,7 @@
 import React from 'react';
-import LoadingButton from './loadingButton.jsx';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import LoadingButton from './loadingButton.jsx';
 
 const thumbsUp = 'glyphicon glyphicon-thumbs-up';
 const thumbsDown = 'glyphicon glyphicon-thumbs-down';

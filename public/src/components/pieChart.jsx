@@ -7,18 +7,18 @@ const PieChart = (props) => {
     labels: props.labels,
     datasets: [{
       label: 'Pie Chart',
-      backgroundColor: ['#FF6384','#36A2EB','#FFCE56'],
+      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
       borderColor: 'White',
       borderWidth: 2,
       hoverBorderColor: 'White',
       data: props.data
     }]
-  }
+  };
 
   const chartOptions = {
     cutoutPercentage: 0,
     maintainAspectRatio: true
-  }
+  };
 
 
   return (
@@ -28,7 +28,7 @@ const PieChart = (props) => {
         options={chartOptions}
       />
     </div>
-  )
-}
+  );
+};
 
 export default PieChart;

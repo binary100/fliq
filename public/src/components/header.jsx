@@ -51,7 +51,7 @@ const Header = ({ handleLogout, user }) => (
           <img
             className="img-circle user-photo"
             src={user ? user.picture : ''}
-            alt={user ? user.name : '' }
+            alt={user ? user.name : ''}
           />
           <span className="user-name pull-right">
             {user ? user.name : ''}

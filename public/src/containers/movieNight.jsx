@@ -58,9 +58,9 @@ class MovieNight extends React.Component {
   loadUserEmail(user, shouldFlashDialogue) {
     const { name, email, id } = user;
     const userEmailObj = { name, email, id };
-    const isAlreadyAdded = this.state.userList.some((obj) => {
-      return obj.email === userEmailObj.email;
-    });
+    const isAlreadyAdded = this.state.userList.some(obj =>
+      obj.email === userEmailObj.email
+    );
 
     if (isAlreadyAdded) {
       return this.setState({
@@ -93,7 +93,7 @@ class MovieNight extends React.Component {
           this.loadUserEmail(results.data.user, true);
         } else {
           this.setState({
-            confirmText: `Whoops! We don't have any users with that email.`,
+            confirmText: 'Whoops! We don\'t have any users with that email.',
             confirmClass: 'movienight-email-failure'
           });
         }
@@ -144,9 +144,9 @@ class MovieNight extends React.Component {
       ? <LargeMovieTile movie={this.state.selectedMovie} />
       : null;
 
-      const tileBar = this.state.searchResults
-        ? <div className="fadeIn"><ResultsTileBar movies={this.state.searchResults} /></div>
-        : null;
+    const tileBar = this.state.searchResults
+      ? <div className="fadeIn"><ResultsTileBar movies={this.state.searchResults} /></div>
+      : null;
 
     return (
       <div className="container fadeIn">
