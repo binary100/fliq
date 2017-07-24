@@ -4,8 +4,8 @@ import ResultsTileBar from '../components/resultsTileBar.jsx';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-const userHeader = `FLIQ's learning engine chose these movies for you. Take a look!`;
-const noUserHeader = `These are the most preferred movies from FLIQ's entire database. Log in to build a profile!`;
+const userHeader = `FLIQ suggests these movies`;
+const noUserHeader = `These are the most preferred movies from FLIQ's entire database. Log in to build a profile.`;
 
 class Results extends React.Component {
   constructor(props) {
@@ -61,10 +61,10 @@ class Results extends React.Component {
   render() {
     return (
       <div className="fadeIn">
-        <div className="row">
-          <h4 className="col-sm-10 col-centered">
+        <div className="row results-header">
+          <h2 className="col-sm-12">
             {this.props.isLoggedIn ? userHeader : noUserHeader}
-          </h4>
+          </h2>
         </div>
         <div>
           <ResultsBody

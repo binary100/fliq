@@ -204,6 +204,8 @@ at this phase of development
 
 .lightning-header {
   border-bottom: 2px solid #2ecc71;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .lightning-footer {
@@ -273,7 +275,7 @@ at this phase of development
 }
 
 .results-body {
-  height: 50vh;
+  max-height: 50vh;
   overflow-y: scroll;
 }
 
@@ -292,6 +294,15 @@ at this phase of development
 
 .go-see-button {
   margin: 10px 0;
+}
+
+.results-header {
+  border-bottom: 2px solid #2ecc71;
+}
+
+.results-header h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 /************* NAVBAR **************/
@@ -348,6 +359,7 @@ at this phase of development
 }
 
 .small-movie-tile {
+  font-size: 12px;
   padding: 10px;
   text-align: center;
 }
@@ -394,8 +406,10 @@ at this phase of development
 /************* SEARCH PAGE **************/
 
 .search-table {
-  height: 78vh;
+  height: 625px;
   overflow-y: scroll;
+  border: 2px solid black;
+  border-radius: 10px;
 }
 
 .col-centered {

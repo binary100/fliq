@@ -89,7 +89,6 @@ class Search extends React.Component {
       <div ref={(el) => { this.mainTile = el; }} className="container fadeIn">
         <div>
           <h3>
-            Search
           </h3>
           <h4>{subHeader}</h4>
         </div>
