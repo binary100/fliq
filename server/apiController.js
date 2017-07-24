@@ -559,9 +559,6 @@ module.exports.getTagsforLaunchPad = (req, res) => {
     .catch(err => res.status(500).send('Error finding tags: ', err));
 };
 
-module.exports.getLaunchPadTags = (req, res) => {
-};
-
 const buildOrIncrementUserTags = (userId, tagId) => {
   return db.userTags
     .findAll(
@@ -597,7 +594,6 @@ const buildOrIncrementUserTags = (userId, tagId) => {
       }); // end of userTags.MAP (then)
     }); // end of userTags
 };
-
 
 module.exports.postLaunchPadTags = (req, res) => {
 
@@ -648,6 +644,7 @@ module.exports.getUserInfo = (req, res) => {
     console.log('Error getting info', error);
     res.sendStatus(500);
   })
+};
 
 module.exports.getTableData = (req, res) => {
   const responseObj = {};
@@ -686,7 +683,6 @@ module.exports.updateUserSettings = (req, res) => {
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
-
   const { watchedMovieId, watchedMovieTitle, userId } = req.body;
   db.users.update({ watchedMovieId, watchedMovieTitle }, { where: { id: userId } })
     .then(() => res.sendStatus(200))
