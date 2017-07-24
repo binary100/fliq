@@ -589,7 +589,8 @@ module.exports.getUserInfo = (req, res) => {
     db.userMovies.findAll({
       where: {
         user_Id: user_id
-      }
+      },
+      include: [{ model: db.movies, as: 'movie' }]
     })
     .then((userMoviesResults) => {
       responseObj.userMoviesInfo = userMoviesResults;
@@ -599,7 +600,8 @@ module.exports.getUserInfo = (req, res) => {
     db.userTags.findAll({
       where: {
         user_Id: user_id
-      }
+      },
+      include: [{ model: db.tags, as: 'tag' }]
     })
     .then((userTagsResults) => {
       responseObj.userTagsInfo = userTagsResults;

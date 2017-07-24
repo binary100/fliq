@@ -33,7 +33,7 @@ class Dashboard extends React.Component {
 
       // chart data for most liked actors
 
-    }
+    };
 
     this.getUserInfo = this.getUserInfo.bind(this);
     this.getTableData = this.getTableData.bind(this);
@@ -53,12 +53,12 @@ class Dashboard extends React.Component {
       id: this.props.auth.user.id
     })
     .then((responseObj) => {
+      console.log('userInfo: ', responseObj.data);
       this.setState({
         userInfo: responseObj.data.userInfo,
         userMoviesInfo: responseObj.data.userMoviesInfo,
         userTagsInfo: responseObj.data.userTagsInfo
       });
-
       // toggle switch for user reViewSetting
       const userReViewSetting = responseObj.data.userInfo.reView;
       this.props.setUserReViewSetting(userReViewSetting);
@@ -141,7 +141,7 @@ class Dashboard extends React.Component {
   }
 
   chartTopActorsByLikes() {
-
+   
   }
 
   changeUserReViewSetting() {
