@@ -71,7 +71,6 @@ class Search extends React.Component {
   }
 
   selectSmallTile(e, evt, movie) {
-    console.log('Selecting: ', movie);
     axios.post('/api/movie/select', {
       movie
     })
@@ -139,14 +138,3 @@ class Search extends React.Component {
 }
 
 export default Search;
-
-
-/*
-    <div>
-            <SearchResultsTable
-              selectSmallTile={this.selectSmallTile}
-              movies={this.state.searchResults}
-            />
-          {largeTile}
-        </div>
-*/
