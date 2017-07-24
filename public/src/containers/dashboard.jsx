@@ -212,10 +212,10 @@ class Dashboard extends React.Component {
                 title="Most Selected Tags (%)"
                 labels={this.state.mostSelectedTagNames}
                 data={this.state.mostSelectedTagPercentages}
-              />   
+              />
             </div>
             : <h1 className="col-sm-10">Loading your profile data...</h1>
-          } 
+          }
         </div>
       </div>
     );
