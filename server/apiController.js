@@ -605,8 +605,18 @@ module.exports.getUserInfo = (req, res) => {
     })
     .then((userTagsResults) => {
       responseObj.userTagsInfo = userTagsResults;
-    })
-  )
+      const shapedResults = userTagsResults.map(tag => ({
+        name: tag.tag.tagName,
+        type: tag.tag.tagType,
+        dislikesCount: tag.dislikesCount,
+        likesCount: tag.likesCount,
+        picksCount: tag.picksCount,
+        viewsCount: tag.viewsCount,
+        id: tag.id
+      }));
+      responseObj.shapedTagInfo = shapedResults;
+    });
+  })
   .then(() => {
     res.send(responseObj);
   })
