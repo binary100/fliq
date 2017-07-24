@@ -10,7 +10,6 @@ const PieChart = (props) => {
       backgroundColor: ['#FF6384','#36A2EB','#FFCE56'],
       borderColor: 'White',
       borderWidth: 2,
-      // hoverBackgroundColor: [],
       hoverBorderColor: 'White',
       data: props.data
     }]
@@ -18,10 +17,6 @@ const PieChart = (props) => {
 
   const chartOptions = {
     cutoutPercentage: 0,
-    // rotation: ,
-    // circumference: ,
-    // animation.animateRotate: true,
-    // animation.animteScale: false
     maintainAspectRatio: true
   }
 
