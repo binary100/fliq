@@ -1,14 +1,6 @@
 @import "./animate.css";
 
-
-/************* TEST ONLY **************/
-
-/* sorry navbar was annoyAF, delete later */
-.nav > li {
-  float: left;
-}
-
-/************* STYLE PAGE START **************/
+/************* PAGE STYLE START **************/
 
 body, html {
   margin: 0;
