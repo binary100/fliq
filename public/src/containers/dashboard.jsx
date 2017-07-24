@@ -47,6 +47,7 @@ class Dashboard extends React.Component {
       id: this.props.auth.user.id
     })
     .then(responseObj => {
+<<<<<<< HEAD
       this.setState({
         userInfo: responseObj.data.userInfo,
         userMoviesInfo: responseObj.data.userMoviesInfo,

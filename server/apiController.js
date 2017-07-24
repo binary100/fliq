@@ -595,7 +595,7 @@ module.exports.postLaunchPadTags = (req, res) => {
 module.exports.getUserInfo = (req, res) => {
   const user_id = req.body.id;
   const responseObj = {};
-  // console.log('user_id:', user_id);
+  console.log('user_id:', user_id);
 
   db.users.findOne({
     where: {
@@ -629,27 +629,11 @@ module.exports.getUserInfo = (req, res) => {
     })
   })
   .then(() => {
-    // console.log('getUserInfo responseObj:', responseObj);
+    console.log('getUserInfo responseObj:', responseObj);
     res.send(responseObj);
   })
   .catch((error) => {
     console.log('Error getting info', error);
-    res.sendStatus(500);
-  })
-};
-
-module.exports.getTableData = (req, res) => {
-  const responseObj = {};
-
-  db.tags.findAll({})
-  .then((tagsTableResults) => {
-    responseObj.tagsTableData = tagsTableResults;
-    // console.log('getTableData responseObj:', responseObj);
-  })
-  .then(() => {
-    res.send(responseObj);
-  })
-  .catch((error) => {
     res.sendStatus(500);
   })
 };
