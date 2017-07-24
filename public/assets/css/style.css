@@ -353,11 +353,14 @@ at this phase of development
 }
 
 .small-tile-button {
-  margin: 1em 0;
   background: #2980B9;
   /*background: #2ecc71;*/
   border: 0px;
   color: white;
+  padding: 0px;
+  width: 20%;
+  height: 2.5em;
+  margin: 10px 5px;
 }
 
 .small-tile-button:hover,
@@ -376,6 +379,7 @@ at this phase of development
 
 .like-buttons {
   text-align: center;
+  overflow: auto;
 }
 
 .results-tile-bar-poster {
