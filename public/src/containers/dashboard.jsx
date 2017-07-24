@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
 import PieChart from '../components/pieChart.jsx';
+import BarChart from '../components/barChart.jsx';
 import ToggleSwitch from '../components/toggleSwitch.jsx';
 import { setUserReViewSetting, toggleUserReViewSetting } from '../actions/actions.js';
 
@@ -52,9 +53,9 @@ class Dashboard extends React.Component {
         userTagsInfo: responseObj.data.userTagsInfo
       })
 
-      // const userReViewSetting = responseObj.data.userInfo.reView;
-      // console.log(userReViewSetting);
-      // this.props.setUserReViewSetting(userReViewSetting);
+      //toggle switch for user reViewSetting
+      const userReViewSetting = responseObj.data.userInfo.reView;
+      this.props.setUserReViewSetting(userReViewSetting);
     })
     .then(() => {
       this.getTableData();
@@ -109,7 +110,6 @@ class Dashboard extends React.Component {
     const tagIds = [];
     const tagSelectionPercentages = [];
     const tagNames = [];
-
 
     const calcTagSelectionPerecentage = this.state.userTagsInfo.filter(tagObj => {
       if (tagObj.picksCount > tagPicksCountCutoff) {
@@ -181,7 +181,7 @@ class Dashboard extends React.Component {
         </div>
 
         <div className="row">
-          {this.state.mostSelectedTagNames && <PieChart
+          {this.state.mostSelectedTagNames && <BarChart
             labels={this.state.mostSelectedTagNames}
             data={this.state.mostSelectedTagPercentages}
           />}
