@@ -9,7 +9,6 @@ const BarChart = (props) => {
       backgroundColor: ['#FF6384','#36A2EB','#FFCE56'],
       borderColor: 'White',
       borderWidth: 2,
-      // hoverBackgroundColor: [],
       hoverBorderColor: 'White',
       data: props.data
     }]
