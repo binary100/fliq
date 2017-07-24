@@ -24,6 +24,7 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/account')
       .then((results) => {
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: ', results);
         if (results.data.user) {
           this.props.loginUser(results.data.user);
         }

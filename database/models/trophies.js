@@ -8,15 +8,19 @@ module.exports = (sequelize, DataTypes) => {
     // },
     trophyNames: {
       type: DataTypes.STRING,
-      get: () => this.getDataValue('trophyNames').split(';'),
-      set: (val) => {
+      get() {
+        return this.getDataValue('trophyNames').split(';');
+      },
+      set(val) {
         this.setDataValue('trophyNames', val.join(';'));
       }
     },
     targetNums: {
       type: DataTypes.STRING,
-      get: () => this.getDataValue('targetNums').split(';').map(Number),
-      set: (val) => {
+      get() {
+        return this.getDataValue('targetNums').split(';').map(Number);
+      },
+      set(val) {
         this.setDataValue('targetNums', val.join(';'));
       }
     }

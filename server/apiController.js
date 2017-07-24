@@ -169,58 +169,6 @@ module.exports.findDuplicateTagIDs = (req, res) => {
     });
 };
 
-// Brain 1
-module.exports.getSmartUserResults2 = (req, res) => {
-  // Placeholder logic, selects five random movies.
-  db.movies.count()
-    .then((maxMovieCount) => {
-      const moviesToGrab = [];
-
-      // Create objects for the Movie.findAll $or operator,
-      // which takes objects like this { dbColumn: columnValue }
-      for (let i = 0; i < 6; i += 1) {
-        let randomMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
-
-        // Need to handle if 0 bc no id 0 in table.
-        // Also the linter didn't like the simple way I wrote this at first
-        randomMovieId = randomMovieId === 0 ? 1 : randomMovieId;
-        moviesToGrab.push({
-          id: randomMovieId
-        });
-      }
-      console.log('Calling Movie.findAll with: ', ...moviesToGrab);
-      db.movies.findAll({
-        where: {
-          $or: [...moviesToGrab]
-        }
-      })
-      .then((movies) => {
-        const moviePromises = movies.map(movie =>
-          new Promise((resolve, reject) => {
-            db.userMovies.findOne({ where: {
-              movie_Id: movie.dataValues.id,
-              user_Id: req.user.id
-            } })
-            .then((userMovie) => {
-              const hydramovie = Object.assign({}, movie);
-              if (userMovie) {
-                hydramovie.dataValues.liked = userMovie.liked;
-              } else {
-                hydramovie.dataValues.liked = 0;
-              }
-              return hydramovie;
-            })
-            .then(hydratedMovie => resolve(hydratedMovie.dataValues))
-            .catch(error => reject(error));
-          })
-        );
-        return Promise.all(moviePromises);
-      })
-      .then(hydratedMovies => res.send(hydratedMovies))
-      .catch(err => res.send(err));
-    });
-};
-
 // Placeholder logic
 module.exports.getUserResults = (req, res) => {
   // We don't yet need the user info in the next line
@@ -709,4 +657,63 @@ module.exports.setUserWatchedMovie = (req, res) => {
 
 module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
+};
+
+module.exports.createTrophiesAndReturnUser = (req, res) => {
+  return db.users.findOne({ where: { id: req.user.id } })
+  .then((user) => {
+    if (user.loginNumber === 1) {
+      db.trophies.findAll({})
+      .then((trophiesAll) => {
+        const trophyPromises = trophiesAll.map(trophy =>
+          new Promise((resolve, reject) => {
+            if (trophy.trophyNames[0] === 'Like1') {
+              return db.userTrophies.create({
+                hasTrophies: [1, 0, 0],
+                trophyCount: 1,
+                trophy_Id: trophy.id,
+                user_Id: req.user.id
+              })
+              .then(userTrophy => resolve(userTrophy))
+              .catch(err => reject(err));
+            } else {
+              return db.userTrophies.create({
+                hasTrophies: trophy.targetNums.reduce((acc) => {
+                  acc.push(0);
+                  return acc;
+                }, []),
+                trophyCount: 0,
+                trophy_Id: trophy.id,
+                user_Id: req.user.id
+              })
+              .then(userTrophy => resolve(userTrophy))
+              .catch(err => reject(err));
+            }
+          })
+        );
+        return Promise.All(trophyPromises);
+      })
+      .then((promises) => res.send('BBBBBBBBBB'))
+      .catch(err => res.send(err));
+    } else {
+      console.log('CCCCCCCCCCCCC');
+      db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: req.user.id, trophy_Id: 1 } })
+      .then(() => {
+        db.userTrophies.findOne({
+          where: { user_Id: req.user.id, trophy_Id: 1 },
+          include: [{ model: db.trophies, as: 'Trophy' }]
+        })
+        .then((userTrophy) => {
+          const index = userTrophy.hasTrophies.indexOf(0);
+          if (userTrophy.Trophy.targetNums[index] === userTrophy.trophyCount) {
+            res.send({ user: req.user, trophy: ['sucess', userTrophy.Trophy.trophyNames[index]] });
+          } else {
+            res.send({ user: req.user });
+          }
+        })
+        .catch(err => res.send(err));
+      })
+      .catch(err => res.send(err));
+    }
+  });
 };

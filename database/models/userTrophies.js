@@ -8,8 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     // },
     hasTrophies: {
       type: DataTypes.STRING,
-      get: () => this.getDataValue('hasTrophies').split(';').map(Number),
-      set: (val) => {
+      get() {
+        return this.getDataValue('hasTrophies').split(';').map(Number);
+      },
+      set(val) {
         this.setDataValue('hasTrophies', val.join(';'));
       }
     },

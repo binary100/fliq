@@ -26,8 +26,11 @@ db.users = require('./models/users.js')(sequelize, Sequelize);
 db.movies = require('./models/movies.js')(sequelize, Sequelize);
 db.tags = require('./models/tags.js')(sequelize, Sequelize);
 db.session = require('./models/session.js')(sequelize, Sequelize);
+db.trophies = require('./models/trophies.js')(sequelize, Sequelize);
+
 db.userMovies = require('./models/userMovies.js')(sequelize, Sequelize);
 db.userTags = require('./models/userTags.js')(sequelize, Sequelize);
+db.userTrophies = require('./models/userTrophies.js')(sequelize, Sequelize);
 
 db.movieTags = sequelize.define('MovieTags', {});
 
@@ -53,6 +56,12 @@ db.userMovies.belongsTo(db.users, { as: 'user', foreignKey: 'user_Id', constrain
 db.movies.hasMany(db.userMovies, { foreignKey: 'movie_Id', constraints: false });
 db.users.hasMany(db.userMovies, { foreignKey: 'user_Id', constraints: false });
 
+// user-trophy model
+db.userTrophies.belongsTo(db.trophies, { as: 'trophy', foreignKey: 'trophy_Id', constraints: false });
+db.userTrophies.belongsTo(db.users, { as: 'user', foreignKey: 'user_Id', constraints: false });
+
+db.trophies.hasMany(db.userTrophies, { foreignKey: 'trophy_Id', constraints: false });
+db.users.hasMany(db.userTrophies, { foreignKey: 'user_Id', constraints: false });
 
 db.movies.afterCreate((movie) => { // add Tags and connects tags to movie
   const acc = [];
