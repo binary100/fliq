@@ -34,7 +34,10 @@ const ResultsBody = ({ movie, trailer, handleSeeMovieClick }) => {
             <a href={hrefString}>
               {
                 movie &&
-                <button className="btn btn-primary fliq-button" onClick={handleSeeMovieClick}>
+                <button
+                  className="btn btn-primary fliq-button go-see-button pull-right"
+                  onClick={handleSeeMovieClick}
+                >
                   Find Streaming Sources
                 </button>
               }
