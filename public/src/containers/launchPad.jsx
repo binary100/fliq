@@ -8,7 +8,6 @@ class LaunchPad extends React.Component{
       step: 1,
     };
     this.setStep = this.setStep.bind(this);
-    console.log('LaunchPad Props: ', props)
   }
 
   setStep (step) {

@@ -35,17 +35,13 @@ class LaunchPadWrapper extends React.Component {
       tagData: tagsObj,
       selectedTags: selectedObj
     };
-    // this.getUserInfo = this.getUserInfo.bind(this);
     this.isSelected = this.isSelected.bind(this);
     this.selectItem = this.selectItem.bind(this);
-
-    // console.log('LaunchPadWrapper', props);
   }
 
 
 
   componentWillMount() {
-    // this.getUserInfo();
     this.getTagsData();
   }
 
@@ -55,10 +51,6 @@ class LaunchPadWrapper extends React.Component {
  
   selectItem(tagItem, tag) {
 
-  // console.log('check index', this.state.selectedTags[tag])
-    // const clickedArray = this.state.selectedTags[tag];
-    
-    
     const clickedArray = Object.assign({}, this.state.selectedTags);
     console.log('clickedArray', clickedArray)
 
@@ -66,25 +58,16 @@ class LaunchPadWrapper extends React.Component {
       const index = clickedArray[tag].indexOf(tagItem);
       const selectTagsFilter = clickedArray[tag].filter((i) => i !== index);
       
-      console.log('if', this.state.selectedTags)
       this.setState({ selectedTags: selectTagsFilter });
     } else {
       clickedArray[tag].push(tagItem);
       this.setState({ selectedTags: clickedArray });
-      console.log('else', this.state.selectedTags)
     }
   }
-
-  // getUserInfo() {
-  //   return axios.post('/api/selectedTags/user', {
-  //     id: this.props.auth.user.id
-  //   })
-  // }
 
   getTagsData() {
     return axios.get('/api/tags')
       .then((results) => {
-        console.log('Tags API Call', results.data);
         this.setState({
           tagData: results.data
         });
@@ -96,7 +79,6 @@ class LaunchPadWrapper extends React.Component {
   getSubmittedLaunchPadTags(submittedTags) {
     return axios.get('/api/selectedData')
       .then((results) => {
-        console.log('Tags API Call', results.data);
         this.setState({
           tagData: results.data
         });
@@ -137,17 +119,9 @@ class LaunchPadWrapper extends React.Component {
   };
 }
 
-// export default LaunchPadWrapper;
-
 const mapStateToProps = state => ({
-  auth: state.auth,
-  // userReViewSetting: state.userSettingsReducer.userReViewSetting
+  auth: state.auth
 });
-
-// const mapDispatchToProps = dispatch => ({
-//   setUserReViewSetting: (userReViewSetting) => { dispatch(setUserReViewSetting(userReViewSetting)); },
-//   toggleUserReViewSetting: () => { dispatch(toggleUserReViewSetting()); }
-// });
 
 export default connect(
   mapStateToProps,
