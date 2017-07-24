@@ -15,8 +15,26 @@ const BarChart = (props) => {
   };
 
   const chartOptions = {
-    maintainAspectRatio: true
-  };
+    maintainAspectRatio: true,
+    legend: {
+      display: false
+    },
+    title: {
+      display: true,
+      fontSize: 20,
+      text: 'Custom Chart Title'
+    },
+    scales: {
+      yAxes: [{
+          ticks: {
+              callback: function(value, index, values) {
+                  return parseInt(value * 100) + '%';
+              },
+              min: 0
+          }
+      }]
+    }
+  }
 
   return (
     <div className="col-lg-4">
