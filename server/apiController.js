@@ -539,12 +539,11 @@ module.exports.getMovieNightResults = (req, res) => {
 };
 
 module.exports.getTagsforLaunchPad = (req, res) => {
-  // const { data } = req.body;
   db.tags
     .findAll({
       limit: 100
     })
-    .then(results => {
+    .then((results) => {
       const tags = results.reduce((acc, val) => {
         if (!acc[val.tagType]) {
           acc[val.tagType] = [];
@@ -560,19 +559,22 @@ module.exports.getTagsforLaunchPad = (req, res) => {
     .catch(err => res.status(500).send('Error finding tags: ', err));
 };
 
+module.exports.getLaunchPadTags = (req, res) => {
+};
+
 const buildOrIncrementUserTags = (userId, tagId) => {
   return db.userTags
     .findAll(
     {
-      limit: 2,
+      limit: 4,
       where: { tag_Id: tagId }
     })
     .then((userTags) => {
-      console.log('WHAT IS THIS:', userTags);
+
       return userTags.map((userTag) => {
         return new Promise((resolve, reject) => {
-        // const picksIncrement = currentMovie.selected ? 1 : 0;
           if (userTag === null) {
+
             return db.userTags.create({
               viewsCount: 1,
               picksCount: 1,
@@ -580,11 +582,9 @@ const buildOrIncrementUserTags = (userId, tagId) => {
               user_Id: userId
             });
           }
+
           return userTag
-            .increment('viewsCount', { by: 1 })
-            .then(() => {
-              userTag.increment('picksCount', { by: 1 });
-            })
+            .increment(['viewsCount', 'picksCount'], { by: 1 })
             .then(() => {
               console.log('done');
               resolve();
@@ -599,20 +599,11 @@ const buildOrIncrementUserTags = (userId, tagId) => {
 };
 
 
-module.exports.getLaunchPadTags = (req, res) => {
-  // axios.get(/api/);
-}
-
 module.exports.postLaunchPadTags = (req, res) => {
-  console.log('postLaunchPadTags sent req.body as: ', req.body);
 
-  const { selectedTagData } = req.body;
-  const selectedTags = req.body.submitTags;
-  const currentUser = req.body.currentUser;
-
-  selectedTags
+  req.body.submitTags
     .forEach((id, tag) => {
-      buildOrIncrementUserTags(currentUser.id, tag);
+      buildOrIncrementUserTags(req.body.currentUser.id, tag);
     })
     .then(() => res.sendStatus(201))
     .catch(error => res.status(500).send(error));
@@ -657,7 +648,6 @@ module.exports.getUserInfo = (req, res) => {
     console.log('Error getting info', error);
     res.sendStatus(500);
   })
-};
 
 module.exports.getTableData = (req, res) => {
   const responseObj = {};
@@ -673,7 +663,6 @@ module.exports.getTableData = (req, res) => {
     res.sendStatus(500);
   })
 };
-
 
 module.exports.updateUserSettings = (req, res) => {
   const { id, reView } = req.body;
@@ -706,5 +695,4 @@ module.exports.setUserWatchedMovie = (req, res) => {
 
 module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
-
 };
