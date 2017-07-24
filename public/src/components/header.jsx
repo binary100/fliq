@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Hamburger from './hamburger.jsx';
 
 const Header = ({ handleLogout, user, toggleSideMenu }) => (
   <nav className="navbar navbar-inverse header">
@@ -7,10 +8,7 @@ const Header = ({ handleLogout, user, toggleSideMenu }) => (
       <div className="navbar-header">
         <ul className="nav navbar-nav">
           <li>
-            <span
-              className="glyphicon glyphicon-menu-hamburger header-icon"
-              onClick={toggleSideMenu}
-            />
+            <Hamburger toggleSideMenu={toggleSideMenu} />
           </li>
           <li>
             <Link to="/" >

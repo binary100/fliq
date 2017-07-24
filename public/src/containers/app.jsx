@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory, HashRouter as Router, Route, Switch, } from 'react-router-dom';
+import { browserHistory, HashRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import anime from 'animejs';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
@@ -48,20 +47,15 @@ class App extends React.Component {
   }
 
   toggleSideMenu() {
-    this.setState({ showSideMenu : !this.state.showSideMenu });
+    this.setState({ showSideMenu: !this.state.showSideMenu });
   }
 
   render() {
     let popDown = null;
-    let sideMenu = null;
 
     if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
       popDown = this.buildLikeQueryPopdown();
     }
-
-    // if (this.state.showSideMenu) {
-    //   sideMenu = <SideMenu showMenu={this.state.showSideMenu}/>;
-    // }
 
     return (
       <div>
@@ -72,18 +66,18 @@ class App extends React.Component {
               handleLogout={this.handleLogout}
               toggleSideMenu={this.toggleSideMenu}
             />
-              {popDown}
-              <SideMenu showMenu={this.state.showSideMenu} />
-              <Switch>
-                <Route exact path="/" component={Welcome} />
-                <Route path="/results" component={Results} />
-                <Route path="/lightning" component={LightningWrapper} />
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/search" component={Search} />
-                <Route path="/launchpad" component={LaunchPadWrapper} />
-                <Route path="/movienight" component={MovieNight} />
-                <Route path="*" component={Welcome} />
-              </Switch>
+            {popDown}
+            <SideMenu showMenu={this.state.showSideMenu} />
+            <Switch>
+              <Route exact path="/" component={Welcome} />
+              <Route path="/results" component={Results} />
+              <Route path="/lightning" component={LightningWrapper} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/search" component={Search} />
+              <Route path="/launchpad" component={LaunchPadWrapper} />
+              <Route path="/movienight" component={MovieNight} />
+              <Route path="*" component={Welcome} />
+            </Switch>
           </div>
         </Router>
       </div>

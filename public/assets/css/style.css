@@ -311,10 +311,44 @@ at this phase of development
   z-index: 3;
 }
 
-.header-icon {
-  /* size the hamburger */
-  min-height:  50px;
-  line-height: 50px;
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
+}
+
+.hamburger {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.hamburger-open {
+  animation: mySpinOpen 1s ease;
+}
+
+.hamburger-closed {
+  animation: mySpinClosed 1s ease;
+}
+
+@keyframes mySpinOpen {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mySpinClosed {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 
 .navbar a:focus {
@@ -590,13 +624,13 @@ input:checked + .slider:before {
   width: 100px;
   height: 500px;
   top: -600px;
-  transition: 0.5s;
+  transition: 1s ease;
   z-index: 2;
   overflow: auto;
 }
 
 .sidemenu-active {
-  animation: sidemenuSlideDown 0.5s ease;
+  animation: sidemenuSlideDown 1s ease;
   top: 49px;
 }
 
@@ -609,5 +643,3 @@ input:checked + .slider:before {
     top: 49px;
   }
 }
-
-
