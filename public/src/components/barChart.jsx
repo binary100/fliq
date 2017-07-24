@@ -1,11 +1,11 @@
 import React from 'react';
-import { Pie } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
-const PieChart = (props) => {
+const BarChart = (props) => {
   const chartData = {
     labels: props.labels,
     datasets: [{
-      label: 'Pie Chart',
+      label: 'Bar Chart',
       backgroundColor: ['#FF6384','#36A2EB','#FFCE56'],
       borderColor: 'White',
       borderWidth: 2,
@@ -16,22 +16,19 @@ const PieChart = (props) => {
   }
 
   const chartOptions = {
-    // cutoutPercentage: 0,
-    // rotation: ,
-    // circumference: ,
-    // animation.animateRotate: true,
-    // animation.animteScale: false
     maintainAspectRatio: true
   }
 
   return (
     <div className="col-lg-6">
-      <Pie
+      <Bar
         data={chartData}
+        width={100}
+        height={50}
         options={chartOptions}
       />
     </div>
   )
 }
 
-export default PieChart;
+export default BarChart;
