@@ -131,10 +131,6 @@ class Dashboard extends React.Component {
       mostSelectedTagNames: tagNames,
       mostSelectedTagPercentages: tagSelectionPercentages
     })
-
-    console.log('mostSelectedTagIds:', this.state.mostSelectedTagIds);
-    console.log('mostSelectedTagNames:', this.state.mostSelectedTagNames);
-    console.log('mostSelectedTagPercentages:', this.state.mostSelectedTagPercentages);
   }
 
   changeUserReViewSetting() {
@@ -178,9 +174,6 @@ class Dashboard extends React.Component {
             labels={this.state.topTagsByName}
             data={this.state.topTagPicksCountsByUser}
           />}
-        </div>
-
-        <div className="row">
           {this.state.mostSelectedTagNames && <BarChart
             labels={this.state.mostSelectedTagNames}
             data={this.state.mostSelectedTagPercentages}
