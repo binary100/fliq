@@ -581,3 +581,33 @@ input:checked + .slider:before {
   margin-left: 55px;
   white-space: nowrap;
 }
+
+/************* SIDE MENU  **************/
+
+.sidemenu {
+  background-color: black;
+  position: absolute;
+  width: 100px;
+  height: 500px;
+  top: -600px;
+  transition: 0.5s;
+  z-index: 2;
+  overflow: auto;
+}
+
+.sidemenu-active {
+  animation: sidemenuSlideDown 0.5s ease;
+  top: 49px;
+}
+
+@keyframes sidemenuSlideDown {
+    0% {
+    top: -600px;
+  }
+
+  100% {
+    top: 49px;
+  }
+}
+
+
