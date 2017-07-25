@@ -45,9 +45,16 @@ router.get('/checkSession', apiController.checkSession, (req, res) => {
 });
 
 router.get('/api/testme', (req, res) => {
+
+  req.body.user = {
+    id: 2,
+    name: 'Rob Cornell'
+  }
+  apiController.checkTrophyProgress(req.body.user)
+  .then((val) => res.send({ myResponse: val }));
   // apiController.createTrophiesAndReturnUser(req, res);
-  apiController.createTrophiesAndReturnUser(req, res)
-    .then(() => apiController.setUserWatchedMovieToNull(req.user));
+  // apiController.createTrophiesAndReturnUser(req, res)
+  //   .then(() => apiController.setUserWatchedMovieToNull(req.user));
 });
 
 router.get('/account', (req, res) => {

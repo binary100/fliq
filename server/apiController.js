@@ -38,6 +38,91 @@ module.exports.checkSession = (req, res, next) => {
   }
 };
 
+module.exports.checkTrophyProgress = user =>
+  db.userTrophies.findAll({ where : {
+      user_Id: user.id
+    },
+    include: [{ model: db.trophies, as: 'trophy' }, { model: db.users, as: 'user' }]
+  })
+    .then((allUserTrophies) => {
+      const count = allUserTrophies.reduce((total, userTrophy) => {
+        total += userTrophy.dataValues.hasTrophies.split(';').reduce((sum, item) => sum + (+item), 0);
+        return total;
+      }, 0);
+      const trophyHunter = allUserTrophies.find(item => item.trophy_Id === 8);
+      return { trophyHunter, count };
+    })
+    .then((hunterObj) => {
+      const { trophyHunter, count } = hunterObj;
+      const { targetNums } = trophyHunter.trophy;
+
+      for (let i = 0; i < targetNums.length; i += 1) {
+        console.log(`Testing trophyCount ${count} against target ${targetNums[i]}`);
+        // if (count === targetNums[i]) {
+        if (32 === targetNums[i]) {
+
+          const newArray = trophyHunter.dataValues.hasTrophies
+                            .split(';')
+                            .map((curr, ind) => {
+                              if (ind === i) {
+                                return 1;
+                              }
+                              return curr;
+                            });
+
+          return trophyHunter.update({
+            hasTrophies: newArray,
+            trophyCount: trophyHunter.trophyCount + 1
+          })
+            .then(() => ({ trophy: `i is ${i}` }));
+        }        
+      }
+      return null;
+    })  
+
+
+/*
+{
+    "hasTrophies": [
+        0,
+        0
+    ],
+    "id": 164,
+    "trophyCount": 0,
+    "createdAt": "2017-07-25T14:17:34.000Z",
+    "updatedAt": "2017-07-25T14:17:34.000Z",
+    "trophy_Id": 8,
+    "user_Id": 2,
+    "trophy": {
+        "trophyNames": [
+            "TrophyHunter15",
+            "TrophyHunter32"
+        ],
+        "targetNums": [
+            15,
+            32
+        ],
+        "id": 8,
+        "createdAt": "2017-07-24T20:51:30.000Z",
+        "updatedAt": "2017-07-24T20:51:30.000Z"
+    },
+    "user": {
+        "id": 2,
+        "name": "Rob Cornell",
+        "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13435593_10101210926206018_3474235121543587977_n.jpg?oh=afc5bcb2b6e9d50745d504131232c40c&oe=59F394DB",
+        "email": "rob.cornell@gmail.com",
+        "authId": "10101691300771538",
+        "loginNumber": 22,
+        "reView": false,
+        "watchedMovieId": 11,
+        "watchedMovieTitle": "Forrest Gump",
+        "createdAt": "2017-07-25T00:19:30.000Z",
+        "updatedAt": "2017-07-25T15:21:06.000Z"
+    }
+}
+
+
+*/
 
 module.exports.getTwoMovies = (req, res) => {
   // At first, randomly select two movies from DB
