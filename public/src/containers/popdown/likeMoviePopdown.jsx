@@ -102,12 +102,14 @@ class LikeMoviePopdown extends React.Component {
                 <LoadingButton
                   buttonClass={this.state.likeButtonClass}
                   handleClick={this.likeMovie}
+                  isPopdown
                 />
               </div>
               <div className="col-sm-6">
                 <LoadingButton
                   buttonClass={this.state.dislikeButtonClass}
                   handleClick={this.dislikeMovie}
+                  isPopdown
                 />
               </div>
             </div>

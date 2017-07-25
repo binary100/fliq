@@ -164,6 +164,8 @@ at this phase of development
   }
 }
 
+
+
 /************* WELCOME MODAL **************/
 
 .welcome-modal-wrapper {
@@ -427,6 +429,10 @@ at this phase of development
 .results-tile-bar-poster {
   height: 150px;
   width: 130px;
+}
+
+.popdown-button {
+  width: 65%;
 }
 
 /************* SEARCH PAGE **************/

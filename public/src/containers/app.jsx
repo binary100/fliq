@@ -32,7 +32,7 @@ class App extends React.Component {
         let { user, trophy } = results.data;
         if (user) {
           this.props.loginUser(user);
-          trophy = ['Login50'];
+          // trophy = ['Login50'];
           if (trophy) {
             this.props.showTrophyPopdown(trophy);
           }
