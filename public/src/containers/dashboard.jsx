@@ -9,7 +9,7 @@ import ToggleSwitch from '../components/toggleSwitch.jsx';
 import DropDownMenu from '../components/dropDownMenu.jsx';
 import { setUserReViewSetting, toggleUserReViewSetting } from '../actions/actions.js';
 
-const tagsCountCutoff = 10;
+const tagsCountCutoff = 1;
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -36,8 +36,17 @@ class Dashboard extends React.Component {
       shapedTagInfo: null,
       topActors: null,
       topDirectors: null,
-      topGenres: null
+      topGenres: null,
 
+      // data for absolute # charts
+      absNumChartsTitle: null,
+      absNumChartsLabels: null,
+      absNumChartsData: null,
+
+      // data for relative % charts
+      pctChartsTitle: null,
+      pctChartsLabels: null,
+      pctChartsData: null
     };
 
     this.getUserInfo = this.getUserInfo.bind(this);
@@ -46,8 +55,8 @@ class Dashboard extends React.Component {
     this.changeUserReViewSetting = this.changeUserReViewSetting.bind(this);
     this.chartTopTagsByUser = this.chartTopTagsByUser.bind(this);
     this.chartTopActorsByLikes = this.chartTopActorsByLikes.bind(this);
-    this.absoluteChartsDropDownHandler = this.absoluteChartsDropDownHandler.bind(this);
-    // this.relativeChartsDropDownHandler = this.relativeChartsDropDownHandler.bind(this);
+    this.absNumChartsDropDownHandler = this.absNumChartsDropDownHandler.bind(this);
+    this.pctChartsDropDownHandler = this.pctChartsDropDownHandler.bind(this);
   }
 
   componentWillMount() {
@@ -84,12 +93,9 @@ class Dashboard extends React.Component {
         tagsTableData: responseObj.data.tagsTableData
       });
     })
-    .then(() => {
-      this.chartTopTagsByUser();
-    })
-    .then(() => {
-      this.chartTopTagsBySelectionPercentage();
-    })
+    .then(() => this.chartTopTagsByUser())
+    .then(() => console.log('state after calling chartTopTagsByUser:', this.state))
+    .then(() => this.chartTopTagsBySelectionPercentage())
     .then(() => this.chartTopActorsByLikes());
   }
 
@@ -154,7 +160,7 @@ class Dashboard extends React.Component {
       if (!acc[tag.type]) {
         acc[tag.type] = [];
       }
-      acc[tag.type].push({ likesCount: tag.likesCount, name: tag.name });
+      acc[tag.type].push({ likesCount: tag.likesCount, name: tag.name, picksCount: tag.picksCount, viewsCount: tag.viewsCount });
       return acc;
     }, {});
     const topGenres = sortedByType.genre
@@ -168,13 +174,14 @@ class Dashboard extends React.Component {
       .slice(0, 10);
     console.log('topActors: ', topActors);
     console.log('topGenres: ', topGenres);
+    console.log('topDirectors: ', topDirectors);
     this.setState({ topGenres, topActors, topDirectors });
   }
 
   changeUserReViewSetting() {
     this.updateUserReViewSetting()
       .then(() => {
-        this.props.toggleUserReViewSetting()
+        this.props.toggleUserReViewSetting();
       });
   }
 
@@ -185,23 +192,61 @@ class Dashboard extends React.Component {
     });
   }
 
-  absoluteChartsDropDownHandler(eventKey) {
-    let labels = [];
-    let data = [];
+  absNumChartsDropDownHandler(eventKey) {
+    let chartTitle = null;
+    let chartLabels = null;
+    let chartData = null;
 
-    if (eventKey === 'actor') {
-      console.log(eventKey);
+    if (eventKey === 'genre') {
+      chartTitle = 'Most Selected Genres (#)';
+      chartLabels = this.state.topGenres.map(genreObj => genreObj.name);
+      chartData = this.state.topGenres.map(genreObj => genreObj.picksCount);
+    } else if (eventKey === 'actor') {
+      chartTitle = 'Most Selected Actors (#)';
+      chartLabels = this.state.topActors.map(actorObj => actorObj.name);
+      chartData = this.state.topActors.map(actorObj => actorObj.picksCount);
     } else if (eventKey === 'director') {
-      console.log(eventKey);
-    } else if (eventKey === 'genre') {
-      console.log(eventKey);
+      chartTitle = 'Most Selected Directors (#)';
+      chartLabels = this.state.topDirectors.map(directorObj => directorObj.name);
+      chartData = this.state.topDirectors.map(directorObj => directorObj.picksCount);
+    } else if (eventKey === 'all') {
+      chartTitle = 'Most Selected Tags (#)';
     }
+
+    this.setState({
+      absNumChartsTitle: chartTitle,
+      absNumChartsLabels: chartLabels,
+      absNumChartsData: chartData
+    });
   }
 
-  // relativeChartsDropDownHandler(eventKey) {
-  //   console.log('dropDownHandler #2 fired:', eventKey);
-  // }
+  pctChartsDropDownHandler(eventKey) {
+    let chartTitle = null;
+    let chartLabels = null;
+    let chartData = null;
 
+    if (eventKey === 'genre') {
+      chartTitle = 'Most Selected Genres (%)';
+      chartLabels = this.state.topGenres.map(genreObj => genreObj.name);
+      chartData = this.state.topGenres.map(genreObj => (genreObj.picksCount / genreObj.viewsCount));
+    } else if (eventKey === 'actor') {
+      chartTitle = 'Most Selected Actors (%)';
+      chartLabels = this.state.topActors.map(actorObj => actorObj.name);
+      chartData = this.state.topActors.map(actorObj => (actorObj.picksCount / actorObj.viewsCount));
+    } else if (eventKey === 'director') {
+      chartTitle = 'Most Selected Directors (%)';
+      chartLabels = this.state.topDirectors.map(directorObj => directorObj.name);
+      chartData = this.state.topDirectors.map(directorObj => (directorObj.picksCount / directorObj.viewsCount));
+    } else if (eventKey === 'all') {
+      chartTitle = 'Most Selected Tags (#)';
+    }
+
+    this.setState({
+      pctChartsTitle: chartTitle,
+      pctChartsLabels: chartLabels,
+      pctChartsData: chartData
+    });
+  }
 
   render() {
     return (
@@ -225,16 +270,20 @@ class Dashboard extends React.Component {
             this.state.topActors ?
             <div>
               <DropDownMenu
-                onSelect={this.absoluteChartsDropDownHandler}
+                onSelect={this.absNumChartsDropDownHandler}
               />
               <PieChart
-                labels={this.state.topTagsByName}
-                data={this.state.topTagPicksCountsByUser}
+                title={this.state.absNumChartsTitle}
+                labels={this.state.absNumChartsLabels}
+                data={this.state.absNumChartsData}
+              />
+              <DropDownMenu
+                onSelect={this.pctChartsDropDownHandler}
               />
               <BarChart
-                title="Most Selected Tags (%)"
-                labels={this.state.mostSelectedTagNames}
-                data={this.state.mostSelectedTagPercentages}
+                title={this.state.pctChartsTitle}
+                labels={this.state.pctChartsLabels}
+                data={this.state.pctChartsData}
               />
             </div>
             : <h1 className="col-sm-10">Loading your profile data...</h1>
@@ -246,9 +295,6 @@ class Dashboard extends React.Component {
 }
 
 /*
-
-  chart to use later
-
   <BarChart
     title="Top 10 Actors"
     labels={this.state.topActors.map(a => a.name)}

@@ -22,7 +22,7 @@ const BarChart = (props) => {
     title: {
       display: true,
       fontSize: 20,
-      text: 'Custom Chart Title'
+      text: props.title
     },
     scales: {
       yAxes: [{
