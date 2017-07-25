@@ -3,6 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
+import DashboardTrophies from '../components/dashboardTrophies.jsx';
 import PieChart from '../components/pieChart.jsx';
 import BarChart from '../components/barChart.jsx';
 import ToggleSwitch from '../components/toggleSwitch.jsx';
@@ -189,7 +190,7 @@ class Dashboard extends React.Component {
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-6">
             <DashboardUserProfile
               user={this.props.auth.user}
             />
@@ -198,6 +199,9 @@ class Dashboard extends React.Component {
               changeUserReViewSetting={this.changeUserReViewSetting}
               reViewSetting={this.props.userReViewSetting}
             />
+          </div>
+          <div className="col-lg-6">
+            <DashboardTrophies trophies={this.state.earnedTrophies} />
           </div>
         </div>
         <br />

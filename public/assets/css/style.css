@@ -679,3 +679,20 @@ input:checked + .slider:before {
     top: 49px;
   }
 }
+
+/************* DASHBOARD TROPHIES MENU  **************/
+
+.trophies-box {
+  min-height: 300px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.trophy {
+  display: inline-block;
+  margin: auto;
+  transform: scale(0.5);
+  height: 85px;
+  width: 85px;
+}
+
