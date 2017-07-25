@@ -543,6 +543,36 @@ at this phase of development
   transform: translate(-50%, -50%);
 }
 
+
+.lax-back {
+  position: absolute;
+  background: 'url(http://matthew.wagerfield.com/parallax/assets/images/background.jpg) no-repeat 50% 100%',
+  bottom:'96px',
+  background-size: 'cover',
+  width: '110%',
+  height: '500px',
+  left: '-5%',
+  top: '-5%',
+}
+
+.layer {
+  background: red;
+  width:200px;
+  height:200px;
+}
+
+.test-block2 {
+  background: blue;
+  width:300px;
+  height:100px;
+}
+
+.test-block3 { 
+  background: white;
+  width:300px;
+  height:100px;
+}
+
 /************* TOGGLE SWITCH **************/
 
 /*sets size of toggle switch container*/
@@ -587,10 +617,6 @@ at this phase of development
 input:checked + .slider {
   background-color: #32cd32;
 }
-
-/*input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}*/
 
 /*moves slider when clicked*/
 input:checked + .slider:before {

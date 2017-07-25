@@ -578,21 +578,18 @@ module.exports.getMovieNightResults = (req, res) => {
 };
 
 module.exports.getTagsforLaunchPad = (req, res) => {
-  // const { data } = req.body;
   db.tags
     .findAll({
-      order: [
-        Sequelize.fn('RAND')
-      ],
-      limit: 20
+      limit: 100
     })
-    .then(results => {
+    .then((results) => {
       const tags = results.reduce((acc, val) => {
         if (!acc[val.tagType]) {
           acc[val.tagType] = [];
         }
-
-        acc[val.tagType].push(val.tagName);
+        if (acc[val.tagType].length < 20) {
+          acc[val.tagType].push([val.id, val.tagName]);
+        }
         return acc;
       }, {});
 
@@ -601,16 +598,50 @@ module.exports.getTagsforLaunchPad = (req, res) => {
     .catch(err => res.status(500).send('Error finding tags: ', err));
 };
 
-module.exports.getLaunchPadTags = (req, res) => {
-  // axios.get(/api/);
+const buildOrIncrementUserTags = (userId, tagId) => {
+  return db.userTags
+    .findAll(
+    {
+      limit: 4,
+      where: { tag_Id: tagId }
+    })
+    .then((userTags) => {
+
+      return userTags.map((userTag) => {
+        return new Promise((resolve, reject) => {
+          if (userTag === null) {
+
+            return db.userTags.create({
+              viewsCount: 1,
+              picksCount: 1,
+              tag_Id: tagId,
+              user_Id: userId
+            });
+          }
+
+          return userTag
+            .increment(['viewsCount', 'picksCount'], { by: 1 })
+            .then(() => {
+              console.log('done');
+              resolve();
+            })
+            .catch((err) => {
+              console.log('Error in userTag if/else promise:', err);
+              reject();
+            });
+        }); // end of new promise
+      }); // end of userTags.MAP (then)
+    }); // end of userTags
 };
 
 module.exports.postLaunchPadTags = (req, res) => {
-  console.log('postLaunchPadTags sent req.body as: ', req.body);
-  const { selectedTagData } = req.body;
 
-  console.log('Completed postLaunchPagTags placeholder logic');
-  res.sendStatus(200);
+  req.body.submitTags
+    .forEach((id, tag) => {
+      buildOrIncrementUserTags(req.body.currentUser.id, tag);
+    })
+    .then(() => res.sendStatus(201))
+    .catch(error => res.status(500).send(error));
 };
 
 module.exports.getUserInfo = (req, res) => {
