@@ -642,19 +642,36 @@ module.exports.getUserInfo = (req, res) => {
         user_Id: user_id
       },
       include: [{ model: db.tags, as: 'tag' }]
-    }))
-    .then((userTagsResults) => {
-      responseObj.userTagsInfo = userTagsResults;
-      const shapedResults = userTagsResults.map(tag => ({
-        name: tag.tag.tagName,
-        type: tag.tag.tagType,
-        dislikesCount: tag.dislikesCount,
-        likesCount: tag.likesCount,
-        picksCount: tag.picksCount,
-        viewsCount: tag.viewsCount,
-        id: tag.id
-      }));
-      responseObj.shapedTagInfo = shapedResults;
+  }))
+  .then((userTagsResults) => {
+    responseObj.userTagsInfo = userTagsResults;
+    const shapedResults = userTagsResults.map(tag => ({
+      name: tag.tag.tagName,
+      type: tag.tag.tagType,
+      dislikesCount: tag.dislikesCount,
+      likesCount: tag.likesCount,
+      picksCount: tag.picksCount,
+      viewsCount: tag.viewsCount,
+      id: tag.id
+    }));
+    responseObj.shapedTagInfo = shapedResults;
+  })
+  .then(() => db.userTrophies.findAll({
+    where: { user_Id: user_id },
+    include: [{ model: db.trophies, as: 'trophy' }]
+  }))
+  .then((userTrophies) => {
+    // Get names of all obtained trophies
+    const trophies = userTrophies.reduce((acc, userTrophy) => {
+      acc = acc.concat(userTrophy.hasTrophies.reduce((arr, item, ind) => {
+        if (item) {
+          acc.push(userTrophy.trophy.trophyNames[ind]);
+        }
+        return arr;
+      }, []));
+      return acc;
+    }, []);
+    responseObj.userTrophies = trophies;
   })
   .then(() => {
     res.send(responseObj);
