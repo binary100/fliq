@@ -22,8 +22,8 @@ class TrophyPopdown extends React.Component {
 }
 
 const mapStateToProps = props => ({
-  show: state.trophies.showPopdown,
-  trophies: state.trophies.trophy
+  show: state.trophyReducer.showPopdown,
+  trophies: state.trophyReducer.trophy
 });
 
 const mapDispatchToProps = dispatch => ({

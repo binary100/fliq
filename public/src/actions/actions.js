@@ -35,3 +35,16 @@ export const toggleUserReViewSetting = () => {
     type: 'TOGGLE_USER_REVIEW_SETTING'
   };
 };
+
+export const showTrophyPopdown = (trophies) => {
+  return {
+    type: 'SHOW_TROPHY_POPDOWN',
+    trophies
+  }
+};
+
+export const closeTrophyPopdown = () => {
+  return {
+    type: 'CLOSE_TROPHY_POPDOWN'
+  }
+};
