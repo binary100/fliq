@@ -174,7 +174,7 @@ class Dashboard extends React.Component {
   changeUserReViewSetting() {
     this.updateUserReViewSetting()
       .then(() => {
-        this.props.toggleUserReViewSetting();
+        this.props.toggleUserReViewSetting()
       });
   }
 
@@ -220,11 +220,13 @@ class Dashboard extends React.Component {
         </div>
         <br />
         <div className="row">
-<<<<<<< HEAD
           { this.state.topTagsByName &&
             this.state.mostSelectedTagNames &&
             this.state.topActors ?
             <div>
+              <DropDownMenu
+                onSelect={this.absoluteChartsDropDownHandler}
+              />
               <PieChart
                 labels={this.state.topTagsByName}
                 data={this.state.topTagPicksCountsByUser}
@@ -237,19 +239,6 @@ class Dashboard extends React.Component {
             </div>
             : <h1 className="col-sm-10">Loading your profile data...</h1>
           }
-=======
-          <DropDownMenu
-            onSelect={this.absoluteChartsDropDownHandler}
-          />
-          {this.state.topTagsByName && <PieChart
-            labels={this.state.topTagsByName}
-            data={this.state.topTagPicksCountsByUser}
-          />}
-          {this.state.mostSelectedTagNames && <BarChart
-            labels={this.state.mostSelectedTagNames}
-            data={this.state.mostSelectedTagPercentages}
-          />}
->>>>>>> feat($dashboard): Display dropdown menu for charts; component remains unconnected
         </div>
       </div>
     );
