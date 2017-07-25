@@ -35,7 +35,8 @@ class Dashboard extends React.Component {
       shapedTagInfo: null,
       topActors: null,
       topDirectors: null,
-      topGenres: null
+      topGenres: null,
+      earnedTrophies: []
 
     };
 
@@ -62,7 +63,8 @@ class Dashboard extends React.Component {
         userInfo: responseObj.data.userInfo,
         userMoviesInfo: responseObj.data.userMoviesInfo,
         userTagsInfo: responseObj.data.userTagsInfo,
-        shapedTagInfo: responseObj.data.shapedTagInfo
+        shapedTagInfo: responseObj.data.shapedTagInfo,
+        earnedTrophies: responseObj.data.earnedTrophies
       });
       console.log('shapedInfo is: ', responseObj.data);
       const userReViewSetting = responseObj.data.userInfo.reView;

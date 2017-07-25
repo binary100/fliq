@@ -671,7 +671,7 @@ module.exports.getUserInfo = (req, res) => {
       }, []));
       return acc;
     }, []);
-    responseObj.userTrophies = trophies;
+    responseObj.earnedTrophies = trophies;
   })
   .then(() => {
     res.send(responseObj);
@@ -728,12 +728,6 @@ module.exports.setUserWatchedMovieToNull = (user) => {
 };
 
 module.exports.createTrophiesAndReturnUser = (req, res) => {
-  // req.user = {
-  //   id: 2,
-  //   name: 'Rob Cornell'
-  // };
-
-  console.log('user: ', req.user);
   return db.users.findOne({ where: { id: req.user.id } })
   .then((user) => {
     if (user.loginNumber === 1) {
