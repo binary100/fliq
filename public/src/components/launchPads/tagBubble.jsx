@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 // import Anime from 'react-anime';
 import classNames from 'classnames';
 
-TagBubble.propTypes = {
-  user: PropTypes.object.isRequired
-}
+// TagBubble.propTypes = {
+//   user: PropTypes.object.isRequired
+// }
 
 class TagBubble extends React.Component {
 

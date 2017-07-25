@@ -1,7 +1,6 @@
 import React from 'react';
 import TagBubble from './tagBubble.jsx';
 import { Link } from 'react-router-dom';
-// import Parallax from 'parallax-js';
 // import Anime from 'react-anime';
 
 let bubbleCount = 0;
