@@ -4,6 +4,9 @@ import ResultsBody from '../components/resultsBody.jsx';
 import ResultsTileBar from '../components/resultsTileBar.jsx';
 import { connect } from 'react-redux';
 
+const userHeader = `FLIQ suggests these movies`;
+const noUserHeader = `These are the most preferred movies from FLIQ's entire database. Log in to build a profile.`;
+
 class Results extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +50,7 @@ class Results extends React.Component {
   }
 
   handleSeeMovieClick() {
-    // if (!this.props.isLoggedIn) return;
+    if (!this.props.isLoggedIn) return;
     axios.post('/api/user/watched', {
       userId: this.props.user.id,
       watchedMovieId: this.state.selectedMovie.id,
@@ -58,8 +61,14 @@ class Results extends React.Component {
   render() {
     return (
       <div className="fadeIn">
+        <div className="row results-header">
+          <h2 className="col-sm-12">
+            {this.props.isLoggedIn ? userHeader : noUserHeader}
+          </h2>
+        </div>
         <div>
           <ResultsBody
+            isLoggedIn={this.props.isLoggedIn}
             handleSeeMovieClick={this.handleSeeMovieClick}
             trailer={this.state.trailer}
             movie={this.state.selectedMovie}

@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory, HashRouter as Router, Route, Switch, } from 'react-router-dom';
+import { browserHistory, HashRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import anime from 'animejs';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
+import SideMenu from '../components/sidemenu.jsx';
 import LaunchPadWrapper from './launchPadWrapper.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
 import MovieNight from './movieNight.jsx';
@@ -14,11 +14,14 @@ import Dashboard from './dashboard.jsx';
 import LikeMoviePopdown from './popdown/likeMoviePopdown.jsx';
 import { loginUser, logoutUser } from '../actions/actions.js';
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showSideMenu: false
+    };
     this.handleLogout = this.handleLogout.bind(this);
+    this.toggleSideMenu = this.toggleSideMenu.bind(this);
   }
 
   componentWillMount() {
@@ -44,6 +47,10 @@ class App extends React.Component {
     return <LikeMoviePopdown movie={movieObj} />;
   }
 
+  toggleSideMenu() {
+    this.setState({ showSideMenu: !this.state.showSideMenu });
+  }
+
   render() {
     let popDown = null;
 
@@ -55,8 +62,13 @@ class App extends React.Component {
       <div>
         <Router history={browserHistory}>
           <div>
-            <Header user={this.props.auth.user} handleLogout={this.handleLogout} />
+            <Header
+              user={this.props.auth.user}
+              handleLogout={this.handleLogout}
+              toggleSideMenu={this.toggleSideMenu}
+            />
             {popDown}
+            <SideMenu showMenu={this.state.showSideMenu} />
             <Switch>
               <Route exact path="/" component={Welcome} />
               <Route path="/results" component={Results} />
