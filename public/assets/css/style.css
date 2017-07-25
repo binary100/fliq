@@ -683,16 +683,18 @@ input:checked + .slider:before {
 /************* DASHBOARD TROPHIES MENU  **************/
 
 .trophies-box {
-  min-height: 300px;
+  /*min-height: 300px;*/
+  height: 300px;
   border: 1px solid black;
   border-radius: 10px;
+  overflow: auto;
 }
 
 .trophy {
   display: inline-block;
-  margin: auto;
-  transform: scale(0.5);
+  margin: 3px;
+  /*transform: scale(0.4);
   height: 85px;
-  width: 85px;
+  width: 85px;*/
 }
 

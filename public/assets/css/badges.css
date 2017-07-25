@@ -26,209 +26,209 @@ filter: grayscale(100%) brightness(20%);
 
 #noob-4{height: 218px;width:193px;background-position: -802px -57px;}
 
-#Login{height: 195px;width:149px;background-position: -70px -300px;}
+#Login1{height: 195px;width:149px;background-position: -70px -300px;}
 
-#Login1{height: 198px;width:182px;background-position: -303px -311px;}
+#Login10{height: 198px;width:182px;background-position: -303px -311px;}
 
-#Login10{height: 199px;width:183px;background-position: -558px -312px;}
+#Login50{height: 199px;width:183px;background-position: -558px -312px;}
 
-#Login50{
+#Login1000{
   height:204px;
   width:186px;
   background-position: -806px -310px;
 }
 
-#MovieNight-1{height: 187px;width:180px;background-position: -53px -553px;}
+#MovieNight{height: 187px;width:180px;background-position: -53px -553px;}
 
-#MovieNight-2{height: 200px;width:174px;background-position: -309px -563px;}
+#MovieNight1{height: 200px;width:174px;background-position: -309px -563px;}
 
-#MovieNight1{height: 200px;width:185px;background-position: -555px -562px;}
+#MovieNight10{height: 200px;width:185px;background-position: -555px -562px;}
 
-#MovieNight10{
+#MovieNight1000{
   height:210px;
   width:187px;
   background-position: -805px -559px;
 }
 
-#seenMovie-1{height: 200px;width:149px;background-position: -68px -812px;}
+#Seen1{height: 200px;width:149px;background-position: -68px -812px;}
 
-#seenMovie-2{height: 200px;width:178px;background-position: -305px -814px;}
+#Seen10{height: 200px;width:178px;background-position: -305px -814px;}
 
-#seenMovie-3{height: 200px;width:181px;background-position: -558px -816px;}
+#Seen50{height: 200px;width:181px;background-position: -558px -816px;}
 
-#seenMovie-4{
-height:210px;
-width:185px;
-background-position: -807px -811px;
+#Seen{
+  height:210px;
+  width:185px;
+  background-position: -807px -811px;
 }
 
 
 #launchPad-1{
-height:150px;
-width:144px;
-background-position: -71px -1091px;
+  height:150px;
+  width:144px;
+  background-position: -71px -1091px;
 }
 
 #launchPad-2{
-height:177px;
-width:178px;
-background-position: -306px -1084px;
+  height:177px;
+  width:178px;
+  background-position: -306px -1084px;
 }
 
 #launchPad-3{
-height:176px;
-width:182px;
-background-position: -556px -1086px;
+  height:176px;
+  width:182px;
+  background-position: -556px -1086px;
 }
 
-#launchPad-4{
-height:208px;
-width:186px;
-background-position: -806px -1064px;
+#LaunchPad1{
+  height:208px;
+  width:186px;
+  background-position: -806px -1064px;
 }
 
-#trophyHunter-1{
-height:150px;
-width:145px;
-background-position: -71px -1343px;
+#TrophyHunter1{
+  height:150px;
+  width:145px;
+  background-position: -71px -1343px;
 }
 
-#trophyHunter-2{
+#TrophyHunter2{
 height:177px;
 width:178px;
 background-position: -306px -1337px;
 }
 
-#trophyHunter-3{
+#TrophyHunter15{
 height:175px;
 width:182px;
 background-position: -559px -1339px;
 }
 
-#trophyHunter-4{
+#TrophyHunter32{
 height:207px;
 width:184px;
 background-position: -806px -1316px;
 }
 
 
-#horror-1{
+#Horror1{
 height:150px;
 width:145px;
 background-position: -71px -1598px;
 }
 
-#horror-2{
+#Horror10{
 height:175px;
 width:179px;
 background-position: -307px -1589px;
 }
 
-#horror-3{
+#Horror50{
 height:178px;
 width:184px;
 background-position: -556px -1589px;
 }
 
-#horror-4{
+#Horror4{
 height:209px;
 width:187px;
 background-position: -805px -1569px;
 }
 
-#action-1{
+#Action1{
 height:152px;
 width:146px;
 background-position: -71px -2097px;
 }
 
-#action-2{
+#Action10{
 height:151px;
 width:148px;
 background-position: -70px -1844px;
 }
 
-#action-3{
+#Action50{
 height:178px;
 width:182px;
 background-position: -557px -2092px;
 }
 
-#action-4{
+#Action4{
 height:209px;
 width:187px;
 background-position: -806px -2072px;
 }
 
-#drama-1{
+#Drama1{
 height:152px;
 width:146px;
 background-position: -71px -1845px;
 }
 
-#drama-2{
+#Drama10{
 height:177px;
 width:180px;
 background-position: -305px -1841px;
 }
 
-#drama-3{
+#Drama50{
 height:178px;
 width:180px;
 background-position: -559px -1840px;
 }
 
-#drama-4{
+#Drama4{
 height:209px;
 width:187px;
 background-position: -805px -1821px;
 }
 
 
-#hate-1{
+#Dislike1{
 height:149px;
 width:148px;
 background-position: -69px -2352px;
 }
 
-#hate-2{
+#Dislike10{
 height:177px;
 width:175px;
 background-position: -308px -2345px;
 }
 
-#hate-3{
-height:177px;
-width:180px;
-background-position: -559px -2346px;
+#Dislike50{
+  height:177px;
+  width:180px;
+  background-position: -559px -2346px;
 }
 
-#hate-4{
-height:209px;
-width:187px;
-background-position: -806px -2326px;
+#Dislike4{
+  height:209px;
+  width:187px;
+  background-position: -806px -2326px;
 }
 
-#like-1 {height: 200px;width:147px;background-position: -70px -2577px;}
+#Like1 {height: 200px;width:147px;background-position: -70px -2577px;}
 
-#like-2{height: 200px;width:179px;background-position: -306px -2579px;}
+#Like10{height: 200px;width:179px;background-position: -306px -2579px;}
 
-#like-3{height: 200px;width:187px;background-position: -555px -2580px;}
+#Like50{height: 200px;width:187px;background-position: -555px -2580px;}
 
-#like-4{
-height:209px;
-width:187px;
-background-position: -806px -2577px;
+#Like4{
+  height:209px;
+  width:187px;
+  background-position: -806px -2577px;
 }
 
-#lightning-1 {height: 200px;width:147px;background-position: -70px -2573px;}
+#Lightning1 {height: 200px;width:147px;background-position: -70px -2573px;}
 
-#lightning-2{height: 200px;width:179px;background-position: -306px -2587px;}
+#Lightning10{height: 200px;width:179px;background-position: -306px -2587px;}
 
-#lightning-3{height: 200px;width:187px;background-position: -555px -2588px;}
+#Lightning50{height: 200px;width:187px;background-position: -555px -2588px;}
 
-#lightning-4{
-height:209px;
-width:187px;
-background-position: -806px -2577px;
+#Lightning100{
+  height:209px;
+  width:187px;
+  background-position: -806px -2577px;
 }

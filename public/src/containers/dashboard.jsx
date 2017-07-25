@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
 import DashboardTrophies from '../components/dashboardTrophies.jsx';
+import BadgeList from '../components/badgeList.jsx';
 import PieChart from '../components/pieChart.jsx';
 import BarChart from '../components/barChart.jsx';
 import ToggleSwitch from '../components/toggleSwitch.jsx';
