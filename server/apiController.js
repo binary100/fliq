@@ -671,6 +671,12 @@ module.exports.setUserWatchedMovieToNull = (user) => {
 };
 
 module.exports.createTrophiesAndReturnUser = (req, res) => {
+  req.user = {
+    id: 2,
+    name: 'Rob Cornell'
+  };
+
+  console.log('user: ', req.user);
   return db.users.findOne({ where: { id: req.user.id } })
   .then((user) => {
     if (user.loginNumber === 1) {
@@ -705,7 +711,7 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
         return Promise.all(trophyPromises);
       })
       .then(() => {
-        res.send({ user: req.user, trophy: ['sucess', 'Login1'] });
+        res.send({ user: req.user, trophy: ['Login1'] });
       })
       .catch(err => res.send(err));
     } else {
@@ -722,7 +728,7 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
             .then((trophy) => {
               const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => { if (ind === index) return 1; return curr; });
               db.userTrophies.update({ hasTrophies: newArray }, { where: { user_Id: req.user.id, trophy_Id: 2 } })
-              .then(() => res.send({ user: req.user, trophy: ['sucess', userTrophy.trophy.trophyNames[index]] }));
+              .then(() => res.send({ user: req.user, trophy: [userTrophy.trophy.trophyNames[index]] }));
             })
             .catch(err => res.send(err));
           } else {
