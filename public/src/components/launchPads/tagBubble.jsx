@@ -1,5 +1,11 @@
 import React from 'react';
-import Anime from 'react-anime';
+import PropTypes from 'prop-types';
+// import Anime from 'react-anime';
+import classNames from 'classnames';
+
+TagBubble.propTypes = {
+  user: PropTypes.object.isRequired
+}
 
 class TagBubble extends React.Component {
 
@@ -9,6 +15,13 @@ class TagBubble extends React.Component {
 
 // 
   render() {
+    const genre = this.props.tag;
+    const tagId = this.props.tagItem[0];
+    const tagClassNames = classNames({
+      "tag-bubble": true,
+      "tag-bubble-active": this.props.selectedTags[genre].includes(tagId),
+      "tag-bubble-default": !this.props.selectedTags[genre].includes(tagId)
+    });
     return (
       // <Anime 
       //   delay={(e, i) => i * 100} 
@@ -16,19 +29,14 @@ class TagBubble extends React.Component {
       //   translateX={['-50rem', '0rem']}
       // >
         <div 
-          className={this.props.isSelected(this.props.tag, this.props.tagItem[0])}
+          className={tagClassNames}
           onClick={() => this.props.selectItem(this.props.tagItem[0], this.props.tag)}
         >
           <div className="tag-text"> {this.props.tagItem[1]} </div> 
         </div>
-<<<<<<< HEAD
-      </Anime>
 
-||||||| merged common ancestors
-      </Anime>
-=======
+
       // </Anime>
->>>>>>> feat($launchpad $server): add api routes to update view and picks count
     )
   }
 

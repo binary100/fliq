@@ -2,7 +2,7 @@
 **/node_modules
 **/assets
 README.md
+public/dist
 package.json
-**/public/dist/**
 LICENSE
 **/test/**

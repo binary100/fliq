@@ -8,12 +8,7 @@ class LaunchPad extends React.Component {
       step: 1
     };
     this.setStep = this.setStep.bind(this);
-<<<<<<< HEAD
     console.log('LaunchPad Props: ', props);
-||||||| merged common ancestors
-    console.log('LaunchPad Props: ', props)
-=======
->>>>>>> fix($launchpad): fix merge code and cleaned up console logs
   }
 
   setStep(step) {
@@ -40,19 +35,7 @@ class LaunchPad extends React.Component {
       <div>
         <div className="container container-fluid text-center">
           <h1>{tag}</h1>
-<<<<<<< HEAD
           <LaunchPadTags
-||||||| merged common ancestors
-          <LaunchPadTags 
-=======
-          <LaunchPadTags 
-<<<<<<< HEAD
-            user={this.props.user}
->>>>>>> feat($launchpad $server): add api routes to update view and picks count
-||||||| merged common ancestors
-=======
-            user={this.props.user}
->>>>>>> feat($launchpad $server): add api routes to update view and picks count
             tag={tag}
             tagArray={this.props.tags[tag]}
             step={this.state.step}

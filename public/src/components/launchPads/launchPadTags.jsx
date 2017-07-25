@@ -1,6 +1,7 @@
 import React from 'react';
 import TagBubble from './tagBubble.jsx';
 import { Link } from 'react-router-dom';
+// import Parallax from 'parallax-js';
 // import Anime from 'react-anime';
 
 let bubbleCount = 0;
@@ -8,9 +9,9 @@ class LaunchPadTags extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-    }
+    this.state = {}
 
+    // this.parallax = this.parallax.bind(this.scene)
     this.goToNext = this.goToNext.bind(this)
     this.goToPrev = this.goToPrev.bind(this)
   }
@@ -31,12 +32,9 @@ class LaunchPadTags extends React.Component {
   render() {
     return (
       <div className="launchPadPage">
+        <div className="lax-back"></div>
         <div className="launchPad-controls">
           <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
             { this.props.step === 1 ? 
               null :
               <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
@@ -51,56 +49,6 @@ class LaunchPadTags extends React.Component {
               <Link to="/">
                 <button
                   onClick={() => this.props.postSelectedTags(this.props.selectedTags, this.props.user)}
-||||||| merged common ancestors
-            <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
-            <button className="btn btn-primary btn-spacing" onClick={this.goToNext}>Next</button>
-              { this.props.step === 3 ? 
-                <Link to="/"><button
-||||||| merged common ancestors
-            <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
-            <button className="btn btn-primary btn-spacing" onClick={this.goToNext}>Next</button>
-              { this.props.step === 3 ? 
-                <Link to="/"><button
-=======
-
-            { this.props.step === 1 ? 
-              null :
-              <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
-            }
-
-            { this.props.step === 3 ? 
-              null :
-              <button className="btn btn-default btn-spacing" onClick={this.goToNext}>Next</button>
-            }
-
-            { this.props.step === 3 ? 
-              <Link to="/">
-                <button
->>>>>>> feat($launchpad): add route for new users
-                  onClick={() => this.props.postSelectedTags(this.props.selectedTags)} 
-=======
-
-            { this.props.step === 1 ? 
-              null :
-              <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
-            }
-
-            { this.props.step === 3 ? 
-              null :
-              <button className="btn btn-default btn-spacing" onClick={this.goToNext}>Next</button>
-            }
-
-            { this.props.step === 3 ? 
-              <Link to="/">
-                <button
-<<<<<<< HEAD
-                  onClick={() => this.props.postSelectedTags(this.props.selectedTags)} 
->>>>>>> feat($launchpad): add route for new users
-||||||| merged common ancestors
-                  onClick={() => this.props.postSelectedTags(this.props.selectedTags)} 
-=======
-                  onClick={() => this.props.postSelectedTags(this.props.selectedTags, this.props.user)}
->>>>>>> feat($launchpad $server): add api routes to update view and picks count
                   className="btn btn-success btn-spacing"
                 >
                   Submit
