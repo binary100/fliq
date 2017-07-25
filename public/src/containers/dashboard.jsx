@@ -256,7 +256,11 @@ class Dashboard extends React.Component {
             <DashboardUserProfile
               user={this.props.auth.user}
             />
-            <br />
+          </div>
+        </div>
+        <br />
+        <div className="row">
+          <div className="col-lg-12">
             <ToggleSwitch
               changeUserReViewSetting={this.changeUserReViewSetting}
               reViewSetting={this.props.userReViewSetting}
@@ -264,30 +268,42 @@ class Dashboard extends React.Component {
           </div>
         </div>
         <br />
-        <div className="row">
+        <div>
           { this.state.topTagsByName &&
             this.state.mostSelectedTagNames &&
             this.state.topActors ?
-            <div>
-              <DropDownMenu
-                onSelect={this.absNumChartsDropDownHandler}
-              />
-              <PieChart
-                title={this.state.absNumChartsTitle}
-                labels={this.state.absNumChartsLabels}
-                data={this.state.absNumChartsData}
-              />
-              <DropDownMenu
-                onSelect={this.pctChartsDropDownHandler}
-              />
-              <BarChart
-                title={this.state.pctChartsTitle}
-                labels={this.state.pctChartsLabels}
-                data={this.state.pctChartsData}
-              />
-            </div>
-            : <h1 className="col-sm-10">Loading your profile data...</h1>
-          }
+              <div className="dashboard-charts">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <DropDownMenu
+                      onSelect={this.absNumChartsDropDownHandler}
+                    />
+                  </div>
+                  <div className="col-lg-6">
+                    <DropDownMenu
+                      onSelect={this.pctChartsDropDownHandler}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <PieChart
+                      title={this.state.absNumChartsTitle}
+                      labels={this.state.absNumChartsLabels}
+                      data={this.state.absNumChartsData}
+                    />
+                  </div>
+                  <div className="col-lg-6">
+                    <BarChart
+                      title={this.state.pctChartsTitle}
+                      labels={this.state.pctChartsLabels}
+                      data={this.state.pctChartsData}
+                    />
+                  </div>
+                </div>
+              </div>
+            : <h1 className="col-sm-12">Loading your profile data...</h1>
+            }
         </div>
       </div>
     );

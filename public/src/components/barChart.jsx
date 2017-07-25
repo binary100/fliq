@@ -37,7 +37,7 @@ const BarChart = (props) => {
   }
 
   return (
-    <div className="col-lg-4">
+    <div>
       <Bar
         data={chartData}
         width={100}

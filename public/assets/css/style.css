@@ -126,8 +126,8 @@ at this phase of development
 .popdown {
   /* colors taken from bootstrap inverse nav bar text color */
   text-align: center;
-  color: #9d9d9d; 
-  background-color: #222;  
+  color: #9d9d9d;
+  background-color: #222;
   position: absolute;
   /*border: 1px solid black;*/
   border-radius: 5px;
@@ -646,4 +646,9 @@ input:checked + .slider:before {
   100% {
     top: 49px;
   }
+}
+
+.dashboard-charts {
+  /*bottom: 0;
+  position: absolute;*/
 }
