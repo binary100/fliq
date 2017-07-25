@@ -649,6 +649,8 @@ input:checked + .slider:before {
 }
 
 .dashboard-charts {
-  /*bottom: 0;
-  position: absolute;*/
+  position: absolute;
+  bottom:0;
+  width:100%;
+  height:55%;
 }
