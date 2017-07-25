@@ -10,7 +10,7 @@ const theMovieDbPosterUrl = 'http://image.tmdb.org/t/p/w185';
 const quoteUrl = 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"';
 const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
-
+const trophyHunterId = 8;
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -38,91 +38,46 @@ module.exports.checkSession = (req, res, next) => {
   }
 };
 
-module.exports.checkTrophyProgress = user =>
-  db.userTrophies.findAll({ where : {
-      user_Id: user.id
-    },
-    include: [{ model: db.trophies, as: 'trophy' }, { model: db.users, as: 'user' }]
+const trophyHunter = userAndTrophyObj =>
+  db.userTrophies.findOne({ where: {
+    user_Id: userAndTrophyObj.user.id,
+    trophy_Id: trophyHunterId
+  },
+    include: [{ model: db.trophies, as: 'trophy' }]
   })
-    .then((allUserTrophies) => {
-      const count = allUserTrophies.reduce((total, userTrophy) => {
-        total += userTrophy.dataValues.hasTrophies.split(';').reduce((sum, item) => sum + (+item), 0);
-        return total;
-      }, 0);
-      const trophyHunter = allUserTrophies.find(item => item.trophy_Id === 8);
-      return { trophyHunter, count };
-    })
-    .then((hunterObj) => {
-      const { trophyHunter, count } = hunterObj;
+    .then(trophyHunter => trophyHunter.update({ trophyCount: trophyHunter.trophyCount + 1 }))
+    .then(trophyHunter => {
       const { targetNums } = trophyHunter.trophy;
-
+      const { trophyCount } = trophyHunter;
+      // Check to see if trophyCount is now either 15 or 32
       for (let i = 0; i < targetNums.length; i += 1) {
-        console.log(`Testing trophyCount ${count} against target ${targetNums[i]}`);
-        // if (count === targetNums[i]) {
-        if (32 === targetNums[i]) {
-
-          const newArray = trophyHunter.dataValues.hasTrophies
-                            .split(';')
-                            .map((curr, ind) => {
-                              if (ind === i) {
-                                return 1;
-                              }
-                              return curr;
-                            });
-
+        if (trophyCount === targetNums[i]) {
+          // trophyCount is 15 or 32
+          // create new hasTrophies string
+          const newArray =
+            trophyHunter.dataValues.hasTrophies
+              .split(';')
+              .map((curr, ind) => {
+                if (ind === i) {
+                  return 1;
+                }
+                return curr;
+              });
+          // Update hasTrophie and trophyCount
           return trophyHunter.update({
             hasTrophies: newArray,
             trophyCount: trophyHunter.trophyCount + 1
           })
-            .then(() => ({ trophy: `i is ${i}` }));
-        }        
+            .then(() => {
+              const trophyName = trophyHunter.trophy.trophyNames[i];
+              userAndTrophyObj.trophy.push(trophyName);
+              return userAndTrophyObj;
+            });
+        }
       }
-      return null;
-    })  
-
-
-/*
-{
-    "hasTrophies": [
-        0,
-        0
-    ],
-    "id": 164,
-    "trophyCount": 0,
-    "createdAt": "2017-07-25T14:17:34.000Z",
-    "updatedAt": "2017-07-25T14:17:34.000Z",
-    "trophy_Id": 8,
-    "user_Id": 2,
-    "trophy": {
-        "trophyNames": [
-            "TrophyHunter15",
-            "TrophyHunter32"
-        ],
-        "targetNums": [
-            15,
-            32
-        ],
-        "id": 8,
-        "createdAt": "2017-07-24T20:51:30.000Z",
-        "updatedAt": "2017-07-24T20:51:30.000Z"
-    },
-    "user": {
-        "id": 2,
-        "name": "Rob Cornell",
-        "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13435593_10101210926206018_3474235121543587977_n.jpg?oh=afc5bcb2b6e9d50745d504131232c40c&oe=59F394DB",
-        "email": "rob.cornell@gmail.com",
-        "authId": "10101691300771538",
-        "loginNumber": 22,
-        "reView": false,
-        "watchedMovieId": 11,
-        "watchedMovieTitle": "Forrest Gump",
-        "createdAt": "2017-07-25T00:19:30.000Z",
-        "updatedAt": "2017-07-25T15:21:06.000Z"
-    }
-}
-
-
-*/
+      // If trophyCount is not 15 or 32, just return the input object
+      return userAndTrophyObj;
+    });
 
 module.exports.getTwoMovies = (req, res) => {
   // At first, randomly select two movies from DB
@@ -813,7 +768,11 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
             .then((trophy) => {
               const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => { if (ind === index) return 1; return curr; });
               db.userTrophies.update({ hasTrophies: newArray }, { where: { user_Id: req.user.id, trophy_Id: 2 } })
-              .then(() => res.send({ user: req.user, trophy: [userTrophy.trophy.trophyNames[index]] }));
+              .then(() => {
+                const userAndTrophyObj = { user: req.user, trophy: [userTrophy.trophy.trophyNames[index]] };
+                return trophyHunter(userAndTrophyObj);
+              })
+              .then(userAndTrophyObj => res.send(userAndTrophyObj));
             })
             .catch(err => res.send(err));
           } else {
