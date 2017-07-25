@@ -44,13 +44,19 @@ router.get('/checkSession', apiController.checkSession, (req, res) => {
   res.status(200).json({ status: 'Login successful!' });
 });
 
+router.get('/api/testme', (req, res) => {
+  // apiController.createTrophiesAndReturnUser(req, res);
+  apiController.createTrophiesAndReturnUser(req, res)
+    .then(() => apiController.setUserWatchedMovieToNull(req.user));
+});
+
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
 
-    // apiController.createTrophiesAndReturnUser(req, res)
-    // .then(() => apiController.setUserWatchedMovieToNull(req.user));
-    res.send({ user: req.user });
-    apiController.setUserWatchedMovieToNull(req.user);
+    apiController.createTrophiesAndReturnUser(req, res)
+    .then(() => apiController.setUserWatchedMovieToNull(req.user));
+    // res.send({ user: req.user });
+    // apiController.setUserWatchedMovieToNull(req.user);
   } else {
     res.send({ user: null });
   }

@@ -678,7 +678,7 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
       .then((trophiesAll) => {
         const trophyPromises = trophiesAll.map(trophy =>
           new Promise((resolve, reject) => {
-            if (trophy.trophyNames[0] === 'Like1') {
+            if (trophy.trophyNames[0] === 'Login1') {
               return db.userTrophies.create({
                 hasTrophies: [1, 0, 0],
                 trophyCount: 1,
@@ -702,22 +702,29 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
             }
           })
         );
-        return Promise.All(trophyPromises);
+        return Promise.all(trophyPromises);
       })
-      .then((promises) => res.send('BBBBBBBBBB'))
+      .then(() => {
+        res.send({ user: req.user, trophy: ['sucess', 'Login1'] });
+      })
       .catch(err => res.send(err));
     } else {
-      console.log('CCCCCCCCCCCCC');
-      db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: req.user.id, trophy_Id: 1 } })
+      db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: req.user.id, trophy_Id: 2 } })
       .then(() => {
         db.userTrophies.findOne({
-          where: { user_Id: req.user.id, trophy_Id: 1 },
-          include: [{ model: db.trophies, as: 'Trophy' }]
+          where: { user_Id: req.user.id, trophy_Id: 2 },
+          include: [{ model: db.trophies, as: 'trophy' }]
         })
         .then((userTrophy) => {
           const index = userTrophy.hasTrophies.indexOf(0);
-          if (userTrophy.Trophy.targetNums[index] === userTrophy.trophyCount) {
-            res.send({ user: req.user, trophy: ['sucess', userTrophy.Trophy.trophyNames[index]] });
+          if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
+            db.userTrophies.findOne({ where: { user_Id: req.user.id, trophy_Id: 2 } })
+            .then((trophy) => {
+              const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => { if (ind === index) return 1; return curr; });
+              db.userTrophies.update({ hasTrophies: newArray }, { where: { user_Id: req.user.id, trophy_Id: 2 } })
+              .then(() => res.send({ user: req.user, trophy: ['sucess', userTrophy.trophy.trophyNames[index]] }));
+            })
+            .catch(err => res.send(err));
           } else {
             res.send({ user: req.user });
           }
