@@ -1,0 +1,312 @@
+.test-badge-box {
+width: 100px;
+height: 100px;
+margin: 30px;
+}
+
+#launchPad-1{height: 220px;width: 232px;background:url("/assets/img/badge-proto.png") -71px -1091px no-repeat;}
+
+#launchPad-2{height:177px;width:178px;background:url("/assets/img/badge-proto.png") -306px -1084px no-repeat;}
+
+#launchPad-3{height:176px;width:182px;background:url("/assets/img/badge-proto.png") -556px -1086px no-repeat;}
+
+#launchPad-4{height: 193px;width:186px;background: url("/assets/img/badge-proto.png") -812px -1065px no-repeat;}
+
+
+.sprite {
+transform: scale(0.60);
+margin-top: 10px;
+margin-left: -29%;
+margin: -22%;
+}
+
+#noob-1{
+height:149px;
+width:143px;
+background:url("/assets/img/badge-proto.png") -72px -84px no-repeat;
+}
+
+#noob-2{
+height:183px;
+width:180px;
+background:url("/assets/img/badge-proto.png") -304px -74px no-repeat;
+}
+
+#noob-3{
+height:184px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -554px -74px no-repeat;
+}
+
+#noob-4{
+height:215px;
+width:193px;
+background:url("/assets/img/badge-proto.png") -802px -51px no-repeat;
+}
+
+#login-1{
+height:153px;
+width:149px;
+background:url("/assets/img/badge-proto.png") -70px -334px no-repeat;
+}
+
+#login-2{
+height:182px;
+width:182px;
+background:url("/assets/img/badge-proto.png") -304px -325px no-repeat;
+}
+
+#login-3{
+height:178px;
+width:183px;
+background:url("/assets/img/badge-proto.png") -557px -330px no-repeat;
+}
+
+#login-4{
+height:204px;
+width:186px;
+background:url("/assets/img/badge-proto.png") -806px -310px no-repeat;
+}
+
+#movieNight-1{
+height:179px;
+width:180px;
+background:url("/assets/img/badge-proto.png") -305px -580px no-repeat;
+}
+
+#movieNight-2{
+height:179px;
+width:174px;
+background:url("/assets/img/badge-proto.png") -309px -581px no-repeat;
+}
+
+#movieNight-3{
+height:175px;
+width:185px;
+background:url("/assets/img/badge-proto.png") -555px -582px no-repeat;
+}
+
+#movieNight-4{
+height:210px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -805px -559px no-repeat;
+}
+
+#seenMovie-1{
+height:149px;
+width:149px;
+background:url("/assets/img/badge-proto.png") -69px -840px no-repeat;
+}
+
+#seenMovie-2{
+height:176px;
+width:178px;
+background:url("/assets/img/badge-proto.png") -307px -834px no-repeat;
+}
+
+#seenMovie-3{
+height:177px;
+width:181px;
+background:url("/assets/img/badge-proto.png") -558px -833px no-repeat;
+}
+
+#seenMovie-4{
+height:210px;
+width:185px;
+background:url("/assets/img/badge-proto.png") -807px -811px no-repeat;
+}
+
+
+#launchPad-1{
+height:150px;
+width:144px;
+background:url("/assets/img/badge-proto.png") -71px -1091px no-repeat;
+}
+
+#launchPad-2{
+height:177px;
+width:178px;
+background:url("/assets/img/badge-proto.png") -306px -1084px no-repeat;
+}
+
+#launchPad-3{
+height:176px;
+width:182px;
+background:url("/assets/img/badge-proto.png") -556px -1086px no-repeat;
+}
+
+#launchPad-4{
+height:208px;
+width:186px;
+background:url("/assets/img/badge-proto.png") -806px -1064px no-repeat;
+}
+
+#trophyHunter-1{
+height:150px;
+width:145px;
+background:url("/assets/img/badge-proto.png") -71px -1343px no-repeat;
+}
+
+#trophyHunter-2{
+height:177px;
+width:178px;
+background:url("/assets/img/badge-proto.png") -306px -1337px no-repeat;
+}
+
+#trophyHunter-3{
+height:175px;
+width:182px;
+background:url("/assets/img/badge-proto.png") -559px -1339px no-repeat;
+}
+
+#trophyHunter-4{
+height:207px;
+width:184px;
+background:url("/assets/img/badge-proto.png") -806px -1316px no-repeat;
+}
+
+
+#horror-1{
+height:150px;
+width:145px;
+background:url("/assets/img/badge-proto.png") -71px -1598px no-repeat;
+}
+
+#horror-2{
+height:175px;
+width:179px;
+background:url("/assets/img/badge-proto.png") -307px -1589px no-repeat;
+}
+
+#horror-3{
+height:178px;
+width:184px;
+background:url("/assets/img/badge-proto.png") -556px -1589px no-repeat;
+}
+
+#horror-4{
+height:209px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -805px -1569px no-repeat;
+}
+
+#action-1{
+height:152px;
+width:146px;
+background:url("/assets/img/badge-proto.png") -71px -2097px no-repeat;
+}
+
+#action-2{
+height:151px;
+width:148px;
+background:url("/assets/img/badge-proto.png") -70px -1844px no-repeat;
+}
+
+#action-3{
+height:178px;
+width:182px;
+background:url("/assets/img/badge-proto.png") -557px -2092px no-repeat;
+}
+
+#action-4{
+height:209px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -806px -2072px no-repeat;
+}
+
+#drama-1{
+height:152px;
+width:146px;
+background:url("/assets/img/badge-proto.png") -71px -1845px no-repeat;
+}
+
+#drama-2{
+height:177px;
+width:180px;
+background:url("/assets/img/badge-proto.png") -305px -1841px no-repeat;
+}
+
+#drama-3{
+height:178px;
+width:180px;
+background:url("/assets/img/badge-proto.png") -559px -1840px no-repeat;
+}
+
+#drama-4{
+height:209px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -805px -1821px no-repeat;
+}
+
+
+#hate-1{
+height:149px;
+width:148px;
+background:url("/assets/img/badge-proto.png") -69px -2352px no-repeat;
+}
+
+#hate-2{
+height:177px;
+width:175px;
+background:url("/assets/img/badge-proto.png") -308px -2345px no-repeat;
+}
+
+#hate-3{
+height:177px;
+width:180px;
+background:url("/assets/img/badge-proto.png") -559px -2346px no-repeat;
+}
+
+#hate-4{
+height:209px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -806px -2326px no-repeat;
+}
+
+#like-1 {
+height:149px;
+width:147px;
+background:url("/assets/img/badge-proto.png") -70px -2605px no-repeat;
+}
+
+#like-2{
+height:175px;
+width:179px;
+background:url("/assets/img/badge-proto.png") -306px -2601px no-repeat;
+}
+
+#like-3{
+height:175px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -555px -2598px no-repeat;
+}
+
+#like-4{
+height:209px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -806px -2577px no-repeat;
+}
+
+#lightning-1 {
+height:149px;
+width:147px;
+background:url("/assets/img/badge-proto.png") -70px -2605px no-repeat;
+}
+
+#lightning-2{
+height:175px;
+width:179px;
+background:url("/assets/img/badge-proto.png") -306px -2601px no-repeat;
+}
+
+#lightning-3{
+height:175px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -555px -2598px no-repeat;
+}
+
+#lightning-4{
+height:209px;
+width:187px;
+background:url("/assets/img/badge-proto.png") -806px -2577px no-repeat;
+}

@@ -35,6 +35,25 @@ class LaunchPad extends React.Component{
       <div>
         <div className="container container-fluid text-center">
           <h1>{tag}</h1>
+
+          <div className="test-scale">
+            <div className="test-badge-box">
+              <div id="launchPad-1" className="sprite"></div>
+            </div>
+
+            <div className="test-badge-box">
+              <div id="launchPad-2" className="sprite"></div>
+            </div>
+
+            <div className="test-badge-box">
+              <div id="launchPad-3" className="sprite"></div>
+            </div>
+
+            <div className="test-badge-box">
+              <div id="launchPad-4" className="sprite"></div>
+            </div>
+          </div>
+
           <LaunchPadTags 
             user={this.props.user}
             tag={tag}

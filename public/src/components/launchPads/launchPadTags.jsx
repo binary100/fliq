@@ -1,6 +1,7 @@
 import React from 'react';
 import TagBubble from './tagBubble.jsx';
 import { Link } from 'react-router-dom';
+// import Parallax from 'parallax-js';
 // import Anime from 'react-anime';
 
 let bubbleCount = 0;
@@ -8,9 +9,9 @@ class LaunchPadTags extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-    }
+    this.state = {}
 
+    // this.parallax = this.parallax.bind(this.scene)
     this.goToNext = this.goToNext.bind(this)
     this.goToPrev = this.goToPrev.bind(this)
   }
@@ -31,10 +32,9 @@ class LaunchPadTags extends React.Component {
   render() {
     return (
       <div className="launchPadPage">
+        <div className="lax-back"></div>
         <div className="launchPad-controls">
           <div>
-
-
             { this.props.step === 1 ? 
               null :
               <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>

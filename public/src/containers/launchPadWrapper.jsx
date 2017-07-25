@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import LaunchPad from './launchPad.jsx';
@@ -26,7 +27,6 @@ import { Modal } from 'react-bootstrap';
     year: [],
   }
 
-
 // MESSAGES 
 class LaunchPadWrapper extends React.Component {
   constructor(props) {
@@ -35,14 +35,9 @@ class LaunchPadWrapper extends React.Component {
       tagData: tagsObj,
       selectedTags: selectedObj
     };
-    // this.getUserInfo = this.getUserInfo.bind(this);
     this.isSelected = this.isSelected.bind(this);
     this.selectItem = this.selectItem.bind(this);
-
-    // console.log('LaunchPadWrapper', props);
   }
-
-
 
   componentWillMount() {
     // this.getUserInfo();
@@ -54,32 +49,28 @@ class LaunchPadWrapper extends React.Component {
   }
  
   selectItem(tagItem, tag) {
+    const clickedTagItemObject = this.state.selectedTags;
+    console.log('clickedTagItemObject', clickedTagItemObject)
 
-  // console.log('check index', this.state.selectedTags[tag])
-    // const clickedArray = this.state.selectedTags[tag];
-    
-    
-    const clickedArray = Object.assign({}, this.state.selectedTags);
-    console.log('clickedArray', clickedArray)
-
-    if ( clickedArray[tag].indexOf(tagItem) > -1 ) {
-      const index = clickedArray[tag].indexOf(tagItem);
-      const selectTagsFilter = clickedArray[tag].filter((i) => i !== index);
+    if ( clickedTagItemObject[tag].indexOf(tagItem) > -1 ) {
+      // TURN OFF CLICK
+      const index = clickedTagItemObject[tag].indexOf(tagItem);
       
-      console.log('if', this.state.selectedTags)
-      this.setState({ selectedTags: selectTagsFilter });
+      let selectTagsFilter = clickedTagItemObject[tag];
+      selectTagsFilter.splice(index, 1);
+      console.log('After: ', selectTagsFilter);
+      let newSelectedTags = this.state.selectedTags;
+      newSelectedTags[tag] = selectTagsFilter;
+      
+      this.setState({ selectedTags: newSelectedTags });
     } else {
-      clickedArray[tag].push(tagItem);
-      this.setState({ selectedTags: clickedArray });
-      console.log('else', this.state.selectedTags)
+      // TURN ON CLICK
+      clickedTagItemObject[tag].push(tagItem);
+
+      this.setState({ selectedTags: clickedTagItemObject });
+      console.log('Turning ON click state for:', this.state.selectedTags)
     }
   }
-
-  // getUserInfo() {
-  //   return axios.post('/api/selectedTags/user', {
-  //     id: this.props.auth.user.id
-  //   })
-  // }
 
   getTagsData() {
     return axios.get('/api/tags')
@@ -137,17 +128,9 @@ class LaunchPadWrapper extends React.Component {
   };
 }
 
-// export default LaunchPadWrapper;
-
 const mapStateToProps = state => ({
   auth: state.auth,
-  // userReViewSetting: state.userSettingsReducer.userReViewSetting
 });
-
-// const mapDispatchToProps = dispatch => ({
-//   setUserReViewSetting: (userReViewSetting) => { dispatch(setUserReViewSetting(userReViewSetting)); },
-//   toggleUserReViewSetting: () => { dispatch(toggleUserReViewSetting()); }
-// });
 
 export default connect(
   mapStateToProps,
