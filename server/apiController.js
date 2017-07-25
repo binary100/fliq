@@ -671,10 +671,10 @@ module.exports.setUserWatchedMovieToNull = (user) => {
 };
 
 module.exports.createTrophiesAndReturnUser = (req, res) => {
-  req.user = {
-    id: 2,
-    name: 'Rob Cornell'
-  };
+  // req.user = {
+  //   id: 2,
+  //   name: 'Rob Cornell'
+  // };
 
   console.log('user: ', req.user);
   return db.users.findOne({ where: { id: req.user.id } })

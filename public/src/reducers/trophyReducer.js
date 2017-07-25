@@ -8,14 +8,13 @@ const trophyReducer = (state = defaultTrophyState, action) => {
     case 'SHOW_TROPHY_POPDOWN':
       return Object.assign({}, state, {
         show: true,
-        trophies: action.payload.trophies
+        trophies: action.payload
       });
     case 'CLOSE_TROPHY_POPDOWN':
       return Object.assign({}, state, {
         show: false
       });
     default:
-      console.log('Returning default trophy state: ', state);
       return state;
   }
 };

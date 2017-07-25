@@ -12,13 +12,15 @@ import MovieNight from './movieNight.jsx';
 import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
 import LikeMoviePopdown from './popdown/likeMoviePopdown.jsx';
-import { loginUser, logoutUser } from '../actions/actions.js';
+import TrophyPopdown from './popdown/trophyPopdown.jsx';
+import { loginUser, logoutUser, showTrophyPopdown } from '../actions/actions.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showSideMenu: false
+      showSideMenu: false,
+      trophies: null
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.toggleSideMenu = this.toggleSideMenu.bind(this);
@@ -27,9 +29,13 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/account')
       .then((results) => {
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: ', results);
-        if (results.data.user) {
-          this.props.loginUser(results.data.user);
+        let { user, trophy } = results.data;
+        if (user) {
+          this.props.loginUser(user);
+          trophy = ['Login50'];
+          if (trophy) {
+            this.props.showTrophyPopdown(trophy);
+          }
         }
       })
       .catch(err => console.error('Login failed: ', err));
@@ -52,10 +58,11 @@ class App extends React.Component {
   }
 
   render() {
-    let popDown = null;
+    let likePopdown = null;
+    // let trophyPopdown = null;
 
     if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
-      popDown = this.buildLikeQueryPopdown();
+      likePopdown = this.buildLikeQueryPopdown();
     }
 
     return (
@@ -67,7 +74,8 @@ class App extends React.Component {
               handleLogout={this.handleLogout}
               toggleSideMenu={this.toggleSideMenu}
             />
-            {popDown}
+            {likePopdown}
+            <TrophyPopdown />
             <SideMenu showMenu={this.state.showSideMenu} />
             <Switch>
               <Route exact path="/" component={Welcome} />
@@ -94,7 +102,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loginUser: (user) => { dispatch(loginUser(user)); },
-  logoutUser: () => { dispatch(logoutUser()); }
+  logoutUser: () => { dispatch(logoutUser()); },
+  showTrophyPopdown: (trophies) => { dispatch(showTrophyPopdown(trophies)); }
 });
 
 export default connect(

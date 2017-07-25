@@ -8,22 +8,23 @@ class TrophyPopdown extends React.Component {
   }
 
   render() {
-
-
     return (
       <div className={`popdown ${this.props.show ? 'popdown-slideDown' : 'popdown-slideUp'}`}>
-        { this.props.trophies &&
-          this.props.trophies.map(str => <div>You got the {str} trophy!</div>)
-        }
+        <div>
+          { this.props.trophies &&
+            this.props.trophies.map(str => <div>You got the {str} trophy!</div>)
+          }
+        </div>
+        <span style={{ cursor: 'pointer' }} onClick={this.props.close}>Close</span>
       </div>
     );
   }
 
 }
 
-const mapStateToProps = props => ({
-  show: state.trophyReducer.showPopdown,
-  trophies: state.trophyReducer.trophy
+const mapStateToProps = state => ({
+  show: state.trophyReducer.show,
+  trophies: state.trophyReducer.trophies
 });
 
 const mapDispatchToProps = dispatch => ({
