@@ -602,7 +602,7 @@ module.exports.getUserInfo = (req, res) => {
         user_Id: user_id
       },
       include: [{ model: db.tags, as: 'tag' }]
-    })
+    }))
     .then((userTagsResults) => {
       responseObj.userTagsInfo = userTagsResults;
       const shapedResults = userTagsResults.map(tag => ({
@@ -615,7 +615,6 @@ module.exports.getUserInfo = (req, res) => {
         id: tag.id
       }));
       responseObj.shapedTagInfo = shapedResults;
-    });
   })
   .then(() => {
     res.send(responseObj);
@@ -623,7 +622,7 @@ module.exports.getUserInfo = (req, res) => {
   .catch((error) => {
     console.log('Error getting info', error);
     res.sendStatus(500);
-  });
+  })
 };
 
 module.exports.getTableData = (req, res) => {

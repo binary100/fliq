@@ -4,9 +4,6 @@ import ResultsBody from '../components/resultsBody.jsx';
 import ResultsTileBar from '../components/resultsTileBar.jsx';
 import { connect } from 'react-redux';
 
-const userHeader = `FLIQ's learning engine chose these movies for you. Take a look!`;
-const noUserHeader = `These are the most preferred movies from FLIQ's entire database. Log in to build a profile!`;
-
 const userHeader = `FLIQ suggests these movies`;
 const noUserHeader = `These are the most preferred movies from FLIQ's entire database. Log in to build a profile.`;
 
