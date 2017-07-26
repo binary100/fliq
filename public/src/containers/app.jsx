@@ -29,12 +29,14 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/account')
       .then((results) => {
-        let { user, trophy } = results.data;
+        console.log('RECEIVED: ', results.data);
+        let { user } = results.data;
         if (user) {
           this.props.loginUser(user);
           // trophy = ['Login50'];
-          if (trophy) {
-            this.props.showTrophyPopdown(trophy);
+          if (user.trophy) {
+            console.log('user.trophy is: ', user.trophy);
+            // this.props.showTrophyPopdown(trophy);
           }
         }
       })

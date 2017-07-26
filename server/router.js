@@ -74,8 +74,10 @@ router.get('/api/testme', (req, res) => {
 
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
+    console.log('In /account, user is: ', req.user);
     res.send({ user: req.user });
     apiController.setUserWatchedMovieToNull(req.user);
+    // req.user.trophy = null;
   } else {
     res.send({ user: null });
   }

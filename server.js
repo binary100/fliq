@@ -53,9 +53,6 @@ passport.use(new FacebookStrategy({
 (accessToken, refreshToken, profile, done) => {
   db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
-    return user ? user.get({ plain: true }) : null;
-  })
-  .then((user) => {
     if (!user) {
       console.log('Creating new user!!!!!');
       return db.users.create({
@@ -75,11 +72,13 @@ passport.use(new FacebookStrategy({
       .catch(err => console.error('Failed to create user:', err));
     } else {
       console.log('User found and already exists:', user);
-      return createTrophiesAndReturnUser(user)
+      return user.update({ loginNumber: user.loginNumber + 1 })
+        .then(updatedUser => updatedUser.get({ plain: true }))
+        .then(plainUser => createTrophiesAndReturnUser(plainUser))
         .then((userWithAnyLoginTrophy) => {
           console.log('Got userWithAnyLoginTrophy: ', userWithAnyLoginTrophy);
-          done(null, userWithAnyLoginTrophy.user);
-          return userWithAnyLoginTrophy.user;
+          done(null, userWithAnyLoginTrophy);
+          return userWithAnyLoginTrophy;
         });
     }
   })
@@ -139,7 +138,10 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   db.users.findById(id)
-  .then(user => done(null, user))
+  .then(user => {
+    console.log('In deserializeUser, user is: ', user);
+    done(null, user);
+  })
   .catch(err => console.error(err));
 });
 

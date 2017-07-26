@@ -39,24 +39,24 @@ module.exports.checkSession = (req, res, next) => {
   }
 };
 
-const trophyHunter = userAndTrophyObj =>
+const trophyHunter = user =>
   db.userTrophies.findOne({ where: {
-    user_Id: userAndTrophyObj.user.id,
+    user_Id: user.id,
     trophy_Id: trophyHunterId
   },
     include: [{ model: db.trophies, as: 'trophy' }]
   })
-    .then(trophyHunter => trophyHunter.update({ trophyCount: trophyHunter.trophyCount + 1 }))
-    .then(trophyHunter => {
-      const { targetNums } = trophyHunter.trophy;
-      const { trophyCount } = trophyHunter;
+    .then(hunter => hunter.update({ trophyCount: hunter.trophyCount + 1 }))
+    .then(hunter => {
+      const { targetNums } = hunter.trophy;
+      const { trophyCount } = hunter;
       // Check to see if trophyCount is now either 15 or 32
       for (let i = 0; i < targetNums.length; i += 1) {
         if (trophyCount === targetNums[i]) {
           // trophyCount is 15 or 32
           // create new hasTrophies string
           const newArray =
-            trophyHunter.dataValues.hasTrophies
+            hunter.dataValues.hasTrophies
               .split(';')
               .map((curr, ind) => {
                 if (ind === i) {
@@ -64,20 +64,20 @@ const trophyHunter = userAndTrophyObj =>
                 }
                 return curr;
               });
-          // Update hasTrophie and trophyCount
-          return trophyHunter.update({
+          // Update hasTrophies and trophyCount
+          return hunter.update({
             hasTrophies: newArray,
-            trophyCount: trophyHunter.trophyCount + 1
+            trophyCount: hunter.trophyCount + 1
           })
             .then(() => {
-              const trophyName = trophyHunter.trophy.trophyNames[i];
-              userAndTrophyObj.trophy.push(trophyName);
-              return userAndTrophyObj;
+              const trophyName = hunter.trophy.trophyNames[i];
+              user.trophy.push(trophyName);
+              return user;
             });
         }
       }
       // If trophyCount is not 15 or 32, just return the input object
-      return userAndTrophyObj;
+      return user;
     });
 
 module.exports.getTwoMovies = (req, res) => {
@@ -894,6 +894,82 @@ module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
 };
 
+module.exports.createTrophiesAtFirstLogin = (user) => {
+  return db.trophies.findAll({})
+    .then((trophiesAll) => {
+      const trophyPromises = trophiesAll.map(trophy =>
+        new Promise((resolve, reject) => {
+          if (trophy.trophyNames[0] === 'Login1') {
+            return db.userTrophies.create({
+              hasTrophies: [1, 0, 0],
+              trophyCount: 1,
+              trophy_Id: trophy.id,
+              user_Id: user.id
+            })
+            .then(userTrophy => resolve(userTrophy))
+            .catch(err => reject(err));
+          } else {
+            return db.userTrophies.create({
+              hasTrophies: trophy.targetNums.reduce((acc) => {
+                acc.push(0);
+                return acc;
+              }, []),
+              trophyCount: 0,
+              trophy_Id: trophy.id,
+              user_Id: user.id
+            })
+            .then(userTrophy => resolve(userTrophy))
+            .catch(err => reject(err));
+          }
+        })
+      );
+      return Promise.all(trophyPromises);
+    })
+    .then(() => {
+      return { user: user, trophy: ['Login1'] };
+      // res.send({ user: user, trophy: ['Login1'] });
+    })
+    .catch(err => res.send(err));
+};
+
+module.exports.incrementLoginTrophy = (user) => {
+  return db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: user.id, trophy_Id: loginTrophyId } })
+    .then(() => {
+      return db.userTrophies.findOne({
+        where: { user_Id: user.id, trophy_Id: loginTrophyId },
+        include: [{ model: db.trophies, as: 'trophy' }]
+      })
+      .then((userTrophy) => {
+        const index = userTrophy.hasTrophies.indexOf(0);
+        if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
+          return db.userTrophies.findOne({ where: { user_Id: user.id, trophy_Id: loginTrophyId } })
+          .then((trophy) => {
+            const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => {
+              if (ind === index) return 1; return curr;
+            });
+            return db.userTrophies.update({ hasTrophies: newArray },
+              { where: { user_Id: user.id, trophy_Id: loginTrophyId } })
+            .then(() => {
+              user.trophy = [userTrophy.trophy.trophyNames[index]];
+              // const userAndTrophyObj = { user: user, trophy: [userTrophy.trophy.trophyNames[index]] };
+              return trophyHunter(user);
+            })
+            .then(userAndTrophyObj => {
+              console.log('userAndTrophyObj is', userAndTrophyObj);
+              return userAndTrophyObj;
+            });
+          })
+          .catch(err => 'Error at 961');
+        } else {
+          return user;
+          // res.send({ user: user });
+        }
+      })
+      .catch(err => 'Error at 967');
+    })
+    .catch(err => 'Error at 969');
+}
+
 module.exports.createTrophiesAndReturnUser = (user) => {
   console.log('Entering apiController with user: ', user);
   // return db.users.findOne({ where: { id: user.id } })
@@ -953,8 +1029,9 @@ module.exports.createTrophiesAndReturnUser = (user) => {
               return db.userTrophies.update({ hasTrophies: newArray },
                 { where: { user_Id: user.id, trophy_Id: loginTrophyId } })
               .then(() => {
-                const userAndTrophyObj = { user: user, trophy: [userTrophy.trophy.trophyNames[index]] };
-                return trophyHunter(userAndTrophyObj);
+                user.trophy = [userTrophy.trophy.trophyNames[index]];
+                // const userAndTrophyObj = { user: user, trophy: [userTrophy.trophy.trophyNames[index]] };
+                return trophyHunter(user);
               })
               .then(userAndTrophyObj => {
                 console.log('userAndTrophyObj is', userAndTrophyObj);
@@ -963,7 +1040,7 @@ module.exports.createTrophiesAndReturnUser = (user) => {
             })
             .catch(err => 'Error at 961');
           } else {
-            return { user };
+            return user;
             // res.send({ user: user });
           }
         })
