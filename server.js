@@ -62,7 +62,6 @@ passport.use(new FacebookStrategy({
         authId: profile.id,
         loginNumber: 1
       })
-      // .then(newUser => newUser.get({ plain: true }))
       .then(newUser => createTrophiesAtFirstLogin(newUser))
       .then(newUser => {
         done(null, newUser);
@@ -72,8 +71,6 @@ passport.use(new FacebookStrategy({
     } else {
       console.log('User found and already exists:', user);
       return user.update({ loginNumber: user.loginNumber + 1 })
-        // .then(updatedUser => updatedUser.get({ plain: true }))
-        // .then(plainUser => createTrophiesAndReturnUser(plainUser))
         .then((updatedUser) => {
           console.log('Got updatedUser: ', updatedUser);
           done(null, updatedUser);
@@ -109,18 +106,19 @@ passport.use(new GoogleStrategy({
         authId: profile.id,
         loginNumber: 1
       })
-      .then(newUser => createTrophiesAndReturnUser(newUser))
-      .then(newUserWithLoginTrophy => {
-        done(null, newUserWithLoginTrophy);
-        return newUserWithLoginTrophy;
+      .then(newUser => createTrophiesAtFirstLogin(newUser))
+      .then(newUser => {
+        done(null, newUser);
+        return newUser;
       })
       .catch(err => console.error('Failed to create user:', err));
     } else {
       console.log('User found and already exists:', user);
-      return createTrophiesAndReturnUser(user)
-        .then((userWithAnyLoginTrophy) => {
-          done(null, userWithAnyLoginTrophy);
-          return userWithAnyLoginTrophy;
+      return user.update({ loginNumber: user.loginNumber + 1 })
+        .then((updatedUser) => {
+          console.log('Got updatedUser: ', updatedUser);
+          done(null, updatedUser);
+          return updatedUser;
         });
     }
   })
