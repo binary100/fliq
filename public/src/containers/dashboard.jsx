@@ -26,6 +26,7 @@ class Dashboard extends React.Component {
       // topActors: null,
       // topDirectors: null,
       // topGenres: null,
+      earnedTrophies: [],
 
       // raw tag data sorted by type
       genreRawData: null,
