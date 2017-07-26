@@ -2,6 +2,13 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import Dashboard from '../containers/dashboard.jsx';
 
+// var dynamicColors = function() {
+//     var r = Math.floor(Math.random() * 255);
+//     var g = Math.floor(Math.random() * 255);
+//     var b = Math.floor(Math.random() * 255);
+//     return "rgb(" + r + "," + g + "," + b + ")";
+// }
+
 const PieChart = (props) => {
   const chartData = {
     labels: props.labels,
@@ -17,12 +24,24 @@ const PieChart = (props) => {
 
   const chartOptions = {
     cutoutPercentage: 0,
-    maintainAspectRatio: true
-  };
+    // rotation: ,
+    // circumference: ,
+    // animation.animateRotate: true,
+    // animation.animteScale: false
+    maintainAspectRatio: true,
+    legend: {
+      position: 'bottom'
+    },
+    title: {
+      display: true,
+      fontSize: 20,
+      text: props.title
+    }
+  }
 
 
   return (
-    <div className="col-lg-6">
+    <div>
       <Pie
         data={chartData}
         options={chartOptions}
