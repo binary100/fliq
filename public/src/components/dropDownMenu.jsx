@@ -8,7 +8,7 @@ const DropDownMenu = ({ onSelect }) => {
         <MenuItem eventKey="genre">Genre</MenuItem>
         <MenuItem eventKey="actor" active={false}>Actor</MenuItem>
         <MenuItem eventKey="director">Director</MenuItem>
-        {/* <MenuItem eventKey="all">All</MenuItem> */}
+        <MenuItem eventKey="all">All</MenuItem>
       </DropdownButton>
     </div>
   );
