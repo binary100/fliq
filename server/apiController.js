@@ -281,8 +281,9 @@ module.exports.getSmartUserResults = (req, res) => {
                 }
               }
             } else {
-              tempArray.push(unknownTags[parseInt((randomNum - ((params.knownTagsPercentage) / 100))
-                / unknownTagWeight, 10)].dataValues);
+              const numerator = (randomNum - ((params.knownTagsPercentage) / 100));
+              const ind = parseInt(numerator / unknownTagWeight, 10);
+              tempArray.push(unknownTags[ind].dataValues);
             }
           }
           randomTagArray.push(tempArray);
