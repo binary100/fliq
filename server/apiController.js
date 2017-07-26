@@ -22,7 +22,7 @@ module.exports.checkSession = (req, res, next) => {
   if (req.sessionID) {
     db.session.findOne({
       where: { sid: req.sessionID },
-      include: [{ model: db.users, as: 'User' }]
+      include: [{ model: db.users, as: 'user' }]
     })
     .then((sessionSave) => {
       if (sessionSave) {
@@ -207,6 +207,142 @@ module.exports.findDuplicateTagIDs = (req, res) => {
       });
       res.send(tags);
     });
+};
+
+// Brain 2
+module.exports.getSmartUserResults = (req, res) => {
+  const params = {
+    knownTagsPercentage: 80,
+    likeValue: 3,
+    dislikeValue: -2,
+    numRandomTagsPicked: 1,
+    numberOfResults: 5
+  };
+  db.movies.findAll({})
+  .then((allMovies) => {
+    if (!req.user.reView) {
+      return db.userMovies.findAll({ where: { user_Id: req.user.id, seen: true } })
+      .then(seenMovies =>
+        allMovies.filter(curr =>
+          seenMovies.findIndex(item =>
+            item.dataValues.movie_Id === curr.dataValues.id) === -1)
+      )
+      .catch(err => res.send(err));
+    }
+    return allMovies;
+  })
+  .then((newAllMovies) => {
+    db.tags.findAll({})
+    .then((allTags) => {
+      db.userTags.findAll({
+        where: { user_Id: req.user.id },
+        include: [{ model: db.tags, as: 'tag' }] })
+      .then((myUserTags) => {
+        const finalTagWeights = myUserTags.map((curr) => {
+          const data = curr.dataValues;
+          return {
+            tagWeight: data.picksCount +
+              (params.likeValue * data.likesCount) + (params.dislikeValue * data.dislikesCount),
+            user_Id: data.user_Id,
+            id: data.tag_Id,
+            tagName: data.tag.dataValues.tagName,
+            tagType: data.tag.dataValues.tagType
+          };
+        }).filter(item => item.tagWeight > 0);
+        const unknownTags = allTags.filter(curr =>
+          finalTagWeights.findIndex(item =>
+            item.tag_Id === curr.dataValues.id) === -1);
+        const totalWeight = finalTagWeights.reduce((acc, curr) =>
+          acc + curr.tagWeight, 0);
+        const knownSpectrum = finalTagWeights.reduce((acc, curr, index, array) => {
+          if (index - 1 < 0) {
+            acc.push([(curr.tagWeight / totalWeight)
+              * (params.knownTagsPercentage / 100), curr]);
+          } else if (index === array.length - 1) {
+            acc.push([(params.knownTagsPercentage / 100), curr]);
+          } else {
+            acc.push([((curr.tagWeight / totalWeight) * (params.knownTagsPercentage / 100))
+              + acc[index - 1][0], curr]);
+          }
+          return acc;
+        }, []);
+        const unknownTagWeight = ((100 - params.knownTagsPercentage) / 100) / unknownTags.length;
+        console.log('Working');
+        const randomTagArray = [];
+        for (let i = 0; i < 5; i += 1) {
+          const tempArray = [];
+          for (let j = 0; j < params.numRandomTagsPicked; j += 1) {
+            const randomNum = Math.random();
+            if (randomNum <= params.knownTagsPercentage / 100) {
+              for (let l = 0; l < knownSpectrum.length; l += 1) {
+                if (knownSpectrum[l][0] > randomNum) {
+                  tempArray.push(knownSpectrum[l - 1][1]);
+                  l = Infinity;
+                }
+              }
+            } else {
+              tempArray.push(unknownTags[parseInt((randomNum - ((params.knownTagsPercentage) / 100))
+                / unknownTagWeight, 10)].dataValues);
+            }
+          }
+          randomTagArray.push(tempArray);
+        }
+        console.log('ABCDEABCDEABCDEABCDEABCDEABCDEABCDE');
+        console.log('Chosen Tags :', randomTagArray);
+        const movieSelection = randomTagArray.map((item) => {
+          let filteredMovies = newAllMovies;
+          for (let i = 0; i < params.numRandomTagsPicked; i += 1) {
+            if (item[i].tagType === 'actor') {
+              const newFilteredMovies = filteredMovies.filter(movie =>
+                movie.dataValues.actors.split(', ').includes(item[i].tagName)
+              );
+              if (newFilteredMovies > 0) filteredMovies = newFilteredMovies;
+            } else if (item[i].tagType === 'director') {
+              const newFilteredMovies = filteredMovies.filter(movie =>
+                movie.dataValues.director.split(', ').includes(item[i].tagName)
+              );
+              if (newFilteredMovies > 0) filteredMovies = newFilteredMovies;
+            } else {
+              const newFilteredMovies = filteredMovies.filter(movie =>
+                movie.dataValues.genre.split(', ').includes(item[i].tagName)
+              );
+              if (newFilteredMovies > 0) filteredMovies = newFilteredMovies;
+            }
+          }
+          return filteredMovies[Math.floor(Math.random() * filteredMovies.length)].dataValues;
+        });
+        console.log('Movie Selection :', movieSelection);
+        return movieSelection;
+      })
+      .then((movies) => {
+        console.log('DDDAHFGSSFHGSHSJSBSSBJBSHBJBDY : ', movies);
+        const moviePromises = movies.map(movie =>
+          new Promise((resolve, reject) => {
+            db.userMovies.findOne({ where: {
+              movie_Id: movie.id,
+              user_Id: req.user.id
+            } })
+            .then((userMovie) => {
+              const hydramovie = Object.assign({}, movie);
+              if (userMovie) {
+                hydramovie.liked = userMovie.liked;
+              } else {
+                hydramovie.liked = 0;
+              }
+              return hydramovie;
+            })
+            .then(hydratedMovie => resolve(hydratedMovie))
+            .catch(error => reject(error));
+          })
+        );
+        return Promise.all(moviePromises);
+      })
+      .then(hydratedMovies => res.send(hydratedMovies))
+      .catch(err => res.send(err));
+    })
+    .catch(err => res.send(err));
+  })
+  .catch(err => res.send(err));
 };
 
 // Placeholder logic
