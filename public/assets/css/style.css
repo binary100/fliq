@@ -693,8 +693,8 @@ input:checked + .slider:before {
 .trophy {
   display: inline-block;
   margin: 3px;
-  /*transform: scale(0.4);
-  height: 85px;
+  /*transform: scale(0.80);*/
+  /*height: 85px;
   width: 85px;*/
 }
 
