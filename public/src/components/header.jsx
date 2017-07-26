@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Hamburger from './hamburger.jsx';
 
-const Header = ({ handleLogout, user }) => (
+const Header = ({ handleLogout, user, toggleSideMenu }) => (
   <nav className="navbar navbar-inverse header">
     <div className="container-fluid">
       <div className="navbar-header">
         <ul className="nav navbar-nav">
           <li>
-            <span className="glyphicon glyphicon-menu-hamburger header-icon" />
+            <Hamburger toggleSideMenu={toggleSideMenu} />
           </li>
           <li>
             <Link to="/" >
@@ -51,7 +52,7 @@ const Header = ({ handleLogout, user }) => (
           <img
             className="img-circle user-photo"
             src={user ? user.picture : ''}
-            alt={user ? user.name : '' }
+            alt={user ? user.name : ''}
           />
           <span className="user-name pull-right">
             {user ? user.name : ''}

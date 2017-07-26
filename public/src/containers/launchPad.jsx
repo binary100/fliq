@@ -8,7 +8,6 @@ class LaunchPad extends React.Component{
       step: 1,
     };
     this.setStep = this.setStep.bind(this);
-    console.log('LaunchPad Props: ', props)
   }
 
   setStep (step) {
@@ -37,6 +36,7 @@ class LaunchPad extends React.Component{
         <div className="container container-fluid text-center">
           <h1>{tag}</h1>
           <LaunchPadTags 
+            user={this.props.user}
             tag={tag}
             tagArray={this.props.tags[tag]}
             step={this.state.step}

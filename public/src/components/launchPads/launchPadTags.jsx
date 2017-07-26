@@ -8,9 +8,9 @@ class LaunchPadTags extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-    }
+    this.state = {}
 
+    // this.parallax = this.parallax.bind(this.scene)
     this.goToNext = this.goToNext.bind(this)
     this.goToPrev = this.goToPrev.bind(this)
   }
@@ -31,16 +31,31 @@ class LaunchPadTags extends React.Component {
   render() {
     return (
       <div className="launchPadPage">
+        <div className="lax-back"></div>
         <div className="launchPad-controls">
           <div>
-            <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
-            <button className="btn btn-primary btn-spacing" onClick={this.goToNext}>Next</button>
-              { this.props.step === 3 ? 
-                <Link to="/"><button
-                  onClick={() => this.props.postSelectedTags(this.props.selectedTags)} 
+            { this.props.step === 1 ? 
+              null :
+              <button className="btn btn-default btn-spacing" onClick={this.goToPrev}>Prev</button>
+            }
+
+            { this.props.step === 3 ? 
+              null :
+              <button className="btn btn-default btn-spacing" onClick={this.goToNext}>Next</button>
+            }
+
+            { this.props.step === 3 ? 
+              <Link to="/">
+                <button
+                  onClick={() => this.props.postSelectedTags(this.props.selectedTags, this.props.user)}
                   className="btn btn-success btn-spacing"
-                >Submit</button></Link> : null
-              }
+                >
+                  Submit
+                </button>
+              </Link> 
+              : null
+            }
+
           </div>
         </div>
 
@@ -48,6 +63,7 @@ class LaunchPadTags extends React.Component {
 
             {this.props.tagArray.map(tagItem => 
               (<TagBubble
+                user={this.props.user}
                 key={bubbleCount += 1}
                 tagItem={tagItem}
                 selectedTags = {this.props.selectedTags}

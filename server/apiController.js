@@ -1,15 +1,16 @@
 const axios = require('axios');
 const Sequelize = require('sequelize');
 const db = require('../database/dbsetup.js');
+
 const omdbUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=`;
 const omdbIMDBSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=`;
 const omdbSearchUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=`;
 const theMovieDbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=`;
-const theMovieDbPosterUrl = `http://image.tmdb.org/t/p/w185`;
-const quoteUrl = `https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"`;
+const theMovieDbPosterUrl = 'http://image.tmdb.org/t/p/w185';
+const quoteUrl = 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"';
 const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
-
+const trophyHunterId = 8;
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -21,7 +22,7 @@ module.exports.checkSession = (req, res, next) => {
   if (req.sessionID) {
     db.session.findOne({
       where: { sid: req.sessionID },
-      include: [{ model: db.users, as: 'User' }]
+      include: [{ model: db.users, as: 'user' }]
     })
     .then((sessionSave) => {
       if (sessionSave) {
@@ -37,6 +38,46 @@ module.exports.checkSession = (req, res, next) => {
   }
 };
 
+const trophyHunter = userAndTrophyObj =>
+  db.userTrophies.findOne({ where: {
+    user_Id: userAndTrophyObj.user.id,
+    trophy_Id: trophyHunterId
+  },
+    include: [{ model: db.trophies, as: 'trophy' }]
+  })
+    .then(trophyHunter => trophyHunter.update({ trophyCount: trophyHunter.trophyCount + 1 }))
+    .then(trophyHunter => {
+      const { targetNums } = trophyHunter.trophy;
+      const { trophyCount } = trophyHunter;
+      // Check to see if trophyCount is now either 15 or 32
+      for (let i = 0; i < targetNums.length; i += 1) {
+        if (trophyCount === targetNums[i]) {
+          // trophyCount is 15 or 32
+          // create new hasTrophies string
+          const newArray =
+            trophyHunter.dataValues.hasTrophies
+              .split(';')
+              .map((curr, ind) => {
+                if (ind === i) {
+                  return 1;
+                }
+                return curr;
+              });
+          // Update hasTrophie and trophyCount
+          return trophyHunter.update({
+            hasTrophies: newArray,
+            trophyCount: trophyHunter.trophyCount + 1
+          })
+            .then(() => {
+              const trophyName = trophyHunter.trophy.trophyNames[i];
+              userAndTrophyObj.trophy.push(trophyName);
+              return userAndTrophyObj;
+            });
+        }
+      }
+      // If trophyCount is not 15 or 32, just return the input object
+      return userAndTrophyObj;
+    });
 
 module.exports.getTwoMovies = (req, res) => {
   // At first, randomly select two movies from DB
@@ -105,12 +146,12 @@ module.exports.populateTags = (req, res) => {
     .catch(error => res.status(500).send(error));
 };
 
-const buildOrIncrementMovieTags = (currentMovie, userId) => {
-  return db.movieTags.findAll({ where: { movie_Id: currentMovie.id } })
+const buildOrIncrementMovieTags = (currentMovie, userId) =>
+  db.movieTags.findAll({ where: { movie_Id: currentMovie.id } })
     .then((movieTags) => {
       console.log('movieTags is: ', movieTags);
-      return movieTags.map((movieTag) => {
-        return new Promise((resolve, reject) => {
+      return movieTags.map(movieTag =>
+        new Promise((resolve, reject) => {
           if (movieTag.dataValues.movie_Id === currentMovie.id) {
             return db.userTags.find({ where: {
               tag_Id: movieTag.dataValues.tag_Id,
@@ -139,12 +180,11 @@ const buildOrIncrementMovieTags = (currentMovie, userId) => {
               reject();
             });
           }
-        });
-      });
+        })
+      );
     })
     .then(clickedMovieTagPromises => Promise.all(clickedMovieTagPromises))
     .catch(error => console.log('Error in buildOrIncrementMovieTags, ', error));
-};
 
 module.exports.handleLightningSelection = (req, res) => {
   const { clickedMovie, discardedMovie } = req.body;
@@ -167,6 +207,142 @@ module.exports.findDuplicateTagIDs = (req, res) => {
       });
       res.send(tags);
     });
+};
+
+// Brain 2
+module.exports.getSmartUserResults = (req, res) => {
+  const params = {
+    knownTagsPercentage: 80,
+    likeValue: 3,
+    dislikeValue: -2,
+    numRandomTagsPicked: 1,
+    numberOfResults: 5
+  };
+  db.movies.findAll({})
+  .then((allMovies) => {
+    if (!req.user.reView) {
+      return db.userMovies.findAll({ where: { user_Id: req.user.id, seen: true } })
+      .then(seenMovies =>
+        allMovies.filter(curr =>
+          seenMovies.findIndex(item =>
+            item.dataValues.movie_Id === curr.dataValues.id) === -1)
+      )
+      .catch(err => res.send(err));
+    }
+    return allMovies;
+  })
+  .then((newAllMovies) => {
+    db.tags.findAll({})
+    .then((allTags) => {
+      db.userTags.findAll({
+        where: { user_Id: req.user.id },
+        include: [{ model: db.tags, as: 'tag' }] })
+      .then((myUserTags) => {
+        const finalTagWeights = myUserTags.map((curr) => {
+          const data = curr.dataValues;
+          return {
+            tagWeight: data.picksCount +
+              (params.likeValue * data.likesCount) + (params.dislikeValue * data.dislikesCount),
+            user_Id: data.user_Id,
+            id: data.tag_Id,
+            tagName: data.tag.dataValues.tagName,
+            tagType: data.tag.dataValues.tagType
+          };
+        }).filter(item => item.tagWeight > 0);
+        const unknownTags = allTags.filter(curr =>
+          finalTagWeights.findIndex(item =>
+            item.tag_Id === curr.dataValues.id) === -1);
+        const totalWeight = finalTagWeights.reduce((acc, curr) =>
+          acc + curr.tagWeight, 0);
+        const knownSpectrum = finalTagWeights.reduce((acc, curr, index, array) => {
+          if (index - 1 < 0) {
+            acc.push([(curr.tagWeight / totalWeight)
+              * (params.knownTagsPercentage / 100), curr]);
+          } else if (index === array.length - 1) {
+            acc.push([(params.knownTagsPercentage / 100), curr]);
+          } else {
+            acc.push([((curr.tagWeight / totalWeight) * (params.knownTagsPercentage / 100))
+              + acc[index - 1][0], curr]);
+          }
+          return acc;
+        }, []);
+        const unknownTagWeight = ((100 - params.knownTagsPercentage) / 100) / unknownTags.length;
+        console.log('Working');
+        const randomTagArray = [];
+        for (let i = 0; i < 5; i += 1) {
+          const tempArray = [];
+          for (let j = 0; j < params.numRandomTagsPicked; j += 1) {
+            const randomNum = Math.random();
+            if (randomNum <= params.knownTagsPercentage / 100) {
+              for (let l = 0; l < knownSpectrum.length; l += 1) {
+                if (knownSpectrum[l][0] > randomNum) {
+                  tempArray.push(knownSpectrum[l - 1][1]);
+                  l = Infinity;
+                }
+              }
+            } else {
+              tempArray.push(unknownTags[parseInt((randomNum - ((params.knownTagsPercentage) / 100))
+                / unknownTagWeight, 10)].dataValues);
+            }
+          }
+          randomTagArray.push(tempArray);
+        }
+        console.log('ABCDEABCDEABCDEABCDEABCDEABCDEABCDE');
+        console.log('Chosen Tags :', randomTagArray);
+        const movieSelection = randomTagArray.map((item) => {
+          let filteredMovies = newAllMovies;
+          for (let i = 0; i < params.numRandomTagsPicked; i += 1) {
+            if (item[i].tagType === 'actor') {
+              const newFilteredMovies = filteredMovies.filter(movie =>
+                movie.dataValues.actors.split(', ').includes(item[i].tagName)
+              );
+              if (newFilteredMovies > 0) filteredMovies = newFilteredMovies;
+            } else if (item[i].tagType === 'director') {
+              const newFilteredMovies = filteredMovies.filter(movie =>
+                movie.dataValues.director.split(', ').includes(item[i].tagName)
+              );
+              if (newFilteredMovies > 0) filteredMovies = newFilteredMovies;
+            } else {
+              const newFilteredMovies = filteredMovies.filter(movie =>
+                movie.dataValues.genre.split(', ').includes(item[i].tagName)
+              );
+              if (newFilteredMovies > 0) filteredMovies = newFilteredMovies;
+            }
+          }
+          return filteredMovies[Math.floor(Math.random() * filteredMovies.length)].dataValues;
+        });
+        console.log('Movie Selection :', movieSelection);
+        return movieSelection;
+      })
+      .then((movies) => {
+        console.log('DDDAHFGSSFHGSHSJSBSSBJBSHBJBDY : ', movies);
+        const moviePromises = movies.map(movie =>
+          new Promise((resolve, reject) => {
+            db.userMovies.findOne({ where: {
+              movie_Id: movie.id,
+              user_Id: req.user.id
+            } })
+            .then((userMovie) => {
+              const hydramovie = Object.assign({}, movie);
+              if (userMovie) {
+                hydramovie.liked = userMovie.liked;
+              } else {
+                hydramovie.liked = 0;
+              }
+              return hydramovie;
+            })
+            .then(hydratedMovie => resolve(hydratedMovie))
+            .catch(error => reject(error));
+          })
+        );
+        return Promise.all(moviePromises);
+      })
+      .then(hydratedMovies => res.send(hydratedMovies))
+      .catch(err => res.send(err));
+    })
+    .catch(err => res.send(err));
+  })
+  .catch(err => res.send(err));
 };
 
 // Placeholder logic
@@ -270,7 +446,7 @@ module.exports.getSearchAutoComplete = (req, res) => {
   const url = theMovieDbUrl + query;
   axios.get(url)
     .then(results => res.send(results.data.results))
-    .catch(err => {
+    .catch((err) => {
       console.log('Error in autocomplete: ', err);
       res.status(500).send(err);
     });
@@ -326,7 +502,7 @@ const handleLikeOrDislike = (movie, userId, isLike) =>
         })
       )
     )
-    .then(movieTagPromises => Promise.all(movieTagPromises));
+    .then(movieTagPromises => Promise.all(movieTagPromises))
 
 const getDetailedMovieInformation = movieUrl =>
   axios.post(movieUrl)
@@ -388,8 +564,8 @@ module.exports.handleLikeFromScraper = (movie, userId) => {
   });
 };
 
-const setMovieFromDbAsSeen = (movieId, req, res) => {
-  return db.userMovies.findOrCreate({ where: {
+const setMovieFromDbAsSeen = (movieId, req, res) =>
+  db.userMovies.findOrCreate({ where: {
     user_Id: req.user.id,
     movie_Id: movieId
   } })
@@ -402,7 +578,6 @@ const setMovieFromDbAsSeen = (movieId, req, res) => {
       console.log('Error marking movie seen: ', err);
       res.sendStatus(500);
     });
-};
 
 module.exports.setResultsMovieAsSeen = (req, res) => {
   const { movie } = req.body;
@@ -450,16 +625,15 @@ const hydrateLikesAndDislikes = (movies, userId) => {
     where: { user_Id: userId },
     include: [{ model: db.movies, as: 'movie' }]
   })
-    .then((userMovieRefs) => {
-      console.log('Found userMovieRefs', userMovieRefs);
-      return movies.map((movie) => {
+    .then(userMovieRefs =>
+      movies.map((movie) => {
         const match = userMovieRefs.find(ref => ref.movie.title === movie.title);
         if (match) {
           return Object.assign({}, movie, { liked: match.liked });
         }
         return movie;
-      });
-    });
+      })
+    );
   return proms;
 };
 
@@ -474,15 +648,15 @@ module.exports.handleMovieSearchOMDB = (req, res) => {
   axios.post(searchUrl)
     .then((results) => {
       console.log('Received results: ', results.data);
-      const movieObjects = results.data.Search.map((movie) => {
-        return {
+      const movieObjects = results.data.Search.map(movie => (
+        {
           title: movie.Title,
           year: movie.Year,
           poster: movie.Poster,
           imdbID: movie.imdbID,
           liked: 0
-        };
-      });
+        }
+      ));
       return movieObjects;
     })
     .then((movies) => {
@@ -540,21 +714,18 @@ module.exports.getMovieNightResults = (req, res) => {
 };
 
 module.exports.getTagsforLaunchPad = (req, res) => {
-  // const { data } = req.body;
   db.tags
     .findAll({
-      order: [
-        Sequelize.fn('RAND')
-      ],
-      limit: 20
+      limit: 100
     })
-    .then(results => {
+    .then((results) => {
       const tags = results.reduce((acc, val) => {
         if (!acc[val.tagType]) {
           acc[val.tagType] = [];
         }
-
-        acc[val.tagType].push(val.tagName);
+        if (acc[val.tagType].length < 20) {
+          acc[val.tagType].push([val.id, val.tagName]);
+        }
         return acc;
       }, {});
 
@@ -563,60 +734,144 @@ module.exports.getTagsforLaunchPad = (req, res) => {
     .catch(err => res.status(500).send('Error finding tags: ', err));
 };
 
-module.exports.getLaunchPadTags = (req, res) => {
-  // axios.get(/api/);
-}
+const buildOrIncrementUserTags = (userId, tagId) => {
+  return db.userTags
+    .findAll(
+    {
+      limit: 4,
+      where: { tag_Id: tagId }
+    })
+    .then((userTags) => {
+
+      return userTags.map((userTag) => {
+        return new Promise((resolve, reject) => {
+          if (userTag === null) {
+
+            return db.userTags.create({
+              viewsCount: 1,
+              picksCount: 1,
+              tag_Id: tagId,
+              user_Id: userId
+            });
+          }
+
+          return userTag
+            .increment(['viewsCount', 'picksCount'], { by: 1 })
+            .then(() => {
+              console.log('done');
+              resolve();
+            })
+            .catch((err) => {
+              console.log('Error in userTag if/else promise:', err);
+              reject();
+            });
+        }); // end of new promise
+      }); // end of userTags.MAP (then)
+    }); // end of userTags
+};
 
 module.exports.postLaunchPadTags = (req, res) => {
-  console.log('postLaunchPadTags sent req.body as: ', req.body);
-  const { selectedTagData } = req.body;
 
-  console.log('Completed postLaunchPagTags placeholder logic');
-  res.sendStatus(200);
+  req.body.submitTags
+    .forEach((id, tag) => {
+      buildOrIncrementUserTags(req.body.currentUser.id, tag);
+    })
+    .then(() => res.sendStatus(201))
+    .catch(error => res.status(500).send(error));
 };
 
 module.exports.getUserInfo = (req, res) => {
+  const user_id = req.body.id;
+  const responseObj = {};
+
   db.users.findOne({
     where: {
-      id: req.body.id
+      id: user_id
     }
   })
-  .then((results) => {
-    const userInfo = results.dataValues;
-    res.send(userInfo);
+  .then((userResults) => {
+    responseObj.userInfo = userResults;
+  })
+  .then(() =>
+    db.userMovies.findAll({
+      where: {
+        user_Id: user_id
+      },
+      include: [{ model: db.movies, as: 'movie' }]
+    })
+    .then((userMoviesResults) => {
+      responseObj.userMoviesInfo = userMoviesResults;
+    })
+  )
+  .then(() =>
+    db.userTags.findAll({
+      where: {
+        user_Id: user_id
+      },
+      include: [{ model: db.tags, as: 'tag' }]
+  }))
+  .then((userTagsResults) => {
+    responseObj.userTagsInfo = userTagsResults;
+    const shapedResults = userTagsResults.map(tag => ({
+      name: tag.tag.tagName,
+      type: tag.tag.tagType,
+      dislikesCount: tag.dislikesCount,
+      likesCount: tag.likesCount,
+      picksCount: tag.picksCount,
+      viewsCount: tag.viewsCount,
+      id: tag.id
+    }));
+    responseObj.shapedTagInfo = shapedResults;
+  })
+  .then(() => db.userTrophies.findAll({
+    where: { user_Id: user_id },
+    include: [{ model: db.trophies, as: 'trophy' }]
+  }))
+  .then((userTrophies) => {
+    // Get names of all obtained trophies
+    const trophies = userTrophies.reduce((acc, userTrophy) => {
+      acc = acc.concat(userTrophy.hasTrophies.reduce((arr, item, ind) => {
+        if (item) {
+          acc.push(userTrophy.trophy.trophyNames[ind]);
+        }
+        return arr;
+      }, []));
+      return acc;
+    }, []);
+    responseObj.earnedTrophies = trophies;
+  })
+  .then(() => {
+    res.send(responseObj);
   })
   .catch((error) => {
-    console.log('Error getting user info', error);
+    console.log('Error getting info', error);
     res.sendStatus(500);
   })
 };
 
-module.exports.getUserInfo = (req, res) => {
-  db.users.findOne({
-    where: {
-      id: req.body.id
-    }
+module.exports.getTableData = (req, res) => {
+  const responseObj = {};
+
+  db.tags.findAll({})
+  .then((tagsTableResults) => {
+    responseObj.tagsTableData = tagsTableResults;
   })
-  .then((results) => {
-    const userInfo = results.dataValues;
-    res.send(userInfo);
+  .then(() => {
+    res.send(responseObj);
   })
   .catch((error) => {
-    console.log('Error getting user info', error);
     res.sendStatus(500);
-  })
+  });
 };
+
 
 module.exports.updateUserSettings = (req, res) => {
   const { id, reView } = req.body;
 
   db.users.update({
     reView
-  },
-  {
-    where: {
-      id
-    }
+  }, {
+    where: { id }
   })
   .then(() => {
     console.log('Successfully updated user info (id, reView)', id, reView);
@@ -625,11 +880,10 @@ module.exports.updateUserSettings = (req, res) => {
   .catch((error) => {
     console.log('Error updating user info', error);
     res.sendStatus(500);
-  })
+  });
 };
 
 module.exports.setUserWatchedMovie = (req, res) => {
-
   const { watchedMovieId, watchedMovieTitle, userId } = req.body;
   db.users.update({ watchedMovieId, watchedMovieTitle }, { where: { id: userId } })
     .then(() => res.sendStatus(200))
@@ -638,4 +892,74 @@ module.exports.setUserWatchedMovie = (req, res) => {
 
 module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
+};
+
+module.exports.createTrophiesAndReturnUser = (req, res) => {
+  return db.users.findOne({ where: { id: req.user.id } })
+  .then((user) => {
+    if (user.loginNumber === 1) {
+      db.trophies.findAll({})
+      .then((trophiesAll) => {
+        const trophyPromises = trophiesAll.map(trophy =>
+          new Promise((resolve, reject) => {
+            if (trophy.trophyNames[0] === 'Login1') {
+              return db.userTrophies.create({
+                hasTrophies: [1, 0, 0],
+                trophyCount: 1,
+                trophy_Id: trophy.id,
+                user_Id: req.user.id
+              })
+              .then(userTrophy => resolve(userTrophy))
+              .catch(err => reject(err));
+            } else {
+              return db.userTrophies.create({
+                hasTrophies: trophy.targetNums.reduce((acc) => {
+                  acc.push(0);
+                  return acc;
+                }, []),
+                trophyCount: 0,
+                trophy_Id: trophy.id,
+                user_Id: req.user.id
+              })
+              .then(userTrophy => resolve(userTrophy))
+              .catch(err => reject(err));
+            }
+          })
+        );
+        return Promise.all(trophyPromises);
+      })
+      .then(() => {
+        res.send({ user: req.user, trophy: ['Login1'] });
+      })
+      .catch(err => res.send(err));
+    } else {
+      db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: req.user.id, trophy_Id: 2 } })
+      .then(() => {
+        db.userTrophies.findOne({
+          where: { user_Id: req.user.id, trophy_Id: 2 },
+          include: [{ model: db.trophies, as: 'trophy' }]
+        })
+        .then((userTrophy) => {
+          const index = userTrophy.hasTrophies.indexOf(0);
+          if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
+            db.userTrophies.findOne({ where: { user_Id: req.user.id, trophy_Id: 2 } })
+            .then((trophy) => {
+              const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => { if (ind === index) return 1; return curr; });
+              db.userTrophies.update({ hasTrophies: newArray }, { where: { user_Id: req.user.id, trophy_Id: 2 } })
+              .then(() => {
+                const userAndTrophyObj = { user: req.user, trophy: [userTrophy.trophy.trophyNames[index]] };
+                return trophyHunter(userAndTrophyObj);
+              })
+              .then(userAndTrophyObj => res.send(userAndTrophyObj));
+            })
+            .catch(err => res.send(err));
+          } else {
+            res.send({ user: req.user });
+          }
+        })
+        .catch(err => res.send(err));
+      })
+      .catch(err => res.send(err));
+    }
+  });
 };

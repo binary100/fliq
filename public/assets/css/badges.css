@@ -1,0 +1,267 @@
+#badgeList {
+background: gray;
+}
+
+.clear {
+clear: both;
+}
+
+.test-badge-box {width:190px;height:190px;margin: 10px;background: white;float: left;}
+
+.sprite {display: inline-block;background-image: url('/assets/img/badge-proto3.png');transform: scale(.62);}
+
+.sprite:hover {
+filter: grayscale(100%) brightness(20%);
+}
+
+.sprite-disabled {
+filter: grayscale(100%) brightness(20%);
+}
+
+#noob-1{height:190px;width:190px;background-position: -72px -50px;}
+
+#noob-2{height:190px;width:190px;background-position: -304px -60px;}
+
+#noob-3{height:190px;width:190px;background-position: -554px -65px;}
+
+#noob-4{height:190px;width:190px;background-position: -802px -57px;}
+
+#Login1{height:190px;width:190px;background-position: -70px -311px;}
+
+#Login10{height:190px;width:190px;background-position: -303px -311px;}
+
+#Login50{height:190px;width:190px;background-position: -558px -311px;}
+
+#Login1000{
+  height:190px;
+  width:190px;
+  background-position: -806px -310px;
+}
+
+#MovieNight{height:190px;width:190px;background-position: -53px -553px;}
+
+#MovieNight1{height:190px;width:190px;background-position: -309px -563px;}
+
+#MovieNight10{height:190px;width:190px;background-position: -555px -563px;}
+
+#MovieNight1000{
+  height:190px;
+  width:190px;
+  background-position: -805px -559px;
+}
+
+#Seen1{height:190px;width:190px;background-position: -68px -816px;}
+
+#Seen10{height:190px;width:190px;background-position: -305px -816px;}
+
+#Seen50{height:190px;width:190px;background-position: -558px -816px;}
+
+#Seen{
+  height:190px;
+  width:190px;
+  background-position: -807px -811px;
+}
+
+
+#launchPad-1{
+  height:190px;
+  width:190px;
+  background-position: -71px -1091px;
+}
+
+#launchPad-2{
+  height:190px;
+  width:190px;
+  background-position: -306px -1084px;
+}
+
+#launchPad-3{
+  height:190px;
+  width:190px;
+  background-position: -556px -1086px;
+}
+
+#LaunchPad1{
+  height:190px;
+  width:190px;
+  background-position: -806px -1064px;
+}
+
+#TrophyHunter1{
+  height:190px;
+  width:190px;
+  background-position: -71px -1343px;
+}
+
+#TrophyHunter2{
+height:190px;
+width:190px;
+background-position: -306px -1337px;
+}
+
+#TrophyHunter15{
+height:190px;
+width:190px;
+background-position: -559px -1339px;
+}
+
+#TrophyHunter32{
+height:190px;
+width:190px;
+background-position: -806px -1316px;
+}
+
+
+#Horror1{
+height:190px;
+width:190px;
+background-position: -71px -1598px;
+}
+
+#Horror10{
+height:190px;
+width:190px;
+background-position: -307px -1589px;
+}
+
+#Horror50{
+height:190px;
+width:190px;
+background-position: -556px -1589px;
+}
+
+#Horror4{
+height:190px;
+width:190px;
+background-position: -805px -1569px;
+}
+
+#Action1{
+height:190px;
+width:190px;
+background-position: -71px -2097px;
+}
+
+#Action10{
+height:190px;
+width:190px;
+background-position: -70px -1844px;
+}
+
+#Action50{
+height:190px;
+width:190px;
+background-position: -557px -2092px;
+}
+
+#Action4{
+height:190px;
+width:190px;
+background-position: -806px -2072px;
+}
+
+#Drama1{
+height:190px;
+width:190px;
+background-position: -71px -1845px;
+}
+
+#Drama10{
+height:190px;
+width:190px;
+background-position: -305px -1841px;
+}
+
+#Drama50{
+height:190px;
+width:190px;
+background-position: -559px -1840px;
+}
+
+#Drama4{
+height:190px;
+width:190px;
+background-position: -805px -1821px;
+}
+
+
+#Dislike1{
+height:190px;
+width:190px;
+background-position: -69px -2352px;
+}
+
+#Dislike10{
+height:190px;
+width:190px;
+background-position: -308px -2345px;
+}
+
+#Dislike50{
+  height:190px;
+  width:190px;
+  background-position: -559px -2346px;
+}
+
+#Dislike4{
+  height:190px;
+  width:190px;
+  background-position: -806px -2326px;
+}
+
+#Like1 {
+  /*height:190px;width:190px;background-position: -70px -2590px;*/
+    background: url('/assets/img/badge-proto3.png') no-repeat -71px -2604px;
+  width: 177px;
+  height: 175px;
+}
+
+#Like10{
+  /*height:190px;width:190px;background-position: -306px -2577px;*/
+  background: url('/assets/img/badge-proto3.png') no-repeat -307px -2598px;
+  width: 177px;
+  height: 175px;
+}
+
+#Like50{
+  /*height:190px;width:190px;background-position: -555px -2577px;*/
+  background: url('/assets/img/badge-proto3.png') no-repeat -559px -2599px;
+  width: 179px;
+  height: 174px;
+}
+
+#Like4{
+  height:190px;
+  width:190px;
+  background-position: -806px -2577px;
+}
+
+#Lightning1 {
+  /*height:190px;width:190px;background-position: -70px -2590px;*/
+  background: url('/assets/img/badge-proto3.png') no-repeat -72px -2866px;
+  width: 145px;
+  height: 149px;
+}
+
+#Lightning10{
+  /*height:190px;width:190px;background-position: -306px -2587px;*/
+  background: url('/assets/img/badge-proto3.png') no-repeat -308px -2860px;
+  width: 177px;
+  height: 175px;
+}
+
+#Lightning50{
+  /*height:190px;width:190px;background-position: -555px -2588px;*/
+  background: url('/assets/img/badge-proto3.png') no-repeat -560px -2861px;
+  width: 179px;
+  height: 174px;
+}
+
+#Lightning100{
+  /*height: 190px;
+  width: 190px;
+  background-position: -806px -2577px;*/
+  background: url('/assets/img/badge-proto3.png') no-repeat -808px -2839px;
+  width: 184px;
+  height: 208px;
+}

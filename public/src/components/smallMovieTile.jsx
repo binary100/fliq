@@ -1,7 +1,7 @@
 import React from 'react';
-import LoadingButton from './loadingButton.jsx';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import LoadingButton from './loadingButton.jsx';
 
 const thumbsUp = 'glyphicon glyphicon-thumbs-up';
 const thumbsDown = 'glyphicon glyphicon-thumbs-down';
@@ -162,28 +162,22 @@ class SmallMovieTile extends React.Component {
             alt="Poster"
           />
         </div>
-        <div className="like-buttons col-sm-10 col-centered">
-          <div className="col-sm-4">
-            <LoadingButton
-              disabled={!this.props.isLoggedIn}
-              buttonClass={this.state.likeButtonClass}
-              handleClick={this.likeMovie}
-            />
-          </div>
-          <div className="col-sm-4">
-            <LoadingButton
-              disabled={!this.props.isLoggedIn}
-              buttonClass={this.state.seenButtonClass}
-              handleClick={this.setMovieAsSeen}
-            />
-          </div>
-          <div className="col-sm-4">
-            <LoadingButton
-              disabled={!this.props.isLoggedIn}
-              buttonClass={this.state.dislikeButtonClass}
-              handleClick={this.dislikeMovie}
-            />
-          </div>
+        <div className="like-buttons col-sm-12 col-centered">
+          <LoadingButton
+            disabled={!this.props.isLoggedIn}
+            buttonClass={this.state.likeButtonClass}
+            handleClick={this.likeMovie}
+          />
+          <LoadingButton
+            disabled={!this.props.isLoggedIn}
+            buttonClass={this.state.seenButtonClass}
+            handleClick={this.setMovieAsSeen}
+          />
+          <LoadingButton
+            disabled={!this.props.isLoggedIn}
+            buttonClass={this.state.dislikeButtonClass}
+            handleClick={this.dislikeMovie}
+          />
         </div>
       </div>
     );

@@ -48,8 +48,6 @@ const MovieDetails = ({ movie }) => {
           <div>
             <p>Actors: {movie.actors} </p>
           </div>
-          <div>
-          </div>
         </div>
       </span>
     </span>

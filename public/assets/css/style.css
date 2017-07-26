@@ -1,14 +1,6 @@
 @import "./animate.css";
 
-
-/************* TEST ONLY **************/
-
-/* sorry navbar was annoyAF, delete later */
-.nav > li {
-  float: left;
-}
-
-/************* STYLE PAGE START **************/
+/************* PAGE STYLE START **************/
 
 body, html {
   margin: 0;
@@ -134,8 +126,8 @@ at this phase of development
 .popdown {
   /* colors taken from bootstrap inverse nav bar text color */
   text-align: center;
-  color: #9d9d9d; 
-  background-color: #222;  
+  color: #9d9d9d;
+  background-color: #222;
   position: absolute;
   /*border: 1px solid black;*/
   border-radius: 5px;
@@ -172,6 +164,8 @@ at this phase of development
   }
 }
 
+
+
 /************* WELCOME MODAL **************/
 
 .welcome-modal-wrapper {
@@ -204,6 +198,8 @@ at this phase of development
 
 .lightning-header {
   border-bottom: 2px solid #2ecc71;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .lightning-footer {
@@ -273,7 +269,7 @@ at this phase of development
 }
 
 .results-body {
-  height: 50vh;
+  max-height: 50vh;
   overflow-y: scroll;
 }
 
@@ -290,16 +286,63 @@ at this phase of development
   max-height: 100%;
 }
 
+.go-see-button {
+  margin: 10px 0;
+}
+
+.results-header {
+  border-bottom: 2px solid #2ecc71;
+}
+
+.results-header h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
 /************* NAVBAR **************/
 
 .header {
   z-index: 3;
 }
 
-.header-icon {
-  /* size the hamburger */
-  min-height:  50px;
-  line-height: 50px;
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
+}
+
+.hamburger {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.hamburger-open {
+  animation: mySpinOpen 1s ease;
+}
+
+.hamburger-closed {
+  animation: mySpinClosed 1s ease;
+}
+
+@keyframes mySpinOpen {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mySpinClosed {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 
 .navbar a:focus {
@@ -344,6 +387,7 @@ at this phase of development
 }
 
 .small-movie-tile {
+  font-size: 12px;
   padding: 10px;
   text-align: center;
 }
@@ -353,11 +397,14 @@ at this phase of development
 }
 
 .small-tile-button {
-  margin: 1em 0;
   background: #2980B9;
   /*background: #2ecc71;*/
   border: 0px;
   color: white;
+  padding: 0px;
+  width: 20%;
+  height: 2.5em;
+  margin: 10px 5px;
 }
 
 .small-tile-button:hover,
@@ -376,6 +423,7 @@ at this phase of development
 
 .like-buttons {
   text-align: center;
+  overflow: auto;
 }
 
 .results-tile-bar-poster {
@@ -383,11 +431,17 @@ at this phase of development
   width: 130px;
 }
 
+.popdown-button {
+  width: 65%;
+}
+
 /************* SEARCH PAGE **************/
 
 .search-table {
-  height: 78vh;
+  height: 625px;
   overflow-y: scroll;
+  border: 2px solid black;
+  border-radius: 10px;
 }
 
 .col-centered {
@@ -489,6 +543,36 @@ at this phase of development
   transform: translate(-50%, -50%);
 }
 
+
+.lax-back {
+  position: absolute;
+  background: 'url(http://matthew.wagerfield.com/parallax/assets/images/background.jpg) no-repeat 50% 100%',
+  bottom:'96px',
+  background-size: 'cover',
+  width: '110%',
+  height: '500px',
+  left: '-5%',
+  top: '-5%',
+}
+
+.layer {
+  background: red;
+  width:200px;
+  height:200px;
+}
+
+.test-block2 {
+  background: blue;
+  width:300px;
+  height:100px;
+}
+
+.test-block3 { 
+  background: white;
+  width:300px;
+  height:100px;
+}
+
 /************* TOGGLE SWITCH **************/
 
 /*sets size of toggle switch container*/
@@ -534,10 +618,6 @@ input:checked + .slider {
   background-color: #32cd32;
 }
 
-/*input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}*/
-
 /*moves slider when clicked*/
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
@@ -558,4 +638,69 @@ input:checked + .slider:before {
 .toggle-switch-label {
   margin-left: 55px;
   white-space: nowrap;
+}
+
+/************* SIDE MENU  **************/
+
+.sidemenu {
+  background-color: navy;
+  position: absolute;
+  width: 150px;
+  height: 300px;
+  top: -350px;
+  transition: 1s ease;
+  z-index: 2;
+  overflow: auto;
+  background-color: #222;
+}
+
+.sidemenu-active {
+  animation: sidemenuSlideDown 1s ease;
+  top: 49px;
+}
+
+.sidemenu ul {
+  padding-top: 20px;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.sidemenu li {
+  font-size: 20px;
+  height: 50px;
+}
+
+@keyframes sidemenuSlideDown {
+    0% {
+    top: -600px;
+  }
+
+  100% {
+    top: 49px;
+  }
+}
+
+/************* DASHBOARD TROPHIES MENU  **************/
+
+.trophies-box {
+  /*min-height: 300px;*/
+  height: 250px;
+  border: 1px solid black;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.trophy {
+  display: inline-block;
+  margin: 3px;
+  /*transform: scale(0.80);*/
+  /*height: 85px;
+  width: 85px;*/
+}
+
+.dashboard-charts {
+  position: absolute;
+  bottom:0;
+  width:100%;
+  height:55%;
 }

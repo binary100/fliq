@@ -1,31 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory, HashRouter as Router, Route, Switch, } from 'react-router-dom';
+import { browserHistory, HashRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import anime from 'animejs';
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
+import SideMenu from '../components/sidemenu.jsx';
 import LaunchPadWrapper from './launchPadWrapper.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
 import MovieNight from './movieNight.jsx';
 import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
 import LikeMoviePopdown from './popdown/likeMoviePopdown.jsx';
-import { loginUser, logoutUser } from '../actions/actions.js';
-
+import TrophyPopdown from './popdown/trophyPopdown.jsx';
+import { loginUser, logoutUser, showTrophyPopdown } from '../actions/actions.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showSideMenu: false,
+      trophies: null
+    };
     this.handleLogout = this.handleLogout.bind(this);
+    this.toggleSideMenu = this.toggleSideMenu.bind(this);
   }
 
   componentWillMount() {
     axios.get('/account')
       .then((results) => {
-        if (results.data.user) {
-          this.props.loginUser(results.data.user);
+        let { user, trophy } = results.data;
+        if (user) {
+          this.props.loginUser(user);
+          // trophy = ['Login50'];
+          if (trophy) {
+            this.props.showTrophyPopdown(trophy);
+          }
         }
       })
       .catch(err => console.error('Login failed: ', err));
@@ -43,29 +53,40 @@ class App extends React.Component {
     return <LikeMoviePopdown movie={movieObj} />;
   }
 
+  toggleSideMenu() {
+    this.setState({ showSideMenu: !this.state.showSideMenu });
+  }
+
   render() {
-    let popDown = null;
+    let likePopdown = null;
+    // let trophyPopdown = null;
 
     if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
-      popDown = this.buildLikeQueryPopdown();
+      likePopdown = this.buildLikeQueryPopdown();
     }
-    
+
     return (
       <div>
         <Router history={browserHistory}>
           <div>
-            <Header user={this.props.auth.user} handleLogout={this.handleLogout} />
-              {popDown}
-              <Switch>
-                <Route exact path="/" component={Welcome} />
-                <Route path="/results" component={Results} />
-                <Route path="/lightning" component={LightningWrapper} />
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/search" component={Search} />
-                <Route path="/launchpad" component={LaunchPadWrapper} />
-                <Route path="/movienight" component={MovieNight} />
-                <Route path="*" component={Welcome} />
-              </Switch>
+            <Header
+              user={this.props.auth.user}
+              handleLogout={this.handleLogout}
+              toggleSideMenu={this.toggleSideMenu}
+            />
+            {likePopdown}
+            <TrophyPopdown />
+            <SideMenu showMenu={this.state.showSideMenu} />
+            <Switch>
+              <Route exact path="/" component={Welcome} />
+              <Route path="/results" component={Results} />
+              <Route path="/lightning" component={LightningWrapper} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/search" component={Search} />
+              <Route path="/launchpad" component={LaunchPadWrapper} />
+              <Route path="/movienight" component={MovieNight} />
+              <Route path="*" component={Welcome} />
+            </Switch>
           </div>
         </Router>
       </div>
@@ -81,7 +102,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loginUser: (user) => { dispatch(loginUser(user)); },
-  logoutUser: () => { dispatch(logoutUser()); }
+  logoutUser: () => { dispatch(logoutUser()); },
+  showTrophyPopdown: (trophies) => { dispatch(showTrophyPopdown(trophies)); }
 });
 
 export default connect(

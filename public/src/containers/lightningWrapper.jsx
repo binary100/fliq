@@ -49,9 +49,7 @@ class LightningWrapper extends React.Component {
       return;
     }
     return this.getMovieData()
-      .then((results) => {
-        return results;
-      });
+      .then(results => results);
   }
 
   endRound() {

@@ -34,4 +34,15 @@ export const toggleUserReViewSetting = () => {
   return {
     type: 'TOGGLE_USER_REVIEW_SETTING'
   };
+
 };
+
+export const showTrophyPopdown = trophies => ({
+  type: 'SHOW_TROPHY_POPDOWN',
+  payload: trophies
+});
+
+export const closeTrophyPopdown = () => ({
+  type: 'CLOSE_TROPHY_POPDOWN'
+});
+
