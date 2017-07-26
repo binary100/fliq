@@ -15,26 +15,34 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      // raw data for charts
+      // user data
       userInfo: null,
       userMoviesInfo: null,
       userTagsInfo: null,
-      tagsTableData: null,
+      shapedTagInfo: null,
 
       // user reView setting
       // userReViewSetting: null
 
       // chart data for most liked actors
-      shapedTagInfo: null,
-      topActors: null,
-      topDirectors: null,
-      topGenres: null,
-      earnedTrophies: [],
+      // topActors: null,
+      // topDirectors: null,
+      // topGenres: null,
 
-      // tag data sorted by type
-      genreData: null,
-      actorData: null,
-      directorData: null,
+      // raw tag data sorted by type
+      genreRawData: null,
+      actorRawData: null,
+      directorRawData: null,
+
+      // tag data sorted by type and picksCount
+      genreSortedByPicksCount: null,
+      actorSortedByPicksCount: null,
+      directorSortedByPicksCount: null,
+
+      // tag data sorted by type and selection %
+      genreSortedBySelectionPct: null,
+      actorSortedBySelectionPct: null,
+      directorSortedBySelectionPct: null,
 
       // data for absolute # charts
       absNumChartsTitle: null,
@@ -49,17 +57,16 @@ class Dashboard extends React.Component {
     };
 
     this.getUserInfo = this.getUserInfo.bind(this);
-    this.getTableData = this.getTableData.bind(this);
 
     this.changeUserReViewSetting = this.changeUserReViewSetting.bind(this);
     this.updateUserReViewSetting = this.updateUserReViewSetting.bind(this);
 
     this.sortTagDataByType = this.sortTagDataByType.bind(this);
-    // this.chartTopActorsByLikes = this.chartTopActorsByLikes.bind(this);
     this.absNumChartsDropDownHandler = this.absNumChartsDropDownHandler.bind(this);
     this.pctChartsDropDownHandler = this.pctChartsDropDownHandler.bind(this);
     this.sortTypeByPicksCount = this.sortTypeByPicksCount.bind(this);
     this.sortTypeBySelectionPct = this.sortTypeBySelectionPct.bind(this);
+    // this.chartTopActorsByLikes = this.chartTopActorsByLikes.bind(this);
   }
 
   componentWillMount() {
@@ -71,7 +78,6 @@ class Dashboard extends React.Component {
       id: this.props.auth.user.id
     })
     .then((responseObj) => {
-      console.log('shapedTagInfo: ', responseObj.data.shapedTagInfo);
       this.setState({
         userInfo: responseObj.data.userInfo,
         userMoviesInfo: responseObj.data.userMoviesInfo,
@@ -79,49 +85,15 @@ class Dashboard extends React.Component {
         shapedTagInfo: responseObj.data.shapedTagInfo,
         earnedTrophies: responseObj.data.earnedTrophies
       });
+
       const userReViewSetting = responseObj.data.userInfo.reView;
       this.props.setUserReViewSetting(userReViewSetting);
     })
-     // .then(() => this.getTableData())
-    // .then(() => this.chartTopActorsByLikes())
     .then(() => this.sortTagDataByType())
     .then(() => this.sortTypeByPicksCount())
     .then(() => this.sortTypeBySelectionPct());
+    // .then(() => this.chartTopActorsByLikes())
   }
-
-  // getTableData() {
-  //   return axios.get('/api/dashboard/tableData')
-  //   .then((responseObj) => {
-  //     this.setState({
-  //       tagsTableData: responseObj.data.tagsTableData
-  //     });
-  //   })
-  //   .then(() => {
-  //     console.log('getTableData tagsTableData:', this.state.tagsTableData);
-  //   });
-  // }
-
-  // chartTopActorsByLikes() {
-  //   const sortedByType = this.state.shapedTagInfo.reduce((acc, tag) => {
-  //     if (!acc[tag.type]) {
-  //       acc[tag.type] = [];
-  //     }
-  //     acc[tag.type].push({ likesCount: tag.likesCount, name: tag.name });
-  //     return acc;
-  //   }, {});
-  //
-  //   const topGenres = sortedByType.genre
-  //     .sort((a, b) => b.likesCount - a.likesCount)
-  //     .slice(0, 10);
-  //   const topActors = sortedByType.actor
-  //     .sort((a, b) => b.likesCount - a.likesCount)
-  //     .slice(0, 10);
-  //   const topDirectors = sortedByType.director
-  //     .sort((a, b) => b.likesCount - a.likesCount)
-  //     .slice(0, 10);
-  //
-  //   this.setState({ topGenres, topActors, topDirectors });
-  // }
 
   // toggle switch for user reView setting
   changeUserReViewSetting() {
@@ -145,7 +117,7 @@ class Dashboard extends React.Component {
       }
 
       acc[tag.type].push({
-        sname: tag.name,
+        name: tag.name,
         picksCount: tag.picksCount,
         viewsCount: tag.viewsCount
       });
@@ -153,28 +125,27 @@ class Dashboard extends React.Component {
       return acc;
     }, {});
 
-
     this.setState({
-      genreData: tagsSortedByType.genre,
-      actorData: tagsSortedByType.actor,
-      directorData: tagsSortedByType.directors
+      genreRawData: tagsSortedByType.genre,
+      actorRawData: tagsSortedByType.actor,
+      directorRawData: tagsSortedByType.director
     });
 
-    console.log('tagsSortedByType:', this.state.tagsSortedByType);
+    // console.log('shapedTagInfo state:', this.state);
   }
 
   sortTypeByPicksCount() {
-    const genreSortedByPicksCount = this.state.genreData
+    const genreSortedByPicksCount = this.state.genreRawData
     .filter(genreObj => (genreObj.picksCount > tagsCountCutoff))
     .sort((a, b) => b.picksCount - a.picksCount)
     .slice(0, 10);
 
-    const actorSortedByPicksCount = this.state.actorData
+    const actorSortedByPicksCount = this.state.actorRawData
     .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
     .sort((a, b) => b.picksCount - a.picksCount)
     .slice(0, 10);
 
-    const directorSortedByPicksCount = this.state.directorData
+    const directorSortedByPicksCount = this.state.directorRawData
     .filter(directorDataObj => (directorDataObj.picksCount > tagsCountCutoff))
     .sort((a, b) => b.picksCount - a.picksCount)
     .slice(0, 10);
@@ -191,17 +162,17 @@ class Dashboard extends React.Component {
   }
 
   sortTypeBySelectionPct() {
-    const genreSortedBySelectionPct = genreData
+    const genreSortedBySelectionPct = this.state.genreRawData
     .filter(genreObj => (genreObj.picksCount > tagsCountCutoff))
     .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
     .slice(0, 10);
 
-    const actorSortedBySelectionPct = actorData
+    const actorSortedBySelectionPct = this.state.actorRawData
     .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
     .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
     .slice(0, 10);
 
-    const directorSortedBySelectionPct = directorData
+    const directorSortedBySelectionPct = this.state.directorRawData
     .filter(directorObj => (directorObj.picksCount > tagsCountCutoff))
     .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
     .slice(0, 10);
@@ -217,6 +188,27 @@ class Dashboard extends React.Component {
     });
   }
 
+  // chartTopActorsByLikes() {
+  //   const sortedByType = this.state.shapedTagInfo.reduce((acc, tag) => {
+  //     if (!acc[tag.type]) {
+  //       acc[tag.type] = [];
+  //     }
+  //     acc[tag.type].push({ likesCount: tag.likesCount, name: tag.name });
+  //     return acc;
+  //   }, {});
+  //
+  //   const topGenres = sortedByType.genre
+  //     .sort((a, b) => b.likesCount - a.likesCount)
+  //     .slice(0, 10);
+  //   const topActors = sortedByType.actor
+  //     .sort((a, b) => b.likesCount - a.likesCount)
+  //     .slice(0, 10);
+  //   const topDirectors = sortedByType.director
+  //     .sort((a, b) => b.likesCount - a.likesCount)
+  //     .slice(0, 10);
+  //
+  //   this.setState({ topGenres, topActors, topDirectors });
+  // }
 
   absNumChartsDropDownHandler(eventKey) {
     let chartTitle = null;
@@ -225,16 +217,16 @@ class Dashboard extends React.Component {
 
     if (eventKey === 'genre') {
       chartTitle = 'Most Selected Genres (#)';
-      chartLabels = this.state.topGenres.map(genreObj => genreObj.name);
-      chartData = this.state.topGenres.map(genreObj => genreObj.picksCount);
+      chartLabels = this.state.genreSortedByPicksCount.map(genreObj => genreObj.name);
+      chartData = this.state.genreSortedByPicksCount.map(genreObj => genreObj.picksCount);
     } else if (eventKey === 'actor') {
       chartTitle = 'Most Selected Actors (#)';
-      chartLabels = this.state.topActors.map(actorObj => actorObj.name);
-      chartData = this.state.topActors.map(actorObj => actorObj.picksCount);
+      chartLabels = this.state.actorSortedByPicksCount.map(actorObj => actorObj.name);
+      chartData = this.state.actorSortedByPicksCount.map(actorObj => actorObj.picksCount);
     } else if (eventKey === 'director') {
       chartTitle = 'Most Selected Directors (#)';
-      chartLabels = this.state.topDirectors.map(directorObj => directorObj.name);
-      chartData = this.state.topDirectors.map(directorObj => directorObj.picksCount);
+      chartLabels = this.state.directorSortedByPicksCount.map(directorObj => directorObj.name);
+      chartData = this.state.directorSortedByPicksCount.map(directorObj => directorObj.picksCount);
     } else if (eventKey === 'all') {
       chartTitle = 'Most Selected Tags (#)';
     }
@@ -253,16 +245,16 @@ class Dashboard extends React.Component {
 
     if (eventKey === 'genre') {
       chartTitle = 'Most Selected Genres (%)';
-      chartLabels = this.state.topGenres.map(genreObj => genreObj.name);
-      chartData = this.state.topGenres.map(genreObj => (genreObj.picksCount / genreObj.viewsCount));
+      chartLabels = this.state.genreSortedBySelectionPct.map(genreObj => genreObj.name);
+      chartData = this.state.genreSortedBySelectionPct.map(genreObj => (genreObj.picksCount / genreObj.viewsCount));
     } else if (eventKey === 'actor') {
       chartTitle = 'Most Selected Actors (%)';
-      chartLabels = this.state.topActors.map(actorObj => actorObj.name);
-      chartData = this.state.topActors.map(actorObj => (actorObj.picksCount / actorObj.viewsCount));
+      chartLabels = this.state.actorSortedBySelectionPct.map(actorObj => actorObj.name);
+      chartData = this.state.actorSortedBySelectionPct.map(actorObj => (actorObj.picksCount / actorObj.viewsCount));
     } else if (eventKey === 'director') {
       chartTitle = 'Most Selected Directors (%)';
-      chartLabels = this.state.topDirectors.map(directorObj => directorObj.name);
-      chartData = this.state.topDirectors.map(directorObj => (directorObj.picksCount / directorObj.viewsCount));
+      chartLabels = this.state.directorSortedBySelectionPct.map(directorObj => directorObj.name);
+      chartData = this.state.directorSortedBySelectionPct.map(directorObj => (directorObj.picksCount / directorObj.viewsCount));
     } else if (eventKey === 'all') {
       chartTitle = 'Most Selected Tags (#)';
     }
@@ -294,9 +286,8 @@ class Dashboard extends React.Component {
 
 
         <div>
-          { this.state.topGenres &&
-            this.state.topActors &&
-            this.state.topDirectors ?
+          { this.state.genreSortedByPicksCount &&
+            this.state.genreSortedBySelectionPct ?
               <div className="dashboard-charts">
                 <div className="row">
                   <div className="col-lg-6">
