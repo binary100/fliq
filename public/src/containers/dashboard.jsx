@@ -39,7 +39,7 @@ class Dashboard extends React.Component {
       topActors: null,
       topDirectors: null,
       topGenres: null,
-      earnedTrophies: []
+      earnedTrophies: [],
 
       // data for absolute # charts
 
@@ -51,6 +51,7 @@ class Dashboard extends React.Component {
       pctChartsTitle: null,
       pctChartsLabels: null,
       pctChartsData: null
+
     };
 
     this.getUserInfo = this.getUserInfo.bind(this);
@@ -324,24 +325,26 @@ class Dashboard extends React.Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-6">
-            <DashboardUserProfile
-              user={this.props.auth.user}
-            />
-          </div>
-        </div>
-        <br />
-        <div className="row">
-          <div className="col-lg-12">
-            <ToggleSwitch
-              changeUserReViewSetting={this.changeUserReViewSetting}
-              reViewSetting={this.props.userReViewSetting}
-            />
+            <div className="row">
+              <div className="col-lg-12">
+                <DashboardUserProfile
+                  user={this.props.auth.user}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg-12">
+                <ToggleSwitch
+                  changeUserReViewSetting={this.changeUserReViewSetting}
+                  reViewSetting={this.props.userReViewSetting}
+                />
+              </div>
+            </div>
           </div>
           <div className="col-lg-6">
             <DashboardTrophies trophies={this.state.earnedTrophies} />
           </div>
         </div>
-        <br />
         <div>
           { this.state.topGenres &&
             this.state.topActors &&
