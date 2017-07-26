@@ -3,6 +3,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
+import DashboardTrophies from '../components/dashboardTrophies.jsx';
+import BadgeList from '../components/badgeList.jsx';
 import PieChart from '../components/pieChart.jsx';
 import BarChart from '../components/barChart.jsx';
 import ToggleSwitch from '../components/toggleSwitch.jsx';
@@ -37,6 +39,7 @@ class Dashboard extends React.Component {
       topActors: null,
       topDirectors: null,
       topGenres: null,
+      earnedTrophies: [],
 
       // data for absolute # charts
 
@@ -48,6 +51,7 @@ class Dashboard extends React.Component {
       pctChartsTitle: null,
       pctChartsLabels: null,
       pctChartsData: null
+
     };
 
     this.getUserInfo = this.getUserInfo.bind(this);
@@ -77,7 +81,8 @@ class Dashboard extends React.Component {
         userInfo: responseObj.data.userInfo,
         userMoviesInfo: responseObj.data.userMoviesInfo,
         userTagsInfo: responseObj.data.userTagsInfo,
-        shapedTagInfo: responseObj.data.shapedTagInfo
+        shapedTagInfo: responseObj.data.shapedTagInfo,
+        earnedTrophies: responseObj.data.earnedTrophies
       });
       console.log('shapedInfo is: ', responseObj.data);
       const userReViewSetting = responseObj.data.userInfo.reView;
@@ -319,22 +324,27 @@ class Dashboard extends React.Component {
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-12">
-            <DashboardUserProfile
-              user={this.props.auth.user}
-            />
+          <div className="col-lg-6">
+            <div className="row">
+              <div className="col-lg-12">
+                <DashboardUserProfile
+                  user={this.props.auth.user}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg-12">
+                <ToggleSwitch
+                  changeUserReViewSetting={this.changeUserReViewSetting}
+                  reViewSetting={this.props.userReViewSetting}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6">
+            <DashboardTrophies trophies={this.state.earnedTrophies} />
           </div>
         </div>
-        <br />
-        <div className="row">
-          <div className="col-lg-12">
-            <ToggleSwitch
-              changeUserReViewSetting={this.changeUserReViewSetting}
-              reViewSetting={this.props.userReViewSetting}
-            />
-          </div>
-        </div>
-        <br />
         <div>
           { this.state.topGenres &&
             this.state.topActors &&

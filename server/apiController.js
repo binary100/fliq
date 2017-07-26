@@ -10,7 +10,7 @@ const theMovieDbPosterUrl = 'http://image.tmdb.org/t/p/w185';
 const quoteUrl = 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movies&count=1"';
 const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
-
+const trophyHunterId = 8;
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -38,6 +38,46 @@ module.exports.checkSession = (req, res, next) => {
   }
 };
 
+const trophyHunter = userAndTrophyObj =>
+  db.userTrophies.findOne({ where: {
+    user_Id: userAndTrophyObj.user.id,
+    trophy_Id: trophyHunterId
+  },
+    include: [{ model: db.trophies, as: 'trophy' }]
+  })
+    .then(trophyHunter => trophyHunter.update({ trophyCount: trophyHunter.trophyCount + 1 }))
+    .then(trophyHunter => {
+      const { targetNums } = trophyHunter.trophy;
+      const { trophyCount } = trophyHunter;
+      // Check to see if trophyCount is now either 15 or 32
+      for (let i = 0; i < targetNums.length; i += 1) {
+        if (trophyCount === targetNums[i]) {
+          // trophyCount is 15 or 32
+          // create new hasTrophies string
+          const newArray =
+            trophyHunter.dataValues.hasTrophies
+              .split(';')
+              .map((curr, ind) => {
+                if (ind === i) {
+                  return 1;
+                }
+                return curr;
+              });
+          // Update hasTrophie and trophyCount
+          return trophyHunter.update({
+            hasTrophies: newArray,
+            trophyCount: trophyHunter.trophyCount + 1
+          })
+            .then(() => {
+              const trophyName = trophyHunter.trophy.trophyNames[i];
+              userAndTrophyObj.trophy.push(trophyName);
+              return userAndTrophyObj;
+            });
+        }
+      }
+      // If trophyCount is not 15 or 32, just return the input object
+      return userAndTrophyObj;
+    });
 
 module.exports.getTwoMovies = (req, res) => {
   // At first, randomly select two movies from DB
@@ -633,19 +673,36 @@ module.exports.getUserInfo = (req, res) => {
         user_Id: user_id
       },
       include: [{ model: db.tags, as: 'tag' }]
-    }))
-    .then((userTagsResults) => {
-      responseObj.userTagsInfo = userTagsResults;
-      const shapedResults = userTagsResults.map(tag => ({
-        name: tag.tag.tagName,
-        type: tag.tag.tagType,
-        dislikesCount: tag.dislikesCount,
-        likesCount: tag.likesCount,
-        picksCount: tag.picksCount,
-        viewsCount: tag.viewsCount,
-        id: tag.id
-      }));
-      responseObj.shapedTagInfo = shapedResults;
+  }))
+  .then((userTagsResults) => {
+    responseObj.userTagsInfo = userTagsResults;
+    const shapedResults = userTagsResults.map(tag => ({
+      name: tag.tag.tagName,
+      type: tag.tag.tagType,
+      dislikesCount: tag.dislikesCount,
+      likesCount: tag.likesCount,
+      picksCount: tag.picksCount,
+      viewsCount: tag.viewsCount,
+      id: tag.id
+    }));
+    responseObj.shapedTagInfo = shapedResults;
+  })
+  .then(() => db.userTrophies.findAll({
+    where: { user_Id: user_id },
+    include: [{ model: db.trophies, as: 'trophy' }]
+  }))
+  .then((userTrophies) => {
+    // Get names of all obtained trophies
+    const trophies = userTrophies.reduce((acc, userTrophy) => {
+      acc = acc.concat(userTrophy.hasTrophies.reduce((arr, item, ind) => {
+        if (item) {
+          acc.push(userTrophy.trophy.trophyNames[ind]);
+        }
+        return arr;
+      }, []));
+      return acc;
+    }, []);
+    responseObj.earnedTrophies = trophies;
   })
   .then(() => {
     res.send(responseObj);
@@ -709,7 +766,7 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
       .then((trophiesAll) => {
         const trophyPromises = trophiesAll.map(trophy =>
           new Promise((resolve, reject) => {
-            if (trophy.trophyNames[0] === 'Like1') {
+            if (trophy.trophyNames[0] === 'Login1') {
               return db.userTrophies.create({
                 hasTrophies: [1, 0, 0],
                 trophyCount: 1,
@@ -733,22 +790,33 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
             }
           })
         );
-        return Promise.All(trophyPromises);
+        return Promise.all(trophyPromises);
       })
-      .then((promises) => res.send('BBBBBBBBBB'))
+      .then(() => {
+        res.send({ user: req.user, trophy: ['Login1'] });
+      })
       .catch(err => res.send(err));
     } else {
-      console.log('CCCCCCCCCCCCC');
-      db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: req.user.id, trophy_Id: 1 } })
+      db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: req.user.id, trophy_Id: 2 } })
       .then(() => {
         db.userTrophies.findOne({
-          where: { user_Id: req.user.id, trophy_Id: 1 },
-          include: [{ model: db.trophies, as: 'Trophy' }]
+          where: { user_Id: req.user.id, trophy_Id: 2 },
+          include: [{ model: db.trophies, as: 'trophy' }]
         })
         .then((userTrophy) => {
           const index = userTrophy.hasTrophies.indexOf(0);
-          if (userTrophy.Trophy.targetNums[index] === userTrophy.trophyCount) {
-            res.send({ user: req.user, trophy: ['sucess', userTrophy.Trophy.trophyNames[index]] });
+          if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
+            db.userTrophies.findOne({ where: { user_Id: req.user.id, trophy_Id: 2 } })
+            .then((trophy) => {
+              const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => { if (ind === index) return 1; return curr; });
+              db.userTrophies.update({ hasTrophies: newArray }, { where: { user_Id: req.user.id, trophy_Id: 2 } })
+              .then(() => {
+                const userAndTrophyObj = { user: req.user, trophy: [userTrophy.trophy.trophyNames[index]] };
+                return trophyHunter(userAndTrophyObj);
+              })
+              .then(userAndTrophyObj => res.send(userAndTrophyObj));
+            })
+            .catch(err => res.send(err));
           } else {
             res.send({ user: req.user });
           }

@@ -164,6 +164,8 @@ at this phase of development
   }
 }
 
+
+
 /************* WELCOME MODAL **************/
 
 .welcome-modal-wrapper {
@@ -429,6 +431,10 @@ at this phase of development
   width: 130px;
 }
 
+.popdown-button {
+  width: 65%;
+}
+
 /************* SEARCH PAGE **************/
 
 .search-table {
@@ -672,6 +678,24 @@ input:checked + .slider:before {
   100% {
     top: 49px;
   }
+}
+
+/************* DASHBOARD TROPHIES MENU  **************/
+
+.trophies-box {
+  /*min-height: 300px;*/
+  height: 250px;
+  border: 1px solid black;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.trophy {
+  display: inline-block;
+  margin: 3px;
+  /*transform: scale(0.80);*/
+  /*height: 85px;
+  width: 85px;*/
 }
 
 .dashboard-charts {
