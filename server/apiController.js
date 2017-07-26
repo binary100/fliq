@@ -948,7 +948,7 @@ module.exports.checkLoginTrophy = (user) => {
           })
           .catch(err => console.log('Error checking trophyCount'));
         } else {
-          return user;
+          return { user };
         }
       })
       .catch(err => console.log('Error in userTrophy method'));

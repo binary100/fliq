@@ -72,12 +72,12 @@ passport.use(new FacebookStrategy({
     } else {
       console.log('User found and already exists:', user);
       return user.update({ loginNumber: user.loginNumber + 1 })
-        .then(updatedUser => updatedUser.get({ plain: true }))
-        .then(plainUser => createTrophiesAndReturnUser(plainUser))
-        .then((userWithAnyLoginTrophy) => {
-          console.log('Got userWithAnyLoginTrophy: ', userWithAnyLoginTrophy);
-          done(null, userWithAnyLoginTrophy);
-          return userWithAnyLoginTrophy;
+        // .then(updatedUser => updatedUser.get({ plain: true }))
+        // .then(plainUser => createTrophiesAndReturnUser(plainUser))
+        .then((updatedUser) => {
+          console.log('Got updatedUser: ', updatedUser);
+          done(null, updatedUser);
+          return updatedUser;
         });
     }
   })
