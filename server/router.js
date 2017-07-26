@@ -34,7 +34,7 @@ router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   (req, res) => {
-    if (req.user._previousDataValues.loginNumber === 0) {
+    if (req.user.loginNumber === 1) {
       res.redirect('/#/launchPad');
     } else {
       res.redirect('http://localhost:3000/#');
@@ -44,7 +44,7 @@ router.get('/auth/facebook/callback',
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
   (req, res) => {
-    if (req.user._previousDataValues.loginNumber === 0) {
+    if (req.user.loginNumber === 1) {
       res.redirect('/#/launchPad');
     } else {
       res.redirect('/');
@@ -74,11 +74,8 @@ router.get('/api/testme', (req, res) => {
 
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
-
-    apiController.createTrophiesAndReturnUser(req, res)
-    .then(() => apiController.setUserWatchedMovieToNull(req.user));
-    // res.send({ user: req.user });
-    // apiController.setUserWatchedMovieToNull(req.user);
+    res.send({ user: req.user });
+    apiController.setUserWatchedMovieToNull(req.user);
   } else {
     res.send({ user: null });
   }

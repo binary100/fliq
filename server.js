@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const path = require('path');
 const router = require('./server/router.js');
 const scrapeMovies = require('./server/facebookScraper.js');
+const { createTrophiesAndReturnUser } = require('./server/apiController.js');
 
 const session = require('express-session');
 const passport = require('passport');
@@ -52,6 +53,9 @@ passport.use(new FacebookStrategy({
 (accessToken, refreshToken, profile, done) => {
   db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
+    return user ? user.get({ plain: true }) : null;
+  })
+  .then((user) => {
     if (!user) {
       console.log('Creating new user!!!!!');
       return db.users.create({
@@ -61,20 +65,26 @@ passport.use(new FacebookStrategy({
         authId: profile.id,
         loginNumber: 1
       })
-      .then(newUser => {
-        done(null, newUser);
-        return newUser;
+      .then(newUser => newUser.get({ plain: true }))
+      .then(newUser => createTrophiesAndReturnUser(newUser))
+      .then(newUserWithLoginTrophy => {
+        console.log('Got newUserWithLoginTrophy: ', newUserWithLoginTrophy);
+        done(null, newUserWithLoginTrophy);
+        return newUserWithLoginTrophy;
       })
       .catch(err => console.error('Failed to create user:', err));
     } else {
-      console.log('User found and already exists');
-      user.update({ loginNumber: user.loginNumber + 1 });
-      done(null, user);
-      return user;
+      console.log('User found and already exists:', user);
+      return createTrophiesAndReturnUser(user)
+        .then((userWithAnyLoginTrophy) => {
+          console.log('Got userWithAnyLoginTrophy: ', userWithAnyLoginTrophy);
+          done(null, userWithAnyLoginTrophy.user);
+          return userWithAnyLoginTrophy.user;
+        });
     }
   })
   .then((user) => { // Only scrape at first login
-    if (user.loginNumber === 0) { scrapeMovies(profile); }
+    if (user.loginNumber === 1) { scrapeMovies(profile); }
   })
   .catch((err) => {
     console.error('Error finding user:', err);
@@ -101,12 +111,19 @@ passport.use(new GoogleStrategy({
         authId: profile.id,
         loginNumber: 1
       })
-      .then(newUser => done(null, newUser))
+      .then(newUser => createTrophiesAndReturnUser(newUser))
+      .then(newUserWithLoginTrophy => {
+        done(null, newUserWithLoginTrophy);
+        return newUserWithLoginTrophy;
+      })
       .catch(err => console.error('Failed to create user:', err));
     } else {
-      console.log('User found and already exists');
-      user.update({ loginNumber: user.loginNumber + 1 });
-      return done(null, user);
+      console.log('User found and already exists:', user);
+      return createTrophiesAndReturnUser(user)
+        .then((userWithAnyLoginTrophy) => {
+          done(null, userWithAnyLoginTrophy);
+          return userWithAnyLoginTrophy;
+        });
     }
   })
   .catch((err) => {

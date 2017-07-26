@@ -11,6 +11,7 @@ const quoteUrl = 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=movi
 const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 const trophyHunterId = 8;
+const loginTrophyId = 2;
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -893,11 +894,12 @@ module.exports.setUserWatchedMovieToNull = (user) => {
   db.users.update({ watchedMovieId: null, watchedMovieTitle: null }, { where: { id: user.id } });
 };
 
-module.exports.createTrophiesAndReturnUser = (req, res) => {
-  return db.users.findOne({ where: { id: req.user.id } })
-  .then((user) => {
+module.exports.createTrophiesAndReturnUser = (user) => {
+  console.log('Entering apiController with user: ', user);
+  // return db.users.findOne({ where: { id: user.id } })
+  // .then((user) => {
     if (user.loginNumber === 1) {
-      db.trophies.findAll({})
+      return db.trophies.findAll({})
       .then((trophiesAll) => {
         const trophyPromises = trophiesAll.map(trophy =>
           new Promise((resolve, reject) => {
@@ -906,7 +908,7 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
                 hasTrophies: [1, 0, 0],
                 trophyCount: 1,
                 trophy_Id: trophy.id,
-                user_Id: req.user.id
+                user_Id: user.id
               })
               .then(userTrophy => resolve(userTrophy))
               .catch(err => reject(err));
@@ -918,7 +920,7 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
                 }, []),
                 trophyCount: 0,
                 trophy_Id: trophy.id,
-                user_Id: req.user.id
+                user_Id: user.id
               })
               .then(userTrophy => resolve(userTrophy))
               .catch(err => reject(err));
@@ -928,40 +930,46 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
         return Promise.all(trophyPromises);
       })
       .then(() => {
-        res.send({ user: req.user, trophy: ['Login1'] });
+        return { user: user, trophy: ['Login1'] };
+        // res.send({ user: user, trophy: ['Login1'] });
       })
       .catch(err => res.send(err));
     } else {
-      db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: req.user.id, trophy_Id: 2 } })
+      console.log('Entering else block');
+      return db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: user.id, trophy_Id: loginTrophyId } })
       .then(() => {
-        db.userTrophies.findOne({
-          where: { user_Id: req.user.id, trophy_Id: 2 },
+        return db.userTrophies.findOne({
+          where: { user_Id: user.id, trophy_Id: loginTrophyId },
           include: [{ model: db.trophies, as: 'trophy' }]
         })
         .then((userTrophy) => {
           const index = userTrophy.hasTrophies.indexOf(0);
           if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
-            db.userTrophies.findOne({ where: { user_Id: req.user.id, trophy_Id: 2 } })
+            return db.userTrophies.findOne({ where: { user_Id: user.id, trophy_Id: loginTrophyId } })
             .then((trophy) => {
               const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => {
                 if (ind === index) return 1; return curr;
               });
-              db.userTrophies.update({ hasTrophies: newArray },
-                { where: { user_Id: req.user.id, trophy_Id: 2 } })
+              return db.userTrophies.update({ hasTrophies: newArray },
+                { where: { user_Id: user.id, trophy_Id: loginTrophyId } })
               .then(() => {
-                const userAndTrophyObj = { user: req.user, trophy: [userTrophy.trophy.trophyNames[index]] };
+                const userAndTrophyObj = { user: user, trophy: [userTrophy.trophy.trophyNames[index]] };
                 return trophyHunter(userAndTrophyObj);
               })
-              .then(userAndTrophyObj => res.send(userAndTrophyObj));
+              .then(userAndTrophyObj => {
+                console.log('userAndTrophyObj is', userAndTrophyObj);
+                return userAndTrophyObj;
+              });
             })
-            .catch(err => res.send(err));
+            .catch(err => 'Error at 961');
           } else {
-            res.send({ user: req.user });
+            return { user };
+            // res.send({ user: user });
           }
         })
-        .catch(err => res.send(err));
+        .catch(err => 'Error at 967');
       })
-      .catch(err => res.send(err));
+      .catch(err => 'Error at 969');
     }
-  });
+  // });
 };
