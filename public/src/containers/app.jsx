@@ -32,7 +32,6 @@ class App extends React.Component {
         let { user, trophy } = results.data;
         if (user) {
           this.props.loginUser(user);
-          // trophy = ['Login50'];
           if (trophy) {
             this.props.showTrophyPopdown(trophy);
           }
@@ -59,8 +58,6 @@ class App extends React.Component {
 
   render() {
     let likePopdown = null;
-    // let trophyPopdown = null;
-
     if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
       likePopdown = this.buildLikeQueryPopdown();
     }

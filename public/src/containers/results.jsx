@@ -20,10 +20,13 @@ class Results extends React.Component {
   }
 
   getUserMovies() {
+    console.log('Getting movies');
     // If no user is logged in, get top result (e.g. most liked)
     const getUrl = this.props.isLoggedIn ? '/api/results/user' : '/api/results/top';
     axios.get(getUrl)
       .then((results) => {
+        console.log('Received user results: ', results.data);
+        if (!Array.isArray(results.data)) return;
         this.setState({
           selectedMovie: results.data[0],
           tileMovies: results.data

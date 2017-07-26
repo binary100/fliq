@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const path = require('path');
 const router = require('./server/router.js');
 const scrapeMovies = require('./server/facebookScraper.js');
+const { createTrophiesAtFirstLogin } = require('./server/apiController.js');
 
 const session = require('express-session');
 const passport = require('passport');
@@ -61,20 +62,24 @@ passport.use(new FacebookStrategy({
         authId: profile.id,
         loginNumber: 1
       })
+      .then(newUser => createTrophiesAtFirstLogin(newUser))
       .then(newUser => {
         done(null, newUser);
         return newUser;
       })
       .catch(err => console.error('Failed to create user:', err));
     } else {
-      console.log('User found and already exists');
-      user.update({ loginNumber: user.loginNumber + 1 });
-      done(null, user);
-      return user;
+      console.log('User found and already exists:', user);
+      return user.update({ loginNumber: user.loginNumber + 1 })
+        .then((updatedUser) => {
+          console.log('Got updatedUser: ', updatedUser);
+          done(null, updatedUser);
+          return updatedUser;
+        });
     }
   })
   .then((user) => { // Only scrape at first login
-    if (user.loginNumber === 0) { scrapeMovies(profile); }
+    if (user.loginNumber === 1) { scrapeMovies(profile); }
   })
   .catch((err) => {
     console.error('Error finding user:', err);
@@ -101,12 +106,20 @@ passport.use(new GoogleStrategy({
         authId: profile.id,
         loginNumber: 1
       })
-      .then(newUser => done(null, newUser))
+      .then(newUser => createTrophiesAtFirstLogin(newUser))
+      .then(newUser => {
+        done(null, newUser);
+        return newUser;
+      })
       .catch(err => console.error('Failed to create user:', err));
     } else {
-      console.log('User found and already exists');
-      user.update({ loginNumber: user.loginNumber + 1 });
-      return done(null, user);
+      console.log('User found and already exists:', user);
+      return user.update({ loginNumber: user.loginNumber + 1 })
+        .then((updatedUser) => {
+          console.log('Got updatedUser: ', updatedUser);
+          done(null, updatedUser);
+          return updatedUser;
+        });
     }
   })
   .catch((err) => {
@@ -122,7 +135,10 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   db.users.findById(id)
-  .then(user => done(null, user))
+  .then(user => {
+    console.log('In deserializeUser, user is: ', user);
+    done(null, user);
+  })
   .catch(err => console.error(err));
 });
 

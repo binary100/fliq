@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { closeTrophyPopdown } from '../../actions/actions.js';
 
+let count = 0;
+
 class TrophyPopdown extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +14,7 @@ class TrophyPopdown extends React.Component {
       <div className={`popdown ${this.props.show ? 'popdown-slideDown' : 'popdown-slideUp'}`}>
         <div>
           { this.props.trophies &&
-            this.props.trophies.map(str => <div>You got the {str} trophy!</div>)
+            this.props.trophies.map(str => <div key={count += 1}>You got the {str} trophy!</div>)
           }
         </div>
         <span style={{ cursor: 'pointer' }} onClick={this.props.close}>Close</span>
