@@ -29,14 +29,11 @@ class App extends React.Component {
   componentWillMount() {
     axios.get('/account')
       .then((results) => {
-        console.log('RECEIVED: ', results.data);
-        let { user } = results.data;
+        let { user, trophy } = results.data;
         if (user) {
           this.props.loginUser(user);
-          // trophy = ['Login50'];
-          if (user.trophy) {
-            console.log('user.trophy is: ', user.trophy);
-            // this.props.showTrophyPopdown(trophy);
+          if (trophy) {
+            this.props.showTrophyPopdown(trophy);
           }
         }
       })
@@ -61,8 +58,6 @@ class App extends React.Component {
 
   render() {
     let likePopdown = null;
-    // let trophyPopdown = null;
-
     if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
       likePopdown = this.buildLikeQueryPopdown();
     }
