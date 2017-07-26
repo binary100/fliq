@@ -682,12 +682,18 @@ input:checked + .slider:before {
 
 /************* DASHBOARD TROPHIES MENU  **************/
 
-.trophies-box {
+
+.user-profile-box,
+.trophy-box {
   /*min-height: 300px;*/
   height: 200px;
   border: 1px solid black;
   border-radius: 10px;
   overflow: auto;
+}
+
+.user-profile-box {
+  padding: 10px;
 }
 
 .trophy {
@@ -696,6 +702,17 @@ input:checked + .slider:before {
   /*transform: scale(0.80);*/
   /*height: 85px;
   width: 85px;*/
+}
+
+.trophy-box-button {
+  background: #2980B9;
+  /*background: #2ecc71;*/
+  width: 100%;
+  border: 0px;
+  color: white;
+  padding: 0px;
+  height: 2.5em;
+  margin: 10px 5px;
 }
 
 .dashboard-charts {

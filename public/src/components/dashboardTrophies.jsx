@@ -48,9 +48,15 @@ class DashboardTrophies extends React.Component {
       <div>
         <div className="row">
           <div className="col-lg-12">
-            <div className="trophies-box badgeList">
+            <h3>Trophies</h3>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-lg-11">
+            <div className="trophy-box badgeList">
               <div>
-                {trophyIDs.slice(start, start + 3).map(trophyString => {
+                {this.props.trophies.length > 0 &&
+                trophyIDs.slice(start, start + 3).map(trophyString => {
                   const earned = this.props.trophies.includes(trophyString);
                   return (
                     <div className="trophy">
@@ -65,17 +71,21 @@ class DashboardTrophies extends React.Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-4">
-            <Button className="small-tile-button" onClick={this.prevTrophies}>
-              <span className="glyphicon glyphicon-arrow-left" />
-            </Button>
-          </div>
-          <div className="col-lg-4">
-            <Button className="small-tile-button" onClick={this.nextTrophies}>
-              <span className="glyphicon glyphicon-arrow-right" />
-            </Button>
+          <div className="col-lg-1">
+            <div className="row">
+              <div className="col-lg-12">
+                <Button bsStyle="default" className="trophy-box-button" onClick={this.prevTrophies}>
+                  <span className="glyphicon glyphicon-arrow-left" />
+                </Button>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg-12">
+                <Button bsStyle="default" className="trophy-box-button" onClick={this.nextTrophies}>
+                  <span className="glyphicon glyphicon-arrow-right" />
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

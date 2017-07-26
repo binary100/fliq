@@ -323,28 +323,22 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div className="container-fluid">
+
+
         <div className="row">
-          <div className="col-lg-6">
-            <div className="row">
-              <div className="col-lg-12">
-                <DashboardUserProfile
-                  user={this.props.auth.user}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-lg-12">
-                <ToggleSwitch
-                  changeUserReViewSetting={this.changeUserReViewSetting}
-                  reViewSetting={this.props.userReViewSetting}
-                />
-              </div>
-            </div>
+          <div className="col-lg-4 pull-left">
+            <DashboardUserProfile
+              user={this.props.auth.user}
+              changeUserReViewSetting={this.changeUserReViewSetting}
+              reViewSetting={this.props.userReViewSetting}
+            />
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-6 pull-right">
             <DashboardTrophies trophies={this.state.earnedTrophies} />
           </div>
         </div>
+
+
         <div>
           { this.state.topGenres &&
             this.state.topActors &&
