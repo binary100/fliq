@@ -18,8 +18,8 @@ const intervals = [];
 const targetTitle = 'FLIQ';
 const modalBodyFirst = 'FLIQ\'s learning engine can only learn about you if you are logged in.';
 const modalBodySecond = `If you want to try out the site, that's fine! 
-                  Just remember that you will only
-                  be seeing results that are representative of
+                  Just remember that you will
+                  see results that are representative of
                   FLIQ's entire userbase, rather than results
                   that are tailored to what you like.`;
 
