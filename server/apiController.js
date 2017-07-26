@@ -899,40 +899,30 @@ module.exports.createTrophiesAtFirstLogin = (user) => {
     .then((trophiesAll) => {
       const trophyPromises = trophiesAll.map(trophy =>
         new Promise((resolve, reject) => {
-          if (trophy.trophyNames[0] === 'Login1') {
-            return db.userTrophies.create({
-              hasTrophies: [1, 0, 0],
-              trophyCount: 1,
-              trophy_Id: trophy.id,
-              user_Id: user.id
-            })
-            .then(userTrophy => resolve(userTrophy))
-            .catch(err => reject(err));
-          } else {
-            return db.userTrophies.create({
-              hasTrophies: trophy.targetNums.reduce((acc) => {
-                acc.push(0);
-                return acc;
-              }, []),
-              trophyCount: 0,
-              trophy_Id: trophy.id,
-              user_Id: user.id
-            })
-            .then(userTrophy => resolve(userTrophy))
-            .catch(err => reject(err));
-          }
+          return db.userTrophies.create({
+            hasTrophies: trophy.targetNums.reduce((acc) => {
+              acc.push(0);
+              return acc;
+            }, []),
+            trophyCount: 0,
+            trophy_Id: trophy.id,
+            user_Id: user.id
+          })
+          .then(userTrophy => resolve(userTrophy))
+          .catch(err => reject(err));
         })
       );
       return Promise.all(trophyPromises);
     })
     .then(() => {
-      return { user: user, trophy: ['Login1'] };
-      // res.send({ user: user, trophy: ['Login1'] });
+      return user;
     })
     .catch(err => res.send(err));
 };
 
-module.exports.incrementLoginTrophy = (user) => {
+module.exports.checkLoginTrophy = (user) => {
+
+  // return db.userTrophies.findOne({ where: { user_Id: user.id, trophy_Id: loginTrophyId } })
   return db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: user.id, trophy_Id: loginTrophyId } })
     .then(() => {
       return db.userTrophies.findOne({
@@ -951,7 +941,7 @@ module.exports.incrementLoginTrophy = (user) => {
               { where: { user_Id: user.id, trophy_Id: loginTrophyId } })
             .then(() => {
               user.trophy = [userTrophy.trophy.trophyNames[index]];
-              // const userAndTrophyObj = { user: user, trophy: [userTrophy.trophy.trophyNames[index]] };
+              const obj = { user, trophy: [userTrophy.trophy.trophyNames[index]] };
               return trophyHunter(user);
             })
             .then(userAndTrophyObj => {
@@ -962,7 +952,6 @@ module.exports.incrementLoginTrophy = (user) => {
           .catch(err => 'Error at 961');
         } else {
           return user;
-          // res.send({ user: user });
         }
       })
       .catch(err => 'Error at 967');

@@ -27,15 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     watchedMovieTitle: {
       type: DataTypes.STRING,
       defaultValue: null
-    },
-    trophies: {
-      type: DataTypes.STRING,
-      get() {
-        return this.getDataValue('hasTrophies').split(';').map(Number);
-      },
-      set(val) {
-        this.setDataValue('hasTrophies', val.join(';'));
-      }
     }
   });
   return User;

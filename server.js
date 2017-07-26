@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const path = require('path');
 const router = require('./server/router.js');
 const scrapeMovies = require('./server/facebookScraper.js');
-const { createTrophiesAndReturnUser } = require('./server/apiController.js');
+const { createTrophiesAtFirstLogin } = require('./server/apiController.js');
 
 const session = require('express-session');
 const passport = require('passport');
@@ -62,12 +62,11 @@ passport.use(new FacebookStrategy({
         authId: profile.id,
         loginNumber: 1
       })
-      .then(newUser => newUser.get({ plain: true }))
-      .then(newUser => createTrophiesAndReturnUser(newUser))
-      .then(newUserWithLoginTrophy => {
-        console.log('Got newUserWithLoginTrophy: ', newUserWithLoginTrophy);
-        done(null, newUserWithLoginTrophy);
-        return newUserWithLoginTrophy;
+      // .then(newUser => newUser.get({ plain: true }))
+      .then(newUser => createTrophiesAtFirstLogin(newUser))
+      .then(newUser => {
+        done(null, newUser);
+        return newUser;
       })
       .catch(err => console.error('Failed to create user:', err));
     } else {
