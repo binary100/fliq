@@ -635,6 +635,10 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+.toggle-switch {
+  margin: 10px 0;
+}
+
 .toggle-switch-label {
   margin-left: 55px;
   white-space: nowrap;
@@ -713,6 +717,11 @@ input:checked + .slider:before {
   padding: 0px;
   height: 2.5em;
   margin: 10px 5px;
+}
+
+.trophy-box-button-container {
+  padding: 35px 0;
+  padding-right: 15px;
 }
 
 .dashboard-charts {

@@ -2,7 +2,7 @@ import React from 'react';
 
 const ToggleSwitch = ({ changeUserReViewSetting, reViewSetting }) => {
   return (
-    <div>
+    <div className="toggle-switch">
       {reViewSetting ?
         <label className="switch">
           <input

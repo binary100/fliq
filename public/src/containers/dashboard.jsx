@@ -4,10 +4,8 @@ import { connect } from 'react-redux';
 
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
 import DashboardTrophies from '../components/dashboardTrophies.jsx';
-import BadgeList from '../components/badgeList.jsx';
 import PieChart from '../components/pieChart.jsx';
 import BarChart from '../components/barChart.jsx';
-import ToggleSwitch from '../components/toggleSwitch.jsx';
 import DropDownMenu from '../components/dropDownMenu.jsx';
 import { setUserReViewSetting, toggleUserReViewSetting } from '../actions/actions.js';
 
@@ -373,7 +371,7 @@ class Dashboard extends React.Component {
                   </div>
                 </div>
               </div>
-            : <h1 className="col-sm-12">Loading your profile data...</h1>
+            : <h1 className="col-sm-12">Loading your preference data...</h1>
             }
         </div>
       </div>

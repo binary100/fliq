@@ -1,7 +1,7 @@
 import React from 'react';
 import ToggleSwitch from './toggleSwitch.jsx';
 
-const DashboardUserProfile = ({ user, changeUserReViewSetting, userReViewSetting }) => (
+const DashboardUserProfile = ({ user, changeUserReViewSetting, reViewSetting }) => (
   <div className="row">
     <div className="col-lg-12">
       <div className="row">
@@ -9,7 +9,6 @@ const DashboardUserProfile = ({ user, changeUserReViewSetting, userReViewSetting
           <h3>Profile</h3>
         </div>
       </div>
-
       <div className="user-profile-box">
         <div className="row">
           <div className="col-lg-12">
@@ -30,7 +29,7 @@ const DashboardUserProfile = ({ user, changeUserReViewSetting, userReViewSetting
           <div className="col-lg-12">
             <ToggleSwitch
               changeUserReViewSetting={changeUserReViewSetting}
-              reViewSetting={userReViewSetting}
+              reViewSetting={reViewSetting}
             />
           </div>
         </div>
