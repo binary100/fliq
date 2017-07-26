@@ -212,10 +212,10 @@ module.exports.findDuplicateTagIDs = (req, res) => {
 // Brain 2
 module.exports.getSmartUserResults = (req, res) => {
   const params = {
-    knownTagsPercentage: 80,
+    knownTagsPercentage: 85,
     likeValue: 3,
     dislikeValue: -2,
-    numRandomTagsPicked: 1,
+    numRandomTagsPicked: 3,
     numberOfResults: 5
   };
   db.movies.findAll({})
@@ -269,14 +269,14 @@ module.exports.getSmartUserResults = (req, res) => {
         const unknownTagWeight = ((100 - params.knownTagsPercentage) / 100) / unknownTags.length;
         console.log('Working');
         const randomTagArray = [];
-        for (let i = 0; i < 5; i += 1) {
+        for (let i = 0; i < params.numberOfResults; i += 1) {
           const tempArray = [];
           for (let j = 0; j < params.numRandomTagsPicked; j += 1) {
             const randomNum = Math.random();
             if (randomNum <= params.knownTagsPercentage / 100) {
               for (let l = 0; l < knownSpectrum.length; l += 1) {
                 if (knownSpectrum[l][0] > randomNum) {
-                  tempArray.push(knownSpectrum[l - 1][1]);
+                  tempArray.push(knownSpectrum[l === 0 ? l : l - 1][1]);
                   l = Infinity;
                 }
               }
@@ -287,7 +287,6 @@ module.exports.getSmartUserResults = (req, res) => {
           }
           randomTagArray.push(tempArray);
         }
-        console.log('ABCDEABCDEABCDEABCDEABCDEABCDEABCDE');
         console.log('Chosen Tags :', randomTagArray);
         const movieSelection = randomTagArray.map((item) => {
           let filteredMovies = newAllMovies;
@@ -315,7 +314,6 @@ module.exports.getSmartUserResults = (req, res) => {
         return movieSelection;
       })
       .then((movies) => {
-        console.log('DDDAHFGSSFHGSHSJSBSSBJBSHBJBDY : ', movies);
         const moviePromises = movies.map(movie =>
           new Promise((resolve, reject) => {
             db.userMovies.findOne({ where: {
@@ -944,8 +942,11 @@ module.exports.createTrophiesAndReturnUser = (req, res) => {
           if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
             db.userTrophies.findOne({ where: { user_Id: req.user.id, trophy_Id: 2 } })
             .then((trophy) => {
-              const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => { if (ind === index) return 1; return curr; });
-              db.userTrophies.update({ hasTrophies: newArray }, { where: { user_Id: req.user.id, trophy_Id: 2 } })
+              const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => {
+                if (ind === index) return 1; return curr;
+              });
+              db.userTrophies.update({ hasTrophies: newArray },
+                { where: { user_Id: req.user.id, trophy_Id: 2 } })
               .then(() => {
                 const userAndTrophyObj = { user: req.user, trophy: [userTrophy.trophy.trophyNames[index]] };
                 return trophyHunter(userAndTrophyObj);

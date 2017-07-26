@@ -24,6 +24,7 @@ class Results extends React.Component {
     const getUrl = this.props.isLoggedIn ? '/api/results/user' : '/api/results/top';
     axios.get(getUrl)
       .then((results) => {
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', results.data);
         this.setState({
           selectedMovie: results.data[0],
           tileMovies: results.data
