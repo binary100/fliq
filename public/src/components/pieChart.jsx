@@ -2,12 +2,12 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import Dashboard from '../containers/dashboard.jsx';
 
-var dynamicColors = function() {
-    var r = Math.floor(Math.random() * 255);
-    var g = Math.floor(Math.random() * 255);
-    var b = Math.floor(Math.random() * 255);
-    return "rgb(" + r + "," + g + "," + b + ")";
-}
+// var dynamicColors = function() {
+//     var r = Math.floor(Math.random() * 255);
+//     var g = Math.floor(Math.random() * 255);
+//     var b = Math.floor(Math.random() * 255);
+//     return "rgb(" + r + "," + g + "," + b + ")";
+// }
 
 const PieChart = (props) => {
   const chartData = {
@@ -35,13 +35,13 @@ const PieChart = (props) => {
     title: {
       display: true,
       fontSize: 20,
-      text: 'Custom Chart Title'
+      text: props.title
     }
   }
 
 
   return (
-    <div className="col-lg-6">
+    <div>
       <Pie
         data={chartData}
         options={chartOptions}

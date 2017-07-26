@@ -22,7 +22,7 @@ const BarChart = (props) => {
     title: {
       display: true,
       fontSize: 20,
-      text: 'Custom Chart Title'
+      text: props.title
     },
     scales: {
       yAxes: [{
@@ -37,7 +37,7 @@ const BarChart = (props) => {
   }
 
   return (
-    <div className="col-lg-4">
+    <div>
       <Bar
         data={chartData}
         width={100}
