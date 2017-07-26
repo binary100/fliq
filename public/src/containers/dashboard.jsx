@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-
 import DashboardUserProfile from '../components/dashboardUserProfile.jsx';
 import DashboardTrophies from '../components/dashboardTrophies.jsx';
 import PieChart from '../components/pieChart.jsx';
@@ -16,31 +15,37 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      // raw data for charts
+      // user data
       userInfo: null,
       userMoviesInfo: null,
       userTagsInfo: null,
-      tagsTableData: null,
-
-      // chart data for most selected tags based on absolute number
-      topTagIdsByUser: null,
-      topTagsByName: null,
-      topTagPicksCountsByUser: null,
-
-      // chart data for most selected tags based on percentage
-      mostSelectedTagIds: null,
-      mostSelectedTagNames: null,
-      mostSelectedTagPercentages: null,
+      shapedTagInfo: null,
+      // userReViewSetting: null
 
       // chart data for most liked actors
-      shapedTagInfo: null,
-      topActors: null,
-      topDirectors: null,
-      topGenres: null,
+      // topActors: null,
+      // topDirectors: null,
+      // topGenres: null,
       earnedTrophies: [],
 
-      // data for absolute # charts
+      // raw tag data sorted by type
+      genreRawData: null,
+      actorRawData: null,
+      directorRawData: null,
 
+      // tag data sorted by type and picksCount
+      allTagsSortedByPicksCount: null,
+      genreSortedByPicksCount: null,
+      actorSortedByPicksCount: null,
+      directorSortedByPicksCount: null,
+
+      // tag data sorted by type and selection %
+      allTagsSortedBySelectionPct: null,
+      genreSortedBySelectionPct: null,
+      actorSortedBySelectionPct: null,
+      directorSortedBySelectionPct: null,
+
+      // data for absolute # charts
       absNumChartsTitle: null,
       absNumChartsLabels: null,
       absNumChartsData: null,
@@ -53,28 +58,33 @@ class Dashboard extends React.Component {
     };
 
     this.getUserInfo = this.getUserInfo.bind(this);
-    this.getTableData = this.getTableData.bind(this);
-    this.updateUserReViewSetting = this.updateUserReViewSetting.bind(this);
+
     this.changeUserReViewSetting = this.changeUserReViewSetting.bind(this);
-    // this.chartTopTagsByUser = this.chartTopTagsByUser.bind(this);
-    this.chartTopActorsByLikes = this.chartTopActorsByLikes.bind(this);
+    this.updateUserReViewSetting = this.updateUserReViewSetting.bind(this);
+
+    this.sortTagDataByType = this.sortTagDataByType.bind(this);
+    this.sortTypeByPicksCount = this.sortTypeByPicksCount.bind(this);
+    this.sortTypeBySelectionPct = this.sortTypeBySelectionPct.bind(this);
+
+    this.sortAllTagsByPicksCount = this.sortAllTagsByPicksCount.bind(this);
+    this.sortAllTagsBySelectionPct = this.sortAllTagsBySelectionPct.bind(this);
+
     this.absNumChartsDropDownHandler = this.absNumChartsDropDownHandler.bind(this);
     this.pctChartsDropDownHandler = this.pctChartsDropDownHandler.bind(this);
-    // this.sortRawChartDataByPicksCount = this.sortRawChartDataByPicksCount.bind(this);
-    // this.sortRawChartDataBySelectionPct = this.sortRawChartDataBySelectionPct.bind(this);
+
+    this.displayDefaultCharts = this.displayDefaultCharts.bind(this);
+    // this.chartTopActorsByLikes = this.chartTopActorsByLikes.bind(this);
   }
 
   componentWillMount() {
     this.getUserInfo();
   }
 
-
   getUserInfo() {
     return axios.post('/api/dashboard/userInfo', {
       id: this.props.auth.user.id
     })
     .then((responseObj) => {
-      console.log('shaped Info: ', responseObj.data.shapedTagInfo);
       this.setState({
         userInfo: responseObj.data.userInfo,
         userMoviesInfo: responseObj.data.userMoviesInfo,
@@ -82,172 +92,22 @@ class Dashboard extends React.Component {
         shapedTagInfo: responseObj.data.shapedTagInfo,
         earnedTrophies: responseObj.data.earnedTrophies
       });
-      console.log('shapedInfo is: ', responseObj.data);
+
+      // console.log('shapedTagInfo:', this.state.shapedTagInfo);
+
       const userReViewSetting = responseObj.data.userInfo.reView;
       this.props.setUserReViewSetting(userReViewSetting);
     })
-    .then(() => {
-      this.getTableData();
-    });
+    .then(() => this.sortAllTagsByPicksCount())
+    .then(() => this.sortAllTagsBySelectionPct())
+    .then(() => this.displayDefaultCharts())
+    .then(() => this.sortTagDataByType())
+    .then(() => this.sortTypeByPicksCount())
+    .then(() => this.sortTypeBySelectionPct());
+    // .then(() => this.chartTopActorsByLikes())
   }
 
-  getTableData() {
-    return axios.get('/api/dashboard/tableData')
-    .then((responseObj) => {
-      console.log('responseObj is: ', responseObj.data);
-      this.setState({
-        tagsTableData: responseObj.data.tagsTableData
-      });
-    })
-    // .then(() => this.chartTopTagsByUser())
-    .then(() => console.log('state after calling chartTopTagsByUser:', this.state))
-    // .then(() => this.chartTopTagsBySelectionPercentage())
-    .then(() => this.chartTopActorsByLikes());
-  }
-
-  // chartTopTagsByUser() {
-  //   const tagPicksCountCutoff = tagsCountCutoff;
-  //   const tagIds = [];
-  //   const tagPicksCounts = [];
-  //   const tagNames = [];
-  //
-  //   this.state.userTagsInfo.forEach((tagObj) => {
-  //     if (tagObj.picksCount > tagPicksCountCutoff) {
-  //       tagIds.push(tagObj.tag_Id);
-  //       tagPicksCounts.push(tagObj.picksCount);
-  //     }
-  //   });
-  //
-  //   tagIds.forEach((tagId) => {
-  //     this.state.tagsTableData.forEach((tagObj) => {
-  //       if (tagId === tagObj.id) {
-  //         tagNames.push(tagObj.tagName);
-  //       }
-  //     });
-  //   });
-  //
-  //   this.setState({
-  //     topTagIdsByUser: tagIds,
-  //     topTagPicksCountsByUser: tagPicksCounts,
-  //     topTagsByName: tagNames
-  //   });
-  // }
-
-  // chartTopTagsBySelectionPercentage() {
-  //   const tagPicksCountCutoff = tagsCountCutoff;
-  //   const tagIds = [];
-  //   const tagSelectionPercentages = [];
-  //   const tagNames = [];
-  //
-  //   this.state.userTagsInfo.forEach((tagObj) => {
-  //     if (tagObj.picksCount > tagPicksCountCutoff) {
-  //       tagIds.push(tagObj.tag_Id);
-  //       tagSelectionPercentages.push(tagObj.picksCount / tagObj.viewsCount);
-  //     }
-  //   });
-  //
-  //   tagIds.forEach((tagId) => {
-  //     this.state.tagsTableData.forEach((tagObj) => {
-  //       if (tagId === tagObj.id) {
-  //         tagNames.push(tagObj.tagName);
-  //       }
-  //     });
-  //   });
-  //
-  //   this.setState({
-  //     mostSelectedTagIds: tagIds,
-  //     mostSelectedTagNames: tagNames,
-  //     mostSelectedTagPercentages: tagSelectionPercentages
-  //   });
-  // }
-
-  chartTopActorsByLikes() {
-    const sortedByType = this.state.shapedTagInfo.reduce((acc, tag) => {
-      if (!acc[tag.type]) {
-        acc[tag.type] = [];
-      }
-      acc[tag.type].push({ likesCount: tag.likesCount, name: tag.name, picksCount: tag.picksCount, viewsCount: tag.viewsCount });
-      return acc;
-    }, {});
-    const topGenres = sortedByType.genre
-      .sort((a, b) => b.likesCount - a.likesCount)
-      .slice(0, 10);
-    const topActors = sortedByType.actor
-      .sort((a, b) => b.likesCount - a.likesCount)
-      .slice(0, 10);
-    const topDirectors = sortedByType.director
-      .sort((a, b) => b.likesCount - a.likesCount)
-      .slice(0, 10);
-    // console.log('topActors: ', topActors);
-    // console.log('topGenres: ', topGenres);
-    // console.log('topDirectors: ', topDirectors);
-    this.setState({ topGenres, topActors, topDirectors });
-  }
-
-  // getRawChartData() {
-  //   const sortedByType = this.state.shapedTagInfo.reduce((acc, tag) => {
-  //     if (!acc[tag.type]) {
-  //       acc[tag.type] = [];
-  //     }
-  //     acc[tag.type].push({ name: tag.name, picksCount: tag.picksCount, viewsCount: tag.viewsCount });
-  //     return acc;
-  //   }, {});
-  //
-  //   const genreData = sortedByType.genre;
-  //   const actorData = sortedByType.actor;
-  //   const directorData = sortedByType.director;
-  // }
-  // .then(() => {
-  //   this.sortRawChartDataByPicksCount();
-  //   this.sortRawChartDataBySelectionPct();
-  // })
-
-  // sortRawChartDataByPicksCount() {
-  //   const genreDataSortedByPicksCount = genreData
-  //   .filter(genreObj => (genreData.picksCount > tagsCountCutoff))
-  //   .sort((a, b) => b.picksCount - a.picksCount)
-  //   .slice(0, 10);
-  //
-  //   const actorDataSortedByPicksCount = actorData
-  //     .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
-  //     .sort((a, b) => b.picksCount - a.picksCount)
-  //     .slice(0, 10);
-  //
-  //   const directorDataSortedByPicksCount = directorData
-  //     .filter(directorObj => (directorObj.picksCount > tagsCountCutoff))
-  //     .sort((a, b) => b.picksCount - a.picksCount)
-  //     .slice(0, 10);
-  //
-  //   console.log('genreDataSortedByPicksCount: ', genreDataSortedByPicksCount);
-  //   console.log('actorDataSortedByPicksCount: ', actorDataSortedByPicksCount);
-  //   console.log('directorDataSortedByPicksCount: ', directorDataSortedByPicksCount);
-  //
-  //   this.setState({ genreDataSortedByPicksCount, actorDataSortedByPicksCount, directorDataSortedByPicksCount });
-  // }
-  //
-  // sortRawChartDataBySelectionPct() {
-  //   const genreDataSortedBySelectionPct = genreData
-  //   .filter(genreObj => (genreData.picksCount > tagsCountCutoff))
-  //   .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-  //   .slice(0, 10);
-  //
-  //   const actorDataSortedBySelectionPct = actorData
-  //     .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
-  //     .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-  //     .slice(0, 10);
-  //
-  //   const directorDataSortedBySelectionPct = directorData
-  //     .filter(directorObj => (directorObj.picksCount > tagsCountCutoff))
-  //     .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-  //     .slice(0, 10);
-  //
-  //   console.log('genreDataSortedBySelectionPct: ', genreDataSortedBySelectionPct);
-  //   console.log('actorDataSortedBySelectionPct: ', actorDataSortedBySelectionPct);
-  //   console.log('directorDataSortedBySelectionPct: ', directorDataSortedBySelectionPct);
-  //
-  //   this.setState({ genreDataSortedBySelectionPct, actorDataSortedBySelectionPct, directorDataSortedBySelectionPct });
-  // }
-
+  // toggle switch for user reView setting
   changeUserReViewSetting() {
     this.updateUserReViewSetting()
       .then(() => {
@@ -262,25 +122,163 @@ class Dashboard extends React.Component {
     });
   }
 
+  sortTagDataByType() {
+    const tagsSortedByType = this.state.shapedTagInfo.reduce((acc, tag) => {
+      if (!acc[tag.type]) {
+        acc[tag.type] = [];
+      }
+
+      acc[tag.type].push({
+        name: tag.name,
+        picksCount: tag.picksCount,
+        viewsCount: tag.viewsCount
+      });
+
+      return acc;
+    }, {});
+
+    this.setState({
+      genreRawData: tagsSortedByType.genre,
+      actorRawData: tagsSortedByType.actor,
+      directorRawData: tagsSortedByType.director
+    });
+  }
+
+  sortAllTagsByPicksCount() {
+    const allTagsSortedByPicksCount = this.state.shapedTagInfo
+    .filter(tagObj => (tagObj.picksCount > tagsCountCutoff))
+    .sort((a, b) => b.picksCount - a.picksCount)
+    .slice(0, 10);
+
+    this.setState({
+      allTagsSortedByPicksCount
+    });
+
+    // console.log('allTagsSortedByPicksCount:', this.state.allTagsSortedByPicksCount);
+  }
+
+  sortAllTagsBySelectionPct() {
+    const allTagsSortedBySelectionPct = this.state.shapedTagInfo
+    .filter(tagObj => (tagObj.picksCount > tagsCountCutoff))
+    .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
+    .slice(0, 10);
+
+    this.setState({
+      allTagsSortedBySelectionPct
+    });
+
+    // console.log('allTagsSortedBySelectionPct:', this.state.allTagsSortedBySelectionPct);
+  }
+
+
+  sortTypeByPicksCount() {
+    const genreSortedByPicksCount = this.state.genreRawData
+    .filter(genreObj => (genreObj.picksCount > tagsCountCutoff))
+    .sort((a, b) => b.picksCount - a.picksCount)
+    .slice(0, 10);
+
+    const actorSortedByPicksCount = this.state.actorRawData
+    .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
+    .sort((a, b) => b.picksCount - a.picksCount)
+    .slice(0, 10);
+
+    const directorSortedByPicksCount = this.state.directorRawData
+    .filter(directorDataObj => (directorDataObj.picksCount > tagsCountCutoff))
+    .sort((a, b) => b.picksCount - a.picksCount)
+    .slice(0, 10);
+
+    console.log('genreSortedByPicksCount: ', genreSortedByPicksCount);
+    console.log('actorSortedByPicksCount: ', actorSortedByPicksCount);
+    console.log('directorSortedByPicksCount: ', directorSortedByPicksCount);
+
+    this.setState({
+      genreSortedByPicksCount,
+      actorSortedByPicksCount,
+      directorSortedByPicksCount
+    });
+  }
+
+  sortTypeBySelectionPct() {
+    const genreSortedBySelectionPct = this.state.genreRawData
+    .filter(genreObj => (genreObj.picksCount > tagsCountCutoff))
+    .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
+    .slice(0, 10);
+
+    const actorSortedBySelectionPct = this.state.actorRawData
+    .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
+    .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
+    .slice(0, 10);
+
+    const directorSortedBySelectionPct = this.state.directorRawData
+    .filter(directorObj => (directorObj.picksCount > tagsCountCutoff))
+    .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
+    .slice(0, 10);
+
+    console.log('genreSortedBySelectionPct: ', genreSortedBySelectionPct);
+    console.log('actorSortedBySelectionPct: ', actorSortedBySelectionPct);
+    console.log('directorSortedBySelectionPct: ', directorSortedBySelectionPct);
+
+    this.setState({
+      genreSortedBySelectionPct,
+      actorSortedBySelectionPct,
+      directorSortedBySelectionPct
+    });
+  }
+
+  // chartTopActorsByLikes() {
+  //   const sortedByType = this.state.shapedTagInfo.reduce((acc, tag) => {
+  //     if (!acc[tag.type]) {
+  //       acc[tag.type] = [];
+  //     }
+  //     acc[tag.type].push({ likesCount: tag.likesCount, name: tag.name });
+  //     return acc;
+  //   }, {});
+  //
+  //   const topGenres = sortedByType.genre
+  //     .sort((a, b) => b.likesCount - a.likesCount)
+  //     .slice(0, 10);
+  //   const topActors = sortedByType.actor
+  //     .sort((a, b) => b.likesCount - a.likesCount)
+  //     .slice(0, 10);
+  //   const topDirectors = sortedByType.director
+  //     .sort((a, b) => b.likesCount - a.likesCount)
+  //     .slice(0, 10);
+  //
+  //   this.setState({ topGenres, topActors, topDirectors });
+  // }
+
+  displayDefaultCharts() {
+    this.setState({
+      absNumChartsTitle: 'Most Frequently Selected Tags (#)',
+      absNumChartsLabels: this.state.allTagsSortedBySelectionPct.map(tagObj => tagObj.name),
+      absNumChartsData: this.state.allTagsSortedBySelectionPct.map(tagObj => (tagObj.picksCount / tagObj.viewsCount)),
+      pctChartsTitle: 'Top Tags (Selection %)',
+      pctChartsLabels: this.state.allTagsSortedBySelectionPct.map(tagObj => tagObj.name),
+      pctChartsData: this.state.allTagsSortedBySelectionPct.map(tagObj => (tagObj.picksCount / tagObj.viewsCount))
+    });
+  }
+
   absNumChartsDropDownHandler(eventKey) {
     let chartTitle = null;
     let chartLabels = null;
     let chartData = null;
 
     if (eventKey === 'genre') {
-      chartTitle = 'Most Selected Genres (#)';
-      chartLabels = this.state.topGenres.map(genreObj => genreObj.name);
-      chartData = this.state.topGenres.map(genreObj => genreObj.picksCount);
+      chartTitle = 'Most Frequently Selected Genres (#)';
+      chartLabels = this.state.genreSortedByPicksCount.map(genreObj => genreObj.name);
+      chartData = this.state.genreSortedByPicksCount.map(genreObj => genreObj.picksCount);
     } else if (eventKey === 'actor') {
-      chartTitle = 'Most Selected Actors (#)';
-      chartLabels = this.state.topActors.map(actorObj => actorObj.name);
-      chartData = this.state.topActors.map(actorObj => actorObj.picksCount);
+      chartTitle = 'Most Frequently Selected Actors (#)';
+      chartLabels = this.state.actorSortedByPicksCount.map(actorObj => actorObj.name);
+      chartData = this.state.actorSortedByPicksCount.map(actorObj => actorObj.picksCount);
     } else if (eventKey === 'director') {
-      chartTitle = 'Most Selected Directors (#)';
-      chartLabels = this.state.topDirectors.map(directorObj => directorObj.name);
-      chartData = this.state.topDirectors.map(directorObj => directorObj.picksCount);
-    } else if (eventKey === 'all') {
-      chartTitle = 'Most Selected Tags (#)';
+      chartTitle = 'Most Frequently Selected Directors (#)';
+      chartLabels = this.state.directorSortedByPicksCount.map(directorObj => directorObj.name);
+      chartData = this.state.directorSortedByPicksCount.map(directorObj => directorObj.picksCount);
+    } else {
+      chartTitle = 'Most Frequently Selected Tags (#)';
+      chartLabels = this.state.allTagsSortedByPicksCount.map(tagObj => tagObj.name);
+      chartData = this.state.allTagsSortedByPicksCount.map(tagObj => tagObj.picksCount);
     }
 
     this.setState({
@@ -296,19 +294,21 @@ class Dashboard extends React.Component {
     let chartData = null;
 
     if (eventKey === 'genre') {
-      chartTitle = 'Most Selected Genres (%)';
-      chartLabels = this.state.topGenres.map(genreObj => genreObj.name);
-      chartData = this.state.topGenres.map(genreObj => (genreObj.picksCount / genreObj.viewsCount));
+      chartTitle = 'Top Genres (Selection %)';
+      chartLabels = this.state.genreSortedBySelectionPct.map(genreObj => genreObj.name);
+      chartData = this.state.genreSortedBySelectionPct.map(genreObj => (genreObj.picksCount / genreObj.viewsCount));
     } else if (eventKey === 'actor') {
-      chartTitle = 'Most Selected Actors (%)';
-      chartLabels = this.state.topActors.map(actorObj => actorObj.name);
-      chartData = this.state.topActors.map(actorObj => (actorObj.picksCount / actorObj.viewsCount));
+      chartTitle = 'Top Actors (Selection %)';
+      chartLabels = this.state.actorSortedBySelectionPct.map(actorObj => actorObj.name);
+      chartData = this.state.actorSortedBySelectionPct.map(actorObj => (actorObj.picksCount / actorObj.viewsCount));
     } else if (eventKey === 'director') {
-      chartTitle = 'Most Selected Directors (%)';
-      chartLabels = this.state.topDirectors.map(directorObj => directorObj.name);
-      chartData = this.state.topDirectors.map(directorObj => (directorObj.picksCount / directorObj.viewsCount));
-    } else if (eventKey === 'all') {
-      chartTitle = 'Most Selected Tags (#)';
+      chartTitle = 'Top Directors (Selection %)';
+      chartLabels = this.state.directorSortedBySelectionPct.map(directorObj => directorObj.name);
+      chartData = this.state.directorSortedBySelectionPct.map(directorObj => (directorObj.picksCount / directorObj.viewsCount));
+    } else {
+      chartTitle = 'Top Tags (Selection %)';
+      chartLabels = this.state.allTagsSortedBySelectionPct.map(tagObj => tagObj.name);
+      chartData = this.state.allTagsSortedBySelectionPct.map(tagObj => (tagObj.picksCount / tagObj.viewsCount));
     }
 
     this.setState({
@@ -338,9 +338,8 @@ class Dashboard extends React.Component {
 
 
         <div>
-          { this.state.topGenres &&
-            this.state.topActors &&
-            this.state.topDirectors ?
+          { this.state.genreSortedByPicksCount &&
+            this.state.genreSortedBySelectionPct ?
               <div className="dashboard-charts">
                 <div className="row">
                   <div className="col-lg-6">
