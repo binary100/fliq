@@ -50,11 +50,18 @@ class DashboardTrophies extends React.Component {
           <div className="col-lg-12">
             <div className="trophies-box badgeList">
               <div>
-                {trophyIDs.slice(start, start + 3).map(trophyString =>
-                  (<div className="trophy">
-                    <div key={count += 1} id={trophyString} className="sprite" />
-                  </div>)
-                )}
+                {trophyIDs.slice(start, start + 3).map(trophyString => {
+                  const earned = this.props.trophies.includes(trophyString);
+                  return (
+                    <div className="trophy">
+                      <div
+                        key={count += 1}
+                        id={trophyString}
+                        className={`sprite${earned ? '' : ' sprite-disabled'}`}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

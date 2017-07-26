@@ -10,12 +10,12 @@ clear: both;
 
 .sprite {display: inline-block;background-image: url('/assets/img/badge-proto3.png');transform: scale(.62);}
 
-.sprite:hover {
+/*.sprite:hover {
 filter: grayscale(100%) brightness(20%);
-}
+}*/
 
 .sprite-disabled {
-filter: grayscale(100%) brightness(20%);
+  filter: grayscale(100%) brightness(20%);
 }
 
 #Comedy1{height:200px;width:200px;background-position: -72px -50px;}
