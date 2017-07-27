@@ -5,7 +5,7 @@ import LoginSplash from '../components/loginSplash.jsx';
 import Quote from './quote.jsx';
 import { Modal } from 'react-bootstrap';
 
-const welcomeHeader = 'Welcome to ';
+const welcomeHeader = '';
 const subHeader = 'An adaptive movie recommendation system';
 const intro =
   `Our machine learning engine will get to know
@@ -111,6 +111,9 @@ class Welcome extends React.Component {
 
     return (
       <div>
+        <div className="background-only"></div>
+        <div className="background-hand"></div>
+        <div className="background-left"></div>
         <div className="jumbotron welcome fadeIn">
           <div className="container">
             <Modal
@@ -141,21 +144,28 @@ class Welcome extends React.Component {
                 </div>
               </Modal.Footer>
             </Modal>
+
             <div>
-              <h1 className="welcome-title">
-                <span>{welcomeHeader}</span>
-                <span>{this.state.title.slice(0, 2)}</span>
-                <span className={this.state.titleClass}>{this.state.title.slice(2)}</span>
-              </h1>
+              <div className="welcome-title-box">
+                <h1 className="welcome-title">
+                  <span>{welcomeHeader}</span>
+                  <span>{this.state.title.slice(0, 2)}</span>
+                  <span className={this.state.titleClass}>{this.state.title.slice(2)}</span>
+                </h1>
+              </div>
+              <img className="welcome-logo" src="/assets/img/logo.png" />
+              <div className="clear"></div>
               <h4>{subHeader}</h4>
               <p>{intro}</p>
             </div>
             <span>
               {lightningButton}
             </span>
+
             <div className="welcome-footer">
               {footer}
             </div>
+
           </div>
         </div>
       </div>

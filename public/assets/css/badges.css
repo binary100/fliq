@@ -1,3 +1,30 @@
+/* BADGE BOX - ANCHORS SPRITE IN THE CENTER OF A BOX WITH FIXED DIMENSIONS SO THINGS LOOK PRETTY*/
+.badge-box { float:left; margin: 10px}
+.badges { overflow: hidden; background-image: url('/assets/img/badge-proto3.png'); transform: scale(1); width: 100px; height: 100px; background-size: 422% 1254%; }
+.badge-disabled { filter: grayscale(100%) brightness(20%); }
+.clear { clear: both; }
+
+/* X:; / LEVELS */
+/* Y:; / BADGE TYPES */
+:root {
+--lvl1: 3.40%;
+--lvl2: 33.9%;
+--lvl3: 65.4%;
+--lvl4: 97.8%;
+--newbie: 1.296%;
+--login: 10.1%;
+--movie-night: 19.2%;
+--seen-movie: 19%;
+--launchpad: 36.7%;
+--trophy: 45.6%;
+--horror: 54.5%%;
+--drama: 63.2%%;
+--action: 72%;
+--hate: 81%;
+--like: 89.8%%;
+--lightning: 99%%;
+}
+
 #badgeList {
 background: gray;
 }
@@ -5,263 +32,105 @@ background: gray;
 .clear {
 clear: both;
 }
-
-.test-badge-box {width:200px;height:200px;margin: 10px;background: white;float: left;}
-
+/*
+.test-badge-box {width:200px;height:200px;margin: 10px;float: left;}*/
+/*
 .sprite {display: inline-block;background-image: url('/assets/img/badge-proto3.png');transform: scale(.62);}
+*/
 
-/*.sprite:hover {
-filter: grayscale(100%) brightness(20%);
-}*/
+#Comedy1{ background-position: var(--lvl1) var(--Comedy1)}
 
-.sprite-disabled {
-  filter: grayscale(100%) brightness(20%);
-}
+#Comedy10{ background-position: var(--lvl2) var(--Comedy1)}
 
-#Comedy1{height:200px;width:200px;background-position: -72px -50px;}
+#Comedy50{background-position: var(--lvl3) var(--Comedy1)}
 
-#Comedy10{height:200px;width:200px;background-position: -304px -60px;}
+#Newbie{background-position: var( --lvl1) var(--newbie)}
 
-#Comedy50{height:200px;width:200px;background-position: -554px -65px;}
+#Login1{background-position: var(--lvl1) var(--login)}
 
-#noob-4{height:200px;width:200px;background-position: -802px -57px;}
+#Login10{background-position: var(--lvl2) var(--login)}
 
-#Login1{height:200px;width:200px;background-position: -70px -311px;}
+#Login50{background-position: var(--lvl3) var(--login)}
 
-#Login10{height:200px;width:200px;background-position: -303px -311px;}
+/*#Login1000{background-position: var(--lvl4) var(--login)}*/
 
-#Login50{height:200px;width:200px;background-position: -558px -311px;}
+#MovieNight{background-position: var( --lvl1) var(--movie-night)}
 
-#Login1000{
-  height:200px;
-  width:200px;
-  background-position: -806px -310px;
-}
+#MovieNight1{background-position: var( --lvl2) var(--movie-night)}
 
-#MovieNight{height:200px;width:200px;background-position: -53px -553px;}
+#MovieNight10{background-position: var( --lvl3) var(--movie-night)}
 
-#MovieNight1{height:200px;width:200px;background-position: -309px -563px;}
+/*#MovieNight1000{background-position: var( --lvl4) var(--movie-night)}*/
 
-#MovieNight10{height:200px;width:200px;background-position: -555px -563px;}
+#Seen1{background-position: var( --lvl1) var(--seen-movie)}
 
-#MovieNight1000{
-  height:200px;
-  width:200px;
-  background-position: -805px -559px;
-}
+#Seen10{background-position: var( --lvl2) var(--seen-movie)}
 
-#Seen1{height:200px;width:200px;background-position: -68px -816px;}
+#Seen50{background-position: var( --lvl3) var(--seen-movie)}
 
-#Seen10{height:200px;width:200px;background-position: -305px -816px;}
+/*#Seen{background-position: var( --lvl4) var(--seen-movie)}*/
 
-#Seen50{height:200px;width:200px;background-position: -558px -816px;}
+/*#LaunchPad1 {background-position: var( --lvl1) var(--launchpad)}*/
 
-#Seen{
-  height:200px;
-  width:200px;
-  background-position: -807px -811px;
-}
+/*#launchPad-2{background-position: var( --lvl2) var(--launchpad)}
+
+#launchPad-3{background-position: var( --lvl3) var(--launchpad)}*/
 
 
-#launchPad-1{
-  height:200px;
-  width:200px;
-  background-position: -71px -1091px;
-}
+#LaunchPad1{background-position: var(--lvl1) var(--launchpad)}
 
-#launchPad-2{
-  height:200px;
-  width:200px;
-  background-position: -306px -1084px;
-}
+/*#TrophyHunter1{background-position: var(--lvl1) var(--trophy)}*/
 
-#launchPad-3{
-  height:200px;
-  width:200px;
-  background-position: -556px -1086px;
-}
+#TrophyHunter2{background-position: var(--lvl2) var(--trophy)}
 
-#LaunchPad1{
-  height:200px;
-  width:200px;
-  background-position: -806px -1064px;
-}
+#TrophyHunter15{background-position: var(--lvl3) var(--trophy) }
 
-#TrophyHunter1{
-  height:200px;
-  width:200px;
-  background-position: -71px -1343px;
-}
+#TrophyHunter32{background-position: var(--lvl4) var(--trophy)}
 
-#TrophyHunter2{
-height:200px;
-width:200px;
-background-position: -306px -1337px;
-}
+#Horror1{background-position: var(--lvl1) var(--trophy)}
 
-#TrophyHunter15{
-height:200px;
-width:200px;
-background-position: -559px -1339px;
-}
+#Horror10{background-position: var(--lvl2) var(--trophy)}
 
-#TrophyHunter32{
-height:200px;
-width:200px;
-background-position: -806px -1316px;
-}
+#Horror50{background-position: var( --lvl3) var(--trophy)}
 
+/*#Horror4{background-position: var( --lvl4) var(--trophy)}*/
 
-#Horror1{
-height:200px;
-width:200px;
-background-position: -71px -1598px;
-}
+#Action1{background-position: var( --lvl1) var(--trophy)}
 
-#Horror10{
-height:200px;
-width:200px;
-background-position: -307px -1589px;
-}
+#Action10{background-position: var( --lvl2) var(--trophy)}
 
-#Horror50{
-height:200px;
-width:200px;
-background-position: -556px -1589px;
-}
+#Action50{background-position: var( --lvl3) var(--trophy)}
 
-#Horror4{
-height:200px;
-width:200px;
-background-position: -805px -1569px;
-}
+/*#Action4{background-position: var( --lvl4) var(--trophy)}*/
 
-#Action1{
-height:200px;
-width:200px;
-background-position: -71px -2097px;
-}
+#Drama1{background-position: var(--lvl1) var(--trophy)}
 
-#Action10{
-height:200px;
-width:200px;
-background-position: -305px -2097px;
-}
+#Drama10{background-position: var(--lvl2) var(--trophy)}
 
-#Action50{
-height:200px;
-width:200px;
-background-position: -557px -2092px;
-}
+#Drama50{background-position: var(--lvl3) var(--trophy)}
 
-#Action4{
-height:200px;
-width:200px;
-background-position: -806px -2072px;
-}
+/*#Drama4{background-position: var(--lvl4) var(--trophy)}*/
 
-#Drama1{
-height:200px;
-width:200px;
-background-position: -71px -1845px;
-}
+#Dislike1{background-position: var(--lvl1) var(--trophy)}
 
-#Drama10{
-height:200px;
-width:200px;
-background-position: -305px -1841px;
-}
+#Dislike10{background-position: var(--lvl2) var(--trophy)}
 
-#Drama50{
-height:200px;
-width:200px;
-background-position: -559px -1840px;
-}
+#Dislike50{background-position: var(--lvl3) var(--trophy)}
 
-#Drama4{
-height:200px;
-width:200px;
-background-position: -805px -1821px;
-}
+/*#Dislike4{background-position: var(--lvl4) var(--trophy)}*/
 
+#Like1 {background-position: var(--lvl1) var(--trophy)}
 
-#Dislike1{
-height:200px;
-width:200px;
-background-position: -69px -2352px;
-}
+#Like10{background-position: var(--lvl2) var(--trophy)}
 
-#Dislike10{
-height:200px;
-width:200px;
-background-position: -308px -2345px;
-}
+#Like50{background-position: var(--lvl3) var(--trophy)}
 
-#Dislike50{
-  height:200px;
-  width:200px;
-  background-position: -559px -2346px;
-}
+/*#Like4{background-position: var(--lvl4) var(--trophy)}*/
 
-#Dislike4{
-  height:200px;
-  width:200px;
-  background-position: -806px -2326px;
-}
+#Lightning1 {background-position: var(--lvl1) var(--trophy)}
 
-#Like1 {
-  /*height:200px;width:200px;background-position: -70px -2590px;*/
-    background: url('/assets/img/badge-proto3.png') no-repeat -71px -2604px;
-  width: 177px;
-  height: 175px;
-}
+#Lightning10{background-position: var(--lvl2) var(--trophy)}
 
-#Like10{
-  /*height:200px;width:200px;background-position: -306px -2577px;*/
-  background: url('/assets/img/badge-proto3.png') no-repeat -307px -2598px;
-  width: 177px;
-  height: 175px;
-}
+#Lightning50{background-position: var(--lvl3) var(--trophy)}
 
-#Like50{
-  /*height:200px;width:200px;background-position: -555px -2577px;*/
-  background: url('/assets/img/badge-proto3.png') no-repeat -559px -2599px;
-  width: 179px;
-  height: 174px;
-}
-
-#Like4{
-  height:200px;
-  width:200px;
-  background-position: -806px -2577px;
-}
-
-#Lightning1 {
-  /*height:200px;width:200px;background-position: -70px -2590px;*/
-  background: url('/assets/img/badge-proto3.png') no-repeat -72px -2866px;
-  width: 145px;
-  height: 149px;
-}
-
-#Lightning10{
-  /*height:200px;width:200px;background-position: -306px -2587px;*/
-  background: url('/assets/img/badge-proto3.png') no-repeat -308px -2860px;
-  width: 177px;
-  height: 175px;
-}
-
-#Lightning50{
-  /*height:200px;width:200px;background-position: -555px -2588px;*/
-  background: url('/assets/img/badge-proto3.png') no-repeat -560px -2861px;
-  width: 179px;
-  height: 174px;
-}
-
-#Lightning100{
-  /*height: 200px;
-  width: 200px;
-  background-position: -806px -2577px;*/
-  background: url('/assets/img/badge-proto3.png') no-repeat -808px -2839px;
-  width: 184px;
-  height: 208px;
-}
+#Lightning100{background-position: var(--lvl4) var(--trophy)}
