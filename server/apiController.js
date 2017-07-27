@@ -205,9 +205,18 @@ const buildOrIncrementMovieTags = (currentMovie, userId) =>
 
 // const checkGenreTrophies = (user) => {
 module.exports.checkGenreTrophies = (req, res) => {
+  const user = {
+    id: 2,
+    name: 'Rob Cornellll'
+  };
+
+  const resultObj = {
+    user,
+    trophy: []
+  };
 
   let userTrophies;
-  db.userTrophies.findAll({ where: { user_Id: 2, $or: [...genreTrophyIds] }, include: [{ model: db.trophies, as: 'trophy'}]})
+  db.userTrophies.findAll({ where: { user_Id: user.id, $or: [...genreTrophyIds] }, include: [{ model: db.trophies, as: 'trophy'}]})
     .then(matchedUserTrophies => {
       userTrophies = matchedUserTrophies;
     })
@@ -217,7 +226,7 @@ module.exports.checkGenreTrophies = (req, res) => {
     .then(genreTags => {
       const userTagGenres = genreTags.map(tag => ({ tag_Id: tag.id }));
       return db.userTags.findAll({ where:
-        { user_Id: 2, $or: [...userTagGenres] },
+        { user_Id: user.id, $or: [...userTagGenres] },
         include: [{ model: db.tags, as: 'tag' }]
       });
     })
@@ -232,23 +241,62 @@ module.exports.checkGenreTrophies = (req, res) => {
           hasTrophies: userTrophy.hasTrophies,
           trophyCount: userTrophy.trophyCount,
           trophyNames: userTrophy.trophy.trophyNames,
-          trophyTargets: userTrophy.trophy.targetNums
+          targetNums: userTrophy.trophy.targetNums
         };
       });
-      // res.send({ userTags, userTrophies });
-      res.send(mapped);
-      // return mapped;
+      return mapped;
     })
     .then((userTrophiesAndPicks) => {
-      // check postman for what these look like
-      // You have everything you need to see if you
-      // need to award a medal, but you need to figure
-      // out how to call the trophyHunter asynchronously.
-      // You can probably reduce the array for Targets
-      // matches, then pass user into trophy hunter, which
-      // will push into the array in whatever order.
-      // Just make sure the array is an array each time
+
+      // See if any trophies have been earned
+      // i.e. if picksCount === a targetNum
+      const trophies = userTrophiesAndPicks.reduce((acc, obj) => {
+        const { picksCount, targetNums } = obj;
+        const trophyIndex = targetNums.indexOf(picksCount);
+        if (trophyIndex > -1) {
+          obj.trophyIndex = trophyIndex;
+          acc.push(obj);
+          resultObj.trophy.push(obj.trophyNames[trophyIndex]);
+        }
+        return acc;
+      }, []);
+
+      console.log('trophies is: ', trophies);
+      if (!trophies.length) {
+        return;
+      }
+
+      // At this point, trophies is an array of trophies we earned
+
+
+      // const proms = trophies.map(obj =>
+      //   new Promise((resolve) => {
+      //     return db.userTrophies.findOne({ where: {
+      //       id: obj.userTrophyId
+      //     }})
+      //     .then((userTrophy) => {
+      //       const nextTrophyIndex = userTrophy.hasTrophies.indexOf(0);
+      //       const newHasTrophyArray = userTrophy.hasTrophies.map((char, index) => {
+      //         if (index === nextTrophyIndex) {
+      //           return 1;
+      //         }
+      //         return char;
+      //       });
+      //       return userTrophy.update({
+      //         hasTrophies: newHasTrophyArray,
+      //         trophyCount: obj.picksCount
+      //       })
+      //         // .then((updatedUserTrophy) => {
+      //         //   return trophyHunter(resultObj);
+      //         // })
+      //         .then(resolve);
+      //     })
+      //   })
+      // );
+
+      // return Promise.all(proms);
     })
+    .then(() => res.send(resultObj));
 };
 
 module.exports.handleLightningSelection = (req, res) => {

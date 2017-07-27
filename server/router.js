@@ -70,11 +70,11 @@ router.get('/api/testme', (req, res) => {
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
     apiController.checkLoginTrophy(req.user)
-      .then((userWithAnyTrophy) => {
-        res.send(userWithAnyTrophy);
-        return userWithAnyTrophy;
+      .then((userAndTrophyObj) => {
+        res.send(userAndTrophyObj);
+        return userAndTrophyObj;
       })
-      .then(userWithAnyTrophy => apiController.setUserWatchedMovieToNull(userWithAnyTrophy));
+      .then(userAndTrophyObj => apiController.setUserWatchedMovieToNull(userAndTrophyObj.user));
   } else {
     res.send({ user: null });
   }
