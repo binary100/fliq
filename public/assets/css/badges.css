@@ -1,6 +1,6 @@
 /* BADGE BOX - ANCHORS SPRITE IN THE CENTER OF A BOX WITH FIXED DIMENSIONS SO THINGS LOOK PRETTY*/
 .badge-box { float:left; margin: 10px}
-.badges { overflow: hidden; background-image: url('/assets/img/badge-proto4.png'); transform: scale(1); width: 100px; height: 100px; background-size: 422% 1254%; }
+.badges { overflow: hidden; background-image: url('/assets/img/badge-proto4.png'); transform: scale(1); width: 175px; height: 175px; background-size: 422% 1254%; }
 .badge-disabled { filter: grayscale(100%) brightness(20%); }
 .clear { clear: both; }
 
