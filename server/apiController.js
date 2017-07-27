@@ -12,6 +12,7 @@ const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 const trophyHunterId = 8;
 const loginTrophyId = 2;
+const lightningTrophyId = 4;
 
 const genreTagMap = { Action: 17, Horror: 113, Comedy: 50, Drama: 2 };
 const genreNameTrophyMap = { Horror: 9, Comedy: 10, Drama: 11, Action: 12 };
@@ -238,7 +239,7 @@ const checkGenreTrophies = (user, clickedMovie) => {
         if (trophyIndex > -1) {
           obj.trophyIndex = trophyIndex;
           acc.push(obj);
-          resultObj.trophy.push(obj.trophyNames[trophyIndex]);
+          resultObj.trophy.push(obj.trophyNames[trophyIndex]); // Side effect
         }
         return acc;
       }, []);
@@ -279,11 +280,42 @@ const checkGenreTrophies = (user, clickedMovie) => {
     });
 };
 
+const checkLightningTrophy = (userAndTrophyObj) => {
+  const user_Id = userAndTrophyObj.user.id;
+  const trophy_Id = lightningTrophyId;
+
+  return db.userTrophies.findOne({
+    where: { trophy_Id, user_Id },
+    include: { model: db.trophies, as: 'trophy' }
+  })
+    .then(userTrophy => userTrophy.update({
+      trophyCount: userTrophy.trophyCount + 1
+    }))
+    .then((userTrophy) => {
+      const { trophyCount } = userTrophy;
+      const { targetNums, trophyNames } = userTrophy.trophy;
+      const trophyIndex = targetNums.indexOf(trophyCount);
+      if (trophyIndex > -1) {
+        const trophyName = trophyNames[trophyIndex];
+        userAndTrophyObj.trophy.push(trophyName); // Side effect
+        const newHasTrophyArray =
+          userTrophy.hasTrophies
+          .map((char, index) => (index === trophyIndex) ? 1 : char);
+        return userTrophy.update({ hasTrophies: newHasTrophyArray });
+      }
+    })
+    .then(() => trophyHunter(userAndTrophyObj))
+    // .then((obj) => {
+    //   return obj;
+    // });
+};
+
 module.exports.handleLightningSelection = (req, res) => {
   const { clickedMovie, discardedMovie } = req.body;
   buildOrIncrementMovieTags(clickedMovie, req.user.id)
   .then(buildOrIncrementMovieTags(discardedMovie, req.user.id))
   .then(() => checkGenreTrophies(req.user, clickedMovie))
+  .then(userAndTrophyObj => checkLightningTrophy(userAndTrophyObj))
   .then((userAndTrophyObj) => {
     res.status(200).send(userAndTrophyObj);
   })
