@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { closeTrophyPopdown } from '../../actions/actions.js';
+import Descriptions from '../../components/trophyDescriptions.js';
 
 let count = 0;
 
@@ -11,17 +12,16 @@ class TrophyPopdown extends React.Component {
 
   render() {
     return (
-      <div className={`popdown ${this.props.show ? 'popdown-slideDown' : 'popdown-slideUp'}`}>
+      <div className={`popdown trophy-popdown ${this.props.show ? 'popdown-slideDown' : 'popdown-slideUp'}`}>
         <div>
           { this.props.trophies &&
-            this.props.trophies.map(trophyName => <div key={count += 1} id={trophyName} className="sprite"></div>)
+            this.props.trophies.map(trophyName => <div key={count += 1} id={trophyName} className="badges">{Descriptions[trophyName]}</div>)
           }
         </div>
         <span style={{ cursor: 'pointer' }} onClick={this.props.close}>Close</span>
       </div>
     );
   }
-
 }
 
 const mapStateToProps = state => ({

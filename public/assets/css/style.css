@@ -195,6 +195,10 @@ at this phase of development
   z-index: 2;
 }
 
+.trophy-popdown {
+  padding: 10px;
+}
+
 .popdown-buttons {
   padding: 0 30px;
   margin-left: auto;
@@ -206,13 +210,13 @@ at this phase of development
 }
 
 .popdown-slideUp {
-  top: -300px;
+  top: -800px;
   transition: 1s ease;
 }
 
 @keyframes mySlideDown  {
   0% {
-    top: -200px;
+    top: -800px;
   }
 
   100% {
@@ -768,8 +772,7 @@ input:checked + .slider:before {
 
 .user-profile-box,
 .trophy-box {
-  /*min-height: 300px;*/
-  /* height: 114px; */
+  height: 200px; 
   border: 1px solid black;
   border-radius: 10px;
   overflow: auto;

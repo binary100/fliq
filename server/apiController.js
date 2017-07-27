@@ -12,30 +12,10 @@ const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 const trophyHunterId = 8;
 const loginTrophyId = 2;
-const genreTrophyIds = [{ trophy_Id: 9 }, { trophy_Id: 10 }, { trophy_Id: 11 }, { trophy_Id: 12 }];
+const lightningTrophyId = 4;
 
-// [{id: 17, name: 'Action'},{id: 113, name: 'Horror'},{id: 50, name: 'Comedy'},{id: 2, name: 'Drama'}]
 const genreTagMap = { Action: 17, Horror: 113, Comedy: 50, Drama: 2 };
-const genreTagNames = [
-  { tagName: 'Action' },
-  { tagName: 'Horror' },
-  { tagName: 'Drama' },
-  { tagName: 'Comedy' }
-];
-
-const genreNameTrophyMap = {
-  Horror: 9,
-  Comedy: 10,
-  Drama: 11,
-  Action: 12
-};
-
-const genreIdTagMap = {
-  9: 'Horror',
-  10: 'Comedy',
-  11: 'Drama',
-  12: 'Action'
-};
+const genreNameTrophyMap = { Horror: 9, Comedy: 10, Drama: 11, Action: 12 };
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -71,10 +51,6 @@ const trophyHunter = userAndTrophy =>
     include: [{ model: db.trophies, as: 'trophy' }]
   })
     .then(hunter => hunter.update({ trophyCount: hunter.trophyCount + userAndTrophy.trophy.length }))
-    // .then(hunter => {
-    //   return hunter.increment('trophyCount', { by: 1 })
-    //     .then(() => hunter);
-    // })
     .then(hunter => {
       const { targetNums } = hunter.trophy;
       const { trophyCount } = hunter;
@@ -121,7 +97,6 @@ module.exports.getTwoMovies = (req, res) => {
       do {
         secondMovieId = Math.ceil(Math.random() * maxMovieCount);
       } while (firstMovieId === secondMovieId);
-      console.log(`Chose movie IDs ${firstMovieId} and ${secondMovieId}`);
       return [firstMovieId, secondMovieId];
     })
     .then(idArray =>
@@ -264,7 +239,7 @@ const checkGenreTrophies = (user, clickedMovie) => {
         if (trophyIndex > -1) {
           obj.trophyIndex = trophyIndex;
           acc.push(obj);
-          resultObj.trophy.push(obj.trophyNames[trophyIndex]);
+          resultObj.trophy.push(obj.trophyNames[trophyIndex]); // Side effect
         }
         return acc;
       }, []);
@@ -305,11 +280,42 @@ const checkGenreTrophies = (user, clickedMovie) => {
     });
 };
 
+const checkLightningTrophy = (userAndTrophyObj) => {
+  const user_Id = userAndTrophyObj.user.id;
+  const trophy_Id = lightningTrophyId;
+
+  return db.userTrophies.findOne({
+    where: { trophy_Id, user_Id },
+    include: { model: db.trophies, as: 'trophy' }
+  })
+    .then(userTrophy => userTrophy.update({
+      trophyCount: userTrophy.trophyCount + 1
+    }))
+    .then((userTrophy) => {
+      const { trophyCount } = userTrophy;
+      const { targetNums, trophyNames } = userTrophy.trophy;
+      const trophyIndex = targetNums.indexOf(trophyCount);
+      if (trophyIndex > -1) {
+        const trophyName = trophyNames[trophyIndex];
+        userAndTrophyObj.trophy.push(trophyName); // Side effect
+        const newHasTrophyArray =
+          userTrophy.hasTrophies
+          .map((char, index) => (index === trophyIndex) ? 1 : char);
+        return userTrophy.update({ hasTrophies: newHasTrophyArray });
+      }
+    })
+    .then(() => trophyHunter(userAndTrophyObj));
+};
+
 module.exports.handleLightningSelection = (req, res) => {
+  if (!req.user) {
+    return res.sendStatus(200);
+  }
   const { clickedMovie, discardedMovie } = req.body;
   buildOrIncrementMovieTags(clickedMovie, req.user.id)
   .then(buildOrIncrementMovieTags(discardedMovie, req.user.id))
   .then(() => checkGenreTrophies(req.user, clickedMovie))
+  .then(userAndTrophyObj => checkLightningTrophy(userAndTrophyObj))
   .then((userAndTrophyObj) => {
     res.status(200).send(userAndTrophyObj);
   })
@@ -511,7 +517,7 @@ module.exports.getUserResults = (req, res) => {
 
       // Create objects for the Movie.findAll $or operator,
       // which takes objects like this { dbColumn: columnValue }
-      for (let i = 0; i < 6; i += 1) {
+      for (let i = 0; i < 5; i += 1) {
         let randomMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
 
         // Need to handle if 0 bc no id 0 in table.
@@ -631,7 +637,7 @@ const handleLikeOrDislike = (movie, userId, isLike) =>
         })
       )
     )
-    .then(movieTagPromises => Promise.all(movieTagPromises))
+    .then(movieTagPromises => Promise.all(movieTagPromises));
 
 const getDetailedMovieInformation = movieUrl =>
   axios.post(movieUrl)
@@ -1105,6 +1111,3 @@ module.exports.checkLoginTrophy = (user) => {
     })
     .catch(err => console.log('Error in userTrophies increment'));
 };
-
-
-

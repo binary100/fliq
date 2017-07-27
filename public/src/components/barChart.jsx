@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, HorizontalBar } from 'react-chartjs-2';
 
 const BarChart = (props) => {
   const chartData = {
@@ -25,7 +25,7 @@ const BarChart = (props) => {
       text: props.title
     },
     scales: {
-      yAxes: [{
+      xAxes: [{
           ticks: {
               callback: function(value, index, values) {
                   return parseInt(value * 100) + '%';
@@ -38,7 +38,7 @@ const BarChart = (props) => {
 
   return (
     <div>
-      <Bar
+      <HorizontalBar
         data={chartData}
         width={100}
         height={50}
