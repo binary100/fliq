@@ -11,7 +11,7 @@ class TrophyPopdown extends React.Component {
 
   render() {
     return (
-      <div className={`popdown ${this.props.show ? 'popdown-slideDown' : 'popdown-slideUp'}`}>
+      <div className={`popdown trophy-popdown ${this.props.show ? 'popdown-slideDown' : 'popdown-slideUp'}`}>
         <div>
           { this.props.trophies &&
             this.props.trophies.map(trophyName => <div key={count += 1} id={trophyName} className="badges"></div>)

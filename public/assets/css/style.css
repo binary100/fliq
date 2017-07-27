@@ -151,6 +151,10 @@ at this phase of development
   z-index: 2;
 }
 
+.trophy-popdown {
+  padding: 10px;
+}
+
 .popdown-buttons {
   padding: 0 30px;
   margin-left: auto;
