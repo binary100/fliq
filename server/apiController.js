@@ -207,7 +207,7 @@ const buildOrIncrementMovieTags = (currentMovie, userId) =>
     .then(clickedMovieTagPromises => Promise.all(clickedMovieTagPromises))
     .catch(error => console.log('Error in buildOrIncrementMovieTags, ', error));
 
-// const checkGenreTrophies = (user) => {
+// const checkGenreTrophies = (user, lightningGenres) => {
 module.exports.checkGenreTrophies = (req, res) => {
   const user = {
     id: 2,
@@ -220,36 +220,36 @@ module.exports.checkGenreTrophies = (req, res) => {
   };
 
   let userTrophies;
-  db.userTrophies.findAll({ where: { user_Id: user.id, $or: [...genreTrophyIds] }, include: [{ model: db.trophies, as: 'trophy'}]})
-    .then(matchedUserTrophies => {
+  db.userTrophies.findAll({ where: {
+    user_Id: user.id, $or: [...genreTrophyIds] },
+    include: [{ model: db.trophies, as: 'trophy' }]
+  })
+    .then((matchedUserTrophies) => {
       userTrophies = matchedUserTrophies;
     })
     .then(() => db.tags.findAll({ where: {
-        $or: [...genreTagNames]
+      $or: [...genreTagNames]
     } }))
-    .then(genreTags => {
+    .then((genreTags) => {
       const userTagGenres = genreTags.map(tag => ({ tag_Id: tag.id }));
       return db.userTags.findAll({ where:
         { user_Id: user.id, $or: [...userTagGenres] },
         include: [{ model: db.tags, as: 'tag' }]
       });
     })
-    .then(userTags => {
-      const mapped = userTags.map((userTag) => {
-        const trophyId = genreNameTrophyMap[userTag.tag.tagName];
-        const userTrophy = userTrophies.find(t => t.trophy_Id === trophyId);
-        return {
-          genre: userTag.tag.tagName,
-          userTrophyId: userTrophy.id,
-          picksCount: userTag.picksCount,
-          hasTrophies: userTrophy.hasTrophies,
-          trophyCount: userTrophy.trophyCount,
-          trophyNames: userTrophy.trophy.trophyNames,
-          targetNums: userTrophy.trophy.targetNums
-        };
-      });
-      return mapped;
-    })
+    .then(userTags => userTags.map((userTag) => {
+      const trophyId = genreNameTrophyMap[userTag.tag.tagName];
+      const userTrophy = userTrophies.find(t => t.trophy_Id === trophyId);
+      return {
+        genre: userTag.tag.tagName,
+        userTrophyId: userTrophy.id,
+        picksCount: userTag.picksCount,
+        hasTrophies: userTrophy.hasTrophies,
+        trophyCount: userTrophy.trophyCount,
+        trophyNames: userTrophy.trophy.trophyNames,
+        targetNums: userTrophy.trophy.targetNums
+      };
+    }))
     .then((userTrophiesAndPicks) => {
 
       // See if any trophies have been earned
@@ -290,7 +290,7 @@ module.exports.checkGenreTrophies = (req, res) => {
           .then(resolve);
         })
       );
-
+      
       return Promise.all(proms);
     })
     .then(() => trophyHunter(resultObj))
