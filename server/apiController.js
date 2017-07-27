@@ -659,7 +659,6 @@ module.exports.handleLikeOrDislikeFromSearch = (req, res) => {
       console.log('Error liking search movie: ', err);
       res.status(500).send(err);
     });
-
 };
 
 module.exports.handleLikeOrDislikeFromResults = (req, res) => {
@@ -837,61 +836,91 @@ module.exports.getMovieNightResults = (req, res) => {
 module.exports.getTagsforLaunchPad = (req, res) => {
   db.userTags.findAll({ include: [{ model: db.tags, as: 'tag' }] })
   .then((allUserTags) => {
-      const tags = results.reduce((acc, val) => {
-        if (!acc[val.tagType]) {
-          acc[val.tagType] = [];
-        }
-        if (acc[val.tagType].length < 20) {
-          acc[val.tagType].push([val.id, val.tagName]);
-        }
-        return acc;
-      }, {});
-
-      res.send(tags);
-    })
-    .catch(err => res.status(500).send('Error finding tags: ', err));
-};
-
-const buildOrIncrementUserTags = (userId, tagId) => {
-  db.userTags
-    .findAll(
-    {
-      limit: 4,
-      where: { tag_Id: tagId }
-    })
-    .then(userTags =>
-      userTags.map(userTag =>
-        new Promise((resolve, reject) => {
-          if (userTag === null) {
-            return db.userTags.create({
-              viewsCount: 1,
-              picksCount: 1,
-              tag_Id: tagId,
-              user_Id: userId
+    const userTagWeights = allUserTags.reduce((acc, curr) => {
+      if (acc.hasOwnProperty(curr.dataValues.tag_Id)) {
+        acc[curr.dataValues.tag_Id].count += curr.dataValues.picksCount
+          + (curr.dataValues.likesCount - curr.dataValues.dislikesCount);
+      } else {
+        acc[curr.dataValues.tag_Id] = {
+          count: curr.dataValues.picksCount
+            + (curr.dataValues.likesCount - curr.dataValues.dislikesCount),
+          id: curr.dataValues.tag_Id,
+          tagName: curr.dataValues.tag.tagName,
+          tagType: curr.dataValues.tag.tagType
+        };
+      }
+      return acc;
+    }, {});
+    const tagObject = { genre: [], actor: [], director: [] };
+    Object.keys(userTagWeights).forEach((curr) => {
+      tagObject[userTagWeights[curr].tagType].push(userTagWeights[curr]);
+    });
+    const sortedTagObject = {};
+    Object.keys(tagObject).forEach((item) => {
+      sortedTagObject[item] = tagObject[item].sort((a, b) => b.count - a.count);
+      if (sortedTagObject[item].length > 27) {
+        sortedTagObject[item] = sortedTagObject[item].slice(0, 27);
+      }
+    });
+    return sortedTagObject;
+  })
+  .then((sortedTagObject) => {
+    const Promises = Object.keys(sortedTagObject).map((item) => {
+      if (sortedTagObject[item].length < 27) {
+        const neededNum = 27 - sortedTagObject[item].length;
+        return new Promise((resolve, reject) => {
+          db.tags.findAll({
+            limit: neededNum,
+            where: {
+              tagType: item,
+              id: {
+                $notIn: sortedTagObject[item].map(tag => tag.tag_Id)
+              }
+            }
+          })
+          .then((tagsToAdd) => {
+            tagsToAdd.forEach((tag) => {
+              sortedTagObject[item].push(tag.dataValues);
             });
-          }
-
-          return userTag
-            .increment(['viewsCount', 'picksCount'], { by: 1 })
-            .then(() => {
-              console.log('done');
-              resolve();
-            })
-            .catch((err) => {
-              console.log('Error in userTag if/else promise:', err);
-              reject();
-            });
-        }) // end of new promise
-      ) // end of userTags.MAP (then)
-    ); // end of userTags
+            resolve();
+          })
+          .catch(err => reject(err));
+        });
+      }
+      return new Promise(resolve => resolve());
+    });
+    return Promise.all(Promises)
+    .then(() => sortedTagObject);
+  })
+  .then(sortedTagObject => res.send(sortedTagObject))
+  .catch(err => res.status(500).send('Error finding tags: ', err));
 };
 
 module.exports.postLaunchPadTags = (req, res) => {
-  req.body.submitTags.forEach((id, tag) => {
-    buildOrIncrementUserTags(req.body.currentUser.id, tag);
-  })
-    .then(() => res.sendStatus(201))
-    .catch(error => res.status(500).send(error));
+  const params = {
+    numToIncrement: 5
+  };
+  const updatePromises = req.body.map(id =>
+    new Promise((resolve, reject) => {
+      db.userTags.findOne({ where: { tag_Id: id, user_Id: req.user.id } })
+      .then((userTag) => {
+        if (userTag === null) {
+          return db.userTags.create({
+            viewsCount: params.numToIncrement,
+            picksCount: params.numToIncrement,
+            tag_Id: id,
+            user_Id: req.user.id
+          });
+        }
+        return userTag.increment(['viewsCount', 'picksCount'], { by: params.numToIncrement });
+      })
+      .then(() => resolve())
+      .catch(err => reject(err));
+    })
+  );
+  Promise.all(updatePromises)
+  .then(() => res.sendStatus(201))
+  .catch(error => res.send(error));
 };
 
 module.exports.getUserInfo = (req, res) => {

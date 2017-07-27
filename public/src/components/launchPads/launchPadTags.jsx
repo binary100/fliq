@@ -7,12 +7,12 @@ let bubbleCount = 0;
 class LaunchPadTags extends React.Component {
 
   constructor(props) {
-    super(props)
-    this.state = {}
+    super(props);
+    this.state = {};
 
     // this.parallax = this.parallax.bind(this.scene)
-    this.goToNext = this.goToNext.bind(this)
-    this.goToPrev = this.goToPrev.bind(this)
+    this.goToNext = this.goToNext.bind(this);
+    this.goToPrev = this.goToPrev.bind(this);
   }
 
   goToNext() {
@@ -23,7 +23,7 @@ class LaunchPadTags extends React.Component {
 
   goToPrev() {
     if (this.props.step > 1) {
-      console.log("set state")
+      console.log("set state");
       this.props.setStep(this.props.step - 1);
     }
   }
@@ -74,11 +74,8 @@ class LaunchPadTags extends React.Component {
             </div>
 
           </div>
-          </div>
+        </div>
         <div className="tag-bubble-box pull-left">
-
-
-
           <div>
             {this.props.tagArray.map(tagItem => 
               (<TagBubble
@@ -92,12 +89,10 @@ class LaunchPadTags extends React.Component {
               />)
             )}
           </div>
-
         </div>
       </div>
     );
   }
 }
-
-export default LaunchPadTags
+export default LaunchPadTags;
 

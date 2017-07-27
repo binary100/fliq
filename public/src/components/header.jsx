@@ -16,6 +16,11 @@ const Header = ({ handleLogout, user, toggleSideMenu }) => (
             </Link>
           </li>
           <li>
+            <Link to="/info">
+              Info
+            </Link>
+          </li>
+          <li>
             <Link to="/dashboard">
               Dashboard
             </Link>

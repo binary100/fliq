@@ -10,7 +10,7 @@ class LaunchPadWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tagData: {},
+      tagData: null,
       selectedTags: {
         actor: [],
         director: [],
@@ -66,46 +66,29 @@ class LaunchPadWrapper extends React.Component {
     }
   }
 
-  getSubmittedLaunchPadTags(submittedTags) {
-    return axios.get('/api/selectedData')
-      .then((results) => {
-        console.log('Tags API Call', results.data);
-        this.setState({
-          tagData: results.data
-        });
-        return results;
-      })
-      .catch(err => console.error('Error retrieving movies: ', err));
-  }
-
   postSelectedTags(submitTags, currentUser) {
-
-    let flattenedTags = [];
+    const flattenedTags = [];
     for (let tag in submitTags) {
-      flattenedTags.push(submitTags[tag])
+      flattenedTags.push(submitTags[tag]);
     }
-    submitTags = flattenedTags.reduce((a,b) => a.concat(b));
-
-    const submitData = Object.assign({ submitTags, currentUser });
-    console.log('SUBMIT TAG', submitData)
-
-    return axios.post('/api/selectedTags', submitData)
-      .then(res => console.log('submitted posted tags', submitData))
-      .then(alert("We got your results! Thanks"))
-      .catch(error => console.error('error posting submitted tags'))
+    submitTags = flattenedTags.reduce((a, b) => a.concat(b));
+    console.log('SUBMIT TAG', submitTags);
+    return axios.post('/api/selectedTags', submitTags)
+      .then(res => console.log('submitted posted tags', res))
+      .catch(error => console.error('error posting submitted tags: ', error));
   }
 
   render() {
     return (
       <div>
-        <LaunchPad
+        {this.state.tagData && <LaunchPad
           user={this.props.auth.user}
           tags={this.state.tagData}
           selectedTags={this.state.selectedTags}
           isSelected={this.isSelected}
           selectItem={this.selectItem}
           postSelectedTags={this.postSelectedTags}
-        /></div>
+        />}</div>
     );
   }
 }
