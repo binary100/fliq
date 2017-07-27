@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const LightningFooter = props => (
   <div className="row">
     <div className="col-sm-12">
-      <div className="lightning-footer">
+      <span className="lightning-footer">
         {/* <h3 className="col-sm-6">{`When you want to see FLIQ's suggestions, click here: `}</h3> */}
         <div className="col-sm-12">
           <Link to="/results">
@@ -15,7 +15,7 @@ const LightningFooter = props => (
             </button>
           </Link>
         </div>
-      </div>
+      </span>
     </div>
   </div>
 );

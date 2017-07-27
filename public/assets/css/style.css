@@ -219,10 +219,9 @@ at this phase of development
 }
 
 .see-suggestions-btn {
-  vertical-align: middle;
-  display: block;
   width: 50%;
-  margin: auto;
+  display: block;
+  margin: 2.5% auto;
 }
 
 /************* MOVIE NIGHT **************/
