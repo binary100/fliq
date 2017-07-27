@@ -715,8 +715,7 @@ input:checked + .slider:before {
 
 .user-profile-box,
 .trophy-box {
-  /*min-height: 300px;*/
-  /* height: 114px; */
+  height: 200px; 
   border: 1px solid black;
   border-radius: 10px;
   overflow: auto;

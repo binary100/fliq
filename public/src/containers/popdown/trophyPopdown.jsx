@@ -14,14 +14,13 @@ class TrophyPopdown extends React.Component {
       <div className={`popdown ${this.props.show ? 'popdown-slideDown' : 'popdown-slideUp'}`}>
         <div>
           { this.props.trophies &&
-            this.props.trophies.map(trophyName => <div key={count += 1} id={trophyName} className="sprite"></div>)
+            this.props.trophies.map(trophyName => <div key={count += 1} id={trophyName} className="badges"></div>)
           }
         </div>
         <span style={{ cursor: 'pointer' }} onClick={this.props.close}>Close</span>
       </div>
     );
   }
-
 }
 
 const mapStateToProps = state => ({

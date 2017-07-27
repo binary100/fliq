@@ -12,30 +12,9 @@ const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 const trophyHunterId = 8;
 const loginTrophyId = 2;
-const genreTrophyIds = [{ trophy_Id: 9}, { trophy_Id: 10}, { trophy_Id: 11}, { trophy_Id: 12}];
 
-// [{id: 17, name: 'Action'},{id: 113, name: 'Horror'},{id: 50, name: 'Comedy'},{id: 2, name: 'Drama'}]
 const genreTagMap = { Action: 17, Horror: 113, Comedy: 50, Drama: 2 };
-const genreTagNames = [
-  { tagName: 'Action' },
-  { tagName: 'Horror' },
-  { tagName: 'Drama' },
-  { tagName: 'Comedy' }
-];
-
-const genreNameTrophyMap = {
-  Horror: 9,
-  Comedy: 10,
-  Drama: 11,
-  Action: 12
-};
-
-const genreIdTagMap = {
-  9: 'Horror',
-  10: 'Comedy',
-  11: 'Drama',
-  12: 'Action'
-};
+const genreNameTrophyMap = { Horror: 9, Comedy: 10, Drama: 11, Action: 12 };
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -71,10 +50,6 @@ const trophyHunter = userAndTrophy =>
     include: [{ model: db.trophies, as: 'trophy' }]
   })
     .then(hunter => hunter.update({ trophyCount: hunter.trophyCount + userAndTrophy.trophy.length }))
-    // .then(hunter => {
-    //   return hunter.increment('trophyCount', { by: 1 })
-    //     .then(() => hunter);
-    // })
     .then(hunter => {
       const { targetNums } = hunter.trophy;
       const { trophyCount } = hunter;
@@ -121,7 +96,6 @@ module.exports.getTwoMovies = (req, res) => {
       do {
         secondMovieId = Math.ceil(Math.random() * maxMovieCount);
       } while (firstMovieId === secondMovieId);
-      console.log(`Chose movie IDs ${firstMovieId} and ${secondMovieId}`);
       return [firstMovieId, secondMovieId];
     })
     .then(idArray =>
@@ -623,7 +597,7 @@ const handleLikeOrDislike = (movie, userId, isLike) =>
         })
       )
     )
-    .then(movieTagPromises => Promise.all(movieTagPromises))
+    .then(movieTagPromises => Promise.all(movieTagPromises));
 
 const getDetailedMovieInformation = movieUrl =>
   axios.post(movieUrl)
