@@ -34,7 +34,7 @@ router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   (req, res) => {
-    if (req.user._previousDataValues.loginNumber === 0) {
+    if (req.user.loginNumber === 1) {
       res.redirect('/#/launchPad');
     } else {
       res.redirect('http://localhost:3000/#');
@@ -44,7 +44,7 @@ router.get('/auth/facebook/callback',
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/' }),
   (req, res) => {
-    if (req.user._previousDataValues.loginNumber === 0) {
+    if (req.user.loginNumber === 1) {
       res.redirect('/#/launchPad');
     } else {
       res.redirect('/');
@@ -56,29 +56,21 @@ router.get('/checkSession', apiController.checkSession, (req, res) => {
 });
 
 router.get('/api/testme', (req, res) => {
-
-  const userAndTrophyObj = {
-    user: {
-      id: 2,
-      name: 'Rob Cornell'
-    },
-    trophy: ['Login1']
-  };
-  apiController.getUserInfo(req, res);
-  // apiController.trophyHunter(userAndTrophyObj)
-  // .then(val => res.send(val));
-  // apiController.createTrophiesAndReturnUser(req, res);
-  // apiController.createTrophiesAndReturnUser(req, res)
-  //   .then(() => apiController.setUserWatchedMovieToNull(req.user));
+  const db = require('../database/dbsetup.js');
+  db.userTrophies.findOne({ where: { $and: [{ trophy_Id: 8 }, { user_Id: 2 }] }})
+    .then(trophy => {
+      res.send(trophy.hasTrophies);
+    })
 });
 
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
-
-    apiController.createTrophiesAndReturnUser(req, res)
-    .then(() => apiController.setUserWatchedMovieToNull(req.user));
-    // res.send({ user: req.user });
-    // apiController.setUserWatchedMovieToNull(req.user);
+    apiController.checkLoginTrophy(req.user)
+      .then((userAndTrophyObj) => {
+        res.send(userAndTrophyObj);
+        return userAndTrophyObj;
+      })
+      .then(userAndTrophyObj => apiController.setUserWatchedMovieToNull(userAndTrophyObj.user));
   } else {
     res.send({ user: null });
   }

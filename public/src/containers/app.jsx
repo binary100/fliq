@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, HashRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
+// import style from '../../assets/css/main.scss'
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
 import SideMenu from '../components/sidemenu.jsx';
 import LaunchPadWrapper from './launchPadWrapper.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
+import Info from '../components/info.jsx';
 import MovieNight from './movieNight.jsx';
 import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
@@ -32,7 +34,6 @@ class App extends React.Component {
         let { user, trophy } = results.data;
         if (user) {
           this.props.loginUser(user);
-          // trophy = ['Login50'];
           if (trophy) {
             this.props.showTrophyPopdown(trophy);
           }
@@ -59,8 +60,6 @@ class App extends React.Component {
 
   render() {
     let likePopdown = null;
-    // let trophyPopdown = null;
-
     if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
       likePopdown = this.buildLikeQueryPopdown();
     }
@@ -79,6 +78,7 @@ class App extends React.Component {
             <SideMenu showMenu={this.state.showSideMenu} />
             <Switch>
               <Route exact path="/" component={Welcome} />
+              <Route path="/info" component={Info} />
               <Route path="/results" component={Results} />
               <Route path="/lightning" component={LightningWrapper} />
               <Route path="/dashboard" component={Dashboard} />
