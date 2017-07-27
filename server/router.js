@@ -56,14 +56,11 @@ router.get('/checkSession', apiController.checkSession, (req, res) => {
 });
 
 router.get('/api/testme', (req, res) => {
-  const userAndTrophyObj = {
-    user: {
-      id: 2,
-      name: 'Rob Cornell'
-    },
-    trophy: ['Login1']
-  };
-  apiController.checkGenreTrophies(req, res);
+  const db = require('../database/dbsetup.js');
+  db.userTrophies.findOne({ where: { $and: [{ trophy_Id: 8 }, { user_Id: 2 }] }})
+    .then(trophy => {
+      res.send(trophy.hasTrophies);
+    })
 });
 
 router.get('/account', (req, res) => {

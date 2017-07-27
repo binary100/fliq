@@ -23,7 +23,15 @@ const PieChart = (props) => {
     // animation.animteScale: false
     maintainAspectRatio: true,
     legend: {
-      position: 'bottom'
+      position: 'left'
+    },
+    layout: {
+      padding: {
+          left: 25,
+          right: 25,
+          top: 25,
+          bottom: 25
+      }
     },
     title: {
       display: true,

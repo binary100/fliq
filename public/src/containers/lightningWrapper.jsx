@@ -54,7 +54,8 @@ class LightningWrapper extends React.Component {
     })
       .then((results) => {
         console.log('Received results on selection: ', results.data);
-        if (results.data.trophy.length) {
+        const { trophy } = results.data;
+        if (trophy && trophy.length) {
           this.props.showTrophyPopdown(results.data.trophy);
         }
         this.startNextRound();

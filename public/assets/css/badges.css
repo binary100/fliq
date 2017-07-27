@@ -1,6 +1,6 @@
 /* BADGE BOX - ANCHORS SPRITE IN THE CENTER OF A BOX WITH FIXED DIMENSIONS SO THINGS LOOK PRETTY*/
 .badge-box { float:left; margin: 10px}
-.badges { overflow: hidden; background-image: url('/assets/img/badge-proto3.png'); transform: scale(1); width: 100px; height: 100px; background-size: 422% 1254%; }
+.badges { overflow: hidden; background-image: url('/assets/img/badge-proto4.png'); transform: scale(1); width: 175px; height: 175px; background-size: 422% 1254%; }
 .badge-disabled { filter: grayscale(100%) brightness(20%); }
 .clear { clear: both; }
 
@@ -17,12 +17,12 @@
 --seen-movie: 19%;
 --launchpad: 36.7%;
 --trophy: 45.6%;
---horror: 54.5%%;
---drama: 63.2%%;
+--horror: 54.5%;
+--drama: 63.2%;
 --action: 72%;
 --hate: 81%;
---like: 89.8%%;
---lightning: 99%%;
+--like: 89.8%;
+--lightning: 99%;
 }
 
 #badgeList {
@@ -38,18 +38,14 @@ clear: both;
 .sprite {display: inline-block;background-image: url('/assets/img/badge-proto3.png');transform: scale(.62);}
 */
 
-#Comedy1{ background-position: var(--lvl1) var(--Comedy1)}
-
+/*#Comedy1{ background-position: var(--lvl1) var(--Comedy1)}
 #Comedy10{ background-position: var(--lvl2) var(--Comedy1)}
-
-#Comedy50{background-position: var(--lvl3) var(--Comedy1)}
+#Comedy50{background-position: var(--lvl3) var(--Comedy1)}*/
 
 #Newbie{background-position: var( --lvl1) var(--newbie)}
 
 #Login1{background-position: var(--lvl1) var(--login)}
-
 #Login10{background-position: var(--lvl2) var(--login)}
-
 #Login50{background-position: var(--lvl3) var(--login)}
 
 /*#Login1000{background-position: var(--lvl4) var(--login)}*/
@@ -87,50 +83,50 @@ clear: both;
 
 #TrophyHunter32{background-position: var(--lvl4) var(--trophy)}
 
-#Horror1{background-position: var(--lvl1) var(--trophy)}
+#Horror1{background-position: var(--lvl1) var(--horror)}
 
-#Horror10{background-position: var(--lvl2) var(--trophy)}
+#Horror10{background-position: var(--lvl2) var(--horror)}
 
-#Horror50{background-position: var( --lvl3) var(--trophy)}
+#Horror50{background-position: var( --lvl3) var(--horror)}
 
 /*#Horror4{background-position: var( --lvl4) var(--trophy)}*/
 
-#Action1{background-position: var( --lvl1) var(--trophy)}
+#Action1{background-position: var( --lvl1) var(--action)}
 
-#Action10{background-position: var( --lvl2) var(--trophy)}
+#Action10{background-position: var( --lvl2) var(--action)}
 
-#Action50{background-position: var( --lvl3) var(--trophy)}
+#Action50{background-position: var( --lvl3) var(--action)}
 
 /*#Action4{background-position: var( --lvl4) var(--trophy)}*/
 
-#Drama1{background-position: var(--lvl1) var(--trophy)}
+#Drama1{background-position: var(--lvl1) var(--drama)}
 
-#Drama10{background-position: var(--lvl2) var(--trophy)}
+#Drama10{background-position: var(--lvl2) var(--drama)}
 
-#Drama50{background-position: var(--lvl3) var(--trophy)}
+#Drama50{background-position: var(--lvl3) var(--drama)}
 
 /*#Drama4{background-position: var(--lvl4) var(--trophy)}*/
 
-#Dislike1{background-position: var(--lvl1) var(--trophy)}
+#Dislike1{background-position: var(--lvl1) var(--hate)}
 
-#Dislike10{background-position: var(--lvl2) var(--trophy)}
+#Dislike10{background-position: var(--lvl2) var(--hate)}
 
-#Dislike50{background-position: var(--lvl3) var(--trophy)}
+#Dislike50{background-position: var(--lvl3) var(--hate)}
 
 /*#Dislike4{background-position: var(--lvl4) var(--trophy)}*/
 
-#Like1 {background-position: var(--lvl1) var(--trophy)}
+#Like1 {background-position: var(--lvl1) var(--like)}
 
-#Like10{background-position: var(--lvl2) var(--trophy)}
+#Like10{background-position: var(--lvl2) var(--like)}
 
-#Like50{background-position: var(--lvl3) var(--trophy)}
+#Like50{background-position: var(--lvl3) var(--like)}
 
 /*#Like4{background-position: var(--lvl4) var(--trophy)}*/
 
-#Lightning1 {background-position: var(--lvl1) var(--trophy)}
+#Lightning1 {background-position: var(--lvl1) var(--lightning)}
 
-#Lightning10{background-position: var(--lvl2) var(--trophy)}
+#Lightning10{background-position: var(--lvl2) var(--lightning)}
 
-#Lightning50{background-position: var(--lvl3) var(--trophy)}
+#Lightning50{background-position: var(--lvl3) var(--lightning)}
 
-#Lightning100{background-position: var(--lvl4) var(--trophy)}
+#Lightning100{background-position: var(--lvl4) var(--lightning)}
