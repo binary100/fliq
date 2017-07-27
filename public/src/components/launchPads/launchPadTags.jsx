@@ -75,7 +75,7 @@ class LaunchPadTags extends React.Component {
 
           </div>
           </div>
-        <div className="pull-left">
+        <div className="tag-bubble-box pull-left">
 
 
 
