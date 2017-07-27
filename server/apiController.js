@@ -308,6 +308,9 @@ const checkLightningTrophy = (userAndTrophyObj) => {
 };
 
 module.exports.handleLightningSelection = (req, res) => {
+  if (!req.user) {
+    return res.sendStatus(200);
+  }
   const { clickedMovie, discardedMovie } = req.body;
   buildOrIncrementMovieTags(clickedMovie, req.user.id)
   .then(buildOrIncrementMovieTags(discardedMovie, req.user.id))
