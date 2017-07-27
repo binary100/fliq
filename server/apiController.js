@@ -453,7 +453,7 @@ module.exports.getUserResults = (req, res) => {
 
       // Create objects for the Movie.findAll $or operator,
       // which takes objects like this { dbColumn: columnValue }
-      for (let i = 0; i < 6; i += 1) {
+      for (let i = 0; i < 5; i += 1) {
         let randomMovieId = Math.floor(Math.random() * (maxMovieCount + 1));
 
         // Need to handle if 0 bc no id 0 in table.
