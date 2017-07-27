@@ -8,38 +8,36 @@ import classNames from 'classnames';
 // }
 
 class TagBubble extends React.Component {
-
   constructor(props) {
     super(props);
   }
 
-// 
   render() {
     const genre = this.props.tag;
-    const tagId = this.props.tagItem[0];
+    const tagId = this.props.tagItem.id;
     const tagClassNames = classNames({
-      "tag-bubble": true,
-      "tag-bubble-active": this.props.selectedTags[genre].includes(tagId),
-      "tag-bubble-default": !this.props.selectedTags[genre].includes(tagId)
+      'tag-bubble': true,
+      'tag-bubble-active': this.props.selectedTags[genre].includes(tagId),
+      'tag-bubble-default': !this.props.selectedTags[genre].includes(tagId)
     });
     return (
-      // <Anime 
-      //   delay={(e, i) => i * 100} 
-      //   duration={[2000]} 
+      // <Anime
+      //   delay={(e, i) => i * 100}
+      //   duration={[2000]}
       //   translateX={['-50rem', '0rem']}
       // >
-        <div 
-          className={tagClassNames}
-          onClick={() => this.props.selectItem(this.props.tagItem[0], this.props.tag)}
-        >
-          <div className="tag-text"> {this.props.tagItem[1]} </div> 
-        </div>
+      <div
+        className={tagClassNames}
+        onClick={() => this.props.selectItem(this.props.tagItem.id, this.props.tag)}
+      >
+        <div className="tag-text"> {this.props.tagItem.tagName} </div>
+      </div>
 
 
       // </Anime>
-    )
+    );
   }
 
-};
+}
 
 export default TagBubble;

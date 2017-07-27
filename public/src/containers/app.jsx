@@ -9,6 +9,7 @@ import Header from '../components/header.jsx';
 import SideMenu from '../components/sidemenu.jsx';
 import LaunchPadWrapper from './launchPadWrapper.jsx';
 import LightningWrapper from './lightningWrapper.jsx';
+import Info from '../components/info.jsx';
 import MovieNight from './movieNight.jsx';
 import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
@@ -77,6 +78,7 @@ class App extends React.Component {
             <SideMenu showMenu={this.state.showSideMenu} />
             <Switch>
               <Route exact path="/" component={Welcome} />
+              <Route path="/info" component={Info} />
               <Route path="/results" component={Results} />
               <Route path="/lightning" component={LightningWrapper} />
               <Route path="/dashboard" component={Dashboard} />

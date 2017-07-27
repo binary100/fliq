@@ -56,7 +56,6 @@ router.get('/checkSession', apiController.checkSession, (req, res) => {
 });
 
 router.get('/api/testme', (req, res) => {
-
   const userAndTrophyObj = {
     user: {
       id: 2,
