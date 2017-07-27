@@ -9,6 +9,7 @@ import DropDownMenu from '../components/dropDownMenu.jsx';
 import { setUserReViewSetting, toggleUserReViewSetting } from '../actions/actions.js';
 
 const tagsCountCutoff = 0;
+const calcTopQuantileCutOff = (n, quantile) => Math.floor((n + 1) / quantile );
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -158,8 +159,14 @@ class Dashboard extends React.Component {
   }
 
   sortAllTagsBySelectionPct() {
+    const tagsCount = this.state.shapedTagInfo.length;
+    const quantileCutOffPoint = calcTopQuantileCutOff(tagsCount, 10);
+    const chartCutOffPoint = quantileCutOffPoint > 10 ? quantileCutOffPoint : 10;
+
     const allTagsSortedBySelectionPct = this.state.shapedTagInfo
     .filter(tagObj => (tagObj.picksCount > tagsCountCutoff))
+    .sort((a, b) => (b.picksCount - a.picksCount))
+    .slice(0, chartCutOffPoint)
     .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
     .slice(0, 10);
 
@@ -167,7 +174,7 @@ class Dashboard extends React.Component {
       allTagsSortedBySelectionPct
     });
 
-    // console.log('allTagsSortedBySelectionPct:', this.state.allTagsSortedBySelectionPct);
+    console.log('allTagsSortedBySelectionPct:', this.state.allTagsSortedBySelectionPct);
   }
 
 
@@ -224,6 +231,34 @@ class Dashboard extends React.Component {
       directorSortedBySelectionPct
     });
   }
+
+  // sortTypeBySelectionPct() {
+  //   const genreSortedBySelectionPct = this.state.genreRawData
+  //   .filter(genreObj => (genreObj.picksCount > tagsCountCutoff))
+  //   .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
+  //   .slice(0, 10);
+  //
+  //   const actorSortedBySelectionPct = this.state.actorRawData
+  //   .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
+  //   .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
+  //   .slice(0, 10);
+  //
+  //   const directorSortedBySelectionPct = this.state.directorRawData
+  //   .filter(directorObj => (directorObj.picksCount > tagsCountCutoff))
+  //   .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
+  //   .slice(0, 10);
+  //
+  //   console.log('genreSortedBySelectionPct: ', genreSortedBySelectionPct);
+  //   console.log('actorSortedBySelectionPct: ', actorSortedBySelectionPct);
+  //   console.log('directorSortedBySelectionPct: ', directorSortedBySelectionPct);
+  //
+  //   this.setState({
+  //     genreSortedBySelectionPct,
+  //     actorSortedBySelectionPct,
+  //     directorSortedBySelectionPct
+  //   });
+  // }
+
 
   // chartTopActorsByLikes() {
   //   const sortedByType = this.state.shapedTagInfo.reduce((acc, tag) => {
