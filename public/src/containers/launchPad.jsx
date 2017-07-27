@@ -1,5 +1,4 @@
 import React from 'react';
-import BadgeList from '../components/launchPads/badgelist.jsx';
 import LaunchPadTags from '../components/launchPads/launchPadTags.jsx';
 
 class LaunchPad extends React.Component{
@@ -39,11 +38,6 @@ class LaunchPad extends React.Component{
           <div id='stars2'></div>
           <div id='stars3'></div>
         </div>
-
-
-        
-        <BadgeList />
-
         <div className="container container-fluid text-center">
           <h1>{tag}</h1>
           <LaunchPadTags 
