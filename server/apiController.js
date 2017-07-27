@@ -62,7 +62,11 @@ const trophyHunter = userAndTrophy =>
   },
     include: [{ model: db.trophies, as: 'trophy' }]
   })
-    .then(hunter => hunter.update({ trophyCount: hunter.trophyCount + 1 }))
+    .then(hunter => hunter.update({ trophyCount: hunter.trophyCount + userAndTrophy.trophy.length }))
+    // .then(hunter => {
+    //   return hunter.increment('trophyCount', { by: 1 })
+    //     .then(() => hunter);
+    // })
     .then(hunter => {
       const { targetNums } = hunter.trophy;
       const { trophyCount } = hunter;
@@ -261,41 +265,35 @@ module.exports.checkGenreTrophies = (req, res) => {
         return acc;
       }, []);
 
-      console.log('trophies is: ', trophies);
       if (!trophies.length) {
         return;
       }
 
-      // At this point, trophies is an array of trophies we earned
+      const proms = trophies.map(obj =>
+        new Promise((resolve) => {
+          return db.userTrophies.findOne({ where: {
+            id: obj.userTrophyId
+          }})
+          .then((userTrophy) => {
+            const nextTrophyIndex = userTrophy.hasTrophies.indexOf(0);
+            const newHasTrophyArray = userTrophy.hasTrophies.map((char, index) => {
+              if (index === nextTrophyIndex) {
+                return 1;
+              }
+              return char;
+            });
+            return userTrophy.update({
+              hasTrophies: newHasTrophyArray,
+              trophyCount: obj.picksCount
+            });
+          })
+          .then(resolve);
+        })
+      );
 
-
-      // const proms = trophies.map(obj =>
-      //   new Promise((resolve) => {
-      //     return db.userTrophies.findOne({ where: {
-      //       id: obj.userTrophyId
-      //     }})
-      //     .then((userTrophy) => {
-      //       const nextTrophyIndex = userTrophy.hasTrophies.indexOf(0);
-      //       const newHasTrophyArray = userTrophy.hasTrophies.map((char, index) => {
-      //         if (index === nextTrophyIndex) {
-      //           return 1;
-      //         }
-      //         return char;
-      //       });
-      //       return userTrophy.update({
-      //         hasTrophies: newHasTrophyArray,
-      //         trophyCount: obj.picksCount
-      //       })
-      //         // .then((updatedUserTrophy) => {
-      //         //   return trophyHunter(resultObj);
-      //         // })
-      //         .then(resolve);
-      //     })
-      //   })
-      // );
-
-      // return Promise.all(proms);
+      return Promise.all(proms);
     })
+    .then(() => trophyHunter(resultObj))
     .then(() => res.send(resultObj));
 };
 
