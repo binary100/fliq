@@ -166,13 +166,13 @@ at this phase of development
 }
 
 .popdown-slideUp {
-  top: -300px;
+  top: -800px;
   transition: 1s ease;
 }
 
 @keyframes mySlideDown  {
   0% {
-    top: -200px;
+    top: -800px;
   }
 
   100% {
