@@ -214,12 +214,6 @@ const buildOrIncrementMovieTags = (currentMovie, userId) =>
     .then(clickedMovieTagPromises => Promise.all(clickedMovieTagPromises))
     .catch(error => console.log('Error in buildOrIncrementMovieTags, ', error));
 
-
-// module.exports.checkGenreTrophies = (req, res) => {
-//   const user = {
-//     id: 2,
-//     name: 'Rob Cornellll'
-//   };
 const checkGenreTrophies = (user, clickedMovie) => {
   const selectedGenres = clickedMovie.genre.split(', ');
 
@@ -227,8 +221,6 @@ const checkGenreTrophies = (user, clickedMovie) => {
   const validTrophyGenres = selectedGenres.filter(genre => genreNameTrophyMap[genre]);
   const genreTagIds = validTrophyGenres.map(name => ({ tag_Id: genreTagMap[name] }));
   const trophyIds = validTrophyGenres.map(genre => ({ trophy_Id: genreNameTrophyMap[genre] }));
-
-
   const resultObj = {
     user,
     trophy: []
@@ -236,7 +228,6 @@ const checkGenreTrophies = (user, clickedMovie) => {
 
   let userTrophies;
   return db.userTrophies.findAll({ where: {
-    // user_Id: user.id, $or: [...genreTrophyIds] },
     user_Id: user.id, $or: [...trophyIds] },
     include: [{ model: db.trophies, as: 'trophy' }]
   })
@@ -244,18 +235,8 @@ const checkGenreTrophies = (user, clickedMovie) => {
       console.log('Found matched user trophies: ', matchedUserTrophies);
       userTrophies = matchedUserTrophies;
     })
-    // We found the user's trophy records
-    // for the selected genres
-    // We need to find the userTag's for those genres
-    // in order to find the picks count
-    // .then(() => {
-    //   const selectedTagIds = 
-    //   return db.tags.findAll({ where: {
-    //     $or: [...genreTagNames]
-    //   } })
-    // })
     .then(() => {
-      return db.userTags.findAll({ where: //this is finding ALL genres not just the ones we need
+      return db.userTags.findAll({ where:
         { user_Id: user.id, $or: [...genreTagIds] },
         include: [{ model: db.tags, as: 'tag' }]
       });
@@ -320,7 +301,6 @@ const checkGenreTrophies = (user, clickedMovie) => {
       return trophyHunter(resultObj);
     })
     .then((userObj) => {
-      console.log(userObj);
       return userObj;
     });
 };
@@ -331,10 +311,8 @@ module.exports.handleLightningSelection = (req, res) => {
   .then(buildOrIncrementMovieTags(discardedMovie, req.user.id))
   .then(() => checkGenreTrophies(req.user, clickedMovie))
   .then((userAndTrophyObj) => {
-    console.log(userAndTrophyObj);
     res.status(200).send(userAndTrophyObj);
   })
-  // .then(() => res.sendStatus(201))
   .catch(error => res.status(500).send(error));
 };
 
