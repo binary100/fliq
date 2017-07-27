@@ -3,8 +3,10 @@ import axios from 'axios';
 import Lightning from './lightning.jsx';
 import LightningHeader from '../components/lightningHeader.jsx';
 import LightningFooter from '../components/lightningFooter.jsx';
+import { showTrophyPopdown } from '../actions/actions.js';
 import { Redirect } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 let canClick = true;
 
@@ -52,6 +54,9 @@ class LightningWrapper extends React.Component {
     })
       .then((results) => {
         console.log('Received results on selection: ', results.data);
+        if (results.data.trophy.length) {
+          this.props.showTrophyPopdown(results.data.trophy);
+        }
         this.startNextRound();
         canClick = true;
       })
@@ -78,4 +83,11 @@ class LightningWrapper extends React.Component {
   }
 }
 
-export default LightningWrapper;
+const mapDispatchToProps = dispatch => ({
+  showTrophyPopdown: (trophies) => { dispatch(showTrophyPopdown(trophies)); }
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(LightningWrapper);
