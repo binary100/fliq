@@ -64,12 +64,7 @@ router.get('/api/testme', (req, res) => {
     },
     trophy: ['Login1']
   };
-  apiController.getUserInfo(req, res);
-  // apiController.trophyHunter(userAndTrophyObj)
-  // .then(val => res.send(val));
-  // apiController.createTrophiesAndReturnUser(req, res);
-  // apiController.createTrophiesAndReturnUser(req, res)
-  //   .then(() => apiController.setUserWatchedMovieToNull(req.user));
+  apiController.checkGenreTrophies(req, res);
 });
 
 router.get('/account', (req, res) => {

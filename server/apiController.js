@@ -12,6 +12,22 @@ const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 const trophyHunterId = 8;
 const loginTrophyId = 2;
+const genreTrophyIds = [{ trophy_Id: 9}, { trophy_Id: 10}, { trophy_Id: 11}, { trophy_Id: 12}];
+
+// [{id: 17, name: 'Action'},{id: 113, name: 'Horror'},{id: 50, name: 'Comedy'},{id: 2, name: 'Drama'}]
+const genreTagNames = [
+  { tagName: 'Action' },
+  { tagName: 'Horror' },
+  { tagName: 'Drama' },
+  { tagName: 'Comedy' }
+];
+
+const genreNameTrophyMap = {
+  Horror: 9,
+  Comedy: 10,
+  Drama: 11,
+  Action: 12
+}
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -186,6 +202,54 @@ const buildOrIncrementMovieTags = (currentMovie, userId) =>
     })
     .then(clickedMovieTagPromises => Promise.all(clickedMovieTagPromises))
     .catch(error => console.log('Error in buildOrIncrementMovieTags, ', error));
+
+// const checkGenreTrophies = (user) => {
+module.exports.checkGenreTrophies = (req, res) => {
+
+  let userTrophies;
+  db.userTrophies.findAll({ where: { user_Id: 2, $or: [...genreTrophyIds] }, include: [{ model: db.trophies, as: 'trophy'}]})
+    .then(matchedUserTrophies => {
+      userTrophies = matchedUserTrophies;
+    })
+    .then(() => db.tags.findAll({ where: {
+        $or: [...genreTagNames]
+    } }))
+    .then(genreTags => {
+      const userTagGenres = genreTags.map(tag => ({ tag_Id: tag.id }));
+      return db.userTags.findAll({ where:
+        { user_Id: 2, $or: [...userTagGenres] },
+        include: [{ model: db.tags, as: 'tag' }]
+      });
+    })
+    .then(userTags => {
+      const mapped = userTags.map((userTag) => {
+        const trophyId = genreNameTrophyMap[userTag.tag.tagName];
+        const userTrophy = userTrophies.find(t => t.trophy_Id === trophyId);
+        return {
+          genre: userTag.tag.tagName,
+          userTrophyId: userTrophy.id,
+          picksCount: userTag.picksCount,
+          hasTrophies: userTrophy.hasTrophies,
+          trophyCount: userTrophy.trophyCount,
+          trophyNames: userTrophy.trophy.trophyNames,
+          trophyTargets: userTrophy.trophy.targetNums
+        };
+      });
+      // res.send({ userTags, userTrophies });
+      res.send(mapped);
+      // return mapped;
+    })
+    .then((userTrophiesAndPicks) => {
+      // check postman for what these look like
+      // You have everything you need to see if you
+      // need to award a medal, but you need to figure
+      // out how to call the trophyHunter asynchronously.
+      // You can probably reduce the array for Targets
+      // matches, then pass user into trophy hunter, which
+      // will push into the array in whatever order.
+      // Just make sure the array is an array each time
+    })
+};
 
 module.exports.handleLightningSelection = (req, res) => {
   const { clickedMovie, discardedMovie } = req.body;
@@ -954,3 +1018,6 @@ module.exports.checkLoginTrophy = (user) => {
     })
     .catch(err => console.log('Error in userTrophies increment'));
 };
+
+
+
