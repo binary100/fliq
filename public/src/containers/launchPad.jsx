@@ -33,6 +33,11 @@ class LaunchPad extends React.Component{
 
     return (
       <div>
+        <div>
+          <div id='stars'></div>
+          <div id='stars2'></div>
+          <div id='stars3'></div>
+        </div>
         <div className="container container-fluid text-center">
           <h1>{tag}</h1>
           <LaunchPadTags 
@@ -52,5 +57,7 @@ class LaunchPad extends React.Component{
     )
   }
 };
+
+
 
 export default LaunchPad;

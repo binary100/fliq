@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, HashRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
+// import style from '../../assets/css/main.scss'
 import Welcome from './welcome.jsx';
 import Results from './results.jsx';
 import Header from '../components/header.jsx';
