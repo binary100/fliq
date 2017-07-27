@@ -304,10 +304,7 @@ const checkLightningTrophy = (userAndTrophyObj) => {
         return userTrophy.update({ hasTrophies: newHasTrophyArray });
       }
     })
-    .then(() => trophyHunter(userAndTrophyObj))
-    // .then((obj) => {
-    //   return obj;
-    // });
+    .then(() => trophyHunter(userAndTrophyObj));
 };
 
 module.exports.handleLightningSelection = (req, res) => {
