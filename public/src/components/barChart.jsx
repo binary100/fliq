@@ -6,7 +6,7 @@ const BarChart = (props) => {
     labels: props.labels,
     datasets: [{
       label: 'Bar Chart',
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+      backgroundColor: ['#FF6384', '#36A2EB', '#FFE168', '#cc65fe', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#F2F2F2', '#808080'],
       borderColor: 'White',
       borderWidth: 2,
       hoverBorderColor: 'White',
