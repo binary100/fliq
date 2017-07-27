@@ -64,22 +64,17 @@ router.get('/api/testme', (req, res) => {
     },
     trophy: ['Login1']
   };
-  apiController.getUserInfo(req, res);
-  // apiController.trophyHunter(userAndTrophyObj)
-  // .then(val => res.send(val));
-  // apiController.createTrophiesAndReturnUser(req, res);
-  // apiController.createTrophiesAndReturnUser(req, res)
-  //   .then(() => apiController.setUserWatchedMovieToNull(req.user));
+  apiController.checkGenreTrophies(req, res);
 });
 
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
     apiController.checkLoginTrophy(req.user)
-      .then((userWithAnyTrophy) => {
-        res.send(userWithAnyTrophy);
-        return userWithAnyTrophy;
+      .then((userAndTrophyObj) => {
+        res.send(userAndTrophyObj);
+        return userAndTrophyObj;
       })
-      .then(userWithAnyTrophy => apiController.setUserWatchedMovieToNull(userWithAnyTrophy));
+      .then(userAndTrophyObj => apiController.setUserWatchedMovieToNull(userAndTrophyObj.user));
   } else {
     res.send({ user: null });
   }

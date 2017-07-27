@@ -14,7 +14,7 @@ class TrophyPopdown extends React.Component {
       <div className={`popdown ${this.props.show ? 'popdown-slideDown' : 'popdown-slideUp'}`}>
         <div>
           { this.props.trophies &&
-            this.props.trophies.map(str => <div key={count += 1}>You got the {str} trophy!</div>)
+            this.props.trophies.map(trophyName => <div key={count += 1} id={trophyName} className="sprite"></div>)
           }
         </div>
         <span style={{ cursor: 'pointer' }} onClick={this.props.close}>Close</span>

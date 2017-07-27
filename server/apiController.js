@@ -12,6 +12,30 @@ const regex = /[^a-zA-Z0-9]+/g;
 const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 const trophyHunterId = 8;
 const loginTrophyId = 2;
+const genreTrophyIds = [{ trophy_Id: 9}, { trophy_Id: 10}, { trophy_Id: 11}, { trophy_Id: 12}];
+
+// [{id: 17, name: 'Action'},{id: 113, name: 'Horror'},{id: 50, name: 'Comedy'},{id: 2, name: 'Drama'}]
+const genreTagMap = { Action: 17, Horror: 113, Comedy: 50, Drama: 2 };
+const genreTagNames = [
+  { tagName: 'Action' },
+  { tagName: 'Horror' },
+  { tagName: 'Drama' },
+  { tagName: 'Comedy' }
+];
+
+const genreNameTrophyMap = {
+  Horror: 9,
+  Comedy: 10,
+  Drama: 11,
+  Action: 12
+};
+
+const genreIdTagMap = {
+  9: 'Horror',
+  10: 'Comedy',
+  11: 'Drama',
+  12: 'Action'
+};
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -46,7 +70,11 @@ const trophyHunter = userAndTrophy =>
   },
     include: [{ model: db.trophies, as: 'trophy' }]
   })
-    .then(hunter => hunter.update({ trophyCount: hunter.trophyCount + 1 }))
+    .then(hunter => hunter.update({ trophyCount: hunter.trophyCount + userAndTrophy.trophy.length }))
+    // .then(hunter => {
+    //   return hunter.increment('trophyCount', { by: 1 })
+    //     .then(() => hunter);
+    // })
     .then(hunter => {
       const { targetNums } = hunter.trophy;
       const { trophyCount } = hunter;
@@ -150,7 +178,6 @@ module.exports.populateTags = (req, res) => {
 const buildOrIncrementMovieTags = (currentMovie, userId) =>
   db.movieTags.findAll({ where: { movie_Id: currentMovie.id } })
     .then((movieTags) => {
-      console.log('movieTags is: ', movieTags);
       return movieTags.map(movieTag =>
         new Promise((resolve, reject) => {
           if (movieTag.dataValues.movie_Id === currentMovie.id) {
@@ -187,11 +214,105 @@ const buildOrIncrementMovieTags = (currentMovie, userId) =>
     .then(clickedMovieTagPromises => Promise.all(clickedMovieTagPromises))
     .catch(error => console.log('Error in buildOrIncrementMovieTags, ', error));
 
+const checkGenreTrophies = (user, clickedMovie) => {
+  const selectedGenres = clickedMovie.genre.split(', ');
+
+  // Filter to trophy-fied genre IDs
+  const validTrophyGenres = selectedGenres.filter(genre => genreNameTrophyMap[genre]);
+  const genreTagIds = validTrophyGenres.map(name => ({ tag_Id: genreTagMap[name] }));
+  const trophyIds = validTrophyGenres.map(genre => ({ trophy_Id: genreNameTrophyMap[genre] }));
+  const resultObj = {
+    user,
+    trophy: []
+  };
+
+  let userTrophies;
+  return db.userTrophies.findAll({ where: {
+    user_Id: user.id, $or: [...trophyIds] },
+    include: [{ model: db.trophies, as: 'trophy' }]
+  })
+    .then((matchedUserTrophies) => {
+      console.log('Found matched user trophies: ', matchedUserTrophies);
+      userTrophies = matchedUserTrophies;
+    })
+    .then(() => {
+      return db.userTags.findAll({ where:
+        { user_Id: user.id, $or: [...genreTagIds] },
+        include: [{ model: db.tags, as: 'tag' }]
+      });
+    })
+    .then(userTags => userTags.map((userTag) => {
+      const trophyId = genreNameTrophyMap[userTag.tag.tagName];
+      const userTrophy = userTrophies.find(t => t.trophy_Id === trophyId);
+      return {
+        genre: userTag.tag.tagName,
+        userTrophyId: userTrophy.id,
+        picksCount: userTag.picksCount,
+        hasTrophies: userTrophy.hasTrophies,
+        trophyCount: userTrophy.trophyCount,
+        trophyNames: userTrophy.trophy.trophyNames,
+        targetNums: userTrophy.trophy.targetNums
+      };
+    }))
+    .then((userTrophiesAndPicks) => {
+
+      // See if any trophies have been earned
+      // i.e. if picksCount === a targetNum
+      const trophies = userTrophiesAndPicks.reduce((acc, obj) => {
+        const { picksCount, targetNums } = obj;
+        const trophyIndex = targetNums.indexOf(picksCount);
+        if (trophyIndex > -1) {
+          obj.trophyIndex = trophyIndex;
+          acc.push(obj);
+          resultObj.trophy.push(obj.trophyNames[trophyIndex]);
+        }
+        return acc;
+      }, []);
+
+      if (!trophies.length) {
+        return;
+      }
+
+      const proms = trophies.map(obj =>
+        new Promise((resolve) => {
+          return db.userTrophies.findOne({ where: {
+            id: obj.userTrophyId
+          }})
+          .then((userTrophy) => {
+            const nextTrophyIndex = userTrophy.hasTrophies.indexOf(0);
+            const newHasTrophyArray = userTrophy.hasTrophies.map((char, index) => {
+              if (index === nextTrophyIndex) {
+                return 1;
+              }
+              return char;
+            });
+            return userTrophy.update({
+              hasTrophies: newHasTrophyArray,
+              trophyCount: obj.picksCount
+            });
+          })
+          .then(resolve);
+        })
+      );
+
+      return Promise.all(proms);
+    })
+    .then(() => {
+      return trophyHunter(resultObj);
+    })
+    .then((userObj) => {
+      return userObj;
+    });
+};
+
 module.exports.handleLightningSelection = (req, res) => {
   const { clickedMovie, discardedMovie } = req.body;
   buildOrIncrementMovieTags(clickedMovie, req.user.id)
   .then(buildOrIncrementMovieTags(discardedMovie, req.user.id))
-  .then(() => res.sendStatus(201))
+  .then(() => checkGenreTrophies(req.user, clickedMovie))
+  .then((userAndTrophyObj) => {
+    res.status(200).send(userAndTrophyObj);
+  })
   .catch(error => res.status(500).send(error));
 };
 
@@ -954,3 +1075,6 @@ module.exports.checkLoginTrophy = (user) => {
     })
     .catch(err => console.log('Error in userTrophies increment'));
 };
+
+
+

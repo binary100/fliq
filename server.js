@@ -136,7 +136,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   db.users.findById(id)
   .then(user => {
-    console.log('In deserializeUser, user is: ', user);
     done(null, user);
   })
   .catch(err => console.error(err));
