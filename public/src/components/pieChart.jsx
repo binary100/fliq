@@ -2,19 +2,12 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import Dashboard from '../containers/dashboard.jsx';
 
-// var dynamicColors = function() {
-//     var r = Math.floor(Math.random() * 255);
-//     var g = Math.floor(Math.random() * 255);
-//     var b = Math.floor(Math.random() * 255);
-//     return "rgb(" + r + "," + g + "," + b + ")";
-// }
-
 const PieChart = (props) => {
   const chartData = {
     labels: props.labels,
     datasets: [{
       label: 'Pie Chart',
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+      backgroundColor: ['#FF6384', '#36A2EB', '#FFE168', '#cc65fe', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#F2F2F2', '#808080'],
       borderColor: 'White',
       borderWidth: 2,
       hoverBorderColor: 'White',
