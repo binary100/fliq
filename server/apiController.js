@@ -835,11 +835,8 @@ module.exports.getMovieNightResults = (req, res) => {
 };
 
 module.exports.getTagsforLaunchPad = (req, res) => {
-  db.tags
-    .findAll({
-      limit: 100
-    })
-    .then((results) => {
+  db.userTags.findAll({ include: [{ model: db.tags, as: 'tag' }] })
+  .then((allUserTags) => {
       const tags = results.reduce((acc, val) => {
         if (!acc[val.tagType]) {
           acc[val.tagType] = [];
@@ -856,18 +853,16 @@ module.exports.getTagsforLaunchPad = (req, res) => {
 };
 
 const buildOrIncrementUserTags = (userId, tagId) => {
-  return db.userTags
+  db.userTags
     .findAll(
     {
       limit: 4,
       where: { tag_Id: tagId }
     })
-    .then((userTags) => {
-
-      return userTags.map((userTag) => {
-        return new Promise((resolve, reject) => {
+    .then(userTags =>
+      userTags.map(userTag =>
+        new Promise((resolve, reject) => {
           if (userTag === null) {
-
             return db.userTags.create({
               viewsCount: 1,
               picksCount: 1,
@@ -886,17 +881,15 @@ const buildOrIncrementUserTags = (userId, tagId) => {
               console.log('Error in userTag if/else promise:', err);
               reject();
             });
-        }); // end of new promise
-      }); // end of userTags.MAP (then)
-    }); // end of userTags
+        }) // end of new promise
+      ) // end of userTags.MAP (then)
+    ); // end of userTags
 };
 
 module.exports.postLaunchPadTags = (req, res) => {
-
-  req.body.submitTags
-    .forEach((id, tag) => {
-      buildOrIncrementUserTags(req.body.currentUser.id, tag);
-    })
+  req.body.submitTags.forEach((id, tag) => {
+    buildOrIncrementUserTags(req.body.currentUser.id, tag);
+  })
     .then(() => res.sendStatus(201))
     .catch(error => res.status(500).send(error));
 };
