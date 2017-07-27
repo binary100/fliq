@@ -15,6 +15,7 @@ const loginTrophyId = 2;
 const genreTrophyIds = [{ trophy_Id: 9}, { trophy_Id: 10}, { trophy_Id: 11}, { trophy_Id: 12}];
 
 // [{id: 17, name: 'Action'},{id: 113, name: 'Horror'},{id: 50, name: 'Comedy'},{id: 2, name: 'Drama'}]
+const genreTagMap = { Action: 17, Horror: 113, Comedy: 50, Drama: 2 };
 const genreTagNames = [
   { tagName: 'Action' },
   { tagName: 'Horror' },
@@ -27,7 +28,14 @@ const genreNameTrophyMap = {
   Comedy: 10,
   Drama: 11,
   Action: 12
-}
+};
+
+const genreIdTagMap = {
+  9: 'Horror',
+  10: 'Comedy',
+  11: 'Drama',
+  12: 'Action'
+};
 
 const getYouTubeUrl = (title) => {
   const titleForUrl = title.replace(regex, '+');
@@ -170,7 +178,6 @@ module.exports.populateTags = (req, res) => {
 const buildOrIncrementMovieTags = (currentMovie, userId) =>
   db.movieTags.findAll({ where: { movie_Id: currentMovie.id } })
     .then((movieTags) => {
-      console.log('movieTags is: ', movieTags);
       return movieTags.map(movieTag =>
         new Promise((resolve, reject) => {
           if (movieTag.dataValues.movie_Id === currentMovie.id) {
@@ -207,12 +214,20 @@ const buildOrIncrementMovieTags = (currentMovie, userId) =>
     .then(clickedMovieTagPromises => Promise.all(clickedMovieTagPromises))
     .catch(error => console.log('Error in buildOrIncrementMovieTags, ', error));
 
-// const checkGenreTrophies = (user, lightningGenres) => {
-module.exports.checkGenreTrophies = (req, res) => {
-  const user = {
-    id: 2,
-    name: 'Rob Cornellll'
-  };
+
+// module.exports.checkGenreTrophies = (req, res) => {
+//   const user = {
+//     id: 2,
+//     name: 'Rob Cornellll'
+//   };
+const checkGenreTrophies = (user, clickedMovie) => {
+  const selectedGenres = clickedMovie.genre.split(', ');
+
+  // Filter to trophy-fied genre IDs
+  const validTrophyGenres = selectedGenres.filter(genre => genreNameTrophyMap[genre]);
+  const genreTagIds = validTrophyGenres.map(name => ({ tag_Id: genreTagMap[name] }));
+  const trophyIds = validTrophyGenres.map(genre => ({ trophy_Id: genreNameTrophyMap[genre] }));
+
 
   const resultObj = {
     user,
@@ -220,20 +235,28 @@ module.exports.checkGenreTrophies = (req, res) => {
   };
 
   let userTrophies;
-  db.userTrophies.findAll({ where: {
-    user_Id: user.id, $or: [...genreTrophyIds] },
+  return db.userTrophies.findAll({ where: {
+    // user_Id: user.id, $or: [...genreTrophyIds] },
+    user_Id: user.id, $or: [...trophyIds] },
     include: [{ model: db.trophies, as: 'trophy' }]
   })
     .then((matchedUserTrophies) => {
+      console.log('Found matched user trophies: ', matchedUserTrophies);
       userTrophies = matchedUserTrophies;
     })
-    .then(() => db.tags.findAll({ where: {
-      $or: [...genreTagNames]
-    } }))
-    .then((genreTags) => {
-      const userTagGenres = genreTags.map(tag => ({ tag_Id: tag.id }));
-      return db.userTags.findAll({ where:
-        { user_Id: user.id, $or: [...userTagGenres] },
+    // We found the user's trophy records
+    // for the selected genres
+    // We need to find the userTag's for those genres
+    // in order to find the picks count
+    // .then(() => {
+    //   const selectedTagIds = 
+    //   return db.tags.findAll({ where: {
+    //     $or: [...genreTagNames]
+    //   } })
+    // })
+    .then(() => {
+      return db.userTags.findAll({ where: //this is finding ALL genres not just the ones we need
+        { user_Id: user.id, $or: [...genreTagIds] },
         include: [{ model: db.tags, as: 'tag' }]
       });
     })
@@ -290,18 +313,28 @@ module.exports.checkGenreTrophies = (req, res) => {
           .then(resolve);
         })
       );
-      
+
       return Promise.all(proms);
     })
-    .then(() => trophyHunter(resultObj))
-    .then(() => res.send(resultObj));
+    .then(() => {
+      return trophyHunter(resultObj);
+    })
+    .then((userObj) => {
+      console.log(userObj);
+      return userObj;
+    });
 };
 
 module.exports.handleLightningSelection = (req, res) => {
   const { clickedMovie, discardedMovie } = req.body;
   buildOrIncrementMovieTags(clickedMovie, req.user.id)
   .then(buildOrIncrementMovieTags(discardedMovie, req.user.id))
-  .then(() => res.sendStatus(201))
+  .then(() => checkGenreTrophies(req.user, clickedMovie))
+  .then((userAndTrophyObj) => {
+    console.log(userAndTrophyObj);
+    res.status(200).send(userAndTrophyObj);
+  })
+  // .then(() => res.sendStatus(201))
   .catch(error => res.status(500).send(error));
 };
 

@@ -50,7 +50,8 @@ class LightningWrapper extends React.Component {
       discardedMovie,
       movies: this.state.movies
     })
-      .then(() => {
+      .then((results) => {
+        console.log('Received results on selection: ', results.data);
         this.startNextRound();
         canClick = true;
       })
