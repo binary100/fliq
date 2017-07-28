@@ -4,20 +4,24 @@ import { Link } from 'react-router-dom';
 const baseClass = 'sidemenu';
 const showClass = 'sidemenu-active';
 
-const SideMenu = ({ showMenu }) => {
+const SideMenu = ({ showMenu, closeSideMenu }) => {
 
   return (
     <div className={`${baseClass} ${(showMenu ? showClass : '')}`}>
       <ul>
         <li>
-          <Link to="/dashboard">
-            Dashboard
-          </Link>
+          <span onClick={closeSideMenu}>
+            <Link to="/dashboard">
+              Dashboard
+            </Link>
+          </span>
         </li>
         <li>
-          <Link to="/">
-            Logout
-          </Link>
+          <span onClick={closeSideMenu}>
+            <Link to="/">
+              Logout
+            </Link>
+          </span>
         </li>
       </ul>
     </div>

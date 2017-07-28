@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 const openClass = 'hamburger hamburger-open';
 const closedClass = 'hamburger hamburger-closed';
@@ -7,17 +8,14 @@ class Hamburger extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
       elementClass: 'hamburger'
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-    const isOpen = !this.state.isOpen;
-    const newClass = isOpen ? openClass : closedClass;
+    const newClass = this.props.isOpen ? openClass : closedClass;
     this.setState({
-      isOpen,
       elementClass: newClass
     });
     this.props.toggleSideMenu();
@@ -37,4 +35,11 @@ class Hamburger extends React.Component {
   }
 }
 
-export default Hamburger;
+const mapStateToProps = state => ({
+  isOpen: state.sideMenuReducer.showSideMenu
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(Hamburger);

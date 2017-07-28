@@ -15,17 +15,15 @@ import Search from './search.jsx';
 import Dashboard from './dashboard.jsx';
 import LikeMoviePopdown from './popdown/likeMoviePopdown.jsx';
 import TrophyPopdown from './popdown/trophyPopdown.jsx';
-import { loginUser, logoutUser, showTrophyPopdown } from '../actions/actions.js';
+import { loginUser, logoutUser, showTrophyPopdown, closeSideMenu, toggleSideMenu } from '../actions/actions.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showSideMenu: false,
       trophies: null
     };
     this.handleLogout = this.handleLogout.bind(this);
-    this.toggleSideMenu = this.toggleSideMenu.bind(this);
   }
 
   componentWillMount() {
@@ -54,10 +52,6 @@ class App extends React.Component {
     return <LikeMoviePopdown movie={movieObj} />;
   }
 
-  toggleSideMenu() {
-    this.setState({ showSideMenu: !this.state.showSideMenu });
-  }
-
   render() {
     let likePopdown = null;
     if (this.props.auth.user && this.props.auth.user.watchedMovieTitle) {
@@ -71,11 +65,11 @@ class App extends React.Component {
             <Header
               user={this.props.auth.user}
               handleLogout={this.handleLogout}
-              toggleSideMenu={this.toggleSideMenu}
+              toggleSideMenu={this.props.toggleSideMenu}
             />
             {likePopdown}
             <TrophyPopdown />
-            <SideMenu showMenu={this.state.showSideMenu} />
+            <SideMenu showMenu={this.props.showSideMenu} closeSideMenu={this.props.closeSideMenu} />
             <Switch>
               <Route exact path="/" component={Welcome} />
               <Route path="/info" component={Info} />
@@ -97,13 +91,16 @@ class App extends React.Component {
 // This function means "point these state values at the props
 // that this component will receive"
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  showSideMenu: state.sideMenuReducer.showSideMenu
 });
 
 const mapDispatchToProps = dispatch => ({
   loginUser: (user) => { dispatch(loginUser(user)); },
   logoutUser: () => { dispatch(logoutUser()); },
-  showTrophyPopdown: (trophies) => { dispatch(showTrophyPopdown(trophies)); }
+  showTrophyPopdown: (trophies) => { dispatch(showTrophyPopdown(trophies)); },
+  closeSideMenu: () => { dispatch(closeSideMenu()); },
+  toggleSideMenu: () => { dispatch(toggleSideMenu()); }
 });
 
 export default connect(
