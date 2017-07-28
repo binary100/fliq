@@ -5,6 +5,7 @@ import axios from 'axios';
 import LaunchPad from './launchPad.jsx';
 import { Redirect } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
+import { showTrophyPopdown } from '../actions/actions.js';
 
 class LaunchPadWrapper extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class LaunchPadWrapper extends React.Component {
     };
     this.isSelected = this.isSelected.bind(this);
     this.selectItem = this.selectItem.bind(this);
+    this.postSelectedTags = this.postSelectedTags.bind(this);
   }
 
   componentWillMount() {
@@ -74,7 +76,12 @@ class LaunchPadWrapper extends React.Component {
     submitTags = flattenedTags.reduce((a, b) => a.concat(b));
     console.log('SUBMIT TAG', submitTags);
     return axios.post('/api/selectedTags', submitTags)
-      .then(res => console.log('submitted posted tags', res))
+      .then((res) => {
+        if (res.data.trophy.length > 0) {
+          console.log('trophy is: ', res.data.trophy);
+          this.props.showTrophyPopdown(res.data.trophy);
+        }
+      })
       .catch(error => console.error('error posting submitted tags: ', error));
   }
 
@@ -97,7 +104,11 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
+const mapDispatchToProps = dispatch => ({
+  showTrophyPopdown: (trophies) => { dispatch(showTrophyPopdown(trophies)); }
+});
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(LaunchPadWrapper);

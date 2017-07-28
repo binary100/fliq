@@ -4,6 +4,7 @@ import { Button, FormControl, FormGroup, InputGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import LargeMovieTile from '../components/largeMovieTile.jsx';
 import ResultsTileBar from '../components/resultsTileBar.jsx';
+import { showTrophyPopdown } from '../actions/actions.js';
 
 const subHeader = `FLIQ's recommendation engine can aggregate several people's preferences to suggest 
   movies that the group may enjoy. Enter other users' email addresses below and search for movies to watch.`;
@@ -48,9 +49,12 @@ class MovieNight extends React.Component {
     })
       .then((results) => {
         this.setState({
-          searchResults: results.data,
-          selectedMovie: results.data[0]
+          searchResults: results.data.movies,
+          selectedMovie: results.data.movies[0]
         });
+        if (results.data.userTrophyObj.trophy.length > 0) {
+          this.props.showTrophyPopdown(results.data.userTrophyObj.trophy);
+        }
       })
       .catch(err => console.error('Error getting results: ', err));
   }
@@ -219,7 +223,11 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
+const mapDispatchToProps = dispatch => ({
+  showTrophyPopdown: (trophies) => { dispatch(showTrophyPopdown(trophies)); }
+});
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(MovieNight);

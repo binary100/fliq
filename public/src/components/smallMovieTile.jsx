@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import LoadingButton from './loadingButton.jsx';
+import { showTrophyPopdown } from '../actions/actions.js';
 
 const thumbsUp = 'glyphicon glyphicon-thumbs-up';
 const thumbsDown = 'glyphicon glyphicon-thumbs-down';
@@ -82,15 +83,16 @@ class SmallMovieTile extends React.Component {
       fromSearch: this.props.fromSearch,
       isLike: true
     })
-      .then(() => {
-        this.setState({
-          likeButtonClass: complete,
-          seenButtonClass: complete
-        });
-      })
-      .catch((err) => {
-        this.setState({ likeButtonClass: failed });
+    .then((results) => {
+      this.setState({
+        likeButtonClass: complete,
+        seenButtonClass: complete
       });
+      if (results.data.trophy.length > 0) this.props.showTrophyPopdown(results.data.trophy);
+    })
+    .catch((err) => {
+      this.setState({ likeButtonClass: failed });
+    });
   }
 
   dislikeMovie() {
@@ -106,15 +108,16 @@ class SmallMovieTile extends React.Component {
       fromSearch: this.props.fromSearch,
       isLike: false
     })
-      .then(() => {
-        this.setState({
-          dislikeButtonClass: complete,
-          seenButtonClass: complete
-        });
-      })
-      .catch((err) => {
-        this.setState({ dislikeButtonClass: failed });
+    .then((results) => {
+      this.setState({
+        dislikeButtonClass: complete,
+        seenButtonClass: complete
       });
+      if (results.data.trophy.length > 0) this.props.showTrophyPopdown(results.data.trophy);
+    })
+    .catch((err) => {
+      this.setState({ dislikeButtonClass: failed });
+    });
   }
 
   setMovieAsSeen() {
@@ -123,18 +126,19 @@ class SmallMovieTile extends React.Component {
       axios.post(postUrl, {
         movie: this.props.movie
       })
-        .then(() => {
-          this.setState({
-            seenButtonClass: complete,
-            canClickSeen: false
-          });
-        })
-        .catch(() => {
-          this.setState({
-            seenButtonClass: failed,
-            canClickSeen: false
-          });
+      .then((results) => {
+        this.setState({
+          seenButtonClass: complete,
+          canClickSeen: false
         });
+        if (results.data.trophy.length > 0) this.props.showTrophyPopdown(results.data.trophy);
+      })
+      .catch(() => {
+        this.setState({
+          seenButtonClass: failed,
+          canClickSeen: false
+        });
+      });
     }
   }
 
@@ -189,7 +193,11 @@ const mapStateToProps = state => ({
   isLoggedIn: state.auth.isLoggedIn
 });
 
+const mapDispatchToProps = dispatch => ({
+  showTrophyPopdown: (trophies) => { dispatch(showTrophyPopdown(trophies)); }
+});
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(SmallMovieTile);
