@@ -21,6 +21,14 @@ const cleanSelectionPctDataBeforeCharting = (data, picksCountRemovalThreshold, q
   .slice(0, 10);
 };
 
+
+const cleanPicksCountDataBeforeCharting = (data, picksCountRemovalThreshold) => {
+  return data
+  .filter(dataObj => (dataObj.picksCount > picksCountRemovalThreshold))
+  .sort((a, b) => b.picksCount - a.picksCount)
+  .slice(0, 10);
+};
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -65,7 +73,6 @@ class Dashboard extends React.Component {
       pctChartsTitle: null,
       pctChartsLabels: null,
       pctChartsData: null
-
     };
 
     this.getUserInfo = this.getUserInfo.bind(this);
@@ -149,25 +156,10 @@ class Dashboard extends React.Component {
   }
 
   sortByPicksCount() {
-    const allTagsSortedByPicksCount = this.state.shapedTagInfo
-    .filter(tagObj => (tagObj.picksCount > tagsCountCutoff))
-    .sort((a, b) => b.picksCount - a.picksCount)
-    .slice(0, 10);
-
-    const genreSortedByPicksCount = this.state.genreRawData
-    .filter(genreObj => (genreObj.picksCount > tagsCountCutoff))
-    .sort((a, b) => b.picksCount - a.picksCount)
-    .slice(0, 10);
-
-    const actorSortedByPicksCount = this.state.actorRawData
-    .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
-    .sort((a, b) => b.picksCount - a.picksCount)
-    .slice(0, 10);
-
-    const directorSortedByPicksCount = this.state.directorRawData
-    .filter(directorDataObj => (directorDataObj.picksCount > tagsCountCutoff))
-    .sort((a, b) => b.picksCount - a.picksCount)
-    .slice(0, 10);
+    const allTagsSortedByPicksCount = cleanPicksCountDataBeforeCharting(this.state.shapedTagInfo, 0);
+    const genreSortedByPicksCount = cleanPicksCountDataBeforeCharting(this.state.genreRawData, 0);
+    const actorSortedByPicksCount = cleanPicksCountDataBeforeCharting(this.state.actorRawData, 0);
+    const directorSortedByPicksCount = cleanPicksCountDataBeforeCharting(this.state.directorRawData, 0);
 
     this.setState({
       allTagsSortedByPicksCount,
