@@ -21,4 +21,5 @@ deploy:
   env: fliq
   bucket_name: elasticbeanstalk-us-east-2-088432678416
   on:
+    repo: rcornell/flick-pick
     branch: dev
