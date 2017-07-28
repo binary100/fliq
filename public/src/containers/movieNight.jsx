@@ -26,6 +26,7 @@ class MovieNight extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getResults = this.getResults.bind(this);
     this.loadUserEmail = this.loadUserEmail.bind(this);
+    this.selectSmallTile = this.selectSmallTile.bind(this);
   }
 
   componentDidMount() {
@@ -113,7 +114,7 @@ class MovieNight extends React.Component {
   }
 
   clearEmails() {
-    this.setState({ emails: [] });
+    this.setState({ userList: [] });
   }
 
   handleInputChange(e) {
@@ -131,6 +132,12 @@ class MovieNight extends React.Component {
     }, 3000);
   }
 
+  selectSmallTile(e, evt, movie) {
+    this.setState({
+      selectedMovie: movie
+    });
+  }
+
   render() {
     const emails = this.state.userList.map(emailObj =>
       (<div
@@ -145,7 +152,7 @@ class MovieNight extends React.Component {
       : null;
 
     const tileBar = this.state.searchResults
-      ? <div className="fadeIn"><ResultsTileBar movies={this.state.searchResults} /></div>
+      ? <div className="fadeIn"><ResultsTileBar selectSmallTile={this.selectSmallTile} movies={this.state.searchResults} /></div>
       : null;
 
     return (

@@ -21,11 +21,6 @@ const Header = ({ handleLogout, user, toggleSideMenu }) => (
             </Link>
           </li>
           <li>
-            <Link to="/dashboard">
-              Dashboard
-            </Link>
-          </li>
-          <li>
             <Link to="/results">
               Results
             </Link>
@@ -36,18 +31,8 @@ const Header = ({ handleLogout, user, toggleSideMenu }) => (
             </Link>
           </li>
           <li>
-            <Link to="/launchpad">
-              LaunchPad
-            </Link>
-          </li>
-          <li>
             <Link to="/movienight">
               Movie Night
-            </Link>
-          </li>
-          <li>
-            <Link to="/" onClick={handleLogout}>
-              Logout
             </Link>
           </li>
         </ul>
