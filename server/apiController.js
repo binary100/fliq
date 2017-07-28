@@ -375,7 +375,7 @@ module.exports.getSmartUserResults = (req, res) => {
     likeValue: 3,
     dislikeValue: -2,
     numRandomTagsPicked: 3,
-    numberOfResults: 5
+    numberOfResults: 6
   };
   db.userTags.count({
     where: { user_Id: req.user.id }
@@ -1109,78 +1109,6 @@ module.exports.createTrophiesAtFirstLogin = (user) => {
       return user;
     })
     .catch(err => res.send(err));
-};
-
-module.exports.checkLoginTrophy = (user) => {
-  return db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: user.id, trophy_Id: loginTrophyId } })
-    .then(() => {
-      return db.userTrophies.findOne({
-        where: { user_Id: user.id, trophy_Id: loginTrophyId },
-        include: [{ model: db.trophies, as: 'trophy' }]
-      })
-      .then((userTrophy) => {
-        const index = userTrophy.hasTrophies.indexOf(0);
-        if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
-          return db.userTrophies.findOne({ where: { user_Id: user.id, trophy_Id: loginTrophyId } })
-          .then((trophy) => {
-            const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => {
-              if (ind === index) return 1; return curr;
-            });
-            return db.userTrophies.update({ hasTrophies: newArray },
-              { where: { user_Id: user.id, trophy_Id: loginTrophyId } })
-            .then(() => {
-              const obj = { user, trophy: [userTrophy.trophy.trophyNames[index]] };
-              return trophyHunter(obj);
-            })
-            .then(userAndTrophyObj => {
-              console.log('userAndTrophyObj is', userAndTrophyObj);
-              return userAndTrophyObj;
-            });
-          })
-          .catch(err => console.log('Error checking trophyCount'));
-        } else {
-          return { user };
-        }
-      })
-      .catch(err => console.log('Error in userTrophy method'));
-    })
-    .catch(err => console.log('Error in userTrophies increment'));
-};
-
-module.exports.checkLoginTrophy = (user) => {
-  return db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: user.id, trophy_Id: loginTrophyId } })
-    .then(() => {
-      return db.userTrophies.findOne({
-        where: { user_Id: user.id, trophy_Id: loginTrophyId },
-        include: [{ model: db.trophies, as: 'trophy' }]
-      })
-      .then((userTrophy) => {
-        const index = userTrophy.hasTrophies.indexOf(0);
-        if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
-          return db.userTrophies.findOne({ where: { user_Id: user.id, trophy_Id: loginTrophyId } })
-          .then((trophy) => {
-            const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => {
-              if (ind === index) return 1; return curr;
-            });
-            return db.userTrophies.update({ hasTrophies: newArray },
-              { where: { user_Id: user.id, trophy_Id: loginTrophyId } })
-            .then(() => {
-              const obj = { user, trophy: [userTrophy.trophy.trophyNames[index]] };
-              return trophyHunter(obj);
-            })
-            .then(userAndTrophyObj => {
-              console.log('userAndTrophyObj is', userAndTrophyObj);
-              return userAndTrophyObj;
-            });
-          })
-          .catch(err => console.log('Error checking trophyCount'));
-        } else {
-          return { user };
-        }
-      })
-      .catch(err => console.log('Error in userTrophy method'));
-    })
-    .catch(err => console.log('Error in userTrophies increment'));
 };
 
 module.exports.checkTrophy = (userTrophyObj, trophyId, huntTrophie) =>

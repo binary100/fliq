@@ -10,7 +10,7 @@ const PieChart = (props) => {
     datasets: [{
       label: 'Pie Chart',
       backgroundColor: colors,
-      borderColor: 'White',
+      borderColor: 'Black',
       borderWidth: 2,
       hoverBorderColor: 'Black',
       data: props.data
