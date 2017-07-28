@@ -37,7 +37,7 @@ router.get('/auth/facebook/callback',
     if (req.user.loginNumber === 1) {
       res.redirect('/#/launchPad');
     } else {
-      res.redirect('http://localhost:3000/#');
+      res.redirect('/');
       // res.redirect('/');
     }
   });
