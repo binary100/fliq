@@ -1,15 +1,16 @@
 import React from 'react';
 import { Bar, HorizontalBar } from 'react-chartjs-2';
 
+const colors = ['#ba68c8', '#7986cb', '#4fc3f7', '#4dd0e1', '#4db6ac', '#81c784', '#dce775', '#fff176', '#ffb74d', '#ff8a65'];
+
 const BarChart = (props) => {
   const chartData = {
     labels: props.labels,
     datasets: [{
       label: 'Bar Chart',
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFE168', '#cc65fe', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#F2F2F2', '#808080'],
-      borderColor: 'White',
+      backgroundColor: colors,
       borderWidth: 2,
-      hoverBorderColor: 'White',
+      hoverBorderColor: 'Black',
       data: props.data
     }]
   };
@@ -21,20 +22,27 @@ const BarChart = (props) => {
     },
     title: {
       display: true,
+      fontColor: 'White',
       fontSize: 20,
       text: props.title
     },
     scales: {
       xAxes: [{
           ticks: {
-              callback: function(value, index, values) {
-                  return parseInt(value * 100) + '%';
-              },
-              min: 0
+            fontColor: 'White',
+            callback: function(value, index, values) {
+                return parseInt(value * 100) + '%';
+            },
+            min: 0
+          }
+      }],
+      yAxes: [{
+          ticks: {
+            fontColor: 'White'
           }
       }]
     }
-  }
+  };
 
   return (
     <div>

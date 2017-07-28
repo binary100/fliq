@@ -77,6 +77,7 @@ class Welcome extends React.Component {
         this.setState({ titleClass: 'flick-iq' });
       }
     }, 100);
+    intervals.push(intervalId);
   }
 
   showModal() {

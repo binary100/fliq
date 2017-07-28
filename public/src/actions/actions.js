@@ -33,7 +33,6 @@ export const toggleUserReViewSetting = () => {
   return {
     type: 'TOGGLE_USER_REVIEW_SETTING'
   };
-
 };
 
 export const showTrophyPopdown = trophies => ({
@@ -43,5 +42,15 @@ export const showTrophyPopdown = trophies => ({
 
 export const closeTrophyPopdown = () => ({
   type: 'CLOSE_TROPHY_POPDOWN'
+});
+
+export const closeSideMenu = () => ({
+  type: 'CLOSE_SIDE_MENU',
+  payload: false
+});
+
+export const toggleSideMenu = () => ({
+  type: 'TOGGLE_SIDE_MENU',
+  payload: false
 });
 

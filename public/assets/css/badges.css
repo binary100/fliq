@@ -11,7 +11,7 @@
 --lvl2: 33.9%;
 --lvl3: 65.4%;
 --lvl4: 97.8%;
---newbie: 1.296%;
+--comedy: 1.296%;
 --login: 10.1%;
 --movie-night: 19.2%;
 --seen-movie: 19%;
@@ -38,11 +38,11 @@ clear: both;
 .sprite {display: inline-block;background-image: url('/assets/img/badge-proto3.png');transform: scale(.62);}
 */
 
-/*#Comedy1{ background-position: var(--lvl1) var(--Comedy1)}
-#Comedy10{ background-position: var(--lvl2) var(--Comedy1)}
-#Comedy50{background-position: var(--lvl3) var(--Comedy1)}*/
+#Comedy1{ background-position: var(--lvl1) var(--comedy)}
+#Comedy10{ background-position: var(--lvl2) var(--comedy)}
+#Comedy50{background-position: var(--lvl3) var(--comedy)}
 
-#Newbie{background-position: var( --lvl1) var(--newbie)}
+/*#Newbie{background-position: var( --lvl1) var(--newbie)}*/
 
 #Login1{background-position: var(--lvl1) var(--login)}
 #Login10{background-position: var(--lvl2) var(--login)}

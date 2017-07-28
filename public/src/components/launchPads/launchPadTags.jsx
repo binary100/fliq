@@ -67,7 +67,7 @@ class LaunchPadTags extends React.Component {
                   >
                     Submit
                   </button>
-                </Link> 
+                </Link>
                 : null
               }
 

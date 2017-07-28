@@ -2,15 +2,17 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import Dashboard from '../containers/dashboard.jsx';
 
+const colors = ['#ba68c8', '#7986cb', '#4fc3f7', '#4dd0e1', '#4db6ac', '#81c784', '#dce775', '#fff176', '#ffb74d', '#ff8a65'];
+
 const PieChart = (props) => {
   const chartData = {
     labels: props.labels,
     datasets: [{
       label: 'Pie Chart',
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFE168', '#cc65fe', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#F2F2F2', '#808080'],
-      borderColor: 'White',
+      backgroundColor: colors,
+      borderColor: 'Black',
       borderWidth: 2,
-      hoverBorderColor: 'White',
+      hoverBorderColor: 'Black',
       data: props.data
     }]
   };
@@ -23,7 +25,11 @@ const PieChart = (props) => {
     // animation.animteScale: false
     maintainAspectRatio: true,
     legend: {
-      position: 'left'
+      position: 'left',
+      labels: {
+        fontColor: 'White'
+      }
+
     },
     layout: {
       padding: {
@@ -36,6 +42,7 @@ const PieChart = (props) => {
     title: {
       display: true,
       fontSize: 20,
+      fontColor: 'White',
       text: props.title
     }
   }
