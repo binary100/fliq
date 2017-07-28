@@ -9,9 +9,8 @@ const BarChart = (props) => {
     datasets: [{
       label: 'Bar Chart',
       backgroundColor: colors,
-      borderColor: 'White',
       borderWidth: 2,
-      hoverBorderColor: 'White',
+      hoverBorderColor: 'Black',
       data: props.data
     }]
   };
@@ -23,20 +22,27 @@ const BarChart = (props) => {
     },
     title: {
       display: true,
+      fontColor: 'White',
       fontSize: 20,
       text: props.title
     },
     scales: {
       xAxes: [{
           ticks: {
-              callback: function(value, index, values) {
-                  return parseInt(value * 100) + '%';
-              },
-              min: 0
+            fontColor: 'White',
+            callback: function(value, index, values) {
+                return parseInt(value * 100) + '%';
+            },
+            min: 0
+          }
+      }],
+      yAxes: [{
+          ticks: {
+            fontColor: 'White'
           }
       }]
     }
-  }
+  };
 
   return (
     <div>
