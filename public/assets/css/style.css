@@ -104,9 +104,9 @@ at this phase of development
 
 .background-only{background-color: #418b5e;)width:100%;height:100%;width: 100%;position: absolute;top: 52px;z-index: 0;}
 
-.background-hand{background-image: url('/assets/img/hand.png');width: 771px;height: 100%;position: absolute;bottom: 0;right: 0;z-index: 0;}
+.background-hand{background: url('/assets/img/hand.png')  no-repeat;width: 771px;height: 100%;position: absolute;bottom: 0;right: 0;z-index: 0;}
 
-.background-left{background-image: url('/assets/img/welcome-effect.png');float:left;position: absolute;top: 0;left: -111px;width: 800px;height: 100%;z-index: 0;}
+.background-left{background: url('/assets/img/welcome-effect.png') no-repeat;float:left;position: absolute;bottom: 0;left: -200px;width: 800px;height: 100%;z-index: 0;transform: scale(2);opacity: .7;}
 
 .welcome {
   /*animation: 0.8s flipInX ease;*/
