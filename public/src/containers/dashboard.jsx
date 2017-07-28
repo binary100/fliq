@@ -9,7 +9,17 @@ import DropDownMenu from '../components/dropDownMenu.jsx';
 import { setUserReViewSetting, toggleUserReViewSetting } from '../actions/actions.js';
 
 const tagsCountCutoff = 0;
-const calcTopQuantileCutOff = (n, quantile) => Math.floor((n + 1) / quantile );
+
+const calcDyanmicCutoff = (n, quantile) => Math.floor((n + 1) / quantile);
+
+const cleanSelectionPctDataBeforeCharting = (data, picksCountRemovalThreshold, quantilesCutoffPoint, minimumCutoffPoint) => {
+  return data
+  .filter(dataObj => (dataObj.picksCount > picksCountRemovalThreshold))
+  .sort((a, b) => (b.picksCount - a.picksCount))
+  .slice(0, calcDyanmicCutoff(data.length, quantilesCutoffPoint) > minimumCutoffPoint ? calcDyanmicCutoff(data.length, quantilesCutoffPoint) : minimumCutoffPoint)
+  .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
+  .slice(0, 10);
+};
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -64,11 +74,8 @@ class Dashboard extends React.Component {
     this.updateUserReViewSetting = this.updateUserReViewSetting.bind(this);
 
     this.sortTagDataByType = this.sortTagDataByType.bind(this);
-    this.sortTypeByPicksCount = this.sortTypeByPicksCount.bind(this);
-    this.sortTypeBySelectionPct = this.sortTypeBySelectionPct.bind(this);
-
-    this.sortAllTagsByPicksCount = this.sortAllTagsByPicksCount.bind(this);
-    this.sortAllTagsBySelectionPct = this.sortAllTagsBySelectionPct.bind(this);
+    this.sortByPicksCount = this.sortByPicksCount.bind(this);
+    this.sortBySelectionPct = this.sortBySelectionPct.bind(this);
 
     this.absNumChartsDropDownHandler = this.absNumChartsDropDownHandler.bind(this);
     this.pctChartsDropDownHandler = this.pctChartsDropDownHandler.bind(this);
@@ -94,17 +101,13 @@ class Dashboard extends React.Component {
         earnedTrophies: responseObj.data.earnedTrophies
       });
 
-      // console.log('shapedTagInfo:', this.state.shapedTagInfo);
-
       const userReViewSetting = responseObj.data.userInfo.reView;
       this.props.setUserReViewSetting(userReViewSetting);
     })
-    .then(() => this.sortAllTagsByPicksCount())
-    .then(() => this.sortAllTagsBySelectionPct())
-    .then(() => this.displayDefaultCharts())
     .then(() => this.sortTagDataByType())
-    .then(() => this.sortTypeByPicksCount())
-    .then(() => this.sortTypeBySelectionPct());
+    .then(() => this.sortByPicksCount())
+    .then(() => this.sortBySelectionPct())
+    .then(() => this.displayDefaultCharts());
     // .then(() => this.chartTopActorsByLikes())
   }
 
@@ -145,40 +148,12 @@ class Dashboard extends React.Component {
     });
   }
 
-  sortAllTagsByPicksCount() {
+  sortByPicksCount() {
     const allTagsSortedByPicksCount = this.state.shapedTagInfo
     .filter(tagObj => (tagObj.picksCount > tagsCountCutoff))
     .sort((a, b) => b.picksCount - a.picksCount)
     .slice(0, 10);
 
-    this.setState({
-      allTagsSortedByPicksCount
-    });
-
-    // console.log('allTagsSortedByPicksCount:', this.state.allTagsSortedByPicksCount);
-  }
-
-  sortAllTagsBySelectionPct() {
-    const tagsCount = this.state.shapedTagInfo.length;
-    const quantileCutOffPoint = calcTopQuantileCutOff(tagsCount, 10);
-    const chartCutOffPoint = quantileCutOffPoint > 10 ? quantileCutOffPoint : 10;
-
-    const allTagsSortedBySelectionPct = this.state.shapedTagInfo
-    .filter(tagObj => (tagObj.picksCount > tagsCountCutoff))
-    .sort((a, b) => (b.picksCount - a.picksCount))
-    .slice(0, chartCutOffPoint)
-    .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-    .slice(0, 10);
-
-    this.setState({
-      allTagsSortedBySelectionPct
-    });
-
-    console.log('allTagsSortedBySelectionPct:', this.state.allTagsSortedBySelectionPct);
-  }
-
-
-  sortTypeByPicksCount() {
     const genreSortedByPicksCount = this.state.genreRawData
     .filter(genreObj => (genreObj.picksCount > tagsCountCutoff))
     .sort((a, b) => b.picksCount - a.picksCount)
@@ -194,71 +169,27 @@ class Dashboard extends React.Component {
     .sort((a, b) => b.picksCount - a.picksCount)
     .slice(0, 10);
 
-    console.log('genreSortedByPicksCount: ', genreSortedByPicksCount);
-    console.log('actorSortedByPicksCount: ', actorSortedByPicksCount);
-    console.log('directorSortedByPicksCount: ', directorSortedByPicksCount);
-
     this.setState({
+      allTagsSortedByPicksCount,
       genreSortedByPicksCount,
       actorSortedByPicksCount,
       directorSortedByPicksCount
     });
   }
 
-  sortTypeBySelectionPct() {
-    const genreSortedBySelectionPct = this.state.genreRawData
-    .filter(genreObj => (genreObj.picksCount > tagsCountCutoff))
-    .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-    .slice(0, 10);
-
-    const actorSortedBySelectionPct = this.state.actorRawData
-    .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
-    .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-    .slice(0, 10);
-
-    const directorSortedBySelectionPct = this.state.directorRawData
-    .filter(directorObj => (directorObj.picksCount > tagsCountCutoff))
-    .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-    .slice(0, 10);
-
-    console.log('genreSortedBySelectionPct: ', genreSortedBySelectionPct);
-    console.log('actorSortedBySelectionPct: ', actorSortedBySelectionPct);
-    console.log('directorSortedBySelectionPct: ', directorSortedBySelectionPct);
+  sortBySelectionPct() {
+    const allTagsSortedBySelectionPct = cleanSelectionPctDataBeforeCharting(this.state.shapedTagInfo, 0, 20, 10);
+    const genreSortedBySelectionPct = cleanSelectionPctDataBeforeCharting(this.state.genreRawData, 0, 20, 10);
+    const actorSortedBySelectionPct = cleanSelectionPctDataBeforeCharting(this.state.actorRawData, 0, 20, 10);
+    const directorSortedBySelectionPct = cleanSelectionPctDataBeforeCharting(this.state.directorRawData, 0, 20, 10);
 
     this.setState({
+      allTagsSortedBySelectionPct,
       genreSortedBySelectionPct,
       actorSortedBySelectionPct,
       directorSortedBySelectionPct
     });
   }
-
-  // sortTypeBySelectionPct() {
-  //   const genreSortedBySelectionPct = this.state.genreRawData
-  //   .filter(genreObj => (genreObj.picksCount > tagsCountCutoff))
-  //   .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-  //   .slice(0, 10);
-  //
-  //   const actorSortedBySelectionPct = this.state.actorRawData
-  //   .filter(actorObj => (actorObj.picksCount > tagsCountCutoff))
-  //   .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-  //   .slice(0, 10);
-  //
-  //   const directorSortedBySelectionPct = this.state.directorRawData
-  //   .filter(directorObj => (directorObj.picksCount > tagsCountCutoff))
-  //   .sort((a, b) => ((b.picksCount / b.viewsCount) - (a.picksCount / a.viewsCount)))
-  //   .slice(0, 10);
-  //
-  //   console.log('genreSortedBySelectionPct: ', genreSortedBySelectionPct);
-  //   console.log('actorSortedBySelectionPct: ', actorSortedBySelectionPct);
-  //   console.log('directorSortedBySelectionPct: ', directorSortedBySelectionPct);
-  //
-  //   this.setState({
-  //     genreSortedBySelectionPct,
-  //     actorSortedBySelectionPct,
-  //     directorSortedBySelectionPct
-  //   });
-  // }
-
 
   // chartTopActorsByLikes() {
   //   const sortedByType = this.state.shapedTagInfo.reduce((acc, tag) => {
@@ -285,8 +216,8 @@ class Dashboard extends React.Component {
   displayDefaultCharts() {
     this.setState({
       absNumChartsTitle: 'Most Frequently Selected Tags (#)',
-      absNumChartsLabels: this.state.allTagsSortedBySelectionPct.map(tagObj => tagObj.name),
-      absNumChartsData: this.state.allTagsSortedBySelectionPct.map(tagObj => (tagObj.picksCount / tagObj.viewsCount)),
+      absNumChartsLabels: this.state.allTagsSortedByPicksCount.map(tagObj => tagObj.name),
+      absNumChartsData: this.state.allTagsSortedByPicksCount.map(tagObj => (tagObj.picksCount)),
       pctChartsTitle: 'Top Tags (Selection %)',
       pctChartsLabels: this.state.allTagsSortedBySelectionPct.map(tagObj => tagObj.name),
       pctChartsData: this.state.allTagsSortedBySelectionPct.map(tagObj => (tagObj.picksCount / tagObj.viewsCount))
@@ -356,8 +287,6 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div className="container-fluid">
-
-
         <div className="row">
           <div className="col-lg-4 pull-left">
             <DashboardUserProfile
