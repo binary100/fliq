@@ -1,42 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const openClass = 'hamburger hamburger-open';
-const closedClass = 'hamburger hamburger-closed';
-
-class Hamburger extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      elementClass: 'hamburger'
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    const newClass = this.props.isOpen ? openClass : closedClass;
-    this.setState({
-      elementClass: newClass
-    });
-    this.props.toggleSideMenu();
-  }
-
-  render() {
-    return (
-      <div
-        className={this.state.elementClass}
-        onClick={this.handleClick}
-      >
-        <div />
-        <div />
-        <div />
-      </div>
-    );
-  }
-}
+const Hamburger = props => (
+  <div
+    className={props.hamburgerClass}
+    onClick={props.toggleSideMenu}
+  >
+    <div />
+    <div />
+    <div />
+  </div>
+);
 
 const mapStateToProps = state => ({
-  isOpen: state.sideMenuReducer.showSideMenu
+  isOpen: state.sideMenuReducer.showSideMenu,
+  hamburgerClass: state.sideMenuReducer.hamburgerClass
 });
 
 export default connect(

@@ -69,7 +69,11 @@ class App extends React.Component {
             />
             {likePopdown}
             <TrophyPopdown />
-            <SideMenu showMenu={this.props.showSideMenu} closeSideMenu={this.props.closeSideMenu} />
+            <SideMenu
+              showMenu={this.props.showSideMenu}
+              closeSideMenu={this.props.closeSideMenu}
+              handleLogout={this.handleLogout}
+            />
             <Switch>
               <Route exact path="/" component={Welcome} />
               <Route path="/info" component={Info} />
