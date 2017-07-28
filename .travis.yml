@@ -19,5 +19,6 @@ deploy:
   region: us-east-2
   app: flickpick
   env: fliq
+  bucket_name: elasticbeanstalk-us-east-2-088432678416
   on:
     branch: dev
