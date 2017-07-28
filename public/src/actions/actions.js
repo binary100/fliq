@@ -33,7 +33,6 @@ export const toggleUserReViewSetting = () => {
   return {
     type: 'TOGGLE_USER_REVIEW_SETTING'
   };
-
 };
 
 export const showTrophyPopdown = trophies => ({
