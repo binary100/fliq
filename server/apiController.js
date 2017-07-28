@@ -13,6 +13,11 @@ const QUOTE_API_KEY = process.env.QUOTE_API_KEY;
 const trophyHunterId = 8;
 const loginTrophyId = 2;
 const lightningTrophyId = 4;
+const launchPadTrophyId = 6;
+const movieNightTrophyId = 5;
+const likeTrophyId = 1;
+const dislikeTrophyId = 3;
+const seenTrophyId = 7;
 
 const genreTagMap = { Action: 17, Horror: 113, Comedy: 50, Drama: 2 };
 const genreNameTrophyMap = { Horror: 9, Comedy: 10, Drama: 11, Action: 12 };
@@ -504,12 +509,15 @@ module.exports.getSmartUserResults = (req, res) => {
   });
 };
 
+
+/// Movie night only!!!!
+
 // Placeholder logic
-module.exports.getUserResults = (req, res) => {
+module.exports.getRandomResults = (req, res) => {
   // We don't yet need the user info in the next line
   // const { user } = req.session.passport;
   // console.log('USER IS: ', user);
-
+  if (!res.userTrophyObj) res.userTrophyObj = { user: req.user, trophy: [] };
   // Placeholder logic, selects five random movies.
   db.movies.count()
     .then((maxMovieCount) => {
@@ -555,7 +563,9 @@ module.exports.getUserResults = (req, res) => {
         );
         return Promise.all(moviePromises);
       })
-      .then(hydratedMovies => res.send(hydratedMovies))
+      .then(hydratedMovies => res.send({
+        movies: hydratedMovies, userTrophyObj: res.userTrophyObj
+      }))
       .catch(err => res.send(err));
     });
 };
@@ -668,7 +678,14 @@ module.exports.handleLikeOrDislikeFromSearch = (req, res) => {
   const movieUrl = omdbIMDBSearchUrl + req.body.movie.imdbID;
   getDetailedMovieInformation(movieUrl)
     .then(movieFromDb => handleLikeOrDislike(movieFromDb, req.user.id, req.body.isLike))
-    .then(() => res.sendStatus(200))
+    .then(() => {
+      if (req.body.isLike) {
+        return this.checkTrophy({ user: req.user, trophy: [] }, likeTrophyId, false);
+      }
+      return this.checkTrophy({ user: req.user, trophy: [] }, dislikeTrophyId, false);
+    })
+    .then(userTrophyObj => this.checkTrophy(userTrophyObj, seenTrophyId, true))
+    .then(userTrophyObj => res.send(userTrophyObj))
     .catch((err) => {
       console.log('Error liking search movie: ', err);
       res.status(500).send(err);
@@ -681,11 +698,18 @@ module.exports.handleLikeOrDislikeFromResults = (req, res) => {
     id: movie.id
   } })
   .then(matchedMovie => handleLikeOrDislike(matchedMovie, req.user.id, req.body.isLike))
-  .then(() => res.sendStatus(200))
-    .catch((err) => {
-      console.log('Error liking results movie: ', err);
-      res.status(500).send(err);
-    });
+  .then(() => {
+    if (req.body.isLike) {
+      return this.checkTrophy({ user: req.user, trophy: [] }, likeTrophyId, false);
+    }
+    return this.checkTrophy({ user: req.user, trophy: [] }, dislikeTrophyId, false);
+  })
+  .then(userTrophyObj => this.checkTrophy(userTrophyObj, seenTrophyId, true))
+  .then(userTrophyObj => res.send(userTrophyObj))
+  .catch((err) => {
+    console.log('Error liking results movie: ', err);
+    res.status(500).send(err);
+  });
 };
 
 module.exports.handleLikeFromScraper = (movie, userId) => {
@@ -707,7 +731,8 @@ const setMovieFromDbAsSeen = (movieId, req, res) =>
       const userMovie = findOrCreateObj[0];
       return userMovie.update({ seen: true });
     })
-    .then(() => res.sendStatus(200))
+    .then(() => this.checkTrophy({ user: req.user, trophy: [] }, seenTrophyId, true))
+    .then(userTrophyObj => res.send(userTrophyObj))
     .catch((err) => {
       console.log('Error marking movie seen: ', err);
       res.sendStatus(500);
@@ -844,7 +869,11 @@ module.exports.verifyUserEmail = (req, res) => {
 };
 
 module.exports.getMovieNightResults = (req, res) => {
-  this.getUserResults(req, res);
+  this.checkTrophy({ user: req.user, trophy: [] }, movieNightTrophyId, true)
+  .then((userTrophyObj) => {
+    res.userTrophyObj = userTrophyObj;
+    this.getRandomResults(req, res);
+  });
 };
 
 module.exports.getTagsforLaunchPad = (req, res) => {
@@ -933,7 +962,13 @@ module.exports.postLaunchPadTags = (req, res) => {
     })
   );
   Promise.all(updatePromises)
-  .then(() => res.sendStatus(201))
+  .then(() =>
+    this.checkTrophy({ user: req.user, trophy: [] }, launchPadTrophyId, true)
+  )
+  .then((userTrophyObj) => {
+    console.log('User Trophy Object :', userTrophyObj);
+    res.send(userTrophyObj);
+  })
   .catch(error => res.send(error));
 };
 
@@ -1111,3 +1146,78 @@ module.exports.checkLoginTrophy = (user) => {
     })
     .catch(err => console.log('Error in userTrophies increment'));
 };
+
+module.exports.checkLoginTrophy = (user) => {
+  return db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: user.id, trophy_Id: loginTrophyId } })
+    .then(() => {
+      return db.userTrophies.findOne({
+        where: { user_Id: user.id, trophy_Id: loginTrophyId },
+        include: [{ model: db.trophies, as: 'trophy' }]
+      })
+      .then((userTrophy) => {
+        const index = userTrophy.hasTrophies.indexOf(0);
+        if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
+          return db.userTrophies.findOne({ where: { user_Id: user.id, trophy_Id: loginTrophyId } })
+          .then((trophy) => {
+            const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => {
+              if (ind === index) return 1; return curr;
+            });
+            return db.userTrophies.update({ hasTrophies: newArray },
+              { where: { user_Id: user.id, trophy_Id: loginTrophyId } })
+            .then(() => {
+              const obj = { user, trophy: [userTrophy.trophy.trophyNames[index]] };
+              return trophyHunter(obj);
+            })
+            .then(userAndTrophyObj => {
+              console.log('userAndTrophyObj is', userAndTrophyObj);
+              return userAndTrophyObj;
+            });
+          })
+          .catch(err => console.log('Error checking trophyCount'));
+        } else {
+          return { user };
+        }
+      })
+      .catch(err => console.log('Error in userTrophy method'));
+    })
+    .catch(err => console.log('Error in userTrophies increment'));
+};
+
+module.exports.checkTrophy = (userTrophyObj, trophyId, huntTrophie) =>
+  db.userTrophies.increment('trophyCount', { by: 1, where: { user_Id: userTrophyObj.user.id, trophy_Id: trophyId } })
+    .then(() =>
+      db.userTrophies.findOne({
+        where: { user_Id: userTrophyObj.user.id, trophy_Id: trophyId },
+        include: [{ model: db.trophies, as: 'trophy' }]
+      })
+      .then((userTrophy) => {
+        const index = userTrophy.hasTrophies.indexOf(0);
+        if (userTrophy.trophy.targetNums[index] === userTrophy.trophyCount) {
+          return db.userTrophies.findOne({
+            where: { user_Id: userTrophyObj.user.id, trophy_Id: trophyId }
+          })
+          .then((trophy) => {
+            const newArray = trophy.dataValues.hasTrophies.split(';').map((curr, ind) => {
+              if (ind === index) return 1; return curr;
+            });
+            return db.userTrophies.update({ hasTrophies: newArray },
+              { where: { user_Id: userTrophyObj.user.id, trophy_Id: trophyId } })
+            .then(() => {
+              userTrophyObj.trophy.push(userTrophy.trophy.trophyNames[index]);
+              if (huntTrophie) return trophyHunter(userTrophyObj);
+              return userTrophyObj;
+            })
+            .then((userAndTrophyObj) => {
+              console.log('userAndTrophyObj is', userAndTrophyObj);
+              return userAndTrophyObj;
+            });
+          })
+          .catch(err => console.log('Error checking trophyCount :', err));
+        } else {
+          if (huntTrophie && userTrophyObj.trophy.length > 0) return trophyHunter(userTrophyObj);
+          return userTrophyObj;
+        }
+      })
+      .catch(err => console.log('Error in userTrophy method :', err))
+    )
+    .catch(err => console.log('Error in userTrophies increment :', err));
