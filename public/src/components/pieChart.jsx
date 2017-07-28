@@ -12,7 +12,7 @@ const PieChart = (props) => {
       backgroundColor: colors,
       borderColor: 'White',
       borderWidth: 2,
-      hoverBorderColor: 'White',
+      hoverBorderColor: 'Black',
       data: props.data
     }]
   };
@@ -25,7 +25,11 @@ const PieChart = (props) => {
     // animation.animteScale: false
     maintainAspectRatio: true,
     legend: {
-      position: 'left'
+      position: 'left',
+      labels: {
+        fontColor: 'White'
+      }
+
     },
     layout: {
       padding: {
@@ -38,6 +42,7 @@ const PieChart = (props) => {
     title: {
       display: true,
       fontSize: 20,
+      fontColor: 'White',
       text: props.title
     }
   }

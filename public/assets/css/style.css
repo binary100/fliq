@@ -785,7 +785,8 @@ input:checked + .slider:before {
 .user-profile-box,
 .trophy-box {
   height: 200px; 
-  border: 1px solid black;
+  /*border: 1px solid #27ae60;*/
+  border: 1px solid white;
   border-radius: 10px;
   overflow: auto;
 }
@@ -798,14 +799,10 @@ input:checked + .slider:before {
 .trophy {
   display: inline-block;
   margin: 3px;
-  /*transform: scale(0.80);*/
-  /*height: 85px;
-  width: 85px;*/
 }
 
 .trophy-box-button {
   background: #2980B9;
-  /*background: #2ecc71;*/
   width: 100%;
   border: 0px;
   color: white;

@@ -280,14 +280,14 @@ class Dashboard extends React.Component {
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-4 pull-left">
+          <div className="col-sm-4 pull-left">
             <DashboardUserProfile
               user={this.props.auth.user}
               changeUserReViewSetting={this.changeUserReViewSetting}
               reViewSetting={this.props.userReViewSetting}
             />
           </div>
-          <div className="col-lg-6 pull-right">
+          <div className="col-sm-6 pull-right">
             <DashboardTrophies trophies={this.state.earnedTrophies} />
           </div>
         </div>
@@ -298,26 +298,26 @@ class Dashboard extends React.Component {
             this.state.genreSortedBySelectionPct ?
               <div className="dashboard-charts">
                 <div className="row">
-                  <div className="col-lg-6">
+                  <div className="col-sm-6">
                     <DropDownMenu
                       onSelect={this.absNumChartsDropDownHandler}
                     />
                   </div>
-                  <div className="col-lg-6">
+                  <div className="col-sm-6">
                     <DropDownMenu
                       onSelect={this.pctChartsDropDownHandler}
                     />
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-lg-6">
+                  <div className="col-sm-6">
                     <PieChart
                       title={this.state.absNumChartsTitle}
                       labels={this.state.absNumChartsLabels}
                       data={this.state.absNumChartsData}
                     />
                   </div>
-                  <div className="col-lg-6">
+                  <div className="col-sm-6">
                     <BarChart
                       title={this.state.pctChartsTitle}
                       labels={this.state.pctChartsLabels}
