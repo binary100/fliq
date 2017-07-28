@@ -104,6 +104,10 @@ at this phase of development
   outline: none;
 }
 
+.movie-details p {
+  font-size: 1em;
+}
+
 /************* WELCOME PAGE **************/
 
 .background-only{background-color: #418b5e;)width:100%;height:100%;width: 100%;position: absolute;top: 52px;z-index: 0;}
@@ -347,7 +351,7 @@ at this phase of development
 
 .results-body {
   max-height: 50vh;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 .results-tile-bar {
@@ -781,7 +785,8 @@ input:checked + .slider:before {
 .user-profile-box,
 .trophy-box {
   height: 200px; 
-  border: 1px solid black;
+  /*border: 1px solid #27ae60;*/
+  border: 1px solid white;
   border-radius: 10px;
   overflow: auto;
 }
@@ -794,14 +799,10 @@ input:checked + .slider:before {
 .trophy {
   display: inline-block;
   margin: 3px;
-  /*transform: scale(0.80);*/
-  /*height: 85px;
-  width: 85px;*/
 }
 
 .trophy-box-button {
   background: #2980B9;
-  /*background: #2ecc71;*/
   width: 100%;
   border: 0px;
   color: white;

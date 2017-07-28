@@ -37,7 +37,7 @@ router.get('/auth/facebook/callback',
     if (req.user.loginNumber === 1) {
       res.redirect('/#/launchPad');
     } else {
-      res.redirect('http://localhost:3000/#');
+      res.redirect('/');
       // res.redirect('/');
     }
   });
@@ -65,7 +65,7 @@ router.get('/api/testme', (req, res) => {
 
 router.get('/account', (req, res) => {
   if (req.isAuthenticated()) {
-    apiController.checkLoginTrophy(req.user)
+    apiController.checkTrophy({ user: req.user, trophy: [] }, 2, true)
       .then((userAndTrophyObj) => {
         res.send(userAndTrophyObj);
         return userAndTrophyObj;

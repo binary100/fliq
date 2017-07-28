@@ -4,8 +4,6 @@ node_js:
 env:
   matrix:
   - TRAVIS_NODE_VERSION="6.3"
-before_script:
-- webpack
 install:
 - npm install
 cache:
@@ -21,4 +19,5 @@ deploy:
   env: fliq
   bucket_name: elasticbeanstalk-us-east-2-088432678416
   on:
+    repo: rcornell/flick-pick
     branch: dev

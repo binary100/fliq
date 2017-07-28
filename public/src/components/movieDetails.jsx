@@ -23,7 +23,7 @@ const MovieDetails = ({ movie }) => {
           alt={`Poster for ${movie.poster}`}
         />
       </span>
-      <span className="col-sm-6">
+      <span className="col-sm-6 movie-details">
         <div >
           <div>
             <p>Title: {movie.title} <span>({movie.year})</span></p>

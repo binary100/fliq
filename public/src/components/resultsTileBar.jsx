@@ -5,7 +5,7 @@ let count = 0;
 
 const ResultsTileBar = ({ movies, selectSmallTile }) => (
   <div className="row">
-    <div className="col-sm-12 results-tile-bar">
+    <div className="col-sm-12 results-tile-bar col-centered">
       {movies && movies.map(movie => (
         <span key={count += 1} className="col-sm-2">
           <SmallMovieTile
