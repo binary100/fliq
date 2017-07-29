@@ -26,7 +26,7 @@
 
 ## Getting Started
 
-Follow these instructions if you want to fork the repo and start developing on your own. You do not need to follow these steps if you want to use our deployed build of [FLIQ](fliq.us-east-2.elasticbeanstalk.com).
+Follow these instructions if you want to fork the repo and start developing on your own. You do not need to follow these steps if you want to use our deployed build of [FLIQ](http://fliq.us-east-2.elasticbeanstalk.com).
 
 ### Prerequisites & Installing
 
