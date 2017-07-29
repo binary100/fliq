@@ -55,7 +55,7 @@ FACEBOOK_APP_SECRET = (Facebook oauth app secret) // Available from [Facebook](h
 QUOTE_API_KEY = (Your quote API key) // Available from [Mashape](https://market.mashape.com/andruxnet/random-famous-quotes)
 YOUTUBE_API_KEY= (Youtube Data API key) // Available from [Google](https://console.developers.google.com)
 FACEBOOK_OAUTH_CALLBACK_URL = (Your facebook oauth callback url) // Available from [Facebook](https://developers.facebook.com/)
-GOOGLE_OAUTH_CALLBACK_URL = (Your oauth callback url) Available from [Google](https://console.developers.google.com)
+GOOGLE_OAUTH_CALLBACK_URL = (Your google oauth callback url) Available from [Google](https://console.developers.google.com)
 ```
 
 Keep in mind that your database's environment variable requirements may be different. FLIQ is set up to use Sequelize with mysql.
@@ -68,11 +68,11 @@ Keep in mind that your database's environment variable requirements may be diffe
 
 FLIQ needs to track your profile in order to learn about you, so start by logging in using either Google or Facebook. After that, start picking movies to teach our learning engine about what kind of movies you like (or don't like). If you want to tell FLIQ about specific movies you like or dislike, use the search function to pick out specific movies. When you want suggestions from the learning engine, click through to the results page.
 
-Once you've built a profile for yourself, you can click through to the Dashboard (through the hamburger menu) and see a visualization of your preferences. You can also view any trophies you may have earned while using the site.
+Once you've logged in and built a profile for yourself, you can visit the Dashboard (through the hamburger menu) and see a visualization of your preferences. You can also view any trophies you may have earned while using the site.
 
-If you want to watch movies with a group of people, you can use the Movie Night feature. To use Movie Night, enter the e-mail addresses of other registered FLIQ users, the learning engine will do its best to aggregate everyone's preferences and pick movies for you to see.
+If you want to watch movies with a group of people, try FLIQ's Movie Night feature. To use Movie Night, enter the e-mail addresses of other registered FLIQ users, then click the button for suggestions. FLIQ's learning engine will do its best to aggregate everyone's preferences and pick movies for you to see.
 
-Users that ask FLIQ for suggestions without being logged in will be shown the entire userbase's favorite movies based on all aggregated preferences. You can pick movies in the lightning round, but these selections will not be tracked.
+Users that ask FLIQ for suggestions without being logged in will be shown the entire userbase's favorite movies based on all aggregated preferences. You can pick movies in the lightning round, but these selections will not be tracked until you log in.
 
 Contact us if you have any questions!
 
