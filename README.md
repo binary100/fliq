@@ -1,8 +1,7 @@
 ![FLIQ](public/assets/img/fliqonwhite.jpg)
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Travis](https://img.shields.io/travis/binary100/fliq.svg)]()
 
-[![Travis](https://img.shields.io/travis/binary100/fliq.svg)]()
 
 # FLIQ
 
