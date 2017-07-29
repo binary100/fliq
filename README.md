@@ -1,4 +1,4 @@
-![FLIQ](public/assets/fliqonwhite.png)
+![FLIQ](public/assets/fliqonwhite.jpg)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
@@ -63,9 +63,9 @@ Keep in mind that your database's environment variable requirements may be diffe
 
 ## Usage
 
-### Login
-
 ![Splash](public/assets/img/welcome.png)
+
+### Login
 
 FLIQ needs to track your profile in order to learn about you, so start by logging in using either Google or Facebook. After that, start picking movies to teach our learning engine about what kind of movies you like (or don't like). If you want to tell FLIQ about specific movies you like or dislike, use the search function to pick out specific movies. When you want suggestions from the learning engine, click through to the results page.
 
