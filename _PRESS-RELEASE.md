@@ -17,28 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Flick Pick
+  > FLIQ
 
 ## Sub-Heading ##
-  > An application for people that are looking for a movie that is tailored to their preferences and viewing history.
+  > A learning engine-driven application for people that are looking for a movie that is tailored to their preferences and viewing history.
 
 ## Summary ##
-  > Flick-Pick will search a vast library of movies and suggest movies for you to watch right now. Based on a lightning-round A-or-B selection process, Flick-Pick learns about what kind of movies you like and grows to know your preferences. If you like great horror movies and terrible action movies, Flick Pick will learn about that preference and learn to tailor suggestions for you.
+  > FLIQ will search a vast library of movies and suggest movies for you to watch right now. Based on a profile that users build on the site, FLIQ learns about what kind of movies you like and grows to know your preferences. If you like great horror movies and terrible action movies, FLIQ Pick will learn about that preference and learn to tailor suggestions for you.
 
 ## Problem ##
   > When you want to spend some time on the couch but have no idea what to watch.
 
 ## Solution ##
-  > Flick Pick utilizes a machine learning algorithm to weigh your inputs and build a profile to keep you entertained.
+  > FLIQ utilizes a machine learning algorithm to weigh your inputs and build a profile to keep you entertained.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
 
 ## How to Get Started ##
-  > Navigate to http://bit.ly/flick-pick and start teaching Flick Pick about what you like.
+  > Navigate to http://bit.ly/flick-pick and start teaching FLIQ about what you like.
 
 ## Customer Quote ##
-  > "There is too much available on streaming services and I have no idea where to start when I'm bored. Flick Pick figured out what I like and I can always rely on it for a solid suggestion."
+  > "There is too much available on streaming services and I have no idea where to start when I'm bored. FLIQ figured out what I like and I can always rely on it for a solid suggestion."
 
 ## Closing and Call to Action ##
-  > Flick Pick will ensure that you're never bored and flipping channels. After a minute or two on Flick Pick, you'll have hours of entertainment picked out for you. Click over to http://bit.ly/flick-pick and git it a shot.
+  > FLIQ will ensure that you're never bored and flipping channels. After a minute or two on FLIQ, you'll have hours of entertainment picked out for you. Click over to http://bit.ly/flick-pick and git it a shot.
