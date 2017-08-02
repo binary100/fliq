@@ -18,11 +18,12 @@
 
 ## Team
 
-> FLIQ is being developed by four super awesome full-stack engineers.
+FLIQ is being developed by four full-stack engineers.
 
-  - __Product Owner__: [David Earle](https://github.com/dearle)
-  - __Scrum Master__: [Rob Cornell](https://github.com/rcornell)
-  - __Development Team Members__: [Tae Lee](https://github.com/ta3woon), [Andrew Shih](https://github.com/ACS207)
+* **Andrew Shih** - [ACS207](https://github.com/ACS207)
+* **David Earle** - [dearle](https://github.com/dearle)
+* **Rob Cornell** - [rcornell](https://github.com/rcornell)
+* **Tae Lee** - [ta3woon](https://github.com/ta3woon)
 
 ## Getting Started
 
