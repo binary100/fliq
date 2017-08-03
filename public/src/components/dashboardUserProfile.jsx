@@ -1,6 +1,7 @@
 import React from 'react';
 import ToggleSwitch from './toggleSwitch.jsx';
 
+const noUserImage = '../../assets/img/nouser.png';
 const DashboardUserProfile = ({ user, changeUserReViewSetting, reViewSetting }) => (
   <div className="row">
     <div className="col-lg-12">
@@ -15,7 +16,7 @@ const DashboardUserProfile = ({ user, changeUserReViewSetting, reViewSetting }) 
             <div className="media">
               <div className="media-left">
                 <img className="media-object"
-                  src={user ? user.picture : ''}
+                  src={user ? user.picture : noUserImage}
                 />
               </div>
               <div className="media-body">
