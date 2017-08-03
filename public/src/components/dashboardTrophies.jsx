@@ -55,13 +55,11 @@ class DashboardTrophies extends React.Component {
           <div className="col-lg-11">
             <div className="trophy-box badgeList">
               <div>
-                {this.props.trophies.length > 0 &&
-                trophyIDs.slice(start, start + 3).map(trophyString => {
+                {trophyIDs.slice(start, start + 3).map(trophyString => {
                   const earned = this.props.trophies.includes(trophyString);
                   return (
-                    <div className="badge-box">
+                    <div key={count += 1} className="badge-box">
                       <div
-                        key={count += 1}
                         id={trophyString}
                         className={`badges${earned ? '' : ' badge-disabled'}`}
                       />
