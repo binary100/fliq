@@ -20,6 +20,7 @@
     "express": "^4.15.3",
     "express-session": "^1.15.3",
     "graceful-fs": "^4.1.11",
+    "minimatch": "^3.0.4",
     "morgan": "^1.8.2",
     "mysql2": "^1.3.5",
     "node-sass": "^4.5.3",
