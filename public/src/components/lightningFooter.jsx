@@ -9,7 +9,7 @@ const LightningFooter = props => (
         <div className="col-sm-12">
           <Link to="/results">
             <button
-              className="btn btn-lg btn-primary fliq-button see-suggestions-btn"
+              className="btn btn-lg btn-primary fliq-button see-suggestions-button"
             >
               See Suggestions
             </button>

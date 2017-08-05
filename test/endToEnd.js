@@ -70,20 +70,14 @@ describe('FlickPick e2e Tests', function() { // Can't use arrow function
         .catch(done);
     });
 
-    xit('should find 6 small tiles on the results page', (done) => {
+    it('should find 6 small tiles on the results page', (done) => {
       nightmare.goto(serverUrl)
         .click('.start-lightning')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
+        .wait(1000)
+        .click('.proceed-button')
+        .wait(1000)
+        .click('.see-suggestions-button')
+        .wait(1000)
         .evaluate(() => {
           return document.querySelectorAll('.small-movie-tile').length;
         })
