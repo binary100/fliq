@@ -1,5 +1,6 @@
 const Nightmare = require('nightmare');
 const expect = require('chai').expect;
+const server = require('../server.js');
 
 const serverUrl = 'http://localhost:3000';
 
@@ -28,6 +29,10 @@ describe('FlickPick e2e Tests', function() { // Can't use arrow function
       nightmare.goto(serverUrl)
         .wait(200)
         .click('.start-lightning')
+        .wait(1000)
+        .click('.proceed-button')
+        .wait(1000)
+        .click('.large-movie-tile')
         .then(() => { done(); })
         .catch(done);
     });
@@ -36,8 +41,10 @@ describe('FlickPick e2e Tests', function() { // Can't use arrow function
       nightmare.goto(serverUrl)
         .wait(200)
         .click('.start-lightning')
-        .wait(200)
-        .click('a.link.home')
+        .wait(1000)
+        .click('.proceed-button')
+        .wait(1000)
+        .click('a.home')
         .wait(500)
         .visible('.welcome')
         .then((isVisible) => {
@@ -52,7 +59,9 @@ describe('FlickPick e2e Tests', function() { // Can't use arrow function
       nightmare.goto(serverUrl)
         .wait(200)
         .click('.start-lightning')
-        .wait(500)
+        .wait(1000)
+        .click('.proceed-button')
+        .wait(1000)
         .evaluate(() => document.querySelectorAll('.large-movie-tile').length) 
         .then((length) => {
           expect(length).to.equal(2);
@@ -61,25 +70,19 @@ describe('FlickPick e2e Tests', function() { // Can't use arrow function
         .catch(done);
     });
 
-    it('should find 5 small tiles on the results page', (done) => {
+    it('should find 6 small tiles on the results page', (done) => {
       nightmare.goto(serverUrl)
         .click('.start-lightning')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
-        .click('.large-movie-tile')
-        .wait(200)
+        .wait(1000)
+        .click('.proceed-button')
+        .wait(1000)
+        .click('.see-suggestions-button')
+        .wait(1000)
         .evaluate(() => {
           return document.querySelectorAll('.small-movie-tile').length;
         })
         .then((length) => {
-          expect(length).to.equal(5);
+          expect(length).to.equal(6);
           done();
         })
         .catch(done);

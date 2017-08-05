@@ -8,6 +8,7 @@ router.get('/api/lightning', apiController.getTwoMovies);
 router.post('/api/lightning', apiController.handleLightningSelection);
 router.get('/api/results/user', apiController.getSmartUserResults);
 router.get('/api/results/top', apiController.getTopResults);
+router.get('/api/results/random', apiController.getRandomResults);
 router.get('/api/quote', apiController.getQuote);
 router.post('/api/trailer', apiController.getTrailer);
 router.get('/api/tagCreation', apiController.populateTags);

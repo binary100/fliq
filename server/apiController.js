@@ -513,11 +513,13 @@ module.exports.getSmartUserResults = (req, res) => {
 /// Movie night only!!!!
 
 // Placeholder logic
-module.exports.getRandomResults = (req, res) => {
+module.exports.getRandomResults = (req, res, userTrophyObj) => {
   // We don't yet need the user info in the next line
   // const { user } = req.session.passport;
   // console.log('USER IS: ', user);
-  if (!res.userTrophyObj) res.userTrophyObj = { user: req.user, trophy: [] };
+  if (!userTrophyObj) {
+    userTrophyObj = { user: req.user, trophy: [] };
+  }
   // Placeholder logic, selects five random movies.
   db.movies.count()
     .then((maxMovieCount) => {
@@ -542,6 +544,7 @@ module.exports.getRandomResults = (req, res) => {
         }
       })
       .then((movies) => {
+        if (!req.user) return movies; // Allow for random results when not logged in
         const moviePromises = movies.map(movie =>
           new Promise((resolve, reject) => {
             db.userMovies.findOne({ where: {
@@ -564,7 +567,8 @@ module.exports.getRandomResults = (req, res) => {
         return Promise.all(moviePromises);
       })
       .then(hydratedMovies => res.send({
-        movies: hydratedMovies, userTrophyObj: res.userTrophyObj
+        movies: hydratedMovies,
+        userTrophyObj
       }))
       .catch(err => res.send(err));
     });
@@ -871,8 +875,8 @@ module.exports.verifyUserEmail = (req, res) => {
 module.exports.getMovieNightResults = (req, res) => {
   this.checkTrophy({ user: req.user, trophy: [] }, movieNightTrophyId, true)
   .then((userTrophyObj) => {
-    res.userTrophyObj = userTrophyObj;
-    this.getRandomResults(req, res);
+    // res.userTrophyObj = userTrophyObj;
+    this.getRandomResults(req, res, userTrophyObj);
   });
 };
 
