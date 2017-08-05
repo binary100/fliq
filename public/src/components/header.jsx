@@ -11,7 +11,7 @@ const Header = ({ handleLogout, user, toggleSideMenu }) => (
             <Hamburger toggleSideMenu={toggleSideMenu} />
           </li>
           <li>
-            <Link to="/" >
+            <Link to="/" className="home">
               Home
             </Link>
           </li>
