@@ -18,7 +18,7 @@
 
 ## Team
 
-FLIQ is being developed by four full-stack engineers.
+FLIQ is being developed by four full stack engineers.
 
 * **Andrew Shih** - [ACS207](https://github.com/ACS207)
 * **David Earle** - [dearle](https://github.com/dearle)
@@ -48,15 +48,15 @@ DB_NAME=(Your mysql db name)
 DB_PORT=(Your mysql db port)
 DB_URL=(Your mysql db's URL)
 PORT=(The port your build will run on)
-GOOGLE_CLIENT_ID = (Google oauth client ID) // Available from [Google](https://console.developers.google.com)
-GOOGLE_CLIENT_SECRET = (Google oauth client secret) Available from [Google](https://console.developers.google.com)
-OMDB_API_KEY = (Your omdbapi key) // Available for a small fee from [OMDBAPI](http://www.omdbapi.com/)
-FACEBOOK_APP_ID = (Facebook oauth APP ID) // Available from [Facebook](https://developers.facebook.com/)
-FACEBOOK_APP_SECRET = (Facebook oauth app secret) // Available from [Facebook](https://developers.facebook.com/)
-QUOTE_API_KEY = (Your quote API key) // Available from [Mashape](https://market.mashape.com/andruxnet/random-famous-quotes)
-YOUTUBE_API_KEY= (Youtube Data API key) // Available from [Google](https://console.developers.google.com)
-FACEBOOK_OAUTH_CALLBACK_URL = (Your facebook oauth callback url) // Available from [Facebook](https://developers.facebook.com/)
-GOOGLE_OAUTH_CALLBACK_URL = (Your google oauth callback url) Available from [Google](https://console.developers.google.com)
+GOOGLE_CLIENT_ID = (Google oauth client ID) Available from https://console.developers.google.com
+GOOGLE_CLIENT_SECRET = (Google oauth client secret) Available from https://console.developers.google.com
+OMDB_API_KEY = (Your omdbapi key) Available for a small fee from http://www.omdbapi.com/
+FACEBOOK_APP_ID = (Facebook oauth APP ID) Available from https://developers.facebook.com/
+FACEBOOK_APP_SECRET = (Facebook oauth app secret) Available from https://developers.facebook.com/
+QUOTE_API_KEY = (Your quote API key) Available from https://market.mashape.com/andruxnet/random-famous-quotes
+YOUTUBE_API_KEY= (Youtube Data API key) Available from https://console.developers.google.com
+FACEBOOK_OAUTH_CALLBACK_URL = (Your facebook oauth callback url) Available from https://developers.facebook.com/
+GOOGLE_OAUTH_CALLBACK_URL = (Your google oauth callback url) Available from https://console.developers.google.com
 ```
 
 Keep in mind that your database's environment variable requirements may be different. FLIQ is set up to use Sequelize with mysql.
