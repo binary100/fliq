@@ -1,0 +1,132 @@
+/* BADGE BOX - ANCHORS SPRITE IN THE CENTER OF A BOX WITH FIXED DIMENSIONS SO THINGS LOOK PRETTY*/
+.badge-box { float:left; margin: 10px}
+.badges { overflow: hidden; background-image: url('/assets/img/badge-proto4.png'); transform: scale(1); width: 175px; height: 175px; background-size: 422% 1254%; }
+.badge-disabled { filter: grayscale(100%) brightness(20%); }
+.clear { clear: both; }
+
+/* X:; / LEVELS */
+/* Y:; / BADGE TYPES */
+:root {
+--lvl1: 3.40%;
+--lvl2: 33.9%;
+--lvl3: 65.4%;
+--lvl4: 97.8%;
+--comedy: 1.296%;
+--login: 10.1%;
+--movie-night: 19.2%;
+--seen-movie: 19%;
+--launchpad: 36.7%;
+--trophy: 45.6%;
+--horror: 54.5%;
+--drama: 63.2%;
+--action: 72%;
+--hate: 81%;
+--like: 89.8%;
+--lightning: 99%;
+}
+
+#badgeList {
+background: gray;
+}
+
+.clear {
+clear: both;
+}
+/*
+.test-badge-box {width:200px;height:200px;margin: 10px;float: left;}*/
+/*
+.sprite {display: inline-block;background-image: url('/assets/img/badge-proto3.png');transform: scale(.62);}
+*/
+
+#Comedy1{ background-position: var(--lvl1) var(--comedy)}
+#Comedy10{ background-position: var(--lvl2) var(--comedy)}
+#Comedy50{background-position: var(--lvl3) var(--comedy)}
+
+/*#Newbie{background-position: var( --lvl1) var(--newbie)}*/
+
+#Login1{background-position: var(--lvl1) var(--login)}
+#Login10{background-position: var(--lvl2) var(--login)}
+#Login50{background-position: var(--lvl3) var(--login)}
+
+/*#Login1000{background-position: var(--lvl4) var(--login)}*/
+
+#MovieNight{background-position: var( --lvl1) var(--movie-night)}
+
+#MovieNight1{background-position: var( --lvl2) var(--movie-night)}
+
+#MovieNight10{background-position: var( --lvl3) var(--movie-night)}
+
+/*#MovieNight1000{background-position: var( --lvl4) var(--movie-night)}*/
+
+#Seen1{background-position: var( --lvl1) var(--seen-movie)}
+
+#Seen10{background-position: var( --lvl2) var(--seen-movie)}
+
+#Seen50{background-position: var( --lvl3) var(--seen-movie)}
+
+/*#Seen{background-position: var( --lvl4) var(--seen-movie)}*/
+
+/*#LaunchPad1 {background-position: var( --lvl1) var(--launchpad)}*/
+
+/*#launchPad-2{background-position: var( --lvl2) var(--launchpad)}
+
+#launchPad-3{background-position: var( --lvl3) var(--launchpad)}*/
+
+
+#LaunchPad1{background-position: var(--lvl1) var(--launchpad)}
+
+/*#TrophyHunter1{background-position: var(--lvl1) var(--trophy)}*/
+
+#TrophyHunter2{background-position: var(--lvl2) var(--trophy)}
+
+#TrophyHunter15{background-position: var(--lvl3) var(--trophy) }
+
+#TrophyHunter32{background-position: var(--lvl4) var(--trophy)}
+
+#Horror1{background-position: var(--lvl1) var(--horror)}
+
+#Horror10{background-position: var(--lvl2) var(--horror)}
+
+#Horror50{background-position: var( --lvl3) var(--horror)}
+
+/*#Horror4{background-position: var( --lvl4) var(--trophy)}*/
+
+#Action1{background-position: var( --lvl1) var(--action)}
+
+#Action10{background-position: var( --lvl2) var(--action)}
+
+#Action50{background-position: var( --lvl3) var(--action)}
+
+/*#Action4{background-position: var( --lvl4) var(--trophy)}*/
+
+#Drama1{background-position: var(--lvl1) var(--drama)}
+
+#Drama10{background-position: var(--lvl2) var(--drama)}
+
+#Drama50{background-position: var(--lvl3) var(--drama)}
+
+/*#Drama4{background-position: var(--lvl4) var(--trophy)}*/
+
+#Dislike1{background-position: var(--lvl1) var(--hate)}
+
+#Dislike10{background-position: var(--lvl2) var(--hate)}
+
+#Dislike50{background-position: var(--lvl3) var(--hate)}
+
+/*#Dislike4{background-position: var(--lvl4) var(--trophy)}*/
+
+#Like1 {background-position: var(--lvl1) var(--like)}
+
+#Like10{background-position: var(--lvl2) var(--like)}
+
+#Like50{background-position: var(--lvl3) var(--like)}
+
+/*#Like4{background-position: var(--lvl4) var(--trophy)}*/
+
+#Lightning1 {background-position: var(--lvl1) var(--lightning)}
+
+#Lightning10{background-position: var(--lvl2) var(--lightning)}
+
+#Lightning50{background-position: var(--lvl3) var(--lightning)}
+
+#Lightning100{background-position: var(--lvl4) var(--lightning)}

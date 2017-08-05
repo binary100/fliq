@@ -1,11 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('Users', {
-    // id: {
-    //   type: DataTypes.UUID,
-    //   primaryKey: true,
-    //   defaultValue: DataTypes.UUIDV4,
-    //   allowNull: false
-    // },
     name: {
       type: DataTypes.STRING
     },
@@ -25,6 +19,14 @@ module.exports = (sequelize, DataTypes) => {
     reView: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    watchedMovieId: {
+      type: DataTypes.INTEGER,
+      defaultValue: null
+    },
+    watchedMovieTitle: {
+      type: DataTypes.STRING,
+      defaultValue: null
     }
   });
   return User;

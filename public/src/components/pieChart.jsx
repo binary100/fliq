@@ -1,41 +1,61 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import Dashboard from '../containers/dashboard.jsx';
 
-const testData = {
-  labels: [
-    'Action',
-    'Comedy',
-    'Horror'
-  ],
-  datasets: [{
-    label: 'Test Chart',
-    backgroundColor: ['#FF6384','#36A2EB','#FFCE56'],
-    borderColor: 'White',
-    borderWidth: 2,
-    // hoverBackgroundColor: [],
-    hoverBorderColor: 'White',
-    data: [300, 50, 100]
-  }]
-}
+const colors = ['#ba68c8', '#7986cb', '#4fc3f7', '#4dd0e1', '#4db6ac', '#81c784', '#dce775', '#fff176', '#ffb74d', '#ff8a65'];
 
-const testOptions = {
-  cutoutPercentage: 0,
-  // rotation: ,
-  // circumference: ,
-  // animation.animateRotate: true,
-  // animation.animteScale: false
-  maintainAspectRatio: true
-}
+const PieChart = (props) => {
+  const chartData = {
+    labels: props.labels,
+    datasets: [{
+      label: 'Pie Chart',
+      backgroundColor: colors,
+      borderColor: 'Black',
+      borderWidth: 2,
+      hoverBorderColor: 'Black',
+      data: props.data
+    }]
+  };
 
-const PieChart = () => {
+  const chartOptions = {
+    cutoutPercentage: 0,
+    // rotation: ,
+    // circumference: ,
+    // animation.animateRotate: true,
+    // animation.animteScale: false
+    maintainAspectRatio: true,
+    legend: {
+      position: 'left',
+      labels: {
+        fontColor: 'White'
+      }
+
+    },
+    layout: {
+      padding: {
+          left: 25,
+          right: 25,
+          top: 25,
+          bottom: 25
+      }
+    },
+    title: {
+      display: true,
+      fontSize: 20,
+      fontColor: 'White',
+      text: props.title
+    }
+  }
+
+
   return (
-    <div className="col-lg-6">
+    <div>
       <Pie
-        data={testData}
-        options={testOptions}
+        data={chartData}
+        options={chartOptions}
       />
     </div>
-  )
-}
+  );
+};
 
 export default PieChart;

@@ -1,23 +1,29 @@
 @import "./animate.css";
 
-
-/************* TEST ONLY **************/
-
-/* sorry navbar was annoyAF, delete later */
-.nav > li {
-  float: left;
-}
-
-/************* STYLE PAGE START **************/
+/************* PAGE STYLE START **************/
 
 body, html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Abel', sans-serif;
   color: white;
   background-color: #333333;
   height: 100%;
+}
+
+body {
+  overflow-y: scroll;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-family: 'Abel', sans-serif;
+}
+
+p {
+  font-size: 1.2em;
+  font-family: 'Lato', sans-serif;
 }
 
 a:link {
@@ -33,6 +39,13 @@ a:hover {
   color: inherit;
   text-decoration: none;
 }
+
+h4 {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
 
 
 /************* CSS Transitions for searchResultsTable **************/
@@ -74,7 +87,10 @@ at this phase of development
 .fliq-button {
   background: #27ae60;
   border: 1px solid #27ae60;
-  min-width: 150px;
+  width: 195px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 0;
 }
 
 .fliq-button:hover {
@@ -88,7 +104,17 @@ at this phase of development
   outline: none;
 }
 
+.movie-details p {
+  font-size: 1em;
+}
+
 /************* WELCOME PAGE **************/
+
+.background-only{background-color: #418b5e;)width:100%;height:100%;width: 100%;position: absolute;top: 52px;z-index: 0;}
+
+.background-hand{background: url('/assets/img/hand.png')  no-repeat;width: 771px;height: 100%;position: absolute;bottom: 0;right: 0;z-index: 0;}
+
+.background-left{background: url('/assets/img/welcome-effect.png') no-repeat;float:left;position: absolute;bottom: 0;left: -200px;width: 800px;height: 100%;z-index: 0;transform: scale(2);opacity: .7;}
 
 .welcome {
   /*animation: 0.8s flipInX ease;*/
@@ -97,10 +123,19 @@ at this phase of development
   min-height: 520px;
   text-align: left;
   background: #444444;
+  position: absolute;
+  top: 75px;
+  right: 0;
+  left: 0;
 }
 
 .welcome-footer {
   margin-top: 2em;
+}
+
+.welcome-title-box {
+  width: 225px;
+  float: left;
 }
 
 .welcome-title {
@@ -115,14 +150,89 @@ at this phase of development
 }*/
 
 .flick-iq {
-  animation: anim 1s 1 ease-out;
+  animation: greenify 1s 1 ease-out;
   color: #2ecc71;
 }
 
-@keyframes anim {
+.welcome-title {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 800!important;
+  letter-spacing: 1px!important;
+  font-size: 6em!important;
+}
+
+.jumbotron p {
+  font-size: 1em!important;
+}
+
+.jumbotron.welcome {
+  width: 50%;
+  padding-left: 18px;
+  background: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.welcome-logo {
+  width: 90px;
+  margin-top: 25px;
+  float: left;
+}
+
+@keyframes greenify {
     from {color: white;}
     to {color: #2ecc71;}
 }
+
+
+/************* POPDOWN PAGE **************/
+
+.popdown {
+  /* colors taken from bootstrap inverse nav bar text color */
+  text-align: center;
+  color: #9d9d9d;
+  background-color: #222;
+  position: absolute;
+  /*border: 1px solid black;*/
+  border-radius: 5px;
+  padding: 1em 0;
+  border-top: 0;
+  right: 0;
+  top: 49px;
+  width: 200px;
+  z-index: 2;
+}
+
+.trophy-popdown {
+  padding: 10px;
+}
+
+.popdown-buttons {
+  padding: 0 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.popdown-slideDown {
+  animation: 1s mySlideDown ease;
+}
+
+.popdown-slideUp {
+  top: -800px;
+  transition: 1s ease;
+}
+
+@keyframes mySlideDown  {
+  0% {
+    top: -800px;
+  }
+
+  100% {
+    top: 49px;
+  }
+}
+
+
 
 /************* WELCOME MODAL **************/
 
@@ -148,23 +258,56 @@ at this phase of development
   border-top: 1px solid black;
 }
 
-/************* LIGHTNING PAGE **************/
-
-.timer-counter {
-
+.btn-social {
+    border-radius: 0;
+    width: 195px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
-.timer-counter h2 {
+/************* LIGHTNING PAGE **************/
 
+.lightning-wrapper {
+  height: 100vh;
+}
+
+.lightning-header {
+  border-bottom: 2px solid #2ecc71;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.lightning-footer {
+  align-content: center;
+  background-color: #111314;
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  bottom: 0;
+  left: 0;
+}
+
+.lightning-tile:hover {
+  background-color: #3f3f3f;
+  transition: 0.5s ease;
+  height: 530px;
+}
+
+.see-suggestions-btn {
+  width: 50%;
+  display: block;
+  margin: 2.5% auto;
 }
 
 /************* MOVIE NIGHT **************/
 
 .email-box {
+  margin-bottom: 1em;
   background-color: #444444;
-  height: 200px;
+  height: 170px;
   border-radius: 3px;
   overflow: auto;
+  padding: 0;
 }
 
 .email-inputs {
@@ -178,15 +321,17 @@ at this phase of development
 }
 
 .email-input-list {
-  list-style: none;
+  /*list-style: none;*/
 }
 
-.email-input-list li {
+.email-input-list div {
   padding: 0.5em;
   border-bottom: 1px solid #2ecc71;
 }
 
 .movienight-confirm-box {
+  margin-top: 1em;
+  padding: 5px 0;
   height: 2em;
 }
 
@@ -205,36 +350,88 @@ at this phase of development
 }
 
 .results-body {
-  height: 50vh;
-  overflow-y: scroll;
+  max-height: 50vh;
+  overflow-y: hidden;
 }
 
 .results-tile-bar {
   background-color: #111314;
   bottom: 0;
   position: absolute;
-  height: 34vh;
+  height: 33vh;
   padding: 0 10px;
   left: 0;
 }
-
-
-
 
 .results {
   max-height: 100%;
 }
 
+.go-see-button {
+  margin: 10px 0;
+}
+
+.results-header {
+  border-bottom: 2px solid #2ecc71;
+}
+
+.results-header h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
 /************* NAVBAR **************/
 
 .header {
-  /*background: linear-gradient(to bottom, #606060 , #444444);*/
+  z-index: 3;
 }
 
-.header-icon {
-  /* size the hamburger */
-  min-height:  50px;
-  line-height: 50px;
+.navbar-nav > li > a {
+  text-transform: uppercase;
+}
+
+.nav > li {
+    float: left!important;
+}
+
+.hamburger div {
+  height: 4px;
+  background-color: white;
+  margin: 5px 0;
+}
+
+.hamburger {
+  padding: 10px 14px;
+  width: 50px;
+  height: 50px;
+}
+
+.hamburger-open {
+  animation: mySpinOpen 1s ease;
+}
+
+.hamburger-closed {
+  animation: mySpinClosed 1s ease;
+}
+
+@keyframes mySpinOpen {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mySpinClosed {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 
 .navbar a:focus {
@@ -253,6 +450,16 @@ at this phase of development
   width: 175px;
 }
 
+.user-name {
+  padding: 15px 15px 15px 0;
+}
+
+.user-photo {
+  height: 50px;
+  width: 50px;
+  padding: 5px;
+}
+
 /************* SMALL MOVIE TILES **************/
 
 .fadeIn {
@@ -269,6 +476,7 @@ at this phase of development
 }
 
 .small-movie-tile {
+  font-size: 12px;
   padding: 10px;
   text-align: center;
 }
@@ -278,11 +486,14 @@ at this phase of development
 }
 
 .small-tile-button {
-  margin: 1em 0;
   background: #2980B9;
   /*background: #2ecc71;*/
   border: 0px;
   color: white;
+  padding: 0px;
+  width: 20%;
+  height: 2.5em;
+  margin: 10px 5px;
 }
 
 .small-tile-button:hover,
@@ -301,6 +512,7 @@ at this phase of development
 
 .like-buttons {
   text-align: center;
+  overflow: auto;
 }
 
 .results-tile-bar-poster {
@@ -308,11 +520,17 @@ at this phase of development
   width: 130px;
 }
 
-/************* SEARCH BOX **************/
+.popdown-button {
+  width: 65%;
+}
+
+/************* SEARCH PAGE **************/
 
 .search-table {
-  height: 78vh;
+  height: 625px;
   overflow-y: scroll;
+  border: 2px solid black;
+  border-radius: 10px;
 }
 
 .col-centered {
@@ -350,13 +568,6 @@ at this phase of development
   margin-left: 50px;
 }
 
-/* USER INFO */
-
-.user-photo {
-  max-height: 3em;
-  max-width: 3em;
-}
-
 /************* LAUNCHPAD **************/
 
 
@@ -366,46 +577,43 @@ at this phase of development
   float: left;
 }
 
-.launchPadPage {
-  width: 100%;
-  float: left;
-}
-
-.launchPad-controls {
-  margin: 0 auto;
+.launchPad-Controls {
+  margin: 0 0 30px 0;
 }
 
 .btn-spacing {
   margin: 0 10px;
 }
 
+.tag-bubble-box{
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
 .tag-bubble {
-  /*position: absolute;*/
-  /*overflow: */
   color: white;
+  background: #292626;
   width: 110px;
   height: 110px;
   border-radius: 60px;
-  margin: 10px 10px 10px 0;
+  margin: 10px 10px 0;
+  border: 1px solid;
   padding: 10px;
   float: left;
-  background:teal;
-  /*background: linear-gradient(to bottom, #F05A28, #E80A89);*/
 }
 
 .tag-bubble:hover {
-/*  width: 120px;
-  height: 120px;*/
   border-radius: 75px;
-}
-
-.tag-bubble:active {
-  border: 1px solid red;
+  transform: scale(1.2);
+  font-weight: bold;
+  size: 1.5;
 }
 
 .tag-bubble-active {
-  border: 5px solid yellow;
+  border: 5px solid white;
   size: 1.5;
+  transform: scale(1.2);
+  font-weight: bold;
 }
 
 .tag-bubble-default {
@@ -419,9 +627,45 @@ at this phase of development
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-family: 'Abel', sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+
+.lax-back {
+  position: absolute;
+  background: 'url(http://matthew.wagerfield.com/parallax/assets/images/background.jpg) no-repeat 50% 100%',
+  bottom:'96px',
+  background-size: 'cover',
+  width: '110%',
+  height: '500px',
+  left: '-5%',
+  top: '-5%',
+}
+
+.layer {
+  background: red;
+  width:200px;
+  height:200px;
+}
+
+.test-block2 {
+  background: blue;
+  width:300px;
+  height:100px;
+}
+
+.test-block3 {
+  background: white;
+  width:300px;
+  height:100px;
 }
 
 /************* TOGGLE SWITCH **************/
+
+/*sets size of toggle switch container*/
 .switch {
   position: relative;
   display: inline-block;
@@ -429,7 +673,10 @@ at this phase of development
   height: 34px;
 }
 
-.switch input {display:none;}
+/*hides checkbox*/
+.switch input {
+  display: none;
+}
 
 .slider {
   position: absolute;
@@ -443,6 +690,7 @@ at this phase of development
   transition: .4s;
 }
 
+/*sets size of slider and speed of move*/
 .slider:before {
   position: absolute;
   content: "";
@@ -455,29 +703,225 @@ at this phase of development
   transition: .4s;
 }
 
+/*changes slider background when clicked*/
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #32cd32;
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
+/*moves slider when clicked*/
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 
+/*rounds toggle switch container*/
 .slider.round {
   border-radius: 34px;
 }
 
+/*rounds slider*/
 .slider.round:before {
   border-radius: 50%;
+}
+
+.toggle-switch {
+  margin: 10px 0;
 }
 
 .toggle-switch-label {
   margin-left: 55px;
   white-space: nowrap;
 }
+
+/************* SIDE MENU  **************/
+
+.nav > .li {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.sidemenu {
+  background-color: navy;
+  position: absolute;
+  width: 150px;
+  height: auto;
+  top: -200px;
+  transition: 1s ease;
+  z-index: 2;
+  overflow: auto;
+  background-color: #222;
+}
+
+.sidemenu-active {
+  animation: sidemenuSlideDown 1s ease;
+  top: 49px;
+}
+
+.sidemenu ul {
+  padding-top: 20px;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.sidemenu li {
+  font-size: 20px;
+  height: 50px;
+}
+
+@keyframes sidemenuSlideDown {
+    0% {
+    top: -200px;
+  }
+
+  100% {
+    top: 49px;
+  }
+}
+
+/************* DASHBOARD TROPHIES MENU  **************/
+
+
+.user-profile-box,
+.trophy-box {
+  height: 200px; 
+  /*border: 1px solid #27ae60;*/
+  border: 1px solid white;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.user-profile-box {
+  padding: 20px 30px 0;
+  width: 100%;
+}
+
+.trophy {
+  display: inline-block;
+  margin: 3px;
+}
+
+.trophy-box-button {
+  background: #2980B9;
+  width: 100%;
+  border: 0px;
+  color: white;
+  padding: 0px;
+  height: 2.5em;
+  margin: 10px 5px;
+}
+
+.trophy-box-button-container {
+  padding: 5px 0;
+  padding-right: 20px;
+  position: absolute;
+  top: 55px;
+  right: 0;
+}
+
+.dashboard-charts {
+  position: relative;
+  bottom:0;
+  margin-top: 80px;
+  width:100%;
+  height:55%;
+}
+
+
+/************* INFO-PAGE  **************/
+
+.info {
+  position: relative;
+  margin: 10px 0 20px;
+  height: 400px;
+}
+
+.info h4 {
+  border-left: 5px solid green;
+  padding-left: 10px;
+  font-size: 1.4em;
+}
+
+.info-content {
+  background: #232323;
+  padding: 0 40px;
+}
+
+.info-inner-text {
+  width: 50%;
+}
+
+.info-logo {
+  width: 200px;
+}
+
+.info-diagram {
+  background: url(/assets/img/diagram.png) no-repeat;
+  background-size: 40%;
+  width: 1500px;
+  height: 437px;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+  top: -37px;
+  margin-left: 150px;
+  z-index: 0;
+}
+
+.info-background {
+  background: #a54788;
+  position: absolute;
+  height: 400px;
+  top: 0px;
+  width: 3000px;
+  left: -1000px;
+  z-index: 0;
+}
+
+.info-main-details {
+  position: absolute;
+  top: 0px;
+  z-index: 1;
+  height: 300px;
+  width: 300px;
+}
+
+.info-inner-img img {
+    position: absolute;
+    top: 50%;
+    left: calc(50%);
+    width: 45%;
+    border-radius: 6px;
+    transform: translate(0,-50% );
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+/*.info-inner-img img:hover{
+  transform: scale(2);
+}*/
+
+#info-main {
+  position: relative;
+  height: 400px;
+  padding: 10px 20px;
+  margin: -20px 0 20px 0;
+  width: 100%;
+}
+
+#info-movienight {
+}
+
+#info-dashboard {
+}
+
+#info-suggestions{
+}
+
+#info-search {
+}
+
+#info-lightning {
+}
+
+

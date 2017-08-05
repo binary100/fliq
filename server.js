@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const path = require('path');
 const router = require('./server/router.js');
 const scrapeMovies = require('./server/facebookScraper.js');
+const { createTrophiesAtFirstLogin } = require('./server/apiController.js');
 
 const session = require('express-session');
 const passport = require('passport');
@@ -46,31 +47,40 @@ app.use('/', router);
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: 'http://localhost:3000/auth/facebook/callback',
+  callbackURL: process.env.FACEBOOK_OAUTH_CALLBACK_URL,
   profileFields: ['id', 'displayName', 'photos', 'emails', 'movies']
 },
 (accessToken, refreshToken, profile, done) => {
-  console.log('this is the facebook returned profile', profile);
-  console.log('this is the facebook USER_LIKES', profile._json.movies);
   db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
     if (!user) {
       console.log('Creating new user!!!!!');
-      db.users.create({
+      return db.users.create({
         name: profile.displayName,
         picture: profile.photos[0].value,
         email: profile.emails[0].value,
-        authId: profile.id
+        authId: profile.id,
+        loginNumber: 1
       })
-      .then(newUser => done(null, newUser))
+      .then(newUser => createTrophiesAtFirstLogin(newUser))
+      .then(newUser => {
+        done(null, newUser);
+        return newUser;
+      })
       .catch(err => console.error('Failed to create user:', err));
     } else {
-      console.log('User found and already exists');
-      user.update({ loginNumber: user.loginNumber + 1 });
-      return done(null, user);
+      console.log('User found and already exists:', user);
+      return user.update({ loginNumber: user.loginNumber + 1 })
+        .then((updatedUser) => {
+          console.log('Got updatedUser: ', updatedUser);
+          done(null, updatedUser);
+          return updatedUser;
+        });
     }
   })
-  .then(() => scrapeMovies(profile))
+  .then((user) => { // Only scrape at first login
+    if (user.loginNumber === 1) { scrapeMovies(profile); }
+  })
   .catch((err) => {
     console.error('Error finding user:', err);
     return done(err);
@@ -81,11 +91,10 @@ passport.use(new FacebookStrategy({
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:3000/auth/google/callback',
+  callbackURL: process.env.GOOGLE_OAUTH_CALLBACK_URL,
   profileFields: ['id', 'displayName', 'photos', 'emails']
 },
 (accessToken, refreshToken, profile, done) => {
-  console.log('this is the google returned profile', profile);
   db.users.findOne({ where: { authId: profile.id } })
   .then((user) => {
     if (!user) {
@@ -94,13 +103,23 @@ passport.use(new GoogleStrategy({
         name: profile.displayName,
         picture: profile.photos[0].value,
         email: profile.emails[0].value,
-        authId: profile.id
+        authId: profile.id,
+        loginNumber: 1
       })
-      .then(newUser => done(null, newUser))
+      .then(newUser => createTrophiesAtFirstLogin(newUser))
+      .then(newUser => {
+        done(null, newUser);
+        return newUser;
+      })
       .catch(err => console.error('Failed to create user:', err));
     } else {
-      console.log('User found and already exists');
-      return done(null, user);
+      console.log('User found and already exists:', user);
+      return user.update({ loginNumber: user.loginNumber + 1 })
+        .then((updatedUser) => {
+          console.log('Got updatedUser: ', updatedUser);
+          done(null, updatedUser);
+          return updatedUser;
+        });
     }
   })
   .catch((err) => {
@@ -116,7 +135,9 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   db.users.findById(id)
-  .then(user => done(null, user))
+  .then(user => {
+    done(null, user);
+  })
   .catch(err => console.error(err));
 });
 

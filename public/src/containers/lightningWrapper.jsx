@@ -2,43 +2,31 @@ import React from 'react';
 import axios from 'axios';
 import Lightning from './lightning.jsx';
 import LightningHeader from '../components/lightningHeader.jsx';
+import LightningFooter from '../components/lightningFooter.jsx';
+import { showTrophyPopdown } from '../actions/actions.js';
 import { Redirect } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
-const timerMax = 5;
+let canClick = true;
 
 class LightningWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: [],
-      timer: timerMax,
-      roundsRemaining: 5,
-      intervalId: ''
+      movies: []
     };
-    this.getMovieData = this.getMovieData.bind(this);
-    this.startTimer = this.startTimer.bind(this);
     this.startNextRound = this.startNextRound.bind(this);
-    this.endRound = this.endRound.bind(this);
     this.handleLightningTileClick = this.handleLightningTileClick.bind(this);
   }
 
   componentWillMount() {
-    this.startNextRound()
-      .then((results) => {
-        console.log('Mounting lightningWrapper with data', results.data);
-      });
-  }
-
-  componentWillUnmount() {
-    console.log('Unmounting lightningWrapper.');
-    clearInterval(this.state.intervalId);
+    this.startNextRound();
   }
 
   // Get an array with two movies objects
   // from DB
-  getMovieData() {
-    // Return this promise in order to
-    // allow for then-able logic
+  startNextRound() {
     return axios.get('/api/lightning')
       .then((results) => {
         this.setState({
@@ -48,85 +36,59 @@ class LightningWrapper extends React.Component {
       });
   }
 
-  startTimer() {
-    const intervalId = setInterval(function () {
-      if (this.state.timer > 0) {
-        this.setState({
-          timer: this.state.timer - 1
-        });
-      } else {
-        console.log('Interval is ending round!');
-        this.endRound();
-      }
-    }.bind(this), 1000);
-    console.log('Created interval #', intervalId);
-
-    this.setState({
-      intervalId
-    });
-  }
-
-  startNextRound() {
-    console.log('Starting round. Remaining: ', this.state.roundsRemaining);
-    if (this.state.roundsRemaining <= 0) {
-      return;
-    }
-
-    return this.getMovieData()
-      .then((results) => {
-        //this.startTimer();
-        return results;
-      });
-  }
-
-  endRound() {
-    this.setState({ roundsRemaining: this.state.roundsRemaining - 1 });
-    clearInterval(this.state.intervalId);
-
-    if (this.state.roundsRemaining <= 0) {
-      // This forces rounds below 0, which triggers redirect to results
-      this.setState({
-        roundsRemaining: this.state.roundsRemaining - 1
-      });
-    } else {
-      this.setState({
-        timer: timerMax
-      });
-      this.startNextRound();
-    }
-  }
-
+  // On click, prevent more clicks until server responds
+  // Then build clicked/non-clicked objects to send to server
   handleLightningTileClick(e, evt, selectedMovie) {
     e.preventDefault();
-    console.log('Click handler is ending round!');
-    this.endRound();
+    if (!canClick) return;
+    canClick = false;
+
     const discardedMovie = this.state.movies.filter(mov => mov !== selectedMovie).pop();
     const clickedMovie = Object.assign({}, selectedMovie, { selected: true });
     discardedMovie.selected = false;
+
     axios.post('/api/lightning', {
       clickedMovie,
       discardedMovie,
       movies: this.state.movies
     })
+      .then((results) => {
+        console.log('Received results on selection: ', results.data);
+        const { trophy } = results.data;
+        if (trophy && trophy.length) {
+          this.props.showTrophyPopdown(results.data.trophy);
+        }
+        this.startNextRound();
+        canClick = true;
+      })
       .catch(err => console.error('Error selecting movie: ', err));
   }
 
   render() {
-    const Page = this.state.roundsRemaining < 0
-      ? <Redirect push to="/results" />
-      : (
-        <div>
-          <LightningHeader timer={this.state.timer} />
-          <Lightning
-            handleLightningTileClick={this.handleLightningTileClick}
-            movies={this.state.movies}
-          />
-        </div>
-        );
     return (
-      Page
+      <div className="container-fluid">
+        <div className="lightning-wrapper">
+          <div>
+            <LightningHeader />
+          </div>
+          <div>
+            <Lightning
+              handleLightningTileClick={this.handleLightningTileClick}
+              movies={this.state.movies}
+            />
+          </div>
+        </div>
+        <LightningFooter />
+      </div>
     );
   }
 }
 
-export default LightningWrapper;
+const mapDispatchToProps = dispatch => ({
+  showTrophyPopdown: (trophies) => { dispatch(showTrophyPopdown(trophies)); }
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(LightningWrapper);

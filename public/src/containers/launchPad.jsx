@@ -1,22 +1,20 @@
 import React from 'react';
 import LaunchPadTags from '../components/launchPads/launchPadTags.jsx';
 
-class LaunchPad extends React.Component{
+class LaunchPad extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: 1,
+      step: 1
     };
     this.setStep = this.setStep.bind(this);
-    console.log('LaunchPad Props: ', props)
   }
 
-  setStep (step) {
-    this.setState({step: step})
+  setStep(step) {
+    this.setState({ step });
   }
 
   render() {
-
     let tag = '';
     switch (this.state.step) {
       case 1:
@@ -29,14 +27,20 @@ class LaunchPad extends React.Component{
         tag = 'actor';
         break;
       default:
-        tag = 'genre'
+        tag = 'genre';
     }
 
     return (
       <div>
+        <div>
+          <div id='stars'></div>
+          <div id='stars2'></div>
+          <div id='stars3'></div>
+        </div>
         <div className="container container-fluid text-center">
           <h1>{tag}</h1>
-          <LaunchPadTags 
+          <LaunchPadTags
+            user={this.props.user}
             tag={tag}
             tagArray={this.props.tags[tag]}
             step={this.state.step}
@@ -52,5 +56,7 @@ class LaunchPad extends React.Component{
     )
   }
 };
+
+
 
 export default LaunchPad;

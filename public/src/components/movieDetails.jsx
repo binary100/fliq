@@ -14,9 +14,16 @@ const MovieDetails = ({ movie }) => {
   return (
     <span className="row">
       <span className="col-sm-6">
-        <img className="poster" src={movie.poster} alt={`Poster for ${movie.poster}`} />
+        <img className="poster"
+          src={
+            movie.poster === 'N/A'
+            ? '../assets/img/no-poster.png'
+            : movie.poster
+          }
+          alt={`Poster for ${movie.poster}`}
+        />
       </span>
-      <span className="col-sm-6">
+      <span className="col-sm-6 movie-details">
         <div >
           <div>
             <p>Title: {movie.title} <span>({movie.year})</span></p>
@@ -40,8 +47,6 @@ const MovieDetails = ({ movie }) => {
           </div>
           <div>
             <p>Actors: {movie.actors} </p>
-          </div>
-          <div>
           </div>
         </div>
       </span>
