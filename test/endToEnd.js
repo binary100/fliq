@@ -1,5 +1,6 @@
 const Nightmare = require('nightmare');
 const expect = require('chai').expect;
+const server = require('../server.js');
 
 const serverUrl = 'http://localhost:3000';
 

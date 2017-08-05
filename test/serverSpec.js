@@ -1,6 +1,7 @@
 const request = require('supertest');
 const assert = require('chai').assert;
 const expect = require('chai').expect;
+const server = require('../server.js');
 
 const serverUrl = `http://localhost:3000`;
 
@@ -45,24 +46,24 @@ describe('FlickPick Server Tests', function() {
           done();
         });
     });
-    xit('should respond with 201', function(done) {
+    it('should respond with 200', function(done) {
       request(serverUrl)
         .post('/api/lightning')
-        .expect(201)
+        .expect(200)
         .end(function(err, res) {
           if (err) throw err;
           done();
         });
     });
-    xit('should provide five movie objects', function(done) {
+    it('should provide five movie objects', function(done) {
       request(serverUrl)
-        .get('/api/results')
+        .get('/api/results/random')
         .end(function(err, res) {
           if (err) throw err;
-          expect(res.body).to.be.an('array');
-          expect(res.body.length).to.equal(5);
+          expect(res.body.movies).to.be.an('array');
+          expect(res.body.movies.length).to.equal(5);
           for (var i = 0; i < 4; i += 1) {
-            const movie = res.body[i];
+            const movie = res.body.movies[i];
             expect(movie.poster).to.be.a('string');
             expect(movie.title).to.be.a('string');
             expect(movie.year).to.be.a('string');
@@ -101,43 +102,3 @@ describe('FlickPick Server Tests', function() {
     });
   });
 });
-
-// // Methods for stubbing HTTP requests and responses
-// module.exports = {
-
-//   response: function() {
-//     this._ended = false;
-//     this._responseCode = null;
-//     this._headers = null;
-//     this._data = null;
-
-//     this.writeHead = function(responseCode, headers) {
-//       this._responseCode = responseCode;
-//       this._headers = headers;
-//     }.bind(this);
-
-//     this.end = function(data) {
-//       this._ended = true;
-//       this._data = data;
-//     }.bind(this);
-//   },
-
-//   request: function(url, method, postdata) {
-//     this.url = url;
-//     this.method = method;
-//     this._postData = postdata;
-//     this.setEncoding = function() { /* noop */ };
-
-//     this.addListener = this.on = function(type, callback) {
-//       if (type === 'data') {
-//         callback(JSON.stringify(this._postData));
-//       }
-
-//       if (type === 'end') {
-//         callback();
-//       }
-
-//     }.bind(this);
-//   }
-
-// };
